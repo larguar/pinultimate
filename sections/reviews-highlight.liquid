@@ -1,0 +1,151 @@
+<div class="lg-reviews {{ section.settings.background-color }}">
+  <div class="lg-review-slider lg-row">
+    <div class="lg-section-header">
+      <h2>
+        {%- if section.settings.heading != blank -%}
+          {{ section.settings.heading }}
+        {%- else -%}
+          Customer Reviews
+        {%- endif -%}
+      </h2>
+      <div>
+        <div class="lg-stars">
+          {% for i in (1..5) %}
+            {% render 'icons', icon: 'star' %}
+          {% endfor %}
+        </div>
+        <p>5.0 Star Rating based on <span class="review-count">400+</span> Reviews</p>
+      </div>
+    </div>
+    <div class="lg-reviews-carousel owl-carousel owl-theme">     
+      {%- for reviews in metaobjects.reviews.values limit: 10 -%}
+        {%- if reviews.type == section.settings.type -%}
+          <div class="item">
+            <div class="lg-card lg-review-card bg-white">
+              <div class="lg-review-header">
+                <div class="lg-header-content">
+                  <h4>{{ reviews.name }} {% render 'icons', icon: 'verified' %}</h4>
+                  <p>{{ reviews.project }}</p>
+                </div>
+                <div class="lg-header-image">
+                  <img src="https://picsum.photos/500/400" alt="">
+                </div>
+              </div>
+              <div class="lg-review"><p>{{ reviews.review }}</p></div>
+              <div class="lg-review-footer">
+                <div class="lg-stars">
+                  {% for i in (1..5) %}
+                    {% render 'icons', icon: 'star' %}
+                  {% endfor %}
+                </div>
+                <p class="lg-source">{{ reviews.source }}</p>
+              </div>
+            </div>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+    <div class="lg-section-footer">
+      <div class="button-container">
+        <a class="button{% if section.settings.background-color == "bg-green" or section.settings.background-color == "bg-purple" or section.settings.background-color == "bg-blue" %} outline{% endif %}" href="/pages/reviews">Read All Reviews</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% javascript %}
+  $('.lg-reviews-carousel').owlCarousel({
+      responsiveClass: true,
+      loop: true,
+      nav: false,
+      dots: false,
+      autoplay: true,
+      autoplayTimeout: 10000,
+      autoplayHoverPause: true,
+      responsive: {
+          0:{
+              items: 1,
+              margin: 10
+          },
+          480:{
+              items: 1,
+              margin: 15
+          },
+          768:{
+              items: 2,
+              margin: 20
+          },
+          1024:{
+              items: 3,
+              margin: 20
+          }
+      }
+  });
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "Reviews",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "select",
+      "id": "background-color",
+      "options": [
+        {
+          "value": "bg-dark",
+          "label": "Dark"
+        },
+        {
+          "value": "bg-light",
+          "label": "Light"
+        },
+        {
+          "value": "bg-green",
+          "label": "Green"
+        },
+        {
+          "value": "bg-purple",
+          "label": "Purple"
+        },
+        {
+          "value": "bg-blue",
+          "label": "Blue"
+        }
+      ],
+      "default": "bg-purple",
+      "label": "Background Color"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "select",
+      "id": "type",
+      "options": [
+        {
+          "value": "Custom",
+          "label": "Custom Pins"
+        },
+        {
+          "value": "Retail",
+          "label": "Retail Pins"
+        }
+      ],
+      "default": "Custom",
+      "label": "Review Type"
+    },
+  ],
+  "presets": [
+    {
+      "name": "Reviews"
+    }
+  ]
+}
+{% endschema %}

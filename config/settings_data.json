@@ -2,6 +2,11 @@
   "current": "Default",
   "presets": {
     "Default": {
+      "facebook-url": "https://www.facebook.com/pinultimateco",
+      "instagram-url": "https://www.instagram.com/pinultimateco",
+      "pinterest-url": "https://www.pinterest.com/pinultimateco",
+      "reddit-url": "https://www.reddit.com/user/PinultimateCo",
+      "threads-url": "https://www.threads.net/@pinultimateco",
       "logo_width": 90,
       "color_schemes": {
         "scheme-1": {
@@ -153,20 +158,11 @@
       "badge_corner_radius": 40,
       "sale_badge_color_scheme": "scheme-5",
       "sold_out_badge_color_scheme": "scheme-3",
-      "social_twitter_link": "",
-      "social_facebook_link": "",
-      "social_pinterest_link": "",
-      "social_instagram_link": "",
-      "social_tiktok_link": "",
-      "social_tumblr_link": "",
-      "social_snapchat_link": "",
-      "social_youtube_link": "",
-      "social_vimeo_link": "",
       "predictive_search_enabled": true,
       "predictive_search_show_vendor": false,
       "predictive_search_show_price": false,
       "currency_code_enabled": true,
-      "cart_type": "notification",
+      "cart_type": "drawer",
       "show_vendor": false,
       "show_cart_note": false,
       "cart_drawer_collection": "",

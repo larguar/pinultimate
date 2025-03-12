@@ -3,13 +3,37 @@
     "main": {
       "type": "main-list-collections",
       "settings": {
+        "background-color": "bg-light",
         "title": "Collections",
-        "sort": "alphabetical",
-        "image_ratio": "square"
+        "description": "Something to say here"
+      }
+    },
+    "collections": {
+      "type": "collections-list",
+      "settings": {
+        "collection-type": "other",
+        "sort": "alphabetical"
+      }
+    },
+    "reviews": {
+      "type": "reviews-highlight",
+      "settings": {
+        "background-color": "bg-purple",
+        "heading": "Cork Board Keepsakes",
+        "type": "Retail"
+      }
+    },
+    "benefits": {
+      "type": "benefits",
+      "settings": {
+        "heading": ""
       }
     }
   },
   "order": [
-    "main"
+    "main",
+    "collections",
+    "reviews",
+    "benefits"
   ]
 }

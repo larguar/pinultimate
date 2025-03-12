@@ -1,0 +1,21 @@
+{
+  "sections": {
+    "banner": {
+      "type": "main-collection-banner",
+      "settings": {
+        "background-color": "bg-light"
+      }
+    },
+    "collections": {
+      "type": "collections-list",
+      "settings": {
+        "collection-type": "maker",
+        "sort": "alphabetical"
+      }
+    }
+  },
+  "order": [
+    "banner",
+    "collections"
+  ]
+}

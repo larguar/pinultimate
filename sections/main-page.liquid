@@ -1,4 +1,4 @@
-{{ 'section-main-page.css' | asset_url | stylesheet_tag }}
+{% comment %} {{ 'section-main-page.css' | asset_url | stylesheet_tag }}
 
 {%- style -%}
   .section-{{ section.id }}-padding {
@@ -12,16 +12,63 @@
       padding-bottom: {{ section.settings.padding_bottom }}px;
     }
   }
-{%- endstyle -%}
+{%- endstyle -%} {% endcomment %}
 
-<div class="page-width page-width--narrow section-{{ section.id }}-padding">
-  <h1 class="main-page-title page-title h0{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
-    {{ page.title | escape }}
-  </h1>
-  <div class="rte{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
-    {{ page.content }}
+<section class="lg-page-banner {{ section.settings.background-color }}">
+  <div class="lg-row lg-grid-4">
+    <div class="lg-col lg-banner-details lg-grow">
+      <h1>{{ page.title | escape }}</h1>
+      {% if template.suffix == "reviews" %}
+        <div>
+          <div class="lg-stars">
+            {% for i in (1..5) %}
+              {% render 'icons', icon: 'star' %}
+            {% endfor %}
+          </div>
+          <p>5.0 Star Rating based on <span class="review-count">400+</span> Reviews</p>
+        </div>
+      {% else %}
+        {% if section.settings.description != blank %}
+          <p>{{ section.settings.description }}</p>
+        {% endif %}
+      {% endif %}
+    </div>
+    <div class="lg-col lg-highlight-1">
+      <a href="#" class="lg-card lg-collection-card">
+        <div class="lg-card-image">
+          <div class="lg-image-container">
+            <img src="https://picsum.photos/400/500" alt="">
+          </div>
+        </div>
+        <div class="lg-card-details">
+          <h4>Title of Thing</h4>
+        </div>
+      </a>
+    </div>
+    <div class="lg-col lg-highlight-2">
+      <a href="#" class="lg-card lg-collection-card">
+        <div class="lg-card-image">
+          <div class="lg-image-container">
+            <img src="https://picsum.photos/500/400" alt="">
+          </div>
+        </div>
+        <div class="lg-card-details">
+          <h4>Title of Thing</h4>
+        </div>
+      </a>
+    </div>
   </div>
-</div>
+</section>
+
+{% unless template.suffix == "about" %}
+  <section class="{% if template.suffix == "reviews" %}bg-light{% endif %}">
+    <div class="lg-row">
+      <div class="lg-page-content lg-col">
+        {{ page.content }}
+      </div>
+    </div>
+  </section>
+{% endunless %}
 
 {% schema %}
 {
@@ -30,28 +77,25 @@
   "class": "section",
   "settings": [
     {
-      "type": "header",
-      "content": "t:sections.all.padding.section_padding_heading"
+      "type": "select",
+      "id": "background-color",
+      "options": [
+        {
+          "value": "bg-dark",
+          "label": "Dark"
+        },
+        {
+          "value": "bg-light",
+          "label": "Light"
+        }
+      ],
+      "default": "bg-light",
+      "label": "Background Color"
     },
     {
-      "type": "range",
-      "id": "padding_top",
-      "min": 0,
-      "max": 100,
-      "step": 4,
-      "unit": "px",
-      "label": "t:sections.all.padding.padding_top",
-      "default": 36
-    },
-    {
-      "type": "range",
-      "id": "padding_bottom",
-      "min": 0,
-      "max": 100,
-      "step": 4,
-      "unit": "px",
-      "label": "t:sections.all.padding.padding_bottom",
-      "default": 36
+      "type": "inline_richtext",
+      "id": "description",
+      "label": "Description"
     }
   ]
 }

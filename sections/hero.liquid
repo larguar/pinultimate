@@ -1,0 +1,378 @@
+{% style %}
+  .lg-hero {
+    position: relative;
+    overflow: hidden;
+    {% if section.settings.transparent-header %}
+      margin-top: -80px;
+    {% endif %}
+    &.bg-dark {
+      background: {{ settings.color-darkgreen-darker }};
+    }
+    .lg-row {
+      z-index: 1;
+      position: relative;
+    }
+    .lg-sum-card {
+      padding: 0 30px 0 10px;
+    }
+    .lg-image-container {
+      z-index: 1;
+      width: 100px;
+    }
+    .lg-shape-background {
+      z-index: 0;
+      padding: 15px;
+      svg {
+        max-height: 100%;
+        max-width: 100%;
+        path {
+          .owl-item:nth-of-type(3n) & {
+            fill: {{ settings.color-green }};
+          }
+          .owl-item:nth-of-type(3n-1) & {
+            fill: {{ settings.color-blue }};
+          }
+          .owl-item:nth-of-type(3n-2) & {
+            fill: {{ settings.color-purple }};
+          }
+        }
+      }
+    }
+  }
+  .lg-hero, .lg-pins-parallax {
+    {% if section.settings.transparent-header %}
+      height: calc(100vh - 40px);
+    {% else %}
+      height: calc(100vh - 120px);
+    {% endif %}
+  }
+  .lg-hero-content {
+    {% if section.settings.collection != blank %}
+      height: calc(100% - 200px);
+    {% else %}
+      height: 100%;
+    {% endif %}
+    align-items: center;
+    {% if section.settings.transparent-header %}
+      padding-top: 80px;
+    {% endif %}
+    .lg-col {
+      max-width: 680px;
+    }
+  }
+  .lg-pins-parallax {
+    width: 50vw;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    right: -3vw;
+    z-index: 0;
+    overflow: hidden;
+  }
+  .lg-hero-pins-container {
+    width: 795px;
+    height: 968px;
+    position: relative; 
+    img {
+      position: absolute;
+      &.lg-hero-pins-1 {
+        top: 365px;
+        left: 0px;
+        z-index: 0;
+      }
+      &.lg-hero-pins-2 {
+        top: 476px;
+        left: 99px;
+        z-index: 2;
+      }
+      &.lg-hero-pins-3 {
+        top: 434px;
+        left: 376px;
+        z-index: 1;
+      }
+      &.lg-hero-pins-4 {
+        top: 145px;
+        left: 454px;
+        z-index: 0;
+      }
+      &.lg-hero-pins-5 {
+        top: 60px;
+        left: 28px;
+        z-index: 1;
+      }
+    }
+  }
+  .lg-product-slider {
+    padding-bottom: calc({{ settings.row-padding }}px * 0.5);
+    h4 {
+      width: 50%;
+      margin: 0 0 16px;
+    }
+    .owl-carousel .owl-stage-outer {
+      overflow: visible !important;
+    }
+  }
+  @media (max-width: 1023px) {
+
+  }
+  @media screen and (max-width:767px) {
+    
+  }
+  @media screen and (max-width: 479px) {
+
+  }
+{% endstyle %}
+
+<section id="{{ section.id }}" class="lg-hero bg-dark">
+  <div class="lg-pins-parallax">
+    <div class="lg-hero-pins-container">
+      {% comment %} <img width="795" height="968" class="all" src="https://cdn.shopify.com/s/files/1/0106/9426/2842/files/HeroPins-All.png?v=1741263766"> {% endcomment %}
+      {% if section.settings.image-middle-left != blank %}
+        <img width="199" height="318" class="lg-hero-pins-1 scrollnimate" data-magic-number="-4" src="{{ section.settings.image-middle-left | image_url }}">
+      {% endif %}
+      {% if section.settings.image-bottom != blank %}
+        <img width="378" height="466" class="lg-hero-pins-2 scrollnimate" data-magic-number="-2" src="{{ section.settings.image-bottom | image_url }}">
+      {% endif %}
+      {% if section.settings.image-middle-right != blank %}
+        <img width="419" height="327" class="lg-hero-pins-3 scrollnimate" data-magic-number="-5" src="{{ section.settings.image-middle-right | image_url }}">
+      {% endif %}
+      {% if section.settings.image-top-right != blank %}
+        <img width="255" height="307" class="lg-hero-pins-4 scrollnimate" data-magic-number="-3" src="{{ section.settings.image-top-right | image_url }}">
+      {% endif %}
+      {% if section.settings.image-top-left != blank %}
+        <img width="356" height="377" class="lg-hero-pins-5 scrollnimate" data-magic-number="-6" src="{{ section.settings.image-top-left | image_url }}">
+      {% endif %}
+    </div>
+  </div>
+  <div class="lg-hero-content lg-row">
+    <div class="lg-col">
+      <h1>{{ section.settings.heading }}</h1>
+      <div class="button-container">
+        {% if section.settings.button-link != blank and section.settings.button-text != blank %}
+          <a class="button" href="{{ section.settings.button-link }}">{{ section.settings.button-text }}</a>
+        {% endif %}
+        {% if section.settings.textlink-link != blank and section.settings.textlink-text != blank %}
+          <a class="display" href="{{ section.settings.textlink-link }}">{{ section.settings.textlink-text }}</a>
+        {% endif %}
+      </div>
+    </div>
+    <div class="lg-col"></div>
+  </div>
+  {% if section.settings.collection != blank %}
+    <div class="lg-product-slider lg-row">
+        <h4>
+          {% if section.settings.collection-heading != blank %}
+            {{ section.settings.collection-heading }}
+          {% else %}
+            {{ section.settings.collection.title }}
+          {% endif %}
+        </h4>
+      <div class="lg-hero-carousel owl-carousel owl-theme">
+        {%- for collection in collections -%}
+          {%- if collection.handle == section.settings.collection -%}
+            {%- for product in collection.products limit: 10 -%}
+              <div class="item">
+                <a href="{{ product.url }}" class="lg-card lg-sum-card bg-dark">
+                  <div class="lg-card-image">
+                    <div class="lg-image-container">
+                      <img
+                        srcset="
+                          {%- if product.featured_media.width >= 165 -%}{{ product.featured_media | image_url: width: 165 }} 165w,{%- endif -%}
+                          {%- if product.featured_media.width >= 360 -%}{{ product.featured_media | image_url: width: 360 }} 360w,{%- endif -%}
+                          {%- if product.featured_media.width >= 533 -%}{{ product.featured_media | image_url: width: 533 }} 533w,{%- endif -%}
+                          {%- if product.featured_media.width >= 720 -%}{{ product.featured_media | image_url: width: 720 }} 720w,{%- endif -%}
+                          {%- if product.featured_media.width >= 940 -%}{{ product.featured_media | image_url: width: 940 }} 940w,{%- endif -%}
+                          {%- if product.featured_media.width >= 1066 -%}{{ product.featured_media | image_url: width: 1066 }} 1066w,{%- endif -%}
+                          {{ product.featured_media | image_url }} {{ product.featured_media.width }}w
+                        "
+                        src="{{ product.featured_media | image_url: width: 533 }}"
+                        sizes="(min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 130 | divided_by: 4 }}px, (min-width: 990px) calc((100vw - 130px) / 4), (min-width: 750px) calc((100vw - 120px) / 3), calc((100vw - 35px) / 2)"
+                        alt="{{ product.featured_media.alt | escape }}"
+                        class="motion-reduce"
+                        loading="lazy"
+                        width="{{ product.featured_media.width }}"
+                        height="{{ product.featured_media.height }}"
+                      >
+                    </div>
+                    <div class="lg-image-container lg-shape-background">
+                      {% if forloop.index == 1 %}
+                        {% render 'shapes', shape: 'circle-13' %}
+                      {% elsif forloop.index == 2 %}
+                        {% render 'shapes', shape: 'triangle-1' %}
+                      {% elsif forloop.index == 3 %}
+                        {% render 'shapes', shape: 'trio-2' %}
+                      {% elsif forloop.index == 4 %}
+                        {% render 'shapes', shape: 'circle-8' %}
+                      {% elsif forloop.index == 5 %}
+                        {% render 'shapes', shape: 'arch-1' %}
+                      {% elsif forloop.index == 6 %}
+                        {% render 'shapes', shape: 'circle-12' %}
+                      {% elsif forloop.index == 7 %}
+                        {% render 'shapes', shape: 'starburst-1' %}
+                      {% elsif forloop.index == 8 %}
+                        {% render 'shapes', shape: 'circle-7' %}
+                      {% elsif forloop.index == 9 %}
+                        {% render 'shapes', shape: 'duo-2' %}
+                      {% elsif forloop.index == 10 %}
+                        {% render 'shapes', shape: 'oval-1' %}
+                      {% endif %}
+                    </div>
+                  </div>
+                  <div class="lg-card-details">
+                    <div class="lg-product-title">
+                      <p class="lg-title">
+                        {%- liquid 
+                          assign fullTitle = product.title | split: " by "
+                          assign shortTitle = fullTitle[0] | remove: "Enamel "
+                          echo shortTitle | escape
+                        -%}
+                      </p>
+                      <p class="lg-vendor">{{ product.vendor | escape }}</p>
+                    </div>
+                  </div>
+                </a>
+              </div>
+            {%- endfor -%}
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  {% endif %}
+</section>
+
+{% javascript %}
+  $('.lg-hero-carousel').owlCarousel({
+      responsiveClass: true,
+      loop: false,
+      rewind: true,
+      nav: false,
+      dots: false,
+      autoplay: true,
+      autoplayTimeout: 10000,
+      autoplayHoverPause: true,
+      responsive: {
+        0:{
+            items: 1,
+            margin: 10
+        },
+        480:{
+            items: 1,
+            margin: 15
+        },
+        768:{
+            items: 2,
+            margin: 20
+        },
+        1024:{
+            items: 3,
+            margin: 40
+        }
+      }
+  });
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "Hero",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "transparent-header",
+      "label": "Transparent Header",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "url",
+      "id": "button-link",
+      "label": "Button Link"
+    },
+    {
+      "type": "text",
+      "id": "button-text",
+      "label": "Button Text"
+    },
+    {
+      "type": "url",
+      "id": "textlink-link",
+      "label": "Text Link Link"
+    },
+    {
+      "type": "text",
+      "id": "textlink-text",
+      "label": "Text Link Text"
+    },
+    {
+      "type": "header",
+      "content": "Images"
+    },
+    {
+      "type": "image_picker",
+      "id": "image-top-left",
+      "label": "Top Left"
+    },
+    {
+      "type": "image_picker",
+      "id": "image-top-right",
+      "label": "Top Right"
+    },
+    {
+      "type": "image_picker",
+      "id": "image-middle-left",
+      "label": "Middle Left"
+    },
+    {
+      "type": "image_picker",
+      "id": "image-middle-right",
+      "label": "Middle Right"
+    },
+    {
+      "type": "image_picker",
+      "id": "image-bottom",
+      "label": "Bottom"
+    },
+    {
+      "type": "header",
+      "content": "Featured Collection"
+    },
+    {
+      "type": "text",
+      "id": "collection-heading",
+      "label": "Heading"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Homepage Hero",
+      "settings": {
+        "heading": "A curated shop of pins made by the artists that <em>get you</em>",
+        "button-link": "/collections/pins",
+        "button-text": "Shop All Pins",
+        "textlink-link": "/collections/makers",
+        "textlink-text": "Shop by Maker",      
+        "collection-heading": "Newest Arrivals",
+        "collection": "new"
+      }
+    }
+  ]
+}
+{% endschema %}

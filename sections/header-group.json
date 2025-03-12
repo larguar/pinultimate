@@ -5,18 +5,22 @@
     "announcement-bar": {
       "type": "announcement-bar",
       "blocks": {
-        "announcement-bar-0": {
+        "announcement-1": {
           "type": "announcement",
           "settings": {
-            "text": "Welcome to our store",
-            "text_alignment": "center",
-            "color_scheme": "scheme-1",
-            "link": ""
+            "text": "Buy 3 Pins ➺ <em>Get 20% Off</em>"
+          }
+        },
+        "announcement-2": {
+          "type": "announcement",
+          "settings": {
+            "text": "Spend $50 ➺ <em>Get Free Domestic Shipping</em>"
           }
         }
       },
       "block_order": [
-        "announcement-bar-0"
+        "announcement-1",
+        "announcement-2"
       ]
     },
     "header": {

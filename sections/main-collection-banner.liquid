@@ -1,49 +1,40 @@
 {% comment %}theme-check-disable ImgLazyLoading{% endcomment %}
-{{ 'component-collection-hero.css' | asset_url | stylesheet_tag }}
+{% comment %} {{ 'component-collection-hero.css' | asset_url | stylesheet_tag }} {% endcomment %}
 
-{%- style -%}
-  @media screen and (max-width: 749px) {
-    .collection-hero--with-image .collection-hero__inner {
-      padding-bottom: calc({{ settings.media_shadow_vertical_offset | at_least: 0 }}px + 2rem);
-    }
-  }
-{%- endstyle -%}
-
-<div class="collection-hero{% if section.settings.show_collection_image and collection.image %} collection-hero--with-image{% endif %} color-{{ section.settings.color_scheme }} gradient">
-  <div class="collection-hero__inner page-width {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
-    <div class="collection-hero__text-wrapper">
-      <h1 class="collection-hero__title">
-        <span class="visually-hidden">{{ 'sections.collection_template.title' | t }}: </span>
-        {{- collection.title | escape -}}
-      </h1>
-
-      {%- if section.settings.show_collection_description -%}
-        <div class="collection-hero__description rte">{{ collection.description }}</div>
+<section id="{{ section.id }}" class="lg-page-banner {{ section.settings.background-color }}">
+  <div class="lg-row lg-grid-4">
+    <div class="lg-col lg-banner-details lg-grow">
+      <h1>{{- collection.title | escape -}}</h1>
+      {%- if collection.description != blank -%}
+        <p>{{ collection.description }}</p>
       {%- endif -%}
     </div>
-
-    {%- if section.settings.show_collection_image and collection.image -%}
-      <div class="collection-hero__image-container media gradient">
-        <img
-          srcset="
-            {%- if collection.image.width >= 165 -%}{{ collection.image | image_url: width: 165 }} 165w,{%- endif -%}
-            {%- if collection.image.width >= 360 -%}{{ collection.image | image_url: width: 360 }} 360w,{%- endif -%}
-            {%- if collection.image.width >= 535 -%}{{ collection.image | image_url: width: 535 }} 535w,{%- endif -%}
-            {%- if collection.image.width >= 750 -%}{{ collection.image | image_url: width: 750 }} 750w,{%- endif -%}
-            {%- if collection.image.width >= 1070 -%}{{ collection.image | image_url: width: 1070 }} 1070w,{%- endif -%}
-            {%- if collection.image.width >= 1500 -%}{{ collection.image | image_url: width: 1500 }} 1500w,{%- endif -%}
-            {{ collection.image | image_url }} {{ collection.image.width }}w
-          "
-          src="{{ collection.image | image_url: width: 750 }}"
-          sizes="(min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 100 | divided_by: 2 }}px, (min-width: 750px) calc(50vw - 130px), calc(50vw - 55px)"
-          alt="{{ collection.image.alt | escape }}"
-          width="{{ collection.image.width }}"
-          height="{{ collection.image.height }}"
-        >
-      </div>
-    {%- endif -%}
+    <div class="lg-col lg-highlight-1">
+      <a href="#" class="lg-card lg-collection-card">
+        <div class="lg-card-image">
+          <div class="lg-image-container">
+            <img src="https://picsum.photos/400/500" alt="">
+          </div>
+        </div>
+        <div class="lg-card-details">
+          <h4>Title of Thing</h4>
+        </div>
+      </a>
+    </div>
+    <div class="lg-col lg-highlight-2">
+      <a href="#" class="lg-card lg-collection-card">
+        <div class="lg-card-image">
+          <div class="lg-image-container">
+            <img src="https://picsum.photos/500/400" alt="">
+          </div>
+        </div>
+        <div class="lg-card-details">
+          <h4>Title of Thing</h4>
+        </div>
+      </a>
+    </div>
   </div>
-</div>
+</section>
 
 {% schema %}
 {
@@ -51,27 +42,24 @@
   "class": "section",
   "settings": [
     {
+      "type": "select",
+      "id": "background-color",
+      "options": [
+        {
+          "value": "bg-dark",
+          "label": "Dark"
+        },
+        {
+          "value": "bg-light",
+          "label": "Light"
+        }
+      ],
+      "default": "bg-light",
+      "label": "Background Color"
+    },
+    {
       "type": "paragraph",
       "content": "t:sections.main-collection-banner.settings.paragraph.content"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_collection_description",
-      "default": true,
-      "label": "t:sections.main-collection-banner.settings.show_collection_description.label"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_collection_image",
-      "default": false,
-      "label": "t:sections.main-collection-banner.settings.show_collection_image.label",
-      "info": "t:sections.main-collection-banner.settings.show_collection_image.info"
-    },
-    {
-      "type": "color_scheme",
-      "id": "color_scheme",
-      "label": "t:sections.all.colors.label",
-      "default": "scheme-1"
     }
   ]
 }

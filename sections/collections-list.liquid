@@ -1,0 +1,133 @@
+{%- liquid
+  case section.settings.sort
+    when 'products_high', 'products_low'
+      assign collections = collections | sort: 'all_products_count'
+    when 'date', 'date_reversed'
+      assign collections = collections | sort: 'published_at'
+  endcase
+  if section.settings.sort == 'products_high' or section.settings.sort == 'date_reversed' or section.settings.sort == 'alphabetical_reversed'
+    assign collections = collections | reverse
+  endif
+-%}
+
+<section class="lg-card-grid">
+  <ul class="lg-row lg-grid-5">
+    {%- for collection in collections -%}
+
+      {%- assign maker = false -%}
+      {%- assign hide = false -%}
+      
+      {%- for vendor in shop.vendors -%}
+        {%- if collection.title == vendor -%}
+          {%- assign maker = true -%}
+        {%- endif -%}
+      {%- endfor -%}
+
+      {%- if collection.products_count == 0 -%}
+        {%- assign hide = true -%}
+      {%- elsif maker == true -%}
+        {%- if section.settings.collection-type == "other" -%}
+          {%- assign hide = true -%}
+        {%- elsif section.settings.collection-type == "maker" -%}
+          {%- assign hide = false -%}
+        {%- endif -%}
+      {%- elsif maker == false -%}
+        {%- if section.settings.collection-type == "other" -%}
+          {%- assign hide = false -%}
+        {%- elsif section.settings.collection-type == "maker" -%}
+          {%- assign hide = true -%}
+        {%- endif -%}
+      {%- endif -%}
+
+      {%- unless hide -%}
+        <li class="lg-col">
+          <a href="{{collection.url}}" class="lg-card lg-collection-card">
+            <div class="lg-card-intro">
+              <div class="lg-card-image">
+                <div class="lg-image-container">
+                  {% if collection.image != blank %}
+                    {%- assign collectionImage = collection.image | image_url -%}
+                  {% elsif collection.products[0].images[0] != blank %}
+                    {%- assign collectionImage = collection.products[0].images[0] | image_url -%}
+                  {% else %}
+                    {%- assign collectionImage = "https://picsum.photos/500/500" -%}
+                  {% endif %}
+                  <img src="{{ collectionImage }}" alt="">
+                </div>
+              </div>
+            </div>
+            <div class="lg-card-details">
+              <h4>{{ collection.title }}</h4>
+            </div>
+          </a>
+        </li>
+      {%- endunless -%}
+    {%- endfor -%}
+  </ul>
+</section>
+
+{% schema %}
+{
+  "name": "Collections List",
+  "class": "section",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "select",
+      "id": "collection-type",
+      "options": [
+        {
+          "value": "maker",
+          "label": "Maker"
+        },
+        {
+          "value": "other",
+          "label": "Other"
+        }
+      ],
+      "default": "other",
+      "label": "Collection Type"
+    },
+    {
+      "type": "select",
+      "id": "sort",
+      "options": [
+        {
+          "value": "alphabetical",
+          "label": "t:sections.main-list-collections.settings.sort.options__1.label"
+        },
+        {
+          "value": "alphabetical_reversed",
+          "label": "t:sections.main-list-collections.settings.sort.options__2.label"
+        },
+        {
+          "value": "date_reversed",
+          "label": "t:sections.main-list-collections.settings.sort.options__3.label"
+        },
+        {
+          "value": "date",
+          "label": "t:sections.main-list-collections.settings.sort.options__4.label"
+        },
+        {
+          "value": "products_high",
+          "label": "t:sections.main-list-collections.settings.sort.options__5.label"
+        },
+        {
+          "value": "products_low",
+          "label": "t:sections.main-list-collections.settings.sort.options__6.label"
+        }
+      ],
+      "default": "alphabetical",
+      "label": "t:sections.main-list-collections.settings.sort.label"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collections List"
+    }
+  ]
+}
+{% endschema %}

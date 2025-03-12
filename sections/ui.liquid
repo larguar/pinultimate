@@ -1,0 +1,162 @@
+<style>
+.lg-ui-card {
+  padding: 30px 40px;
+  border-radius: 12px;
+}
+.lg-shapes svg {
+  max-width: 100px;
+  max-height: 100px;
+  height: 100%;
+  width: 100%;
+  path {
+    fill: black;
+  }
+}
+</style>
+
+<div class="lg-richtext bg-light">
+  <div class="lg-row lg-grid-2">
+    {% for i in (1..2) %}
+      <div class="lg-ui-card lg-col{% if i == 1 %} bg-white{% elsif i == 2 %} bg-dark{% endif %}">
+        <h1>H1 Heading <em>H1 Italicized</em></h1>
+        <h2>H2 Heading <em>H2 Italicized</em></h2>
+        <h3>H3 Heading</h3>
+        <h4>H4 Heading</h4>
+        <p>Paragraph <em>Paragraph Italic</em>, <strong>Paragraph Bold,</strong> <strong><em>Paragraph Bold Italic</em></strong></p>
+        <p class="subhead">Subhead</p>
+        <p><small>Paragraph Small</small></p>
+        <div class="button-container">
+          <a class="display" href="#">Display Link</a>
+        </div>
+        <div class="button-container">
+          <a class="button" href="#">Default Button</a>
+          <a class="button disabled" role="link" aria-disabled="true">Default Button</a>
+          <button type="button">Default Button</button>
+          <button type="button" disabled>Default Button</button>
+        </div>
+        <div class="button-container">
+          <a class="button outline" href="#">Outline Button</a>
+          <a class="button outline disabled" role="link" aria-disabled="true">Outline Button</a>
+          <button class="outline" type="button">Outline Button</button>
+          <button class="outline" type="button" disabled>Outline Button</button>
+        </div>
+
+        <div class="lg-ui-card{% if i == 1 %} bg-dark{% elsif i == 2 %} bg-white{% endif %}">
+          <h1>H1 Heading <em>H1 Italicized</em></h1>
+          <h2>H2 Heading <em>H2 Italicized</em></h2>
+          <h3>H3 Heading</h3>
+          <h4>H4 Heading</h4>
+          <p>Paragraph <em>Paragraph Italic</em>, <strong>Paragraph Bold,</strong> <strong><em>Paragraph Bold Italic</em></strong></p>
+          <p class="subhead">Subhead</p>
+          <p><small>Paragraph Small</small></p>
+          <div class="button-container">
+            <a class="display" href="#">Display Link</a>
+          </div>
+          <div class="button-container">
+            <a class="button" href="#">Default Button</a>
+            <a class="button disabled" role="link" aria-disabled="true">Default Button</a>
+            <button type="button">Default Button</button>
+            <button type="button" disabled>Default Button</button>
+          </div>
+          <div class="button-container">
+            <a class="button outline" href="#">Outline Button</a>
+            <a class="button outline disabled" role="link" aria-disabled="true">Outline Button</a>
+            <button class="outline" type="button">Outline Button</button>
+            <button class="outline" type="button" disabled>Outline Button</button>
+          </div>
+        </div>
+
+        <div class="lg-shapes">
+          {% render 'shapes', shape: 'arch-1' %}
+          {% render 'shapes', shape: 'arch-2' %}
+          {% render 'shapes', shape: 'arch-3' %}
+          {% render 'shapes', shape: 'arch-4' %}
+          {% render 'shapes', shape: 'arch-5' %}
+          {% render 'shapes', shape: 'arch-6' %}
+          {% render 'shapes', shape: 'arch-7' %}
+          {% render 'shapes', shape: 'arch-8' %}
+          {% render 'shapes', shape: 'bag-1' %}
+          {% render 'shapes', shape: 'circle-1' %}
+          {% render 'shapes', shape: 'circle-2' %}
+          {% render 'shapes', shape: 'circle-3' %}
+          {% render 'shapes', shape: 'circle-4' %}
+          {% render 'shapes', shape: 'circle-5' %}
+          {% render 'shapes', shape: 'circle-6' %}
+          {% render 'shapes', shape: 'circle-7' %}
+          {% render 'shapes', shape: 'circle-8' %}
+          {% render 'shapes', shape: 'circle-9' %}
+          {% render 'shapes', shape: 'circle-10' %}
+          {% render 'shapes', shape: 'circle-11' %}
+          {% render 'shapes', shape: 'circle-12' %}
+          {% render 'shapes', shape: 'circle-13' %}
+          {% render 'shapes', shape: 'duo-1' %}
+          {% render 'shapes', shape: 'duo-2' %}
+          {% render 'shapes', shape: 'flower-1' %}
+          {% render 'shapes', shape: 'flower-2' %}
+          {% render 'shapes', shape: 'leaf-1' %}
+          {% render 'shapes', shape: 'line-1' %}
+          {% render 'shapes', shape: 'line-2' %}
+          {% render 'shapes', shape: 'noodle-1' %}
+          {% render 'shapes', shape: 'noodle-2' %}
+          {% render 'shapes', shape: 'noodle-3' %}
+          {% render 'shapes', shape: 'noodle-4' %}
+          {% render 'shapes', shape: 'oval-1' %}
+          {% render 'shapes', shape: 'oval-2' %}
+          {% render 'shapes', shape: 'oval-3' %}
+          {% render 'shapes', shape: 'oval-4' %}
+          {% render 'shapes', shape: 'oval-5' %}
+          {% render 'shapes', shape: 'puddle-1' %}
+          {% render 'shapes', shape: 'puddle-2' %}
+          {% render 'shapes', shape: 'puddle-3' %}
+          {% render 'shapes', shape: 'puddle-4' %}
+          {% render 'shapes', shape: 'puddle-5' %}
+          {% render 'shapes', shape: 'puddle-6' %}
+          {% render 'shapes', shape: 'puddle-7' %}
+          {% render 'shapes', shape: 'squiggle-1' %}
+          {% render 'shapes', shape: 'squiggle-2' %}
+          {% render 'shapes', shape: 'starburst-1' %}
+          {% render 'shapes', shape: 'starburst-2' %}
+          {% render 'shapes', shape: 'triangle-1' %}
+          {% render 'shapes', shape: 'triangle-2' %}
+          {% render 'shapes', shape: 'trio-1' %}
+          {% render 'shapes', shape: 'trio-2' %}
+          {% render 'shapes', shape: 'trio-3' %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "UI",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "default": "t:sections.video.settings.heading.default",
+      "label": "t:sections.video.settings.heading.label"
+    }, 
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    }
+  ],
+  "presets": [
+    {
+      "name": "UI"
+    }
+  ]
+}
+{% endschema %}

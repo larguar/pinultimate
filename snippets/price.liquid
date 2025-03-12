@@ -40,6 +40,15 @@
   endif
 -%}
 
+<div class="lg-price">
+  {{ target.price | money }}{% if product.price_varies %}+{% endif %}
+  {%- if target.compare_at_price > 0 -%}
+  <span class="lg-compare-at-price"><s>{{ target.compare_at_price | money }}{% if product.compare_at_price_varies %}+{% endif %}</s></span>
+  {%- endif -%}
+</div>
+
+{% comment %} <br><br>
+
 {%- unless target == null and placeholder == null -%}
   <div
     class="
@@ -133,4 +142,4 @@
       </span>
     {%- endif -%}
   </div>
-{% endunless %}
+{% endunless %} {% endcomment %}

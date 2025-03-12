@@ -4,47 +4,45 @@
   "sections": {
     "footer": {
       "type": "footer",
+      "settings": {
+        "background-color": "bg-dark"
+      },
       "blocks": {
-        "footer-0": {
-          "type": "link_list",
+        "rating": {
+          "type": "reviews"
+        },
+        "menu-1": {
+          "type": "menu-list",
           "settings": {
-            "heading": "Quick links",
-            "menu": "footer"
+            "menu": "account"
           }
         },
-        "footer-1": {
-          "type": "link_list",
+        "menu-2": {
+          "type": "menu-list",
           "settings": {
-            "heading": "Info",
-            "menu": "footer"
+            "menu": "shop"
           }
         },
-        "footer-2": {
-          "type": "text",
+        "menu-3": {
+          "type": "menu-list",
           "settings": {
-            "heading": "Our mission",
-            "subtext": "<p>Share contact information, store details, and brand content with your customers.<\/p>"
+            "menu": "about"
+          }
+        },
+        "menu-4": {
+          "type": "menu-list",
+          "settings": {
+            "menu": "resources"
           }
         }
       },
       "block_order": [
-        "footer-0",
-        "footer-1",
-        "footer-2"
-      ],
-      "settings": {
-        "color_scheme": "scheme-1",
-        "newsletter_enable": true,
-        "newsletter_heading": "Subscribe to our emails",
-        "show_social": true,
-        "enable_country_selector": false,
-        "enable_language_selector": false,
-        "payment_enable": true,
-        "show_policy": false,
-        "margin_top": 48,
-        "padding_top": 36,
-        "padding_bottom": 36
-      }
+        "rating",
+        "menu-1",
+        "menu-2",
+        "menu-3",
+        "menu-4"
+      ]
     }
   },
   "order": [

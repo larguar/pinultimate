@@ -1,0 +1,310 @@
+<style>
+  .scrolling-text {
+    border: 0;
+    width: 100%;
+    height: 80px;
+    white-space: nowrap;
+    overflow: hidden;
+    box-sizing: border-box;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    span {
+      display: inline-block;
+    }
+  }
+</style>
+
+<section id="{{ section.id }}" class="lg-marquee bg-light">
+
+  <scrolling-text id="element-{{ section.id }}" class="scrolling-text" data-scrolling-speed="{{ section.settings.speed }}" data-scrolling-direction="{{ section.settings.scroll_direction }}" data-pause-on-hover="{{ section.settings.pause_on_hover }}">
+    {% comment %} <div> {% endcomment %}
+        {%- for block in section.blocks -%}
+          <span class="{{ block.type }}">
+            {%- if block.type == "text" -%}
+              <p>{{ block.settings.marquee_text }}</p>
+            {%- elsif block.settings.shape == "halfcircle" -%}                
+              <svg viewBox="0 0 200 200" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                <path fill="{{ block.settings.color }}" d="M191.388659,21.5968987 C175.460353,78.9233079 159.645914,135.84745 143.58134,193.66666 C138.981862,192.22279 134.639985,191.155054 130.524908,189.51145 C106.579248,179.941026 82.2042544,171.268471 58.8923298,160.332577 C25.1354458,144.497604 10.9804773,115.669666 9.08860589,79.4375759 C8.38393747,65.9648757 11.8690128,54.4129803 20.0216998,43.9614876 C27.8206525,33.9617294 36.3401403,24.9466403 48.7497712,20.5347627 C70.4330251,12.8300768 92.46628,6.43486094 115.698871,7.03966244 C137.967326,7.61646388 159.669247,12.3046089 181.021167,18.5644911 C184.290642,19.5230268 187.562917,20.4787625 191.388659,21.5968987"></path>
+              </svg>
+            {%- elsif block.settings.shape == "triangle" -%} 
+              <svg viewBox="0 0 200 200" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                <path fill="{{ block.settings.color }}" d="M26.575829,183.114719 C21.611829,182.728719 15.771829,182.028719 10.124829,180.145719 C8.46882904,179.597719 6.73582904,179.258719 5.02382904,178.924719 C1.93782904,178.322719 -0.372170957,177.023719 0.0498290427,172.911719 C0.292829043,170.586719 0.891829043,168.669719 1.81182904,166.567719 C5.93282904,157.145719 11.181829,148.455719 17.095829,140.030719 C22.488829,132.347719 27.152829,124.126719 31.824829,115.962719 C39.016829,103.404719 44.500829,90.0247188 50.060829,76.6927188 C50.895829,74.7007188 51.999829,72.8267188 52.942829,70.8787188 C56.371829,63.7817188 59.773829,56.6717188 63.211829,49.5777188 C65.685829,44.4777188 68.228829,39.4127188 70.679829,34.3027188 C72.445829,30.6197188 74.245829,26.9457188 75.791829,23.1687188 C77.129829,19.9047188 79.804829,18.6847188 82.843829,17.7147188 C89.407829,15.6137188 94.504829,18.4127188 99.087829,22.6207188 C107.256829,30.1257188 115.958829,37.0897188 123.029829,45.7397188 C130.606829,55.0157188 138.590829,63.9907188 145.697829,73.6157188 C151.970829,82.1157188 157.265829,91.3327188 163.014829,100.220719 C169.525829,110.281719 175.816829,120.491719 182.664829,130.318719 C186.371829,135.635719 189.580829,141.125719 192.289829,146.978719 C193.656829,149.940719 195.667829,152.625719 196.886829,155.637719 C198.232829,158.963719 199.144829,162.489719 199.943829,165.997719 C200.295829,167.549719 198.915829,168.699719 197.530829,169.037719 C194.825829,169.697719 192.063829,170.227719 189.298829,170.478719 C180.403829,171.280719 171.484829,171.821719 162.592829,172.674719 C154.416829,173.459719 146.243829,174.397719 138.098829,175.488719 C129.749829,176.610719 121.373829,176.989719 112.961829,177.268719 C102.808829,177.602719 92.670829,178.372719 82.524829,178.975719 C75.007829,179.420719 67.482829,179.803719 59.971829,180.396719 C54.447829,180.832719 48.955829,181.678719 43.432829,182.142719 C38.133829,182.584719 32.817829,182.766719 26.575829,183.114719"></path>
+              </svg>
+            {%- endif -%}
+          </span>
+        {%- endfor -%}
+    {% comment %} </div> {% endcomment %}
+  </scrolling-text>
+
+</section>
+
+{% javascript %}
+if (typeof ScrollingText !== "function") {
+	class ScrollingText extends HTMLElement {
+		constructor() {
+			super();
+
+			var ScrollingText = (function () {
+				function getWidth(element) {
+					var rect = element.getBoundingClientRect();
+					return rect.right - rect.left;
+				}
+
+				function ScrollingText(box, speed) {
+					var inner_element = (box.children && box.children[0]) || null;
+					if (!inner_element) throw "No child node found";
+
+					inner_element.style.position = "relative";
+
+					this.position = 0;
+					this.speed = speed;
+					this.box_width = getWidth(box);
+					this.inner_element_width = getWidth(inner_element);
+					this.box = box;
+					this.inner_element = inner_element.cloneNode(true);
+					setUpChildrens.call(this);
+				}
+
+				function refreshWidths() {
+					this.box_width = getWidth(this.box);
+					this.inner_element_width = getWidth(this.box.children[0]);
+				}
+
+				function calculateNumElements() {
+					return Math.ceil(this.box_width / this.inner_element_width) + 1;
+				}
+
+				function setUpChildrens() {
+					var qty = calculateNumElements.call(this);
+					if (qty > this.box.children.length) {
+						for (var i = this.box.children.length; i < qty; i++)
+							this.box.appendChild(this.inner_element.cloneNode(true));
+					} else if (qty < this.box.children.length) {
+						for (var i = qty; i < this.box.children.length; i++)
+							this.box.removeChild(this.box.lastChild);
+					}
+				}
+
+				function nextFrame(delta, direction) {
+					var self = this;
+					refreshWidths.call(this);
+					setUpChildrens.call(this);
+					Array.prototype.forEach.call(this.box.children, function (el) {
+						if (direction == "rtl") {
+							el.style.transform = `translateX(${self.position}px)`;
+						} else {
+							el.style.transform = `translateX(${-self.position}px)`;
+						}
+					});
+					this.position += (this.speed * delta) / 1000;
+					if (this.position >= this.inner_element_width)
+						this.position = this.position % this.inner_element_width;
+				}
+
+				ScrollingText.prototype = {
+					start: function (direction, speed) {
+						this._running = true;
+						var self = this;
+						var last_time = null;
+						var loop_func = function () {
+							if (!self._running) return;
+							var now = Date.now();
+							var delta = last_time === null ? 0 : now - last_time;
+							nextFrame.call(self, delta, direction, speed);
+							last_time = now;
+							window.requestAnimationFrame(loop_func);
+						};
+						window.requestAnimationFrame(loop_func);
+					},
+
+					stop: function () {
+						this._running = false;
+					},
+				};
+
+				return ScrollingText;
+			})();
+
+			const speed = window.innerWidth > 768 ? parseInt(this.dataset.scrollingSpeed) : parseInt(this.dataset.scrollingSpeed) / 1.5;
+			const direction = this.dataset.scrollingDirection;
+			const scrolling_text = new ScrollingText(this, speed, direction);
+			// scrolling_text.start(direction);
+			
+			if(this.dataset.pauseOnHover == "true") {
+				const carusel = this;
+				let windowInFocus = true;
+
+				window.addEventListener("blur", function() {
+					windowInFocus = false;
+				});
+
+				window.addEventListener("focus", function() {
+					windowInFocus = true;
+				});
+
+				carusel.addEventListener('mouseover', isMouseOver);
+				carusel.addEventListener('mouseout', isMouseOut);
+
+
+				function isMouseOver() {
+					if (windowInFocus) {
+						scrolling_text.stop();
+					}
+				}
+
+				function isMouseOut() {
+					if (windowInFocus) {
+						scrolling_text.start(direction);
+					}
+				}
+
+			}
+
+			const intersectionObserver = new IntersectionObserver(entries => {
+				if ( entries[0].isIntersecting ) {
+					scrolling_text.start(direction);
+				} else {
+					scrolling_text.stop();
+				}
+			});
+			intersectionObserver.observe(this);
+
+
+		}
+	}
+
+	if (typeof customElements.get("scrolling-text") == "undefined") {
+		customElements.define("scrolling-text", ScrollingText);
+	}
+}
+
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "Marquee",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "id": "scroll_direction",
+      "type": "select",
+      "options": [
+        {
+          "value": "rtl",
+          "label": "Right to Left"
+        },
+        {
+          "value": "ltr",
+          "label": "Left to Right"
+        }
+      ],
+      "default": "ltr",
+      "label": "Scroll Direction"
+    },
+    {
+      "type": "range",
+      "id": "speed",
+      "label": "Speed",
+      "min": 10,
+      "max": 150,
+      "step": 10,
+      "default": 20
+    },
+    {
+      "type": "checkbox",
+      "id": "pause_on_hover",
+      "label": "Pause on Hover",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "name": "t:sections.local-extra-words.sections.marquee.settings.scroll_item",
+      "settings": [
+        {
+          "type": "header",
+          "content": "t:sections.local-extra-words.sections.headings.text_content"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "marquee_text",
+          "label": "t:sections.local-extra-words.sections.marquee.settings.scroll_item_text",
+          "default": "Introduce product <strong>promotions</strong>. Write about your brand. Flash deals!"
+        }
+      ]
+    },
+    {
+      "type": "image",
+      "name": "Shape",
+      "settings": [
+        {
+          "type": "select",
+          "id": "shape",
+          "options": [
+            {
+              "value": "halfcircle",
+              "label": "Half Circle"
+            },
+            {
+              "value": "triangle",
+              "label": "Triangle"
+            }
+          ],
+          "default": "halfcircle",
+          "label": "Shape"
+        },
+        {
+          "type": "select",
+          "id": "color",
+          "options": [
+            {
+              "value": "#F6786C",
+              "label": "Red"
+            },
+            {
+              "value": "#FEFF86",
+              "label": "Yellow"
+            },
+            {
+              "value": "#C6CC3D",
+              "label": "Green"
+            },
+            {
+              "value": "#14452F",
+              "label": "Dark Green"
+            },
+            {
+              "value": "#8ED6CF",
+              "label": "Blue"
+            },
+            {
+              "value": "#DDC7E8",
+              "label": "Purple"
+            }
+          ],
+          "default": "#8ED6CF",
+          "label": "Color"
+        },
+        {
+          "type": "number",
+          "id": "size",
+          "default": 60,
+          "label": "Size"
+        },
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Marquee"
+    }
+  ]
+}
+{% endschema %}

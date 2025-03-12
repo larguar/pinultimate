@@ -1,0 +1,623 @@
+{% style %}
+#shopify-section-{{ section.id }} .lg-richtext {
+  {% unless section.settings.remove-top-padding %}
+    padding-top: {{ settings.row-padding }}px;
+  {% endunless %}
+  {% unless section.settings.remove-bottom-padding %}
+    padding-bottom: {{ settings.row-padding }}px;
+  {% endunless %}
+  overflow-x: hidden;
+  position: relative;
+  .lg-row {
+    align-items: center;
+    position: relative;
+  }
+  .lg-full-image {
+    {% if section.settings.image-order == "image-left" %}
+      order: 1;
+      padding-left: calc({{settings.col-gap}}px * 2);
+    {% else %}
+      order: 2;
+      padding-right: calc({{settings.col-gap}}px * 2);
+    {% endif %}
+    .lg-image-container {
+      background: {{ settings.color-light }};
+    }
+  }
+  .lg-content {
+    padding-left: calc({{settings.col-gap}}px * 2);
+    padding-right: calc({{settings.col-gap}}px * 2);
+    {% if section.settings.image-order == "image-left" %}
+      order: 2;
+    {% else %}
+      order: 1;
+    {% endif %}
+    p.subhead {
+      display: none;
+    }
+  }
+  h2 {
+    margin: 0 0 20px;
+  }
+  p {
+    margin: 0 0 1em;
+  }
+  .button-container {
+    margin-top: 30px;
+  }
+}
+#shopify-section-{{ section.id }} .lg-shape-parallax {
+  width: 240px;
+  height: auto;
+  position: absolute;
+  bottom: {{ section.settings.bottom }}px;
+  {% if section.settings.image-order == "image-left" %}
+    right: {{ section.settings.side }}px;
+    left: auto;
+  {% else %}
+    left: {{ section.settings.side }}px;
+    right: auto;
+  {% endif %}
+  {% if section.settings.shape-position == "front" %}
+    z-index: 1;
+  {% else %}
+    z-index: -1;
+  {% endif %}
+  path {
+    .lg-shape.red & {
+      fill: {{ settings.color-red }};
+    }
+    .lg-shape.yellow & {
+      fill: {{ settings.color-yellow }};
+    }
+    .lg-shape.green & {
+      fill: {{ settings.color-green }};
+    }
+    .lg-shape.blue & {
+      fill: {{ settings.color-blue }};
+    }
+    .lg-shape.purple & {
+      fill: {{ settings.color-purple }};
+    }
+  }
+}
+.lg-section-title {
+  position: absolute;
+  &.lg-left {
+    transform: rotate(-90deg);
+    left: -18px;
+  }
+  &.lg-right {
+    transform: rotate(90deg);
+    right: -18px;
+  }
+}
+@media (max-width: 1023px) {
+  #shopify-section-{{ section.id }} .lg-richtext {
+    .lg-full-image {
+      {% if section.settings.image-order == "image-left" %}
+        padding-left: {{settings.col-gap}}px;
+      {% else %}
+        padding-right: {{settings.col-gap}}px;
+      {% endif %}
+    }
+    .lg-content {
+      padding-left: {{settings.col-gap}}px;
+      padding-right: {{settings.col-gap}}px;
+    }
+  }
+}
+@media screen and (max-width:767px) {
+  #shopify-section-{{ section.id }} .lg-richtext {
+    padding-top: calc({{ settings.row-padding }}px * 0.5);
+    padding-bottom: calc({{ settings.row-padding }}px * 0.75);
+    .lg-full-image {
+      order: 1;
+      padding-left: 0;
+      padding-right: 0;
+    }
+    .lg-content {
+      padding-left: calc({{settings.col-gap}}px * 2);
+      padding-right: calc({{settings.col-gap}}px * 2);
+      margin-top: calc({{ settings.row-padding }}px * 0.75);
+      order: 2;
+      p.subhead {
+        display: block;
+      }
+    }
+    .lg-section-title {
+      display: none;
+    }
+  }
+}
+@media screen and (max-width: 479px) {
+  #shopify-section-{{ section.id }} .lg-richtext {
+    padding-top: calc({{ settings.row-padding }}px * 0.25);
+    padding-bottom: calc({{ settings.row-padding }}px * 0.5);
+    .lg-content {
+      padding-left: {{settings.col-gap}}px;
+      padding-right: {{settings.col-gap}}px;
+      margin-top: calc({{ settings.row-padding }}px * 0.5);
+    }
+  }
+}
+{% endstyle %}
+
+
+
+<div class="lg-richtext">
+  <div class="lg-row lg-grid-2">
+    {% if section.settings.section-title != blank %}
+      <p class="lg-section-title lg-left subhead">{{ section.settings.section-title }}</p>
+      <p class="lg-section-title lg-right subhead">{{ section.settings.section-title }}</p>
+    {% endif %}
+    <div class="lg-shape-parallax">
+      <div class="lg-shape {{ section.settings.shape-color }} scrollnimate" data-magic-number="-6">
+        {% render 'shapes', shape: section.settings.shape %}
+      </div>
+    </div>
+    <div class="lg-col lg-full-image">
+      <div class="lg-card lg-image-card">
+        <div class="lg-card-image">
+          <div class="lg-image-container">
+            {% if section.settings.image != blank %}
+              {% assign image = section.settings.image %}
+            {% endif %}
+            <img
+              srcset="
+                {%- if section.settings.image.width >= 165 -%}{{ section.settings.image | image_url: width: 165 }} 165w,{%- endif -%}
+                {%- if section.settings.image.width >= 360 -%}{{ section.settings.image | image_url: width: 360 }} 360w,{%- endif -%}
+                {%- if section.settings.image.width >= 533 -%}{{ section.settings.image | image_url: width: 533 }} 533w,{%- endif -%}
+                {%- if section.settings.image.width >= 720 -%}{{ section.settings.image | image_url: width: 720 }} 720w,{%- endif -%}
+                {%- if section.settings.image.width >= 940 -%}{{ section.settings.image | image_url: width: 940 }} 940w,{%- endif -%}
+                {%- if section.settings.image.width >= 1066 -%}{{ section.settings.image | image_url: width: 1066 }} 1066w,{%- endif -%}
+                {{ section.settings.image | image_url }} {{ section.settings.image.width }}w
+              "
+              src="{{ section.settings.image | image_url: width: 533 }}"
+              sizes="(min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 130 | divided_by: 4 }}px, (min-width: 990px) calc((100vw - 130px) / 4), (min-width: 750px) calc((100vw - 120px) / 3), calc((100vw - 35px) / 2)"
+              alt="{{ section.settings.image.alt | escape }}"
+              class="motion-reduce"
+              loading="lazy"
+              width="{{ section.settings.image.width }}"
+              height="{{ section.settings.image.height }}"
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="lg-col lg-content">
+      {% for block in section.blocks %}
+        {%- case block.type -%}
+          {%- when "heading" -%}
+            {% if section.settings.section-title != blank %}<p class="subhead">{{ section.settings.section-title }}</p>{% endif %}
+            <h2>{{ block.settings.heading }}</h2>
+          {%- when "text" -%}
+            <p>{{ block.settings.paragraph }}</p>
+          {%- when "links" -%}
+            <div class="button-container">
+              {% if block.settings.button-link != blank %}
+                <a class="button" href="{{ block.settings.button-link }}">{{ block.settings.button-text }}</a>
+              {% endif %}
+              {% if block.settings.textlink-link != blank %}
+                <a class="display" href="{{ block.settings.textlink-link }}">{{ block.settings.textlink-text }}</a>
+              {% endif %}
+            </div>
+        {% endcase %}
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Rich Text & Shapes",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "section-title",
+      "label": "Section Title"
+    },
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "select",
+      "id": "image-order",
+      "label": "Order",
+      "options": [
+        {
+          "value": "image-left",
+          "label": "Image Left"
+        },
+        {
+          "value": "image-right",
+          "label": "Image Right"
+        }
+      ],
+      "default": "image-left"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "header",
+      "content": "Shape"
+    },
+    {
+      "type": "select",
+      "id": "shape",
+      "label": "Shape",
+      "options": [
+        {
+          "value": "arch-1",
+          "label": "Arch 1"
+        },
+        {
+          "value": "arch-2",
+          "label": "Arch 2"
+        },
+        {
+          "value": "arch-3",
+          "label": "Arch 3"
+        },
+        {
+          "value": "arch-4",
+          "label": "Arch 4"
+        },
+        {
+          "value": "arch-5",
+          "label": "Arch 5"
+        },
+        {
+          "value": "arch-6",
+          "label": "Arch 6"
+        },
+        {
+          "value": "arch-7",
+          "label": "Arch 7"
+        },
+        {
+          "value": "arch-8",
+          "label": "Arch 8"
+        },
+        {
+          "value": "bag-1",
+          "label": "Bag 1"
+        },
+        {
+          "value": "circle-1",
+          "label": "Circle 1"
+        },
+        {
+          "value": "circle-2",
+          "label": "Circle 2"
+        },
+        {
+          "value": "circle-3",
+          "label": "Circle 3"
+        },
+        {
+          "value": "circle-4",
+          "label": "Circle 4"
+        },
+        {
+          "value": "circle-5",
+          "label": "Circle 5"
+        },
+        {
+          "value": "circle-6",
+          "label": "Circle 6"
+        },
+        {
+          "value": "circle-7",
+          "label": "Circle 7"
+        },
+        {
+          "value": "circle-8",
+          "label": "Circle 8"
+        },
+        {
+          "value": "circle-9",
+          "label": "Circle 9"
+        },
+        {
+          "value": "circle-10",
+          "label": "Circle 10"
+        },
+        {
+          "value": "circle-11",
+          "label": "Circle 11"
+        },
+        {
+          "value": "circle-12",
+          "label": "Circle 12"
+        },
+        {
+          "value": "circle-13",
+          "label": "Circle 13"
+        },
+        {
+          "value": "duo-1",
+          "label": "Duo 1"
+        },
+        {
+          "value": "duo-2",
+          "label": "Duo 2"
+        },
+        {
+          "value": "flower-1",
+          "label": "Flower 1"
+        },
+        {
+          "value": "flower-2",
+          "label": "Flower 2"
+        },
+        {
+          "value": "leaf-1",
+          "label": "Leaf 1"
+        },
+        {
+          "value": "line-1",
+          "label": "Line 1"
+        },
+        {
+          "value": "line-2",
+          "label": "Line 2"
+        },
+        {
+          "value": "noodle-1",
+          "label": "Noodle 1"
+        },
+        {
+          "value": "noodle-2",
+          "label": "Noodle 2"
+        },
+        {
+          "value": "noodle-3",
+          "label": "Noodle 3"
+        },
+        {
+          "value": "noodle-4",
+          "label": "Noodle 4"
+        },
+        {
+          "value": "oval-1",
+          "label": "Oval 1"
+        },
+        {
+          "value": "oval-2",
+          "label": "Oval 2"
+        },
+        {
+          "value": "oval-3",
+          "label": "Oval 3"
+        },
+        {
+          "value": "oval-4",
+          "label": "Oval 4"
+        },
+        {
+          "value": "oval-5",
+          "label": "Oval 5"
+        },
+        {
+          "value": "puddle-1",
+          "label": "Puddle 1"
+        },
+        {
+          "value": "puddle-2",
+          "label": "Puddle 2"
+        },
+        {
+          "value": "puddle-3",
+          "label": "Puddle 3"
+        },
+        {
+          "value": "puddle-4",
+          "label": "Puddle 4"
+        },
+        {
+          "value": "puddle-5",
+          "label": "Puddle 5"
+        },
+        {
+          "value": "puddle-6",
+          "label": "Puddle 6"
+        },
+        {
+          "value": "puddle-7",
+          "label": "Puddle 7"
+        },
+        {
+          "value": "squiggle-1",
+          "label": "Squiggle 1"
+        },
+        {
+          "value": "squiggle-2",
+          "label": "Squiggle 2"
+        },
+        {
+          "value": "starburst-1",
+          "label": "Starburst 1"
+        },
+        {
+          "value": "starburst-2",
+          "label": "Starburst 2"
+        },
+        {
+          "value": "triangle-1",
+          "label": "Triangle 1"
+        },
+        {
+          "value": "triangle-2",
+          "label": "Triangle 2"
+        },
+        {
+          "value": "trio-1",
+          "label": "Trio 1"
+        },
+        {
+          "value": "trio-2",
+          "label": "Trio 2"
+        },
+        {
+          "value": "trio-3",
+          "label": "Trio 3"
+        }
+      ],
+      "default": "circle-1"
+    },
+    {
+      "type": "select",
+      "id": "shape-color",
+      "label": "Color",
+      "options": [
+        {
+          "value": "red",
+          "label": "Red"
+        },
+        {
+          "value": "yellow",
+          "label": "Yellow"
+        },
+        {
+          "value": "green",
+          "label": "Green"
+        },
+        {
+          "value": "blue",
+          "label": "Blue"
+        },
+        {
+          "value": "purple",
+          "label": "Purple"
+        }
+      ],
+      "default": "blue"
+    },
+    {
+      "type": "range",
+      "id": "bottom",
+      "min": 0,
+      "max": 500,
+      "step": 5,
+      "unit": "px",
+      "label": "Bottom",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "side",
+      "min": -100,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Side",
+      "default": 0
+    },
+    {
+      "type": "select",
+      "id": "shape-position",
+      "label": "Position",
+      "options": [
+        {
+          "value": "front",
+          "label": "Front"
+        },
+        {
+          "value": "back",
+          "label": "Back"
+        }
+      ],
+      "default": "back"
+    },
+    {
+      "type": "header",
+      "content": "Section"
+    },
+    {
+      "type": "checkbox",
+      "id": "remove-top-padding",
+      "label": "Remove Top Padding",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "remove-bottom-padding",
+      "label": "Remove Bottom Padding",
+      "default": false
+    }
+  ],
+  "blocks": [
+    {
+      "type": "heading",
+      "name": "Heading",
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "heading",
+          "label": "Heading"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "Paragraph",
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "paragraph",
+          "label": "Content"
+        }
+      ]
+    },
+    {
+      "type": "links",
+      "name": "Links",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Button"
+        },
+        {
+          "type": "url",
+          "id": "button-link",
+          "label": "Link"
+        },
+        {
+          "type": "text",
+          "id": "button-text",
+          "label": "Text"
+        },
+        {
+          "type": "header",
+          "content": "Text Link"
+        },
+        {
+          "type": "url",
+          "id": "textlink-link",
+          "label": "Link"
+        },
+        {
+          "type": "text",
+          "id": "textlink-text",
+          "label": "Text"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Rich Text & Shapes"
+    }
+  ]
+}
+{% endschema %}

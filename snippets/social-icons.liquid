@@ -1,103 +1,55 @@
 {% comment %}
-  Renders social icons.
-  Accepts:
-  - class: {String} a class to be added to the <ul> element (optional).
-
-  Usage:
-  {% render 'social-icons',
-    class: 'my-class'
-  %}
+  Usage: {% render 'social-icons' %}
 {% endcomment %}
 
-<ul class="list-unstyled list-social{% if class %} {{ class}}{% endif %}" role="list">
-  {%- if settings.social_facebook_link != blank -%}
-    <li class="list-social__item">
-      <a href="{{ settings.social_facebook_link }}" class="link list-social__link">
-        <span class="svg-wrapper">
-          {{- 'icon-facebook.svg' | inline_asset_content -}}
-        </span>
-        <span class="visually-hidden">{{ 'general.social.links.facebook' | t }}</span>
+<ul class="lg-social-icons">
+  {%- unless settings.instagram-url == blank -%}
+    <li>
+      <a href="{{ settings.instagram-url }}">
+        {% render 'icons', icon: 'instagram' %}
       </a>
     </li>
-  {%- endif -%}
-  {%- if settings.social_instagram_link != blank -%}
-    <li class="list-social__item">
-      <a href="{{ settings.social_instagram_link }}" class="link list-social__link">
-        <span class="svg-wrapper">
-          {{- 'icon-instagram.svg' | inline_asset_content -}}
-        </span>
-        <span class="visually-hidden">{{ 'general.social.links.instagram' | t }}</span>
+  {%- endunless -%}
+  {%- unless settings.facebook-url == blank -%}
+    <li>
+      <a href="{{ settings.facebook-url }}">
+        {% render 'icons', icon: 'facebook' %}
       </a>
     </li>
-  {%- endif -%}
-  {%- if settings.social_youtube_link != blank -%}
-    <li class="list-social__item">
-      <a href="{{ settings.social_youtube_link }}" class="link list-social__link">
-        <span class="svg-wrapper">
-          {{- 'icon-youtube.svg' | inline_asset_content -}}
-        </span>
-        <span class="visually-hidden">{{ 'general.social.links.youtube' | t }}</span>
+  {%- endunless -%}
+  {%- unless settings.reddit-url == blank -%}
+    <li>
+      <a href="{{ settings.reddit-url }}">
+        {% render 'icons', icon: 'reddit' %}
       </a>
     </li>
-  {%- endif -%}
-  {%- if settings.social_tiktok_link != blank -%}
-    <li class="list-social__item">
-      <a href="{{ settings.social_tiktok_link }}" class="link list-social__link">
-        <span class="svg-wrapper">
-          {{- 'icon-tiktok.svg' | inline_asset_content -}}
-        </span>
-        <span class="visually-hidden">{{ 'general.social.links.tiktok' | t }}</span>
+  {%- endunless -%}
+  {%- unless settings.threads-url == blank -%}
+    <li>
+      <a href="{{ settings.threads-url }}">
+        {% render 'icons', icon: 'threads' %}
       </a>
     </li>
-  {%- endif -%}
-  {%- if settings.social_twitter_link != blank -%}
-    <li class="list-social__item">
-      <a href="{{ settings.social_twitter_link }}" class="link list-social__link">
-        <span class="svg-wrapper">
-          {{- 'icon-twitter.svg' | inline_asset_content -}}
-        </span>
-        <span class="visually-hidden">{{ 'general.social.links.twitter' | t }}</span>
+  {%- endunless -%}
+  {%- unless settings.tiktok-url == blank -%}
+    <li>
+      <a href="{{ settings.tiktok-url }}">
+        {% render 'icons', icon: 'tiktok' %}
       </a>
     </li>
-  {%- endif -%}
-  {%- if settings.social_pinterest_link != blank -%}
-    <li class="list-social__item">
-      <a href="{{ settings.social_pinterest_link }}" class="link list-social__link">
-        <span class="svg-wrapper">
-          {{- 'icon-pinterest.svg' | inline_asset_content -}}
-        </span>
-        <span class="visually-hidden">{{ 'general.social.links.pinterest' | t }}</span>
+  {%- endunless -%}
+  {%- unless settings.pinterest-url == blank -%}
+    <li>
+      <a href="{{ settings.pinterest-url }}">
+        {% render 'icons', icon: 'pinterest' %}
       </a>
     </li>
-  {%- endif -%}
-  {%- if settings.social_snapchat_link != blank -%}
-    <li class="list-social__item">
-      <a href="{{ settings.social_snapchat_link }}" class="link list-social__link">
-        <span class="svg-wrapper">
-          {{- 'icon-snapchat.svg' | inline_asset_content -}}
-        </span>
-        <span class="visually-hidden">{{ 'general.social.links.snapchat' | t }}</span>
+  {%- endunless -%}
+  {%- unless settings.linkedin-url == blank -%}
+    <li>
+      <a href="{{ settings.linkedin-url }}">
+        {% render 'icons', icon: 'linkedin' %}
       </a>
     </li>
-  {%- endif -%}
-  {%- if settings.social_tumblr_link != blank -%}
-    <li class="list-social__item">
-      <a href="{{ settings.social_tumblr_link }}" class="link list-social__link">
-        <span class="svg-wrapper">
-          {{- 'icon-tumblr.svg' | inline_asset_content -}}
-        </span>
-        <span class="visually-hidden">{{ 'general.social.links.tumblr' | t }}</span>
-      </a>
-    </li>
-  {%- endif -%}
-  {%- if settings.social_vimeo_link != blank -%}
-    <li class="list-social__item">
-      <a href="{{ settings.social_vimeo_link }}" class="link list-social__link">
-        <span class="svg-wrapper">
-          {{- 'icon-vimeo.svg' | inline_asset_content -}}
-        </span>
-        <span class="visually-hidden">{{ 'general.social.links.vimeo' | t }}</span>
-      </a>
-    </li>
-  {%- endif -%}
+  {%- endunless -%}
 </ul>

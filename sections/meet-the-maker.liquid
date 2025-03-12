@@ -1,0 +1,81 @@
+{% style %}
+.lg-mtm {
+  padding-top: calc({{ settings.row-padding }}px * 1.5);
+  padding-bottom: calc({{ settings.row-padding }}px * 1.5);
+  background-size: cover;
+  background-position: center;
+  .lg-maker {
+    padding: calc({{ settings.row-padding }}px * 0.5);
+    max-width: 620px;
+    margin: 0 auto;
+    text-align: center;
+    border-radius: 40px;
+  }
+}
+{% endstyle %}
+
+{% for maker in metaobjects.maker.values %}
+  {% if maker.maker == product.vendor %}
+    {% if section.settings.background == "1" %}
+      {% assign background_image = maker.collage1 | image_url %}
+    {% elsif section.settings.background == "2" %}
+      {% assign background_image = maker.collage2 | image_url %}
+    {% elsif section.settings.background == "3" %}
+      {% assign background_image = maker.collage3 | image_url %}
+    {% endif %}
+  {% endif %}
+{% endfor %}
+{% for collection in collections %}
+  {% if collection.title == product.vendor %}
+    <div class="lg-mtm bg-dark" style="background-image: url({{ background_image }})">
+      <div class="lg-row">
+        <div class="lg-maker lg-col bg-white">
+          <p class="subhead">Meet the Maker</p>
+          <h2>{{ collection.title }}</h2>
+          <p>{{ collection.description | truncatewords: 20 }}</p>
+          <div class="button-container">
+            <a class="button" href="{{ collection.url }}">Read More</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+{% endfor %}
+
+{% schema %}
+{
+  "name": "Meet the Maker",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "select",
+      "id": "background",
+      "label": "Maker Image",
+      "options": [
+        {
+          "value": "1",
+          "label": "1"
+        },
+        {
+          "value": "2",
+          "label": "2"
+        },
+        {
+          "value": "3",
+          "label": "3"
+        }
+      ],
+      "default": "1"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Meet the Maker"
+    }
+  ]
+}
+{% endschema %}
