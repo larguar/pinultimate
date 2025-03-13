@@ -9,6 +9,36 @@ footer hr {
 {%- endstyle -%}
 
 <footer>
+  <div id="makers" class="visually-hidden">
+    {%- liquid
+      for collection in collections
+        if collection.title == "Enamel Pins"
+          echo collection.all_vendors.size
+        endif
+      endfor
+    -%}
+  </div>
+  <div id="yib" class="visually-hidden">
+    {%- liquid
+      assign year_now = 'now' | date: '%Y' | plus: 0
+      assign month_now = 'now' | date: '%m' | plus: 0
+      assign year_started = 2018
+      assign month_started = 6
+      assign day_started = 23
+      if month_now > month_started
+        echo year_now | minus: year_started
+      elsif month_now == month_started
+        assign day_now = 'now' | date: '%d' | plus: 0
+          if day_now >= day_started
+            echo year_now | minus: year_started
+          else
+            echo year_now | minus: 1 | minus: year_started
+          endif
+      else
+        echo year_now | minus: 1 | minus: year_started
+      endif
+    -%}
+  </div>
   <section class="lg-footer-paper">
     {% render 'footer-paper' %}
   </section>

@@ -1,42 +1,139 @@
+{% style %}
+.lg-benefits {
+  {% unless section.settings.remove-top-padding %}
+    padding-top: {{ settings.row-padding }}px;
+  {% endunless %}
+  {% unless section.settings.remove-bottom-padding %}
+    padding-bottom: {{ settings.row-padding }}px;
+  {% endunless %}
+}
+.lg-benefit {
+  text-align: center;
+  .lg-icon {
+    height: 150px;
+    max-width: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    position: relative;
+    svg {
+      max-height: 100%;
+      max-width: 100%;
+      &.illustration {
+        max-height: 130px;
+        z-index: 1;
+        path.stroke {
+          stroke: {{ settings.color-black }};
+        }
+        path.fill {
+          fill: {{ settings.color-black }};
+        }
+      }
+      &.shape {
+        position: absolute;
+        path {
+          fill: {{ settings.color-yellow }};
+        }
+      }
+    }
+  }
+  h4 {
+    margin: 0 0 5px;
+  }
+  p {
+    font-size: 15px;
+    line-height: 1.4;
+    margin: 0 auto;
+    max-width: 200px;
+  }
+}
+@media (max-width: 1023px) {
+  .lg-benefit .lg-icon svg.illustration {
+    max-height: 120px;
+  }
+}
+@media screen and (max-width:767px) {
+  .lg-benefits {
+    {% unless section.settings.remove-top-padding %}
+      padding-top: calc({{ settings.row-padding }}px * 0.75);
+    {% endunless %}
+    {% unless section.settings.remove-bottom-padding %}
+      padding-bottom: calc({{ settings.row-padding }}px * 0.75);
+    {% endunless %}
+  }
+}
+{% endstyle %}
+
 <div class="lg-benefits">
-  <div class="lg-row lg-grid-5">
-    <div class="lg-col lg-benefit">
-      <div class="lg-icon">
-        <img src="https://picsum.photos/400/400" alt="">
-      </div>
-      <h4>Woman Owned</h4>
-      <p>Woman owned and operated. Woman owned. Yeah.</p>
-    </div>
-    <div class="lg-col lg-benefit">
-      <div class="lg-icon">
-        <img src="https://picsum.photos/400/400" alt="">
-      </div>
-      <h4>5 Star Trust</h4>
-      <p>5 star reviews from <span class="review-count">400+</span> happy customers.</p>
-    </div>
-    <div class="lg-col lg-benefit">
-      <div class="lg-icon">
-        <img src="https://picsum.photos/400/400" alt="">
-      </div>
-      <h4>55 Artists</h4>
-      <p>Support makers from all over the world, in one place.</p>
-    </div>
-    <div class="lg-col lg-benefit">
-      <div class="lg-icon">
-        <img src="https://picsum.photos/400/400" alt="">
-      </div>
-      <h4>Insured Packages</h4>
-      <p>Complimentary coverage for loss, damage, and theft.</p>
-    </div>
-    <div class="lg-col lg-benefit">
-      <div class="lg-icon">
-        <img src="https://picsum.photos/400/400" alt="">
-      </div>
-      <h4>Eco-Friendly</h4>
-      <p>We offset our energy and our packaging is eco-friendly.</p>
+  <div class="lg-row">
+    <div class="lg-benefits-carousel owl-carousel">
+      {% for block in section.blocks %}
+        {%- case block.type -%}
+          {%- when "benefit" -%}
+            <div class="item">
+              <div class="lg-benefit">
+                <div class="lg-icon">
+                  {% render 'illustrations', illustration: block.settings.illustration %}
+                  {% render 'shapes', shape: block.settings.shape %}
+                </div>
+                <h4>{{ block.settings.heading }}</h4>
+                <p>{{ block.settings.content }}</p>
+              </div>
+            </div>
+        {% endcase %}
+      {% endfor %}
     </div>
   </div>
 </div>
+
+{% javascript %}
+  $('.lg-benefits-carousel').owlCarousel({
+      responsiveClass: true,
+      nav: false,
+      dots: false,
+      autoplayTimeout: 5000,
+      autoplayHoverPause: true,
+      responsive: {
+          0:{
+            autoplay: true,
+            loop: true,
+            mouseDrag: true,
+            touchDrag: true,
+            pullDrag: true,
+            margin: 20,
+            items: 2
+          },
+          480:{
+            autoplay: true,
+            loop: true,
+            mouseDrag: true,
+            touchDrag: true,
+            pullDrag: true,
+            margin: 30,
+            items: 3
+          },
+          768:{
+            autoplay: true,
+            loop: true,
+            mouseDrag: true,
+            touchDrag: true,
+            pullDrag: true,
+            margin: 40,
+            items: 4
+          },
+          1024:{
+            autoplay: false,
+            loop: false,
+            mouseDrag: false,
+            touchDrag: false,
+            pullDrag: false,
+            margin: 40,
+            items: 5
+          }
+      }
+  });
+{% endjavascript %}
 
 {% schema %}
 {
@@ -48,20 +145,286 @@
   },
   "settings": [
     {
-      "type": "inline_richtext",
-      "id": "heading",
-      "default": "t:sections.video.settings.heading.default",
-      "label": "t:sections.video.settings.heading.label"
-    }, 
+      "type": "checkbox",
+      "id": "remove-top-padding",
+      "label": "Remove Top Padding",
+      "default": false
+    },
     {
-      "type": "range",
-      "id": "padding_bottom",
-      "min": 0,
-      "max": 100,
-      "step": 4,
-      "unit": "px",
-      "label": "t:sections.all.padding.padding_bottom",
-      "default": 36
+      "type": "checkbox",
+      "id": "remove-bottom-padding",
+      "label": "Remove Bottom Padding",
+      "default": false
+    }
+  ],
+  "blocks": [
+    {
+      "type": "benefit",
+      "name": "Benefit",
+      "settings": [
+        {
+          "type": "liquid",
+          "id": "heading",
+          "label": "Heading"
+        },
+        {
+          "type": "liquid",
+          "id": "content",
+          "label": "Content"
+        },
+        {
+          "type": "select",
+          "id": "illustration",
+          "label": "Icon",
+          "options": [
+            {
+              "value": "group-thumbsup",
+              "label": "Group Thumbs Up"
+            },
+            {
+              "value": "hand-flower",
+              "label": "Hand Flower"
+            },
+            {
+              "value": "hands-earth",
+              "label": "Hands Earth"
+            },
+            {
+              "value": "smiley-heart",
+              "label": "Smiley Heart"
+            },
+            {
+              "value": "smiley-peace",
+              "label": "Smiley Peace"
+            }
+          ],
+          "default": "hand-flower"
+        },
+        {
+          "type": "select",
+          "id": "shape",
+          "label": "Shape",
+          "options": [
+            {
+              "value": "arch-1",
+              "label": "Arch 1"
+            },
+            {
+              "value": "arch-2",
+              "label": "Arch 2"
+            },
+            {
+              "value": "arch-3",
+              "label": "Arch 3"
+            },
+            {
+              "value": "arch-4",
+              "label": "Arch 4"
+            },
+            {
+              "value": "arch-5",
+              "label": "Arch 5"
+            },
+            {
+              "value": "arch-6",
+              "label": "Arch 6"
+            },
+            {
+              "value": "arch-7",
+              "label": "Arch 7"
+            },
+            {
+              "value": "arch-8",
+              "label": "Arch 8"
+            },
+            {
+              "value": "bag-1",
+              "label": "Bag 1"
+            },
+            {
+              "value": "circle-1",
+              "label": "Circle 1"
+            },
+            {
+              "value": "circle-2",
+              "label": "Circle 2"
+            },
+            {
+              "value": "circle-3",
+              "label": "Circle 3"
+            },
+            {
+              "value": "circle-4",
+              "label": "Circle 4"
+            },
+            {
+              "value": "circle-5",
+              "label": "Circle 5"
+            },
+            {
+              "value": "circle-6",
+              "label": "Circle 6"
+            },
+            {
+              "value": "circle-7",
+              "label": "Circle 7"
+            },
+            {
+              "value": "circle-8",
+              "label": "Circle 8"
+            },
+            {
+              "value": "circle-9",
+              "label": "Circle 9"
+            },
+            {
+              "value": "circle-10",
+              "label": "Circle 10"
+            },
+            {
+              "value": "circle-11",
+              "label": "Circle 11"
+            },
+            {
+              "value": "circle-12",
+              "label": "Circle 12"
+            },
+            {
+              "value": "circle-13",
+              "label": "Circle 13"
+            },
+            {
+              "value": "duo-1",
+              "label": "Duo 1"
+            },
+            {
+              "value": "duo-2",
+              "label": "Duo 2"
+            },
+            {
+              "value": "flower-1",
+              "label": "Flower 1"
+            },
+            {
+              "value": "flower-2",
+              "label": "Flower 2"
+            },
+            {
+              "value": "leaf-1",
+              "label": "Leaf 1"
+            },
+            {
+              "value": "line-1",
+              "label": "Line 1"
+            },
+            {
+              "value": "line-2",
+              "label": "Line 2"
+            },
+            {
+              "value": "noodle-1",
+              "label": "Noodle 1"
+            },
+            {
+              "value": "noodle-2",
+              "label": "Noodle 2"
+            },
+            {
+              "value": "noodle-3",
+              "label": "Noodle 3"
+            },
+            {
+              "value": "noodle-4",
+              "label": "Noodle 4"
+            },
+            {
+              "value": "oval-1",
+              "label": "Oval 1"
+            },
+            {
+              "value": "oval-2",
+              "label": "Oval 2"
+            },
+            {
+              "value": "oval-3",
+              "label": "Oval 3"
+            },
+            {
+              "value": "oval-4",
+              "label": "Oval 4"
+            },
+            {
+              "value": "oval-5",
+              "label": "Oval 5"
+            },
+            {
+              "value": "puddle-1",
+              "label": "Puddle 1"
+            },
+            {
+              "value": "puddle-2",
+              "label": "Puddle 2"
+            },
+            {
+              "value": "puddle-3",
+              "label": "Puddle 3"
+            },
+            {
+              "value": "puddle-4",
+              "label": "Puddle 4"
+            },
+            {
+              "value": "puddle-5",
+              "label": "Puddle 5"
+            },
+            {
+              "value": "puddle-6",
+              "label": "Puddle 6"
+            },
+            {
+              "value": "puddle-7",
+              "label": "Puddle 7"
+            },
+            {
+              "value": "squiggle-1",
+              "label": "Squiggle 1"
+            },
+            {
+              "value": "squiggle-2",
+              "label": "Squiggle 2"
+            },
+            {
+              "value": "starburst-1",
+              "label": "Starburst 1"
+            },
+            {
+              "value": "starburst-2",
+              "label": "Starburst 2"
+            },
+            {
+              "value": "triangle-1",
+              "label": "Triangle 1"
+            },
+            {
+              "value": "triangle-2",
+              "label": "Triangle 2"
+            },
+            {
+              "value": "trio-1",
+              "label": "Trio 1"
+            },
+            {
+              "value": "trio-2",
+              "label": "Trio 2"
+            },
+            {
+              "value": "trio-3",
+              "label": "Trio 3"
+            }
+          ],
+          "default": "circle-1"
+        }
+      ]
     }
   ],
   "presets": [

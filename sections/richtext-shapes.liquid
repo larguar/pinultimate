@@ -109,8 +109,12 @@
 }
 @media screen and (max-width:767px) {
   #shopify-section-{{ section.id }} .lg-richtext {
-    padding-top: calc({{ settings.row-padding }}px * 0.5);
-    padding-bottom: calc({{ settings.row-padding }}px * 0.75);
+    {% unless section.settings.remove-top-padding %}
+      padding-top: calc({{ settings.row-padding }}px * 0.5);
+    {% endunless %}
+    {% unless section.settings.remove-bottom-padding %}
+      padding-bottom: calc({{ settings.row-padding }}px * 0.75);
+    {% endunless %}
     .lg-full-image {
       order: 1;
       padding-left: 0;
@@ -132,8 +136,12 @@
 }
 @media screen and (max-width: 479px) {
   #shopify-section-{{ section.id }} .lg-richtext {
-    padding-top: calc({{ settings.row-padding }}px * 0.25);
-    padding-bottom: calc({{ settings.row-padding }}px * 0.5);
+    {% unless section.settings.remove-top-padding %}
+      padding-top: calc({{ settings.row-padding }}px * 0.25);
+    {% endunless %}
+    {% unless section.settings.remove-bottom-padding %}
+      padding-bottom: calc({{ settings.row-padding }}px * 0.5);
+    {% endunless %}
     .lg-content {
       padding-left: {{settings.col-gap}}px;
       padding-right: {{settings.col-gap}}px;

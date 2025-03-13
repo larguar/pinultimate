@@ -89,6 +89,16 @@
         "name": "url",
         "category": "URL"
       }
+    },
+    {
+      "key": "image",
+      "namespace": "custom",
+      "name": "Image",
+      "description": "",
+      "type": {
+        "name": "file_reference",
+        "category": "REFERENCE"
+      }
     }
   ],
   "product": [

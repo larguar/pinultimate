@@ -34,7 +34,21 @@ window.onload = function() {
   //   }
   // }
 
-  // Footer Reviews Count
+  // Maker Count
+  document.querySelectorAll(".maker-count").forEach(function(span) {
+    let makers = document.getElementById("makers");
+    let makerCount = makers.textContent.trim();
+    span.innerHTML = makerCount;
+  });
+
+  // Years in Business Count
+  document.querySelectorAll(".yib-count").forEach(function(span) {
+    let yib = document.getElementById("yib");
+    let yibCount = yib.textContent.trim();
+    span.innerHTML = yibCount;
+  });
+
+  // Reviews Count
   document.querySelectorAll(".review-count").forEach(function(span) {
     let reviewWidget = document.getElementById("_352");
     if (reviewWidget != null) {

@@ -7,7 +7,7 @@
           <p class="subhead">{{ collection.title }}</p>
           <h2>{{ section.settings.heading }}</h2>
         </div>
-        <div class="lg-products-carousel owl-carousel owl-theme">
+        <div class="lg-products-carousel owl-carousel">
           {%- for product in collection.products limit: 6 -%}
             <div class="item">
               <a href="{{ product.url }}" class="lg-card">
@@ -61,21 +61,33 @@
           0:{
             autoplay: true,
             loop: true,
+            mouseDrag: true,
+            touchDrag: true,
+            pullDrag: true,
             items: 3
           },
           480:{
             autoplay: true,
             loop: true,
+            mouseDrag: true,
+            touchDrag: true,
+            pullDrag: true,
             items: 4
           },
           768:{
             autoplay: true,
             loop: true,
+            mouseDrag: true,
+            touchDrag: true,
+            pullDrag: true,
             items: 5
           },
           1024:{
             autoplay: false,
             loop: false,
+            mouseDrag: false,
+            touchDrag: false,
+            pullDrag: false,
             items: 6
           }
       }
