@@ -3,7 +3,9 @@
     "main": {
       "type": "main-page",
       "settings": {
-        "background-color": "bg-dark"
+        "background-color": "bg-dark",
+        "highlight-1": "/pages/about",
+        "highlight-2": "/pages/contact"
       }
     }
   },

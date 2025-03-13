@@ -1486,6 +1486,10 @@ a.lg-card, a.lg-card-image, a.lg-product-details {
   display: block;
   border-radius: 6px;
   width: 100%;
+  transition: 0.2s ease;
+  .lg-page-banner &:hover {
+    transform: scale(1.0125);
+  }
   &:before {
     content: "";
     display: block;
@@ -1886,13 +1890,16 @@ a.lg-card, a.lg-card-image, a.lg-product-details {
 .lg-banner-details > div {
   display: inline-flex;
   align-items: center;
-  column-gap: 15px;
+  column-gap: 10px;
   margin-top: 10px;
   p {
     margin-top: 4px;
   }
 }
 .lg-page-banner.bg-dark {
+  .lg-stars svg {
+    height: 17px;
+  }
   .lg-stars svg path {
     fill: {{ yellow }};
   }

@@ -18,27 +18,37 @@
       </div>
     </div>
     <div class="lg-reviews-carousel owl-carousel owl-theme">     
-      {%- for reviews in metaobjects.reviews.values limit: 10 -%}
-        {%- if reviews.type == section.settings.type -%}
+      {%- for review in metaobjects.review.values limit: 10 -%}
+        {%- if review.type == section.settings.type -%}
           <div class="item">
             <div class="lg-card lg-review-card bg-white">
               <div class="lg-review-header">
                 <div class="lg-header-content">
-                  <h4>{{ reviews.name }} {% render 'icons', icon: 'verified' %}</h4>
-                  <p>{{ reviews.project }}</p>
+                  <h4>{{ review.name }} {% render 'icons', icon: 'verified' %}</h4>
+                  {%- if review.type == "Custom" -%}
+                    <p>{{ review.project }}</p>
+                  {%- elsif review.type == "Retail" -%}
+                    <p>{{ review.orders }} {{ review.orders | pluralize: 'Order', 'Orders' }}</p>
+                  {%- endif -%}
+                  {%- if review.customer.orders_count == 3 -%}
+                    {% for customer in customers %}
+                      {{ customer }}
+                    {% endfor %}
+                  <p>3</p>
+                  {%- endif -%}
                 </div>
                 <div class="lg-header-image">
                   <img src="https://picsum.photos/500/400" alt="">
                 </div>
               </div>
-              <div class="lg-review"><p>{{ reviews.review }}</p></div>
+              <div class="lg-review"><p>{{ review.review }}</p></div>
               <div class="lg-review-footer">
                 <div class="lg-stars">
                   {% for i in (1..5) %}
                     {% render 'icons', icon: 'star' %}
                   {% endfor %}
                 </div>
-                <p class="lg-source">{{ reviews.source }}</p>
+                <p class="lg-source">{{ review.source }}</p>
               </div>
             </div>
           </div>

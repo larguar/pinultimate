@@ -1,19 +1,3 @@
-{% comment %} {{ 'section-main-page.css' | asset_url | stylesheet_tag }}
-
-{%- style -%}
-  .section-{{ section.id }}-padding {
-    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
-    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
-  }
-
-  @media screen and (min-width: 750px) {
-    .section-{{ section.id }}-padding {
-      padding-top: {{ section.settings.padding_top }}px;
-      padding-bottom: {{ section.settings.padding_bottom }}px;
-    }
-  }
-{%- endstyle -%} {% endcomment %}
-
 <section class="lg-page-banner {{ section.settings.background-color }}">
   <div class="lg-row lg-grid-4">
     <div class="lg-col lg-banner-details lg-grow">
@@ -33,27 +17,49 @@
         {% endif %}
       {% endif %}
     </div>
+    {%- liquid
+      if section.settings.highlight-1 == blank
+        assign first_highlight = "/pages/about"
+      else
+        assign first_highlight = section.settings.highlight-1
+      endif
+      if section.settings.highlight-2 == blank
+        assign second_highlight = "/pages/contact"
+      else
+        assign second_highlight = section.settings.highlight-2
+      endif
+      for page in pages
+        if page.url == first_highlight
+          assign first_highlight_title = page.title
+          assign first_highlight_image = page.metafields.custom.image
+        endif
+        if page.url == second_highlight
+          assign second_highlight_title = page.title
+          assign second_highlight_image = page.metafields.custom.image
+        endif
+      endfor
+    -%}
     <div class="lg-col lg-highlight-1">
-      <a href="#" class="lg-card lg-collection-card">
+      <a href="{{ first_highlight }}" class="lg-card lg-collection-card">
         <div class="lg-card-image">
           <div class="lg-image-container">
-            <img src="https://picsum.photos/400/500" alt="">
+            <img src="{{ first_highlight_image | image_url }}" alt="{{ first_highlight_title }}">
           </div>
         </div>
         <div class="lg-card-details">
-          <h4>Title of Thing</h4>
+          <h4>{{ first_highlight_title }}</h4>
         </div>
       </a>
     </div>
     <div class="lg-col lg-highlight-2">
-      <a href="#" class="lg-card lg-collection-card">
+      <a href="{{ second_highlight }}" class="lg-card lg-collection-card">
         <div class="lg-card-image">
           <div class="lg-image-container">
-            <img src="https://picsum.photos/500/400" alt="">
+            <img src="{{ second_highlight_image | image_url }}" alt="{{ second_highlight_title }}">
           </div>
         </div>
         <div class="lg-card-details">
-          <h4>Title of Thing</h4>
+          <h4>{{ second_highlight_title }}</h4>
         </div>
       </a>
     </div>
@@ -96,6 +102,24 @@
       "type": "inline_richtext",
       "id": "description",
       "label": "Description"
+    },
+    {
+      "type": "header",
+      "content": "Highlight 1"
+    },
+    {
+      "type": "url",
+      "id": "highlight-1",
+      "label": "Page"
+    },
+    {
+      "type": "header",
+      "content": "Highlight 2"
+    },
+    {
+      "type": "url",
+      "id": "highlight-2",
+      "label": "Page"
     }
   ]
 }

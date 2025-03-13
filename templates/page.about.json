@@ -3,8 +3,10 @@
     "main": {
       "type": "main-page",
       "settings": {
-        "background-color": "bg-light",
-        "description": "Behind every pin collection is the ultimate story. We’ve all got things that make us who we are. Beliefs and values. Quirks and rituals. Passions and causes. Pinultimate was created for you to help share your story with the world."
+        "background-color": "bg-dark",
+        "description": "Behind every pin collection is the ultimate story. We’ve all got things that make us who we are. Beliefs and values. Quirks and rituals. Passions and causes. Pinultimate was created for you to help share your story with the world.",
+        "highlight-1": "/pages/contact",
+        "highlight-2": "/pages/reviews"
       }
     },
     "richtext": {
