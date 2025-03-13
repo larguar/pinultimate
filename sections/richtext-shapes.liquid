@@ -168,9 +168,6 @@
       <div class="lg-card lg-image-card">
         <div class="lg-card-image">
           <div class="lg-image-container">
-            {% if section.settings.image != blank %}
-              {% assign image = section.settings.image %}
-            {% endif %}
             <img
               srcset="
                 {%- if section.settings.image.width >= 165 -%}{{ section.settings.image | image_url: width: 165 }} 165w,{%- endif -%}

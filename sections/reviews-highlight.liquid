@@ -1,3 +1,125 @@
+{% style %}
+  .lg-reviews {
+    padding-top: calc({{ settings.row-padding }}px * 0.75);
+    padding-bottom: calc({{ settings.row-padding }}px * 0.75);
+    overflow-x: hidden;
+    .owl-stage-outer {
+      overflow: visible !important;
+    }
+    .owl-stage {
+      display: flex !important;
+      align-items: stretch;
+      position: relative;
+    }
+    .item {
+      height: 100%;
+    }
+    .lg-section-header {
+      .lg-stars svg path {
+        fill: {{ settings.color-yellow }};
+        .bg-dark {
+          fill: {{ settings.color-yellow }};
+        }
+        .bg-light {
+          fill: {{ settings.color-yellow-darkest }};
+        }
+      }
+      p {
+        margin-top: 4px;
+      }
+    }
+  }
+  .lg-reviews-carousel {
+    margin: calc({{ settings.row-padding }}px * 0.5) 0;
+  }
+  .lg-review-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 30px;
+    border-radius: 12px;
+    .lg-review-footer, .lg-review-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .lg-review-header {
+      h4 {
+        margin: 0;
+      }
+      p {
+        margin: 0;
+        line-height: 24px;
+        color: {{ settings.color-gray }};
+      }
+      svg {
+        height: 16px;
+        width: auto;
+        path {
+          fill: {{ settings.color-blue-darkest }};
+          .bg-green & {
+            fill: {{ settings.color-green-darkest }};
+          }
+          .bg-purple & {
+            fill: {{ settings.color-purple-darkest }};
+          }
+          .bg-blue & {
+            fill: {{ settings.color-blue-darkest }};
+          }
+        }
+      }
+      .lg-header-image {
+        height: 48px;
+        display: flex;
+        align-items: center;
+        img {
+          max-height: 100%;
+          max-width: 58px;
+          height: auto;
+          width: auto;
+        }
+      }
+    }
+    .lg-review {
+      flex-grow: 1;
+      p {
+        margin: 15px 0;
+      }
+    }
+    .lg-review-footer {
+      .lg-source {
+        font-style: italic;
+        line-height: 1;
+        margin: 2px 0 0;
+        color: {{ settings.color-gray }};
+      }
+      .lg-stars svg path {
+        .bg-green & {
+          fill: {{ settings.color-green-darkest }};
+        }
+        .bg-purple & {
+          fill: {{ settings.color-purple-darkest }};
+        }
+        .bg-blue & {
+          fill: {{ settings.color-blue-darkest }};
+        }
+      }
+    }
+  }
+  @media screen and (max-width: 479px) {
+    .lg-reviews {
+      padding-top: calc({{ settings.row-padding }}px * 0.5);
+      padding-bottom: calc({{ settings.row-padding }}px * 0.5);
+      .lg-section-header .lg-stars {
+        display: none;
+      }
+    }
+    .lg-reviews-carousel {
+      margin: calc({{ settings.row-padding }}px * 0.375) 0;
+    }
+  }
+{% endstyle %}
+
 <div class="lg-reviews {{ section.settings.background-color }}">
   <div class="lg-review-slider lg-row">
     <div class="lg-section-header">
@@ -38,7 +160,24 @@
                   {%- endif -%}
                 </div>
                 <div class="lg-header-image">
-                  <img src="https://picsum.photos/500/400" alt="">
+                  <img
+                    srcset="
+                      {%- if review.image.width >= 165 -%}{{ review.image | image_url: width: 165 }} 165w,{%- endif -%}
+                      {%- if review.image.width >= 360 -%}{{ review.image | image_url: width: 360 }} 360w,{%- endif -%}
+                      {%- if review.image.width >= 533 -%}{{ review.image | image_url: width: 533 }} 533w,{%- endif -%}
+                      {%- if review.image.width >= 720 -%}{{ review.image | image_url: width: 720 }} 720w,{%- endif -%}
+                      {%- if review.image.width >= 940 -%}{{ review.image | image_url: width: 940 }} 940w,{%- endif -%}
+                      {%- if review.image.width >= 1066 -%}{{ review.image | image_url: width: 1066 }} 1066w,{%- endif -%}
+                      {{ review.image | image_url }} {{ review.image.width }}w
+                    "
+                    src="{{ review.image | image_url: width: 533 }}"
+                    sizes="(min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 130 | divided_by: 4 }}px, (min-width: 990px) calc((100vw - 130px) / 4), (min-width: 750px) calc((100vw - 120px) / 3), calc((100vw - 35px) / 2)"
+                    alt="{{ review.image.alt | escape }}"
+                    class="motion-reduce"
+                    loading="lazy"
+                    width="{{ review.image.width }}"
+                    height="{{ review.image.height }}"
+                  >
                 </div>
               </div>
               <div class="lg-review"><p>{{ review.review }}</p></div>
