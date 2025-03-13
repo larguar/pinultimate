@@ -4,7 +4,7 @@
       "type": "main-page",
       "settings": {
         "background-color": "bg-dark",
-        "description": "Behind every pin collection is the ultimate story. We’ve all got things that make us who we are. Beliefs and values. Quirks and rituals. Passions and causes. Pinultimate was created for you to help share your story with the world.",
+        "description": "Behind every pin collection is the ultimate story. We’ve all got things that make us who we are. Beliefs and values. Quirks and rituals. Passions and causes. Pinultimate was created for <em>you</em> to help share your story with the world.",
         "highlight-1": "/pages/contact",
         "highlight-2": "/pages/reviews"
       }
@@ -24,13 +24,13 @@
         "heading": {
           "type": "heading",
           "settings": {
-            "heading": "Pinultimate"
+            "heading": "For the truly <em>originals</em>"
           }
         },
         "text": {
           "type": "text",
           "settings": {
-            "paragraph": "We’re a small, woman-owned business, empowering you to shop more of what you love, all in one place."
+            "paragraph": "We’re a small, woman-owned business, empowering you to shop more of what you love, all in one convenient place."
           }
         },
         "text-2": {
@@ -38,19 +38,12 @@
           "settings": {
             "paragraph": "This is one of the key ingredients in our effort to remain eco-conscious and less harmful towards our planet. With our one-stop shop, we hope to provide what you’re looking for so you can avoid multiple shipping costs and the waste that piles up when you buy from multiple places."
           }
-        },
-        "text-3": {
-          "type": "text",
-          "settings": {
-            "paragraph": "At Pinultimate, we want you to explore, share, and get lost in our selection. We’re the conduit between artist and collector, and we hope to provide you a deeper connection with keepsakes that complement who you are as an individual."
-          }
         }
       },
       "block_order": [
         "heading",
         "text",
-        "text-2",
-        "text-3"
+        "text-2"
       ]
     },
     "richtext-2": {
@@ -69,19 +62,19 @@
         "text": {
           "type": "text",
           "settings": {
-            "paragraph": "Our mission is to support amazing people while offering our customers a rotating selection of quirky goods that'll make them feel things."
+            "paragraph": "At Pinultimate, we want you to explore, share, and get lost in our selection. We’re the conduit between artist and collector, and we hope to provide you a deeper connection with keepsakes that complement who you are as an individual."
           }
         },
         "text-2": {
           "type": "text",
           "settings": {
-            "paragraph": "It all started with a love for enamel pins and a curiosity to better understand the demand fueling counterfeit markets. Pin counterfeits specifically are a huge problem."
+            "paragraph": "Our mission is to support amazing people while offering our customers a rotating selection of quirky pins that'll make them feel things."
           }
         },
         "text-3": {
           "type": "text",
           "settings": {
-            "paragraph": "Pinultimate was formed with a makers-first mindset: to directly support these artists that are dealing with their original designs being stolen and reproduced every single day; to lift artists up and sell their authentic products, giving credit where credit is due."
+            "paragraph": "It all started with a love for enamel pins and a curiosity to better understand the demand fueling counterfeit markets. Pin counterfeits specifically are a huge problem."
           }
         }
       },
@@ -94,36 +87,60 @@
     "richtext-3": {
       "type": "richtext-shapes",
       "settings": {
-        "section-title": "Our Mission",
+        "section-title": "Our Makers",
         "image-order": "image-right",
         "shape": "",
         "shape-color": "purple",
         "bottom": 400,
         "side": -60,
         "shape-position": "back",
-        "remove-top-padding": true,
-        "remove-bottom-padding": true
+        "remove-top-padding": true
       },
       "blocks": {
         "text": {
           "type": "text",
           "settings": {
-            "paragraph": "We know our makers by name and appreciate them for everything that makes them unique. Each pin in our shop shows their personality and perspective, and we’re continuously grateful for their support and the community we’re building with them."
+            "paragraph": "Pinultimate was formed with a makers-first mindset: to directly support enamel pin artists that are dealing with their original designs being stolen and reproduced every single day; to lift artists up and sell their authentic products, giving credit where credit is due."
           }
         },
         "text-2": {
           "type": "text",
           "settings": {
-            "paragraph": "Above all, we’re a small business and know just how much work it takes to convince the world that your passion is something worth investing in."
+            "paragraph": "We know our makers by name and appreciate them for everything that makes them unique. Each pin in our shop shows their personality and perspective, and we’re continuously grateful for their support and the community we’re building with them."
+          }
+        }
+      },
+      "block_order": [
+        "text",
+        "text-2"
+      ]
+    },
+    "richtext-4": {
+      "type": "richtext-shapes",
+      "settings": {
+        "section-title": "Our Motto",
+        "image-order": "image-left",
+        "shape": "",
+        "shape-color": "purple",
+        "bottom": 400,
+        "side": -60,
+        "shape-position": "back",
+        "remove-top-padding": true
+      },
+      "blocks": {
+        "text": {
+          "type": "text",
+          "settings": {
+            "paragraph": "Above all, we’re a small business and we know just how much work it takes to convince the world that your passion is something worth investing in."
+          }
+        },
+        "text-2": {
+          "type": "text",
+          "settings": {
+            "paragraph": "So let’s shop small, support each other, and make the world a better place—one pin haul at a time."
           }
         },
         "text-3": {
-          "type": "text",
-          "settings": {
-            "paragraph": "So let’s shop small, support each other, and make the world a better place, one pin haul at a time."
-          }
-        },
-        "text-4": {
           "type": "text",
           "settings": {
             "paragraph": "xo, Lauren"
@@ -134,11 +151,13 @@
         "text",
         "text-2",
         "text-3",
-        "text-4"
       ]
     },
     "benefits": {
       "type": "benefits",
+      "settings": {
+        "remove-top-padding": true
+      },
       "blocks": {
         "benefit-1": {
           "type": "benefit",
@@ -200,6 +219,7 @@
     "richtext",
     "richtext-2",
     "richtext-3",
+    "richtext-4",
     "benefits"
   ]
 }

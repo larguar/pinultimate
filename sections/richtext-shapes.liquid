@@ -6,7 +6,7 @@
   {% unless section.settings.remove-bottom-padding %}
     padding-bottom: {{ settings.row-padding }}px;
   {% endunless %}
-  overflow-x: hidden;
+  /* overflow-x: hidden; */
   position: relative;
   .lg-row {
     align-items: center;
@@ -35,9 +35,6 @@
     p.subhead {
       display: none;
     }
-  }
-  h2 {
-    margin: 0 0 20px;
   }
   p {
     margin: 0 0 1em;
@@ -106,6 +103,17 @@
       padding-right: {{settings.col-gap}}px;
     }
   }
+  #shopify-section-{{ section.id }} .lg-shape-parallax {
+    width: 220px;
+    bottom: calc({{ section.settings.bottom }}px * 0.75);
+    {% if section.settings.image-order == "image-left" %}
+      right: calc({{ section.settings.side }}px * 1.25);
+      left: auto;
+    {% else %}
+      left: calc({{ section.settings.side }}px * 1.25);
+      right: auto;
+    {% endif %}
+  }
 }
 @media screen and (max-width:767px) {
   #shopify-section-{{ section.id }} .lg-richtext {
@@ -133,6 +141,17 @@
       display: none;
     }
   }
+  #shopify-section-{{ section.id }} .lg-shape-parallax {
+    width: 200px;
+    bottom: calc({{ section.settings.bottom }}px * 0.675);
+    {% if section.settings.image-order == "image-left" %}
+      right: {{ section.settings.side }}px;
+      left: auto;
+    {% else %}
+      left: {{ section.settings.side }}px;
+      right: auto;
+    {% endif %}
+  }
 }
 @media screen and (max-width: 479px) {
   #shopify-section-{{ section.id }} .lg-richtext {
@@ -148,10 +167,19 @@
       margin-top: calc({{ settings.row-padding }}px * 0.5);
     }
   }
+  #shopify-section-{{ section.id }} .lg-shape-parallax {
+    width: 200px;
+    bottom: calc({{ section.settings.bottom }}px * 0.75);
+    {% if section.settings.image-order == "image-left" %}
+      right: calc({{ section.settings.side }}px * 1.25);
+      left: auto;
+    {% else %}
+      left: calc({{ section.settings.side }}px * 1.25);
+      right: auto;
+    {% endif %}
+  }
 }
 {% endstyle %}
-
-
 
 <div class="lg-richtext">
   <div class="lg-row lg-grid-2">
