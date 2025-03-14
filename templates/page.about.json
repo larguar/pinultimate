@@ -14,9 +14,9 @@
       "settings": {
         "section-title": "Who We Are",
         "image-order": "image-right",
-        "shape": "",
-        "shape-color": "purple",
-        "bottom": 400,
+        "shape": "trio-1",
+        "shape-color": "blue",
+        "bottom": 420,
         "side": -60,
         "shape-position": "back"
       },
@@ -51,10 +51,10 @@
       "settings": {
         "section-title": "Our Mission",
         "image-order": "image-left",
-        "shape": "",
+        "shape": "noodle-1",
         "shape-color": "purple",
-        "bottom": 400,
-        "side": -60,
+        "bottom": 390,
+        "side": -35,
         "shape-position": "back",
         "remove-top-padding": true
       },
@@ -89,10 +89,10 @@
       "settings": {
         "section-title": "Our Makers",
         "image-order": "image-right",
-        "shape": "",
-        "shape-color": "purple",
-        "bottom": 400,
-        "side": -60,
+        "shape": "line-2",
+        "shape-color": "green",
+        "bottom": 480,
+        "side": -40,
         "shape-position": "back",
         "remove-top-padding": true
       },
@@ -120,10 +120,10 @@
       "settings": {
         "section-title": "Our Motto",
         "image-order": "image-left",
-        "shape": "",
-        "shape-color": "purple",
-        "bottom": 400,
-        "side": -60,
+        "shape": "circle-1",
+        "shape-color": "red",
+        "bottom": 450,
+        "side": -80,
         "shape-position": "back",
         "remove-top-padding": true
       },

@@ -48,7 +48,7 @@
   }
   .lg-hero-content {
     {% if section.settings.collection != blank %}
-      height: calc(100% - 200px);
+      height: calc(100% - 204px);
     {% else %}
       height: 100%;
     {% endif %}
@@ -61,7 +61,7 @@
     }
   }
   .lg-pins-parallax {
-    width: 50vw;
+    width: 60vw;
     position: absolute;
     display: flex;
     justify-content: center;
@@ -74,31 +74,31 @@
     width: 795px;
     height: 968px;
     position: relative; 
-    img {
+    div {
       position: absolute;
-      &.lg-hero-pins-1 {
-        top: 365px;
+      &.lg-middle-left {
+        top: 385px;
         left: 0px;
         z-index: 0;
       }
-      &.lg-hero-pins-2 {
-        top: 476px;
-        left: 99px;
+      &.lg-bottom {
+        top: 486px;
+        left: 149px;
         z-index: 2;
       }
-      &.lg-hero-pins-3 {
-        top: 434px;
-        left: 376px;
+      &.lg-middle-right {
+        top: 444px;
+        left: 426px;
         z-index: 1;
       }
-      &.lg-hero-pins-4 {
+      &.lg-top-right {
         top: 145px;
-        left: 454px;
+        left: 504px;
         z-index: 0;
       }
-      &.lg-hero-pins-5 {
-        top: 60px;
-        left: 28px;
+      &.lg-top-left {
+        top: 10px;
+        left: 78px;
         z-index: 1;
       }
     }
@@ -107,20 +107,227 @@
     padding-bottom: calc({{ settings.row-padding }}px * 0.5);
     h4 {
       width: 50%;
-      margin: 0 0 16px;
+      margin: 0 0 1em;
     }
     .owl-carousel .owl-stage-outer {
       overflow: visible !important;
     }
+    .owl-nav {
+      position: absolute;
+      top: -50px;
+      height: 40px;
+      right: 0;
+      button {
+        height: 36px;
+        width: 36px;
+        border-radius: 12px;
+      }
+    }
+  }
+  @media (max-width: 1423px) {
+    .lg-hero-pins-container {
+      div {
+        &.lg-middle-left {
+          top: 455px;
+        }
+      }
+    }
+  }
+  @media (max-width: 1123px) {
+    .lg-hero-pins-container {
+      div {
+        &.lg-top-left {
+          top: -60px;
+        }
+      }
+    }
   }
   @media (max-width: 1023px) {
-
+    .lg-hero, .lg-pins-parallax {
+      height: 100%;
+    }
+    .lg-hero-content {
+      height: auto;
+      display: block;
+      padding-top: calc({{ settings.row-padding }}px * 2.5);
+      padding-bottom: 0;
+      .lg-col {
+        max-width: 100%;
+      }
+      h1 {
+        text-align: center;
+        max-width: 760px;
+        margin: 0 auto 0.5em;
+      }
+      .button-container {
+        display: inline-flex;
+        justify-content: center;
+        width: 100%;
+        align-items: center;
+      }
+    }
+    .lg-pins-parallax {
+      width: 100vw;
+      right: 0;
+      opacity: 0.9;
+    }
+    .lg-product-slider {
+      padding-top: calc({{ settings.row-padding }}px * 2);
+      background: linear-gradient(transparent, {{ settings.color-darkgreen-darkest }});
+    }
+    .lg-hero-pins-container {
+      div {
+        &.lg-top-left {
+          top: -40px;
+          left: -72px;
+        }
+        &.lg-top-right {
+          left: auto;
+          right: -41px;
+          top: 45px;
+        }
+        &.lg-middle-left {
+          top: auto;
+          bottom: 223px;
+          left: -130px;
+          img {
+            transform: rotate(-18deg)!important;
+          }
+        }
+        &.lg-middle-right {
+          top: auto;
+          bottom: 120px;
+          left: auto;
+          right: -127px;
+        }
+        &.lg-bottom {
+          top: auto;
+          bottom: -32px;
+          left: auto;
+          right: 191px;
+        }
+      }
+    }
   }
   @media screen and (max-width:767px) {
-    
+    .lg-hero-content {
+      padding-top: calc({{ settings.row-padding }}px * 2.25);
+      h1 {
+        max-width: 590px;
+      }
+    }
+    .lg-product-slider {
+      padding-top: calc({{ settings.row-padding }}px * 1.5);
+    }
+    .lg-hero-pins-container {
+      div {
+        img {
+          transform: scale(0.85)!important;
+        }
+        &.lg-top-left {
+          top: 10px;
+        }
+        &.lg-top-right {
+          top: 55px;
+        }
+        &.lg-middle-left {
+          top: auto;
+          bottom: 203px;
+          left: -72px;
+          img {
+            transform: rotate(-18deg) scale(0.85)!important;
+          }
+        }
+        &.lg-middle-right {
+          bottom: 130px;
+        }
+        &.lg-bottom {
+          bottom: -27px;
+          right: 136px;
+        }
+      }
+    }
   }
   @media screen and (max-width: 479px) {
-
+    .lg-hero-content {
+      padding-top: calc({{ settings.row-padding }}px * 2);
+      h1 {
+        max-width: 590px;
+      }
+      .button-container {
+        a.button {
+          margin-right: 0;
+        }
+        a.display {
+          display: none;
+        }
+      }
+    }
+    .lg-product-slider {
+      padding-top: calc({{ settings.row-padding }}px * 1.25);
+    }
+    .lg-hero-pins-container {
+      div {
+        &.lg-top-left {
+          top: -20px;
+          left: -92px;
+        }
+        &.lg-top-right {
+          top: 5px;
+          right: -101px;
+        }
+        &.lg-middle-left {
+          bottom: 263px;
+          left: -162px;
+        }
+        &.lg-middle-right {
+          bottom: 115px;
+          right: -167px;
+        }
+        &.lg-bottom {
+          bottom: -37px;
+          right: 86px;
+        }
+      }
+    }
+    /* .lg-hero-content {
+      padding-top: calc({{ settings.row-padding }}px * 1.75);
+      padding-bottom: 0;
+    }
+    .lg-pins-parallax {
+      width: 100vw;
+      opacity: 0.9;
+    }
+    .lg-product-slider {
+      padding-top: calc({{ settings.row-padding }}px * 1.5);
+      background: linear-gradient(transparent, {{ settings.color-darkgreen-darkest }});
+    }
+    .lg-hero-pins-container {
+      div {
+        img {
+          transform: scale(0.9)!important;
+        }
+        &.lg-middle-left, &.lg-top-right {
+          display: none;
+        }
+        &.lg-top-left {
+          top: -38px;
+          left: auto;
+          right: 78px;
+        }
+        &.lg-middle-right {
+          top: auto;
+          bottom: 92px;
+          left: -144px;
+        }
+        &.lg-bottom {
+          top: auto;
+          bottom: 16px;
+          left: auto;
+          right: -78px;
+        }
+      }
+    } */
   }
 {% endstyle %}
 
@@ -129,19 +336,29 @@
     <div class="lg-hero-pins-container">
       {% comment %} <img width="795" height="968" class="all" src="https://cdn.shopify.com/s/files/1/0106/9426/2842/files/HeroPins-All.png?v=1741263766"> {% endcomment %}
       {% if section.settings.image-middle-left != blank %}
-        <img width="199" height="318" class="lg-hero-pins-1 scrollnimate" data-magic-number="-4" src="{{ section.settings.image-middle-left | image_url }}">
+        <div class="lg-middle-left scrollnimate" data-magic-number="-4">
+          <img width="199" height="318" src="{{ section.settings.image-middle-left | image_url }}">
+        </div>
       {% endif %}
       {% if section.settings.image-bottom != blank %}
-        <img width="378" height="466" class="lg-hero-pins-2 scrollnimate" data-magic-number="-2" src="{{ section.settings.image-bottom | image_url }}">
+        <div class="lg-bottom scrollnimate" data-magic-number="-2">
+          <img width="378" height="466" src="{{ section.settings.image-bottom | image_url }}">
+        </div>
       {% endif %}
       {% if section.settings.image-middle-right != blank %}
-        <img width="419" height="327" class="lg-hero-pins-3 scrollnimate" data-magic-number="-5" src="{{ section.settings.image-middle-right | image_url }}">
+        <div class="lg-middle-right scrollnimate" data-magic-number="-5">
+          <img width="419" height="327" src="{{ section.settings.image-middle-right | image_url }}">
+        </div>
       {% endif %}
       {% if section.settings.image-top-right != blank %}
-        <img width="255" height="307" class="lg-hero-pins-4 scrollnimate" data-magic-number="-3" src="{{ section.settings.image-top-right | image_url }}">
+        <div class="lg-top-right scrollnimate" data-magic-number="-3">
+          <img width="255" height="307" src="{{ section.settings.image-top-right | image_url }}">
+        </div>
       {% endif %}
       {% if section.settings.image-top-left != blank %}
-        <img width="356" height="377" class="lg-hero-pins-5 scrollnimate" data-magic-number="-6" src="{{ section.settings.image-top-left | image_url }}">
+        <div class="lg-top-left scrollnimate" data-magic-number="-6">
+          <img width="356" height="377" src="{{ section.settings.image-top-left | image_url }}">
+        </div>
       {% endif %}
     </div>
   </div>
@@ -246,11 +463,8 @@
       responsiveClass: true,
       loop: false,
       rewind: true,
-      nav: false,
+      nav: true,
       dots: false,
-      autoplay: true,
-      autoplayTimeout: 10000,
-      autoplayHoverPause: true,
       responsive: {
         0:{
             items: 1,
