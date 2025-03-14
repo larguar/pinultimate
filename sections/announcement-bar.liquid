@@ -1,11 +1,32 @@
 {% assign ab_height = 20 %}
-{% assign owl_width = 500 %}
+{% assign owl_width = 380 %}
 {% assign owl_height = 20 %}
 
 {%- style -%}
-  .lg-announcement-bar .lg-row {
-    align-items: center;
-    justify-content: center;
+  .lg-announcement-bar {
+    .lg-row {
+      height: 40px;
+      align-items: center;
+      justify-content: space-between;
+      column-gap: 0;
+    }
+    .lg-social, .lg-login {
+      width: 145px;
+    }
+    .lg-col {
+      display: flex;
+      align-items: center;
+    }
+    .lg-login {
+      justify-content: end;
+      a {
+        color: {{ green }};
+        opacity: 0.8;
+        &:hover {
+          opacity: 1;
+        }
+      }
+    }
   }
   .lg-announcement {
     display: flex;
@@ -21,16 +42,27 @@
         width: calc(({{ owl_width }}px + {{ ab_height }}px) / 2);
       }
       .item {
+        font-size: 15px;
         transform: rotate3d(0, 0, 1, -90deg);
         text-align: center;
         line-height: {{ owl_height }}px;
       }
     }
   }
+  @media screen and (max-width:767px) {
+    .lg-announcement-bar {
+      .lg-col.lg-social, .lg-col.lg-login {
+        display: none;
+      }
+      .lg-row {
+        justify-content: center;
+      }
+    }
+  }
 {%- endstyle -%}
 
 <div class="lg-announcement-bar {{ section.settings.background-color }}">
-  <div class="lg-row lg-grid-3">
+  <div class="lg-row">
     <div class="lg-col lg-social">
       {% render 'social-icons' %}
     </div>
@@ -45,9 +77,7 @@
     </div>
     <div class="lg-col lg-login">
       {%- if shop.customer_accounts_enabled -%}
-        <a class="display" href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}" rel="nofollow">
-          Login
-        </a>
+        <a class="display" href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}" rel="nofollow">Login</a>
       {%- endif -%}
     </div>
   </div>

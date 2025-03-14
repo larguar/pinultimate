@@ -772,7 +772,7 @@ a.button.disabled {
   margin: 0;
   padding: 0;
   display: flex;
-  column-gap: calc({{ col-gap }}px * 0.375);
+  column-gap: 10px;
   li {
     list-style: none;
     display: inline-flex;
@@ -1009,36 +1009,6 @@ a.button.disabled {
       width: 100%;
       max-width: 280px;
       margin: 0 auto;
-    }
-  }
-}
-/* ————— Announcement Bar ———————————————————— */
-.lg-announcement-bar {
-  .lg-row {
-    height: 40px;
-  }
-  .lg-col {
-    display: flex;
-    align-items: center;
-  }
-  .lg-login {
-    justify-content: end;
-    a {
-      color: {{ green }};
-      opacity: 0.8;
-      &:hover {
-        opacity: 1;
-      }
-    }
-  }
-}
-@media screen and (max-width:767px) {
-  .lg-announcement-bar {
-    .lg-col.lg-social, .lg-col.lg-login {
-      display: none;
-    }
-    .lg-row.lg-grid-4 .lg-col.lg-grow {
-      width: 100%;
     }
   }
 }

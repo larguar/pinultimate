@@ -125,21 +125,13 @@
     }
   }
   @media (max-width: 1423px) {
-    .lg-hero-pins-container {
-      div {
-        &.lg-middle-left {
-          top: 455px;
-        }
-      }
+    .lg-hero-pins-container div.lg-middle-left {
+      top: 455px;
     }
   }
   @media (max-width: 1123px) {
-    .lg-hero-pins-container {
-      div {
-        &.lg-top-left {
-          top: -60px;
-        }
-      }
+    .lg-hero-pins-container div.lg-top-left {
+      top: -60px;
     }
   }
   @media (max-width: 1023px) {
@@ -290,51 +282,12 @@
         }
       }
     }
-    /* .lg-hero-content {
-      padding-top: calc({{ settings.row-padding }}px * 1.75);
-      padding-bottom: 0;
-    }
-    .lg-pins-parallax {
-      width: 100vw;
-      opacity: 0.9;
-    }
-    .lg-product-slider {
-      padding-top: calc({{ settings.row-padding }}px * 1.5);
-      background: linear-gradient(transparent, {{ settings.color-darkgreen-darkest }});
-    }
-    .lg-hero-pins-container {
-      div {
-        img {
-          transform: scale(0.9)!important;
-        }
-        &.lg-middle-left, &.lg-top-right {
-          display: none;
-        }
-        &.lg-top-left {
-          top: -38px;
-          left: auto;
-          right: 78px;
-        }
-        &.lg-middle-right {
-          top: auto;
-          bottom: 92px;
-          left: -144px;
-        }
-        &.lg-bottom {
-          top: auto;
-          bottom: 16px;
-          left: auto;
-          right: -78px;
-        }
-      }
-    } */
   }
 {% endstyle %}
 
 <section id="{{ section.id }}" class="lg-hero bg-dark">
   <div class="lg-pins-parallax">
     <div class="lg-hero-pins-container">
-      {% comment %} <img width="795" height="968" class="all" src="https://cdn.shopify.com/s/files/1/0106/9426/2842/files/HeroPins-All.png?v=1741263766"> {% endcomment %}
       {% if section.settings.image-middle-left != blank %}
         <div class="lg-middle-left scrollnimate" data-magic-number="-4">
           <img width="199" height="318" src="{{ section.settings.image-middle-left | image_url }}">
