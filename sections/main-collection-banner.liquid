@@ -1,40 +1,11 @@
-{% comment %}theme-check-disable ImgLazyLoading{% endcomment %}
-{% comment %} {{ 'component-collection-hero.css' | asset_url | stylesheet_tag }} {% endcomment %}
-
-<section id="{{ section.id }}" class="lg-page-banner {{ section.settings.background-color }}">
-  <div class="lg-row lg-grid-4">
-    <div class="lg-col lg-banner-details lg-grow">
-      <h1>{{- collection.title | escape -}}</h1>
-      {%- if collection.description != blank -%}
-        <p>{{ collection.description }}</p>
-      {%- endif -%}
-    </div>
-    <div class="lg-col lg-highlight-1">
-      <a href="#" class="lg-card lg-collection-card">
-        <div class="lg-card-image">
-          <div class="lg-image-container">
-            <img src="https://picsum.photos/400/500" alt="">
-          </div>
-        </div>
-        <div class="lg-card-details">
-          <h4>Title of Thing</h4>
-        </div>
-      </a>
-    </div>
-    <div class="lg-col lg-highlight-2">
-      <a href="#" class="lg-card lg-collection-card">
-        <div class="lg-card-image">
-          <div class="lg-image-container">
-            <img src="https://picsum.photos/500/400" alt="">
-          </div>
-        </div>
-        <div class="lg-card-details">
-          <h4>Title of Thing</h4>
-        </div>
-      </a>
-    </div>
-  </div>
-</section>
+<div class="lg-page-banner {{ section.settings.background-color }}">
+  {% render 'banner',
+    title: collection.title,
+    description: collection.description,
+    highlight-1: section.settings.highlight-1,
+    highlight-2: section.settings.highlight-2
+  %}
+</div>
 
 {% schema %}
 {
@@ -60,6 +31,24 @@
     {
       "type": "paragraph",
       "content": "t:sections.main-collection-banner.settings.paragraph.content"
+    },
+    {
+      "type": "header",
+      "content": "Highlight 1"
+    },
+    {
+      "type": "url",
+      "id": "highlight-1",
+      "label": "Page"
+    },
+    {
+      "type": "header",
+      "content": "Highlight 2"
+    },
+    {
+      "type": "url",
+      "id": "highlight-2",
+      "label": "Page"
     }
   ]
 }

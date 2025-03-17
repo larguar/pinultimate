@@ -149,20 +149,44 @@ window.onload = function() {
   if (window.location.pathname.slice(0,9) == "/policies") {
     let policyType = window.location.pathname.slice(10);
     document.querySelector(".shopify-policy__container").classList.add(policyType);
-    document.querySelector(".shopify-policy__title").classList.add("lg-page-banner", "bg-light");
+    document.querySelector(".shopify-policy__title").classList.add("lg-page-banner", "bg-dark");
     document.querySelector(".shopify-policy__body").classList.add("lg-row");
     document.querySelector(".shopify-policy__body .rte").classList.add("lg-page-content", "lg-col");
+
+    let contact = "Contact Us";
+    let contactImage = "https://cdn.shopify.com/s/files/1/0106/9426/2842/files/317775361_533204498456320_4531707310695921206_n.jpg?v=1733445481";
+    let contactLink = "/pages/contact";
+    let terms = "Terms of Service";
+    let termsImage = "https://cdn.shopify.com/s/files/1/0106/9426/2842/files/365890790_1035446947825013_9064487414833482552_n.jpg?v=1711566753";
+    let termsLink = "/policies/terms-of-service";
+    let privacy = "Privacy Policy";
+    let privacyImage = "https://cdn.shopify.com/s/files/1/0106/9426/2842/files/DSC04296_800x_e46e218a-b701-4388-bb2e-474f9ca3f367.webp?v=1733331315";
+    let privacyLink = "/policies/privacy-policy";
+
     let policyTitle = "";
     let policyDescription = "";
+    let highlight = "";
+    let highlightImage = "";
+    let highlightLink = "";
+
     if (policyType == "privacy-policy") {
-      policyTitle = "Privacy Policy";
+      policyTitle = privacy;
       policyDescription = 'This Privacy Policy describes how your personal information is collected, used, and shared when you visit and/or make a purchase from <a href="/">pinultimate.co</a>.';
+      highlight = terms;
+      highlightImage = termsImage;
+      highlightLink = termsLink;
     } else if (policyType == "terms-of-service") {
-      policyTitle = "Terms of Service";
+      policyTitle = terms;
       policyDescription = 'These Terms of Service outline the rules and regulations for using <a href="/">pinultimate.co</a>, including user responsibilities, prohibited activities, and limitations of liability.';
+      highlight = privacy;
+      highlightImage = privacyImage;
+      highlightLink = privacyLink;
     } else if (policyType == "refund-policy") {
       policyTitle = "Refund Policy";
       policyDescription = 'This Refund Policy outlines the process for returning items, filing a claim for delivery-related issues, and receiving a refund.';
+      highlight = terms;
+      highlightImage = termsImage;
+      highlightLink = termsLink;
     }
     document.querySelector(".shopify-policy__title").innerHTML = `<div class="lg-row lg-grid-4">
       <div class="lg-col lg-banner-details lg-grow">
@@ -170,26 +194,26 @@ window.onload = function() {
         <p>${policyDescription}</p>
       </div>
       <div class="lg-col lg-highlight-1">
-        <a href="/pages/contact" class="lg-card lg-collection-card">
+        <a href="${contactLink}" class="lg-card lg-collection-card">
           <div class="lg-card-image">
             <div class="lg-image-container">
-              <img src="https://picsum.photos/400/500" alt="">
+              <img src="${contactImage}" alt="${contact}">
             </div>
           </div>
           <div class="lg-card-details">
-            <h4>Contact Us</h4>
+            <h4>${contact}</h4>
           </div>
         </a>
       </div>
       <div class="lg-col lg-highlight-2">
-        <a href="/pages/about" class="lg-card lg-collection-card">
+        <a href="${highlightLink}" class="lg-card lg-collection-card">
           <div class="lg-card-image">
             <div class="lg-image-container">
-              <img src="https://picsum.photos/500/400" alt="">
+              <img src="${highlightImage}" alt="${highlight}">
             </div>
           </div>
           <div class="lg-card-details">
-            <h4>About Us</h4>
+            <h4>${highlight}</h4>
           </div>
         </a>
       </div>

@@ -1,41 +1,15 @@
-<section class="lg-page-banner {{ section.settings.background-color }}">
-  <div class="lg-row lg-grid-4">
-    <div class="lg-col lg-banner-details lg-grow">
-      <h1>{{ section.settings.title }}</h1>
-      {%- if section.settings.description != blank -%}
-        <p>{{ section.settings.description }}</p>
-      {%- endif -%}
-    </div>
-    <div class="lg-col lg-highlight-1">
-      <a href="#" class="lg-card lg-collection-card">
-        <div class="lg-card-image">
-          <div class="lg-image-container">
-            <img src="https://picsum.photos/400/500" alt="">
-          </div>
-        </div>
-        <div class="lg-card-details">
-          <h4>Title of Thing</h4>
-        </div>
-      </a>
-    </div>
-    <div class="lg-col lg-highlight-2">
-      <a href="#" class="lg-card lg-collection-card">
-        <div class="lg-card-image">
-          <div class="lg-image-container">
-            <img src="https://picsum.photos/500/400" alt="">
-          </div>
-        </div>
-        <div class="lg-card-details">
-          <h4>Title of Thing</h4>
-        </div>
-      </a>
-    </div>
-  </div>
-</section>
+<div class="lg-page-banner {{ section.settings.background-color }}">
+  {% render 'banner',
+    title: section.settings.title,
+    description: section.settings.description,
+    highlight-1: section.settings.highlight-1,
+    highlight-2: section.settings.highlight-2
+  %}
+</div>
 
 {% schema %}
 {
-  "name": "t:sections.main-list-collections.name",
+  "name": "Collections List Banner",
   "class": "section",
   "settings": [
     {
@@ -64,6 +38,24 @@
       "type": "inline_richtext",
       "id": "description",
       "label": "Description"
+    },
+    {
+      "type": "header",
+      "content": "Highlight 1"
+    },
+    {
+      "type": "url",
+      "id": "highlight-1",
+      "label": "Page"
+    },
+    {
+      "type": "header",
+      "content": "Highlight 2"
+    },
+    {
+      "type": "url",
+      "id": "highlight-2",
+      "label": "Page"
     }
   ]
 }

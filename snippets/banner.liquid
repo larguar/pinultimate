@@ -1,0 +1,148 @@
+{% comment %}
+  Usage:
+  {% render 'banner',
+    title: collection.title,
+    description: collection.description,
+    highlight-1: section.settings.highlight-1,
+    highlight-2: section.settings.highlight-2
+  %}
+{% endcomment %}
+
+{% if template.suffix == "reviews" %}
+  {% capture description %}
+    <div>
+      <div class="lg-stars">
+        {% for i in (1..5) %}
+          {% render 'icons', icon: 'star' %}
+        {% endfor %}
+      </div>
+      <p>5.0 Star Rating based on <span class="review-count">400+</span> Reviews</p>
+    </div>
+  {% endcapture %}
+{% endif %}
+
+{%- liquid
+  assign first_highlight = highlight-1 | default: "/pages/about"
+  assign second_highlight = highlight-2 | default: "/pages/contact"
+
+  if first_highlight == "/collections"
+    for content in metaobjects.content.values
+      if content.page == "Collections List"
+        assign first_highlight_title = content.text
+        assign first_highlight_image = content.image
+      endif
+    endfor
+  elsif second_highlight == "/collections"
+    for content in metaobjects.content.values
+      if content.page == "Collections List"
+        assign second_highlight_title = content.text
+        assign second_highlight_image = content.image
+      endif
+    endfor
+  endif
+
+  for collection in collections
+    if collection.url == first_highlight
+      assign first_highlight_title = collection.title
+      assign first_highlight_image = collection.featured_image | image_url
+    endif
+    if collection.url == second_highlight
+      assign second_highlight_title = collection.title
+      assign second_highlight_image = collection.featured_image | image_url
+    endif
+  endfor
+
+  if first_highlight == "/collections/makers"
+    for content in metaobjects.content.values
+      if content.page == "Makers List"
+        assign first_highlight_title = content.text
+        assign first_highlight_image = content.image
+      endif
+    endfor
+  elsif second_highlight == "/collections/makers"
+    for content in metaobjects.content.values
+      if content.page == "Makers List"
+        assign second_highlight_title = content.text
+        assign second_highlight_image = content.image
+      endif
+    endfor
+  endif
+
+  for page in pages
+    if page.url == first_highlight
+      assign first_highlight_title = page.title
+      assign first_highlight_image = page.metafields.custom.image | image_url
+    endif
+    if page.url == second_highlight
+      assign second_highlight_title = page.title
+      assign second_highlight_image = page.metafields.custom.image | image_url
+    endif
+  endfor
+-%}
+
+<div class="lg-row lg-grid-4">
+  <div class="lg-col lg-banner-details lg-grow">
+    <h1>{{ title | escape }}</h1>
+    {% unless description == blank %}
+      <p>{{ description }}</p>
+    {% endunless %}
+  </div>
+  <div class="lg-col lg-highlight-1">
+    <a href="{{ first_highlight }}" class="lg-card lg-collection-card">
+      <div class="lg-card-image">
+        <div class="lg-image-container">
+          <img
+            srcset="
+              {%- if first_highlight_image.width >= 165 -%}{{ first_highlight_image | image_url: width: 165 }} 165w,{%- endif -%}
+              {%- if first_highlight_image.width >= 360 -%}{{ first_highlight_image | image_url: width: 360 }} 360w,{%- endif -%}
+              {%- if first_highlight_image.width >= 533 -%}{{ first_highlight_image | image_url: width: 533 }} 533w,{%- endif -%}
+              {%- if first_highlight_image.width >= 720 -%}{{ first_highlight_image | image_url: width: 720 }} 720w,{%- endif -%}
+              {%- if first_highlight_image.width >= 940 -%}{{ first_highlight_image | image_url: width: 940 }} 940w,{%- endif -%}
+              {%- if first_highlight_image.width >= 1066 -%}{{ first_highlight_image | image_url: width: 1066 }} 1066w,{%- endif -%}
+              {{ first_highlight_image | image_url }} {{ first_highlight_image.width }}w
+            "
+            src="{{ first_highlight_image | image_url: width: 533 }}"
+            sizes="(min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 130 | divided_by: 4 }}px, (min-width: 990px) calc((100vw - 130px) / 4), (min-width: 750px) calc((100vw - 120px) / 3), calc((100vw - 35px) / 2)"
+            alt="{{ first_highlight_image.alt | escape }}"
+            class="motion-reduce"
+            loading="lazy"
+            width="{{ first_highlight_image.width }}"
+            height="{{ first_highlight_image.height }}"
+          >
+        </div>
+      </div>
+      <div class="lg-card-details">
+        <h4>{{ first_highlight_title }}</h4>
+      </div>
+    </a>
+  </div>
+  <div class="lg-col lg-highlight-2">
+    <a href="{{ second_highlight }}" class="lg-card lg-collection-card">
+      <div class="lg-card-image">
+        <div class="lg-image-container">
+          <img
+            srcset="
+              {%- if second_highlight_image.width >= 165 -%}{{ second_highlight_image | image_url: width: 165 }} 165w,{%- endif -%}
+              {%- if second_highlight_image.width >= 360 -%}{{ second_highlight_image | image_url: width: 360 }} 360w,{%- endif -%}
+              {%- if second_highlight_image.width >= 533 -%}{{ second_highlight_image | image_url: width: 533 }} 533w,{%- endif -%}
+              {%- if second_highlight_image.width >= 720 -%}{{ second_highlight_image | image_url: width: 720 }} 720w,{%- endif -%}
+              {%- if second_highlight_image.width >= 940 -%}{{ second_highlight_image | image_url: width: 940 }} 940w,{%- endif -%}
+              {%- if second_highlight_image.width >= 1066 -%}{{ second_highlight_image | image_url: width: 1066 }} 1066w,{%- endif -%}
+              {{ second_highlight_image | image_url }} {{ second_highlight_image.width }}w
+            "
+            src="{{ second_highlight_image | image_url: width: 533 }}"
+            sizes="(min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 130 | divided_by: 4 }}px, (min-width: 990px) calc((100vw - 130px) / 4), (min-width: 750px) calc((100vw - 120px) / 3), calc((100vw - 35px) / 2)"
+            alt="{{ second_highlight_image.alt | escape }}"
+            class="motion-reduce"
+            loading="lazy"
+            width="{{ second_highlight_image.width }}"
+            height="{{ second_highlight_image.height }}"
+          >
+        </div>
+      </div>
+      <div class="lg-card-details">
+        <h4>{{ second_highlight_title }}</h4>
+      </div>
+    </a>
+  </div>
+</div>

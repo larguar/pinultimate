@@ -1,0 +1,167 @@
+{% style %}
+/* .lg-faqs {
+  .lg-faq-section {
+    display: none;
+    &.lg-active {
+      display: block;
+    }
+  }
+} */
+{% endstyle %}
+
+<div class="lg-faqs {{ section.settings.background-color }}">
+  <div class="lg-row">
+
+    <div class="lg-section-header">
+      <h2>Frequently Asked Questions</h2>
+      <button id="retail-button">Retail</button>
+      <button id="custom-button">Custom</button>
+      <button id="wholesale-button">Wholesale</button>
+      <button id="business-button">Business</button>
+    </div>
+
+    <div class="lg-page-content lg-col">
+      {% capture sections %}
+        Retail: Orders, Shipping, Delivery, Returns, Inventory, Custom, Feedback;
+        Custom: Orders, Shipping, Delivery, Returns, Inventory, Custom, Feedback;
+        Wholesale: Orders, Shipping, Delivery, Returns, Inventory, Custom, Feedback;
+        Business: Orders, Shipping, Delivery, Returns, Inventory, Custom, Feedback;
+      {% endcapture %}
+      {% assign sections = sections | split: ";" %}
+      {% for section in sections %}
+        {% assign section_data = section | split: ": " %}
+        {% assign section_type = section_data[0] | strip %}
+        {% assign section_categories = section_data[1] | split: ", " %}
+        <div id="{{ section_type | downcase }}" hidden>
+          {% for category in section_categories %}
+            <h2>{{ category }}</h2>
+            {% for question in metaobjects.faq.values %}
+              {% for type in question.type.value %}
+                {% if type == section_type %}
+                  {% if question.category == category %}
+                  <h4>{{ question.question }}</h4> 
+                  <p>{{ question.answer | metafield_tag }}</p>
+                  {% endif %}
+                {% endif %}
+              {% endfor %}
+            {% endfor %}
+          {% endfor %}
+        </div>
+      {% endfor %}
+    </div>
+    
+  </div>
+</div>
+
+{% javascript %}
+  let retail = document.getElementById("retail");
+  let custom = document.getElementById("custom");
+  let wholesale = document.getElementById("wholesale");
+  let business = document.getElementById("business");
+  if (retail.hidden) {
+    retail.hidden = !retail.hidden;
+  }
+  document.getElementById("retail-button").addEventListener("click", function() {
+    if (retail.hidden) {
+      retail.hidden = !retail.hidden;
+    }
+    if (!custom.hidden) {
+      custom.hidden = !custom.hidden;
+    } else if (!wholesale.hidden) {
+      wholesale.hidden = !wholesale.hidden;
+    } else if (!business.hidden) {
+      business.hidden = !business.hidden;
+    }
+  });
+  document.getElementById("custom-button").addEventListener("click", function() {
+    if (custom.hidden) {
+      custom.hidden = !custom.hidden;
+    }
+    if (!retail.hidden) {
+      retail.hidden = !retail.hidden;
+    } else if (!wholesale.hidden) {
+      wholesale.hidden = !wholesale.hidden;
+    } else if (!business.hidden) {
+      business.hidden = !business.hidden;
+    }
+  });
+  document.getElementById("wholesale-button").addEventListener("click", function() {
+    if (wholesale.hidden) {
+      wholesale.hidden = !wholesale.hidden;
+    }
+    if (!retail.hidden) {
+      retail.hidden = !retail.hidden;
+    } else if (!custom.hidden) {
+      custom.hidden = !custom.hidden;
+    } else if (!business.hidden) {
+      business.hidden = !business.hidden;
+    }
+  });
+  document.getElementById("business-button").addEventListener("click", function() {
+    if (business.hidden) {
+      business.hidden = !business.hidden;
+    }
+    if (!retail.hidden) {
+      retail.hidden = !retail.hidden;
+    } else if (!custom.hidden) {
+      custom.hidden = !custom.hidden;
+    } else if (!wholesale.hidden) {
+      wholesale.hidden = !wholesale.hidden;
+    }
+  });
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "FAQs",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "select",
+      "id": "background-color",
+      "options": [
+        {
+          "value": "",
+          "label": "White"
+        },
+        {
+          "value": "bg-light",
+          "label": "Light"
+        }
+      ],
+      "default": "bg-light",
+      "label": "Background Color"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "select",
+      "id": "type",
+      "options": [
+        {
+          "value": "Custom",
+          "label": "Custom Pins"
+        },
+        {
+          "value": "Retail",
+          "label": "Retail Pins"
+        }
+      ],
+      "default": "Custom",
+      "label": "Review Type"
+    },
+  ],
+  "presets": [
+    {
+      "name": "FAQs"
+    }
+  ]
+}
+{% endschema %}

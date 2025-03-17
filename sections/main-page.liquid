@@ -1,72 +1,13 @@
-<section class="lg-page-banner {{ section.settings.background-color }}">
-  <div class="lg-row lg-grid-4">
-    <div class="lg-col lg-banner-details lg-grow">
-      <h1>{{ page.title | escape }}</h1>
-      {% if template.suffix == "reviews" %}
-        <div>
-          <div class="lg-stars">
-            {% for i in (1..5) %}
-              {% render 'icons', icon: 'star' %}
-            {% endfor %}
-          </div>
-          <p>5.0 Star Rating based on <span class="review-count">400+</span> Reviews</p>
-        </div>
-      {% else %}
-        {% if section.settings.description != blank %}
-          <p>{{ section.settings.description }}</p>
-        {% endif %}
-      {% endif %}
-    </div>
-    {%- liquid
-      if section.settings.highlight-1 == blank
-        assign first_highlight = "/pages/about"
-      else
-        assign first_highlight = section.settings.highlight-1
-      endif
-      if section.settings.highlight-2 == blank
-        assign second_highlight = "/pages/contact"
-      else
-        assign second_highlight = section.settings.highlight-2
-      endif
-      for page in pages
-        if page.url == first_highlight
-          assign first_highlight_title = page.title
-          assign first_highlight_image = page.metafields.custom.image
-        endif
-        if page.url == second_highlight
-          assign second_highlight_title = page.title
-          assign second_highlight_image = page.metafields.custom.image
-        endif
-      endfor
-    -%}
-    <div class="lg-col lg-highlight-1">
-      <a href="{{ first_highlight }}" class="lg-card lg-collection-card">
-        <div class="lg-card-image">
-          <div class="lg-image-container">
-            <img src="{{ first_highlight_image | image_url }}" alt="{{ first_highlight_title }}">
-          </div>
-        </div>
-        <div class="lg-card-details">
-          <h4>{{ first_highlight_title }}</h4>
-        </div>
-      </a>
-    </div>
-    <div class="lg-col lg-highlight-2">
-      <a href="{{ second_highlight }}" class="lg-card lg-collection-card">
-        <div class="lg-card-image">
-          <div class="lg-image-container">
-            <img src="{{ second_highlight_image | image_url }}" alt="{{ second_highlight_title }}">
-          </div>
-        </div>
-        <div class="lg-card-details">
-          <h4>{{ second_highlight_title }}</h4>
-        </div>
-      </a>
-    </div>
-  </div>
-</section>
+<div class="lg-page-banner {{ section.settings.background-color }}">
+  {% render 'banner',
+    title: page.title,
+    description: section.settings.description,
+    highlight-1: section.settings.highlight-1,
+    highlight-2: section.settings.highlight-2
+  %}
+</div>
 
-{% unless template.suffix == "about" %}
+{% unless template.suffix == "about" or template.suffix == "contact" %}
   <section class="{% if template.suffix == "reviews" %}bg-light{% endif %}">
     <div class="lg-row">
       <div class="lg-page-content lg-col">
