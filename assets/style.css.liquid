@@ -1595,9 +1595,10 @@ a.lg-card, a.lg-card-image, a.lg-product-details {
 @media screen and (max-width: 479px) {
   .lg-product-details {
     flex-direction: column;
+    text-align: center;
   }
   .lg-price {
-    text-align: left;
+    text-align: center;
   }
   .lg-price .lg-compare-at-price {
     display: inline;
@@ -1657,6 +1658,7 @@ a.lg-card, a.lg-card-image, a.lg-product-details {
 .lg-page-content {
   padding-top: calc({{ row-padding }}px * 0.75);
   padding-bottom: {{ row-padding }}px;
+  width: 100%;
   max-width: 950px;
   margin: 0 auto;
   h2 {
@@ -1756,6 +1758,7 @@ a.lg-card, a.lg-card-image, a.lg-product-details {
 .ssw-reviews-page-header-bar {
   flex-direction: column;
   padding-bottom: 60px;
+  position: relative;
   #ssw-search-review-wrapper {
     order: 1;
     .ssw-search-review {
@@ -1788,16 +1791,7 @@ a.lg-card, a.lg-card-image, a.lg-product-details {
 .ssw-reviews-page .ssw-review-message-wrapper {
   margin-bottom: 0 !important;
 }
-#ssw-review-switcher-buttons-wrapper {
-  display: flex !important;
-  width: 100%;
-  justify-content: end;
-  margin-bottom: 0 !important;
-  input {
-    padding: 0;
-    height: 40px;
-  }
-}
+
 .ssw-add-review-content {
   background: #fff;
   padding: 30px;
@@ -1807,7 +1801,7 @@ a.lg-card, a.lg-card-image, a.lg-product-details {
 
 .ssw-item {
   background: #fff;
-  padding: 30px 40px;
+  padding: 30px;
   display: flex;
   flex-direction: column;
   .ssw-pull-left {
@@ -1851,4 +1845,118 @@ a.lg-card, a.lg-card-image, a.lg-product-details {
 }
 .ssw-growave-branding {
   display: none !important;
+}
+.ssw-recomends-list .ssw-text {
+  overflow: visible !important;
+}
+/* .ssw-reviews-sort {
+  background: #fff;
+  border: 1px solid pink;
+  border-radius: 14px;
+} */
+
+
+#ssw-search-review-wrapper {
+  display: flex !important;
+}
+#ssw-review-switcher-buttons-wrapper {
+  display: flex !important;
+  width: 100%;
+  justify-content: end;
+  margin-bottom: 0 !important;
+  a {
+    cursor: pointer;
+    span {
+      height: 8px;
+      width: 8px;
+      margin-left: 0;
+      top: -0.5px;
+      background: {{ settings.color-green }};
+      border-radius: 50%;
+      position: relative;
+      outline-width: 1.5px;
+      outline-style: solid;
+      outline-offset: 3px;
+      animation: outline-pulsate 2s infinite;
+      display: none;
+      right: 28px;
+      margin-right: -13px;
+    }
+    &.lg-active span {
+      display: inline-block;
+    }
+  }
+  input {
+    font-family: "polymath-text", sans-serif !important;
+    font-weight: 400 !important;
+    font-style: normal;
+    font-size: 14px !important;
+    letter-spacing: 0px;
+    text-transform: capitalize !important;
+    padding: 0 15px !important;
+    height: 40px;
+    min-width: 60px !important;
+    border-radius: 0 !important;
+    border: none !important;
+    background: {{ settings.color-light-darkest }} !important;
+    color: {{ settings.color-darkgray }} !important;
+    position: relative;
+    a.lg-active & {
+      padding: 0 47px 0 15px !important;
+    }
+    #lg-site-reviews.lg-active & {
+      margin-inline-end: 3px;
+      margin-left: -2px;
+    }
+    &.ssw-active {
+      background: {{ settings.color-white }} !important;
+      color: {{ settings.color-dark-text }} !important;
+      font-weight: 600 !important;
+      border: 1px solid {{ settings.color-light-darkest }} !important;
+    }
+    a:first-child & {
+      border-radius: 14px 0 0 14px !important;
+    }
+    a:last-child & {
+      border-radius: 0 14px 14px 0 !important;
+    }
+  }
+}
+@keyframes outline-pulsate {
+  0%   { outline-color: {{ settings.color-green }}; }
+  50%  { outline-color: {{ settings.color-green }}00; }
+  100% { outline-color: {{ settings.color-green }}; }
+}
+@media only screen and (max-width: 830px) {
+  .ssw-reviews-page-header-bar {
+    align-items: center !important;
+  }
+  .ssw-reviews-page-header-bar #ssw-search-review-wrapper #ssw-search-review {
+    max-width: 500px;
+    margin: 20px auto 30px;
+  }
+  .ssw-reviews-page-header-bar #ssw-search-review-wrapper {
+    margin-bottom: 0 !important;
+  }
+}
+@media screen and (max-width:767px) {
+  .ssw-reviews-page-header-bar #ssw-search-review-wrapper #ssw-search-review {
+    max-width: 100%;
+    min-width: 100px;
+  }
+}
+@media (max-width: 480px) {
+  .ssw-reviews-page #ssw-review-switcher-buttons-wrapper {
+    flex-direction: row !important;
+  }
+}
+@media screen and (max-width: 479px) {
+  .ssw-reviews-sort {
+    display: none !important;
+  }
+}
+@media (max-width: 414px) {
+  #ssw-review-switcher-buttons-wrapper input {
+    margin-top: 0 !important;
+  }
 }

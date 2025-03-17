@@ -8,7 +8,7 @@
   padding-bottom: {{ settings.row-padding }}px;
   align-items: center;
   .lg-col {
-    width: calc(((100% - ({{ settings.col-gap }}px * 4)) / 5) * 1);
+    width: calc((100% - ({{ settings.col-gap }}px * 4)) / 5);
     &:not(.lg-content) {
       height: 100%;
       align-self: start;
@@ -21,6 +21,56 @@
 }
 .bg-light .lg-card-intro {
   background: #fff;
+}
+@media (max-width: 1023px) {
+  .lg-recommended {
+    .lg-content {
+      padding-right: 40px;
+    }
+    .lg-col {
+      width: calc((100% - ({{ settings.col-gap }}px * 2)) / 3);
+      &:not(.lg-content) {
+        height: 100%;
+        align-self: start;
+      }
+    }
+    .lg-col:last-child {
+      display: none;
+    }
+  }
+}
+@media screen and (max-width:767px) {
+  .lg-recommended {
+    .lg-col {
+      width: calc((100% - (({{ settings.col-gap }}px * 0.75) * 2)) / 3);
+    }
+    .lg-content {
+      padding-right: 0;
+      width: 100%;
+      text-align: center;
+      margin-bottom: calc({{ settings.row-padding }}px * 0.25);
+      > * {
+        max-width: 360px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+    }
+    .lg-col:last-child {
+      display: block;
+    }
+  }
+}
+@media screen and (max-width: 479px) {
+  .lg-recommended {
+    padding-top: calc({{ settings.row-padding }}px * 0.75);
+    padding-bottom: calc({{ settings.row-padding }}px * 0.75);
+    .lg-col:not(.lg-content) {
+      width: calc((100% - (({{ settings.col-gap }}px * 0.5) * 1)) / 2);
+    }
+    .lg-col:last-child {
+      display: none;
+    }
+  }
 }
 {% endstyle %}
 

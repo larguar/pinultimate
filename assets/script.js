@@ -48,6 +48,38 @@ window.onload = function() {
     span.innerHTML = yibCount;
   });
 
+  setTimeout(() => {
+    let sswButtonIndex = 0;
+    document.querySelectorAll("#ssw-review-switcher-buttons-wrapper a").forEach(function(a) {
+      if (sswButtonIndex == 0) {
+        a.id = "lg-product-reviews";
+        a.classList.add("lg-active");
+      } else if (sswButtonIndex == 1) {
+        a.id = "lg-site-reviews";
+      }
+      sswButtonIndex++;
+      let span = document.createElement("span");
+      a.append(span);
+    });
+    document.getElementById("lg-product-reviews").addEventListener("click", function() {
+      console.log("clicked product reviews button");
+      document.getElementById("lg-site-reviews").classList.remove("lg-active");
+      this.classList.add("lg-active");
+    });
+    document.getElementById("lg-site-reviews").addEventListener("click", function() {
+      console.log("clicked site reviews button");
+      document.getElementById("lg-product-reviews").classList.remove("lg-active");
+      this.classList.add("lg-active");
+    });
+  }, 2000);
+
+
+  // document.querySelectorAll("#ssw-review-switcher-buttons-wrapper a").forEach(function(a) {
+  //   a.addEventListener("click", function() {
+  //     this.classList.add("lg-active");
+  //   });
+  // });
+
   // Reviews Count
   document.querySelectorAll(".review-count").forEach(function(span) {
     let reviewWidget = document.getElementById("_352");
@@ -60,18 +92,27 @@ window.onload = function() {
         if (reviewWidget != null) {
           let reviewCount = reviewWidget.textContent.trim();
           span.innerHTML = reviewCount;
+          // document.querySelectorAll("#ssw-review-switcher-buttons-wrapper a").forEach(function(a) {
+          //   a.append("test");
+          // });
         } else {
           setTimeout(() => {
             reviewWidget = document.getElementById("_352");
             if (reviewWidget != null) {
               let reviewCount = reviewWidget.textContent.trim();
               span.innerHTML = reviewCount;
+              // document.querySelectorAll("#ssw-review-switcher-buttons-wrapper a").forEach(function(a) {
+              //   a.append("test");
+              // });
             } else {
               setTimeout(() => {
                 reviewWidget = document.getElementById("_352");
                 if (reviewWidget != null) {
                   let reviewCount = reviewWidget.textContent.trim();
                   span.innerHTML = reviewCount;
+                  // document.querySelectorAll("#ssw-review-switcher-buttons-wrapper a").forEach(function(a) {
+                  //   a.append("test");
+                  // });
                 }
               }, 5000);
             }
