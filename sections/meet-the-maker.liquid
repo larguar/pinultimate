@@ -4,12 +4,35 @@
   padding-bottom: calc({{ settings.row-padding }}px * 1.5);
   background-size: cover;
   background-position: center;
+  .subhead {
+    margin-top: 5px;
+  }
   .lg-maker {
     padding: calc({{ settings.row-padding }}px * 0.5);
     max-width: 620px;
     margin: 0 auto;
     text-align: center;
     border-radius: 40px;
+  }
+}
+@media screen and (max-width:767px) {
+  .lg-mtm {
+    padding-top: calc({{ settings.row-padding }}px * 1.25);
+    padding-bottom: calc({{ settings.row-padding }}px * 1.25);
+    .lg-maker {
+      padding-left: calc({{ settings.row-padding }}px * 0.375);
+      padding-right: calc({{ settings.row-padding }}px * 0.375);
+    }
+  }
+}
+@media screen and (max-width: 479px) {
+  .lg-mtm {
+    padding-top: {{ settings.row-padding }}px;
+    padding-bottom: {{ settings.row-padding }}px;
+    .lg-maker {
+      padding-left: calc({{ settings.row-padding }}px * 0.25);
+      padding-right: calc({{ settings.row-padding }}px * 0.25);
+    }
   }
 }
 {% endstyle %}
@@ -32,7 +55,7 @@
         <div class="lg-maker lg-col bg-white">
           <p class="subhead">Meet the Maker</p>
           <h2>{{ collection.title }}</h2>
-          <p>{{ collection.description | truncatewords: 20 }}</p>
+          <p>{{ collection.description | truncatewords: 26 }}</p>
           <div class="button-container">
             <a class="button" href="{{ collection.url }}">Read More</a>
           </div>

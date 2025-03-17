@@ -48,6 +48,7 @@ window.onload = function() {
     span.innerHTML = yibCount;
   });
 
+  // Reviews toggle circle animation
   setTimeout(() => {
     let sswButtonIndex = 0;
     document.querySelectorAll("#ssw-review-switcher-buttons-wrapper a").forEach(function(a) {
@@ -72,13 +73,6 @@ window.onload = function() {
       this.classList.add("lg-active");
     });
   }, 2000);
-
-
-  // document.querySelectorAll("#ssw-review-switcher-buttons-wrapper a").forEach(function(a) {
-  //   a.addEventListener("click", function() {
-  //     this.classList.add("lg-active");
-  //   });
-  // });
 
   // Reviews Count
   document.querySelectorAll(".review-count").forEach(function(span) {
