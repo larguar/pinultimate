@@ -1,3 +1,44 @@
+{% style %}
+.lg-collection {
+  padding-top: {{ settings.row-padding }}px;
+  padding-bottom: {{ settings.row-padding }}px;
+  overflow-x: hidden;
+  .lg-section-header {
+    max-width: 420px;
+    margin: 0 auto;
+  }
+  .lg-products-carousel {
+    margin: calc({{ settings.row-padding }}px * 0.25) 0 calc({{ settings.row-padding }}px * 0.375);
+  }
+  .lg-card-intro {
+    background: transparent;
+  }
+  .owl-carousel .owl-stage-outer {
+    overflow: visible;
+  }
+  .lg-card-image {
+    &:before {
+      padding-top: 80%;
+    }
+  }
+  .lg-card img {
+    transform: scale(1.3);
+    .lg-card-intro:hover & {
+      transform: scale(1.4);
+    }
+  }
+  .button-container {
+    margin-top: 0;
+  }
+}
+@media screen and (max-width: 479px) {
+  .lg-collection {
+    padding-top: calc({{ settings.row-padding }}px * 0.75);
+    padding-bottom: calc({{ settings.row-padding }}px * 0.75);
+  }
+}
+{% endstyle %}
+
 <div class="lg-collection bg-light">
   <div class="lg-row">
     {%- for collection in collections -%}

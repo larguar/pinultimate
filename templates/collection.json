@@ -3,7 +3,9 @@
     "banner": {
       "type": "main-collection-banner",
       "settings": {
-        "background-color": "bg-light"
+        "background-color": "bg-light",
+        "highlight-1": "/collections/makers",
+        "highlight-2": "/collections"
       }
     },
     "product-grid": {

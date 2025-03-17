@@ -1,0 +1,126 @@
+{% style %}
+.lg-richtext-centered {
+  {% unless section.settings.remove-top-padding %}
+    padding-top: {{ settings.row-padding }}px;
+  {% endunless %}
+  {% unless section.settings.remove-bottom-padding %}
+    padding-bottom: {{ settings.row-padding }}px;
+  {% endunless %}
+  .lg-col {
+    width: 100%;
+    text-align: center;
+  }
+}
+{% endstyle %}
+
+<div class="lg-richtext-centered">
+  <div class="lg-row">
+    <div class="lg-col">
+      {% for block in section.blocks %}
+        {%- case block.type -%}
+          {%- when "heading" -%}
+            <h2>{{ block.settings.heading }}</h2>
+          {%- when "text" -%}
+            <p>{{ block.settings.paragraph }}</p>
+          {%- when "links" -%}
+            <div class="button-container">
+              {% if block.settings.button-link != blank %}
+                <a class="button" href="{{ block.settings.button-link }}">{{ block.settings.button-text }}</a>
+              {% endif %}
+              {% if block.settings.textlink-link != blank %}
+                <a class="display" href="{{ block.settings.textlink-link }}">{{ block.settings.textlink-text }}</a>
+              {% endif %}
+            </div>
+        {% endcase %}
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Rich Text",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "remove-top-padding",
+      "label": "Remove Top Padding",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "remove-bottom-padding",
+      "label": "Remove Bottom Padding",
+      "default": false
+    }
+  ],
+  "blocks": [
+    {
+      "type": "heading",
+      "name": "Heading",
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "heading",
+          "label": "Heading"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "Paragraph",
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "paragraph",
+          "label": "Content"
+        }
+      ]
+    },
+    {
+      "type": "links",
+      "name": "Links",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Button"
+        },
+        {
+          "type": "url",
+          "id": "button-link",
+          "label": "Link"
+        },
+        {
+          "type": "text",
+          "id": "button-text",
+          "label": "Text"
+        },
+        {
+          "type": "header",
+          "content": "Text Link"
+        },
+        {
+          "type": "url",
+          "id": "textlink-link",
+          "label": "Link"
+        },
+        {
+          "type": "text",
+          "id": "textlink-text",
+          "label": "Text"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Rich Text"
+    }
+  ]
+}
+{% endschema %}

@@ -5,7 +5,9 @@
       "settings": {
         "background-color": "bg-light",
         "title": "Collections",
-        "description": "Something to say here"
+        "description": "Something to say here",
+        "highlight-1": "/collections/sale",
+        "highlight-2": "/collections/pin"
       }
     },
     "collections": {

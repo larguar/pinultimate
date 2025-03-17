@@ -1,31 +1,110 @@
 {% style %}
-/* .lg-faqs {
-  .lg-faq-section {
-    display: none;
-    &.lg-active {
-      display: block;
+.lg-faqs {
+  .lg-section-header {
+    margin-bottom: 60px;
+    .lg-faq-buttons {
+      column-gap: 0;
+      margin-top: 30px;
+      button {
+        height: 40px;
+        border-radius: 0;
+        border: none;
+        font-size: 14px;
+        padding: 0 15px;
+        background: {{ settings.color-light-darkest }};
+        color: {{ settings.color-darkgray }};
+        &.active {
+          background: {{ settings.color-white }};
+          color: {{ settings.color-dark-text }};
+          font-weight: 600;
+          border: 1px solid {{ settings.color-light-darkest }};
+          margin-right: -1px;
+          &:not(:first-child) {
+            margin-left: 0;
+          }
+          &:after {
+            content: "";
+            height: 8px;
+            width: 8px;
+            margin-left: 15px;
+            margin-right: 2px;
+            top: -0.5px;
+            background: {{ settings.color-green }};
+            border-radius: 50%;
+            position: relative;
+            display: inline-block;
+            outline-width: 1.5px;
+            outline-style: solid;
+            outline-offset: 3px;
+            animation: outline-pulsate 2s infinite;
+          }
+        }
+        &:not(:first-child) {
+          margin-left: 1px;
+        }
+        &:first-child {
+          border-radius: 14px 0 0 14px;
+        }
+        &:last-child {
+          border-radius: 0 14px 14px 0;
+        }
+      }
     }
   }
-} */
+  .lg-page-content div {
+    h3:not(:first-child) {
+      margin-top: 60px;
+    }
+  }
+  .lg-card {
+    background: #fff;
+    padding: 30px;
+    border-radius: 14px;
+    margin: 15px 0;
+    h4, p {
+      margin-bottom: 0.5em;
+    }
+    .metafield-rich_text_field p:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+@keyframes outline-pulsate {
+    0%   { outline-color: {{ settings.color-green }}; }
+    50%  { outline-color: {{ settings.color-green }}00; }
+    100% { outline-color: {{ settings.color-green }}; }
+}
+@media screen and (max-width: 479px) {
+  .lg-faqs .lg-section-header .lg-faq-buttons button {
+    padding: 0 12px;
+    &.active {
+      padding-left: 0 15px;
+      &:after {
+        margin-left: 12px;
+      }
+    }
+  }
+}
 {% endstyle %}
 
 <div class="lg-faqs {{ section.settings.background-color }}">
   <div class="lg-row">
 
-    <div class="lg-section-header">
-      <h2>Frequently Asked Questions</h2>
-      <button id="retail-button">Retail</button>
-      <button id="custom-button">Custom</button>
-      <button id="wholesale-button">Wholesale</button>
-      <button id="business-button">Business</button>
-    </div>
-
     <div class="lg-page-content lg-col">
+      <div class="lg-section-header">
+        <h2>Frequently Asked Questions</h2>
+        <div class="lg-faq-buttons">
+          <button id="retail-button" class="active">Retail</button>
+          <button id="custom-button">Custom</button>
+          <button id="wholesale-button">Wholesale</button>
+          <button id="business-button">Business</button>
+        </div>
+      </div>
       {% capture sections %}
-        Retail: Orders, Shipping, Delivery, Returns, Inventory, Custom, Feedback;
-        Custom: Orders, Shipping, Delivery, Returns, Inventory, Custom, Feedback;
-        Wholesale: Orders, Shipping, Delivery, Returns, Inventory, Custom, Feedback;
-        Business: Orders, Shipping, Delivery, Returns, Inventory, Custom, Feedback;
+        Retail: Orders, Shipping, Delivery, Returns, Inventory, Feedback;
+        Custom: Orders, Shipping;
+        Wholesale: ;
+        Business: ;
       {% endcapture %}
       {% assign sections = sections | split: ";" %}
       {% for section in sections %}
@@ -34,13 +113,15 @@
         {% assign section_categories = section_data[1] | split: ", " %}
         <div id="{{ section_type | downcase }}" hidden>
           {% for category in section_categories %}
-            <h2>{{ category }}</h2>
+            <h3>{{ category }}</h3>
             {% for question in metaobjects.faq.values %}
               {% for type in question.type.value %}
                 {% if type == section_type %}
                   {% if question.category == category %}
-                  <h4>{{ question.question }}</h4> 
-                  <p>{{ question.answer | metafield_tag }}</p>
+                  <div class="lg-card">
+                    <h4>{{ question.question }}</h4> 
+                    <p>{{ question.answer | metafield_tag }}</p>
+                  </div>
                   {% endif %}
                 {% endif %}
               {% endfor %}
@@ -62,6 +143,10 @@
     retail.hidden = !retail.hidden;
   }
   document.getElementById("retail-button").addEventListener("click", function() {
+    document.querySelectorAll(".lg-faq-buttons button").forEach(function(button) {
+      button.classList.remove("active");
+    });
+    this.classList.add("active");
     if (retail.hidden) {
       retail.hidden = !retail.hidden;
     }
@@ -74,6 +159,10 @@
     }
   });
   document.getElementById("custom-button").addEventListener("click", function() {
+    document.querySelectorAll(".lg-faq-buttons button").forEach(function(button) {
+      button.classList.remove("active");
+    });
+    this.classList.add("active");
     if (custom.hidden) {
       custom.hidden = !custom.hidden;
     }
@@ -86,6 +175,10 @@
     }
   });
   document.getElementById("wholesale-button").addEventListener("click", function() {
+    document.querySelectorAll(".lg-faq-buttons button").forEach(function(button) {
+      button.classList.remove("active");
+    });
+    this.classList.add("active");
     if (wholesale.hidden) {
       wholesale.hidden = !wholesale.hidden;
     }
@@ -98,6 +191,10 @@
     }
   });
   document.getElementById("business-button").addEventListener("click", function() {
+    document.querySelectorAll(".lg-faq-buttons button").forEach(function(button) {
+      button.classList.remove("active");
+    });
+    this.classList.add("active");
     if (business.hidden) {
       business.hidden = !business.hidden;
     }
@@ -135,28 +232,7 @@
       ],
       "default": "bg-light",
       "label": "Background Color"
-    },
-    {
-      "type": "inline_richtext",
-      "id": "heading",
-      "label": "Heading"
-    },
-    {
-      "type": "select",
-      "id": "type",
-      "options": [
-        {
-          "value": "Custom",
-          "label": "Custom Pins"
-        },
-        {
-          "value": "Retail",
-          "label": "Retail Pins"
-        }
-      ],
-      "default": "Custom",
-      "label": "Review Type"
-    },
+    }
   ],
   "presets": [
     {

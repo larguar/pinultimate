@@ -9,15 +9,45 @@
         "highlight-2": "/pages/reviews"
       }
     },
-    "form": {
-      "type": "contact-form",
+    "faq": {
+      "type": "faq",
       "settings": {
-        "heading": ""
+        "background-color": "bg-light"
       }
-    }
+    },
+    "richtext": {
+      "type": "richtext",
+      "blocks": {
+        "heading": {
+          "type": "heading",
+          "settings": {
+            "heading": "Still need help?"
+          }
+        },
+        "text": {
+          "type": "text",
+          "settings": {
+            "paragraph": "Have no fear! We're happy to answer any questions you may have."
+          }
+        },
+        "links": {
+          "type": "links",
+          "settings": {
+            "button-link": "mailto:help@pinultimate.co",
+            "button-text": "Contact Us"
+          }
+        }
+      },
+      "block_order": [
+        "heading",
+        "text",
+        "links"
+      ]
+    },
   },
   "order": [
     "main",
-    "form"
+    "faq",
+    "richtext"
   ]
 }
