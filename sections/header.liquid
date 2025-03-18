@@ -81,11 +81,12 @@
               <div class="modal-overlay"></div>
 
               <div class="lg-row" tabindex="-1">
+
                 <predictive-search data-loading-text="{{ 'accessibility.loading' | t }}">
                   <form action="{{ routes.search_url }}" method="get" role="search">
                     <div class="field">
                       {% render 'icons', icon: 'search' %}
-                      <input class="search__input field__input" id="Search-In-Modal" type="search" name="q" value="{{ search.terms | escape }}" placeholder="{{ 'general.search.search' | t }}" role="combobox" aria-expanded="false" aria-owns="predictive-search-results" aria-controls="predictive-search-results" aria-haspopup="listbox" aria-autocomplete="list" autocorrect="off" autocomplete="off" autocapitalize="off" spellcheck="false">  
+                      <input class="" id="Search-In-Modal" type="search" name="q" value="{{ search.terms | escape }}" placeholder="{{ 'general.search.search' | t }}" role="combobox" aria-expanded="false" aria-owns="predictive-search-results" aria-controls="predictive-search-results" aria-haspopup="listbox" aria-autocomplete="list" autocorrect="off" autocomplete="off" autocapitalize="off" spellcheck="false">  
                       <label class="visually-hidden" for="Search-In-Modal">{{ 'general.search.search' | t }}</label>
                       <input type="hidden" name="options[prefix]" value="last">
                       <button type="reset" class="visually-hidden" aria-label="{{ 'general.search.reset' | t }}"></button>
@@ -99,8 +100,8 @@
                 </predictive-search>
 
 
-                <button type="button" class="search-modal__close-button modal__close-button link link--text focus-inset" aria-label="{{ 'accessibility.close' | t }}">
-                  {{- 'icon-close.svg' | inline_asset_content -}}
+                <button type="button" class="" aria-label="{{ 'accessibility.close' | t }}">
+                  {% render 'icons', icon: 'close' %}
                 </button>
 
 
@@ -114,9 +115,10 @@
 
 
 
-        <a href="#" class="lg-wishlist">
+        {% comment %} <a href="#" class="lg-wishlist">
           {% render 'icons', icon: 'heart' %}
-        </a>
+        </a> {% endcomment %}
+        
         <a href="{{ routes.cart_url }}" id="cart-icon-bubble">
           {% render 'icons', icon: 'cart' %}
           <span class="visually-hidden">{{ 'templates.cart.cart' | t }}</span>

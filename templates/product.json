@@ -18,9 +18,6 @@
         "badges": {
           "type": "badges"
         },
-        "description": {
-          "type": "description"
-        },
         "variant_picker": {
           "type": "variant_picker",
           "settings": {
@@ -37,11 +34,18 @@
         "collapsible-row": {
           "type": "collapsible_tab",
           "settings": {
-            "heading": "Details",
+            "heading": "Description",
             "icon": "none"
           }
         },
         "collapsible-row-2": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Details",
+            "icon": "none"
+          }
+        },
+        "collapsible-row-3": {
           "type": "collapsible_tab",
           "settings": {
             "heading": "Shipping",
@@ -54,11 +58,11 @@
         "title",
         "price",
         "badges",
-        "description",
         "variant_picker",
         "buy_buttons",
         "collapsible-row",
-        "collapsible-row-2"
+        "collapsible-row-2",
+        "collapsible-row-3"
       ]
     },
     "benefits": {

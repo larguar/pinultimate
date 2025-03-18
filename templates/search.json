@@ -16,9 +16,77 @@
         "padding_top": 36,
         "padding_bottom": 36
       }
+    },
+    "reviews": {
+      "type": "reviews-highlight",
+      "settings": {
+        "background-color": "bg-purple",
+        "heading": "Cork Board Keeps",
+        "type": "Retail"
+      }
+    },
+    "benefits": {
+      "type": "benefits",
+      "blocks": {
+        "benefit-1": {
+          "type": "benefit",
+          "settings": {
+            "heading": "<span class='maker-count'>50+</span> Makers",
+            "content": "Support artists from all over the world, in one place.",
+            "illustration": "smiley-peace",
+            "shape": "circle-13"
+          }
+        },
+        "benefit-2": {
+          "type": "benefit",
+          "settings": {
+            "heading": "Woman Owned",
+            "content": "Proudly woman owned and operated for over <span class='yib-count'>6</span> years.",
+            "illustration": "smiley-heart",
+            "shape": "puddle-2"
+          }
+        },
+        "benefit-3": {
+          "type": "benefit",
+          "settings": {
+            "heading": "5 Star Trust",
+            "content": "Verified reviews from <span class='review-count'>400+</span> happy pin collectors.",
+            "illustration": "group-thumbsup",
+            "shape": "trio-2"
+          }
+        },
+        "benefit-4": {
+          "type": "benefit",
+          "settings": {
+            "heading": "Eco-Friendly",
+            "content": "Carbon-neutral shipping and mindfully sourced supplies.",
+            "illustration": "hand-flower",
+            "shape": "triangle-1"
+          }
+        },
+        "benefit-5": {
+          "type": "benefit",
+          "settings": {
+            "heading": "Worry-Proof",
+            "content": "Complimentary coverage for loss, damage, and theft.",
+            "illustration": "hands-earth",
+            "shape": "puddle-3"
+          }
+        }
+      },
+      "block_order": [
+        "benefit-1",
+        "benefit-2",
+        "benefit-3",
+        "benefit-4",
+        "benefit-5"
+      ]
     }
   },
+  
   "order": [
-    "main"
+    "main",
+    "reviews",
+    "benefits"
   ]
 }
