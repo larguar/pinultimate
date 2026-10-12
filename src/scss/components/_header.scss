@@ -1,9 +1,16 @@
-// Announcement bar
+// Announcement bar. Layered with the sticky header so decorative shapes in the page
+// (which overlap the sections above them) pass underneath it.
+.section-announcement-bar {
+  position: relative;
+  z-index: $zindex-sticky;
+}
+
 .announcement-bar {
   font-size: 1rem;
 
   &__message {
     padding-block: 0.5625rem;
+    font-size: 1rem;
     line-height: 1.4375;
   }
 
@@ -44,12 +51,22 @@
     }
   }
 
-  &__logo-image {
-    width: auto;
-    height: var(--logo-height-mobile);
+  // Sits slightly below center, as on the previous theme (1px on phones, 5px from md).
+  &__logo {
+    position: relative;
+    top: 1px;
 
     @include media-breakpoint-up(md) {
-      height: var(--logo-height);
+      top: 5px;
+    }
+  }
+
+  &__logo-image {
+    width: auto;
+    height: var(--logo-height);
+
+    &--mobile {
+      height: var(--logo-height-mobile);
     }
   }
 
