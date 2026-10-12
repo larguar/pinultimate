@@ -1,6 +1,6 @@
 {
   "current": {
-    "logo": "shopify://shop_images/logo-full-black.png",
+    "logo": "{{ shop.brand.logo }}",
     "logo_height": 58,
     "logo_mobile": "shopify://shop_images/logo-black.png",
     "logo_height_mobile": 26,

@@ -7,18 +7,33 @@
       "blocks": {
         "announcement-1": {
           "type": "announcement",
-          "settings": { "text": "Buy 3 Pins, Get 20% Off", "link": "" }
+          "settings": {
+            "text": "Buy 3 Pins, Get 20% Off",
+            "link": ""
+          }
         },
         "announcement-2": {
           "type": "announcement",
-          "settings": { "text": "Free Shipping on orders over $50", "link": "" }
+          "settings": {
+            "text": "Free Shipping on orders over $50",
+            "link": ""
+          },
+          "disabled": true
         },
         "announcement-3": {
           "type": "announcement",
-          "settings": { "text": "Out of Office ✌🏼 Orders will ship 4/8", "link": "" }
+          "settings": {
+            "text": "Out of Office ✌🏼 Orders will ship 4/8",
+            "link": ""
+          },
+          "disabled": true
         }
       },
-      "block_order": ["announcement-1", "announcement-2", "announcement-3"],
+      "block_order": [
+        "announcement-1",
+        "announcement-2",
+        "announcement-3"
+      ],
       "settings": {
         "show_social_icons": true,
         "show_localization": true,
@@ -35,5 +50,8 @@
       }
     }
   },
-  "order": ["announcement", "header"]
+  "order": [
+    "announcement",
+    "header"
+  ]
 }

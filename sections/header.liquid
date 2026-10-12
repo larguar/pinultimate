@@ -30,11 +30,12 @@
                 {%- liquid
                   assign logo_mobile = settings.logo_mobile | default: settings.logo
                   assign logo_width = settings.logo.aspect_ratio | times: settings.logo_height | ceil
+                  assign logo_width_2x = logo_width | times: 2
                 -%}
                 <picture>
                   <source
                     media="(min-width: 768px)"
-                    srcset="{{ settings.logo | image_url: width: logo_width }} 1x, {{ settings.logo | image_url: width: logo_width | times: 2 }} 2x"
+                    srcset="{{ settings.logo | image_url: width: logo_width }} 1x, {{ settings.logo | image_url: width: logo_width_2x }} 2x"
                   >
                   {{
                     logo_mobile
