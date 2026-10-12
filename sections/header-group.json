@@ -1,1 +1,54 @@
-{"type":"header","name":"t:sections.refactor_words.labels.header_group","sections":{"announcement":{"type":"announcement-bar","blocks":{"content":{"type":"content","settings":{"text":"Buy 3 Pins, Get 20% Off","link":"","target":false}},"content_98wRaX":{"type":"content","disabled":true,"settings":{"text":"Free Shipping on orders over $50","link":"","target":false}},"content_Whzf4N":{"type":"content","disabled":true,"settings":{"text":"Out of Office ✌🏼 Orders will ship 4\/8","link":"","target":false}}},"block_order":["content","content_98wRaX","content_Whzf4N"],"settings":{"visibility":"all","show_locale_selector":true,"show_country_selector":true,"show_social_icons":true,"bar_bgcolor":"{{ shop.brand.colors.primary[0].background }}","bar_txtcolor":"rgba(0,0,0,0)","border_color":"rgba(0,0,0,0)"}},"header":{"type":"header","blocks":{"collection_wMeeEq":{"type":"collection","disabled":true,"settings":{"title":"New Arrivals","collection":"new","collection_products_limit":6,"show_more_collection_cta_label":"","show_more_collection_cta_url":"shopify:\/\/collections\/new"}},"mega_menu_6t4AGw":{"type":"mega-menu","disabled":true,"settings":{"title":"Enamel Pins","linklist":"enamel-pins","show_promotion_block_1":false,"promotion_image_1":"shopify:\/\/shop_images\/bundle.jpg","promotion_image_link_1":"shopify:\/\/pages\/bundle","promotion_content_1":"<p><a href=\"\/pages\/bundle\" title=\"Build Your Bundle\">Buy 3 Pins, Get 10% Off<\/a><\/p>","show_promotion_block_2":true,"promotion_image_2":"shopify:\/\/shop_images\/retired.jpg","promotion_image_link_2":"shopify:\/\/collections\/last-chance","promotion_content_2":"<p><a href=\"\/collections\/last-chance\" title=\"Last Chance\">Officially Retired<\/a><\/p>","promotion_width":"fourth","image_border_radius":0}},"mega_menu_7Cnq9A":{"type":"mega-menu","disabled":true,"settings":{"title":"Extras","linklist":"extras","show_promotion_block_1":true,"promotion_image_1":"shopify:\/\/shop_images\/tote.jpg","promotion_image_link_1":"shopify:\/\/products\/pin-tot","promotion_content_1":"<p><a href=\"\/products\/tot\" title=\"The Pin Tote by Pinultimate\">Fill in the Blank<\/a><\/p>","show_promotion_block_2":true,"promotion_image_2":"shopify:\/\/shop_images\/CLH-RAD.gif","promotion_image_link_2":"shopify:\/\/products\/clh-rad","promotion_content_2":"<p><a href=\"\/products\/clh-rad\" title=\"Rad Backs · Magnetic Military Locking, Rainbow, Pack of 10\">Make 'em Magnetic<\/a><\/p>","promotion_width":"fourth","image_border_radius":0}},"collections_list_Ly9TzK":{"type":"collections-list","disabled":true,"settings":{"title":"Shop By Maker","collections":["pin","vco","dog","nop","tok","occ"],"show_more_collections_cta_label":"","show_more_collections_cta_url":"shopify:\/\/collections\/makers"}},"mega_menu_xnQMLq":{"type":"mega-menu","disabled":true,"settings":{"title":"Gifts","linklist":"gifts","show_promotion_block_1":true,"promotion_image_1":"shopify:\/\/shop_images\/MYERS-02C.jpg","promotion_image_link_1":"shopify:\/\/products\/custom","promotion_content_1":"<p><a href=\"\/products\/custom\" title=\"Custom Enamel Pins\">Make It Custom<\/a><\/p>","show_promotion_block_2":true,"promotion_image_2":"shopify:\/\/shop_images\/GiftCard.jpg","promotion_image_link_2":"shopify:\/\/products\/gift-card","promotion_content_2":"<p><a href=\"\/products\/gift-card\" title=\"Gift Card\">Shop Gift Cards<\/a><\/p>","promotion_width":"fourth","image_border_radius":0}},"menu_xTXB3b":{"type":"menu","settings":{"linklist":"main-menu"}}},"block_order":["collection_wMeeEq","mega_menu_6t4AGw","mega_menu_7Cnq9A","collections_list_Ly9TzK","mega_menu_xnQMLq","menu_xTXB3b"],"settings":{"logo_src":"{{ shop.brand.logo }}","logo_height":58,"logo_mobile_src":"shopify:\/\/shop_images\/logo-black.png","logo_mobile_height":48,"style":"two-rows","menu_type":"classic","alignment":"center","label_style":"none","sticky_header":true,"show_header_border_bottom":false,"show_header_border_top":false,"hide_search":false,"hide_cart":false,"custom_icon_select":"no-icon","label_text":"Wishlist","custom_icon_link":"","open_in_new_window":false,"header_absolute_homepage":false,"header_absolute_collection":false,"header_absolute_custom":"","color_text_header":"#1e1e1e","hide_header_border":true,"use_default_header":"","show_locale_selector":true,"show_country_selector":true,"show_social_icons":true}}},"order":["announcement","header"]}
+{
+  "name": "t:sections.header.name",
+  "type": "header",
+  "sections": {
+    "announcement-bar": {
+      "type": "announcement-bar",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "show_line_separator": true,
+        "show_social": false,
+        "auto_rotate": false,
+        "change_slides_speed": 5,
+        "enable_country_selector": false,
+        "enable_language_selector": false
+      },
+      "blocks": {
+        "announcement-bar-0": {
+          "type": "announcement",
+          "settings": {
+            "text": "Welcome to our store",
+            "text_alignment": "center",
+            "color_scheme": "scheme-1",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "announcement-bar-0"
+      ]
+    },
+    "header": {
+      "type": "header",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "menu_color_scheme": "scheme-1",
+        "logo_position": "middle-left",
+        "menu": "main-menu",
+        "menu_type_desktop": "dropdown",
+        "sticky_header_type": "on-scroll-up",
+        "show_line_separator": true,
+        "enable_country_selector": true,
+        "enable_language_selector": true,
+        "mobile_logo_position": "center",
+        "margin_bottom": 0,
+        "padding_top": 20,
+        "padding_bottom": 20
+      }
+    }
+  },
+  "order": [
+    "announcement-bar",
+    "header"
+  ]
+}

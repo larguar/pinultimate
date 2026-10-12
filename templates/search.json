@@ -1,1 +1,26 @@
-{"sections":{"main":{"type":"main-search","blocks":{"quick_buy_HdUHFH":{"type":"quick_buy","settings":{"type":"modal","show_only_available":true,"show_price":false,"variant_default":true,"unavailable_variants":"hide"}},"title":{"type":"title","settings":{}},"vendor_DyHCHD":{"type":"vendor","settings":{}},"price":{"type":"price","settings":{}}},"block_order":["quick_buy_HdUHFH","title","vendor_DyHCHD","price"],"settings":{"results_number":48,"enable_filtering":true,"enable_sorting":true,"image_filter_layout":"onecolumn","layout":"grid-4 grid-portable-3 grid-lap-2","layout_mobile":"grid-palm-2","blog_show_image":true,"image_aspect_ratio":"0.83333","show_date":false,"show_author":false,"show_comments_number":false}}},"order":["main"]}
+{
+  "sections": {
+    "main": {
+      "type": "main-search",
+      "settings": {
+        "columns_desktop": 4,
+        "image_ratio": "adapt",
+        "image_shape": "default",
+        "show_secondary_image": false,
+        "show_vendor": false,
+        "show_rating": false,
+        "enable_filtering": true,
+        "filter_type": "horizontal",
+        "enable_sorting": true,
+        "article_show_date": true,
+        "article_show_author": false,
+        "columns_mobile": "2",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}
