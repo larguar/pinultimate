@@ -29,7 +29,7 @@
   <a class="menu-link {{ links_weight }}"
     {% if show_more_url %} href="{{ show_more_url }}" {% else %} tabindex="0" {% endif %}
   >
-    <span><span  class="{{ links_class }}">{{ menu_name | escape }}</span></span>
+    <span data-text="{{ menu_name | escape }}"><span  class="{{ links_class }}">{{ menu_name | escape }}</span></span>
     <span class="icon">{%- render 'theme-symbols', icon: 'chevron' -%}</span>
   </a>
 
