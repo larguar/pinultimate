@@ -1,0 +1,81 @@
+// Bootstrap variable overrides. Loaded before Bootstrap's own variables.
+// Values were measured from the previous theme so the rebuild matches it.
+
+// Brand palette
+$red: #f6786c;
+$yellow: #feff86;
+$blue: #8ed6cf;
+$purple: #ddc7e8;
+$green: #c6cc3d;
+$dark-green: #14452f;
+$black: #1e1e1e;
+$light: #f4f3f2;
+$white: #fff;
+
+$primary: $dark-green;
+$secondary: $green;
+$dark: $black;
+
+$custom-theme-colors: (
+  "red": $red,
+  "yellow": $yellow,
+  "blue": $blue,
+  "purple": $purple,
+  "white": $white,
+);
+
+$body-color: #333;
+$body-bg: $white;
+$link-color: $body-color;
+$link-decoration: none;
+$link-hover-decoration: underline;
+
+// Typography. Font families come from theme settings via CSS custom properties.
+$font-family-sans-serif: var(--font-body-family), sans-serif;
+$headings-font-family: var(--font-heading-family), sans-serif;
+$font-size-base: 1rem;
+$line-height-base: 1.4;
+$headings-font-weight: 600;
+$headings-line-height: 1.05;
+$headings-color: inherit;
+$headings-margin-bottom: 0;
+$paragraph-margin-bottom: 0.75rem;
+
+// Spacing: 6–8 extend Bootstrap's scale to cover the section rhythm (48 / 72 / 96 / 120px).
+$spacer: 1rem;
+$spacers: (
+  0: 0,
+  1: $spacer * 0.25,
+  2: $spacer * 0.5,
+  3: $spacer,
+  4: $spacer * 1.5,
+  5: $spacer * 3,
+  6: $spacer * 4.5,
+  7: $spacer * 6,
+  8: $spacer * 7.5,
+);
+$enable-negative-margins: true;
+
+// Layout: one fluid container capped at the theme's max width.
+$container-max-widths: (
+  sm: 1360px,
+  md: 1360px,
+  lg: 1360px,
+  xl: 1360px,
+  xxl: 1360px,
+);
+$grid-gutter-width: 20px;
+
+// Buttons: pill shaped, semibold.
+$btn-font-weight: 600;
+$btn-font-size: 1.0625rem;
+$btn-line-height: 1.25;
+$btn-padding-y: 0.875rem;
+$btn-padding-x: 2.5rem;
+$btn-border-radius: 30px;
+$btn-border-radius-sm: 30px;
+$btn-border-radius-lg: 30px;
+
+// Forms
+$input-border-radius: 5px;
+$input-border-color: rgba($black, 0.2);

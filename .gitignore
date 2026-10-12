@@ -1,0 +1,4 @@
+node_modules/
+tools/visual/shots/
+tools/visual/diff/
+.DS_Store

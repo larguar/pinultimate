@@ -1,0 +1,18 @@
+.btn {
+  --bs-btn-padding-y: 0.6875rem;
+  min-width: 220px;
+  letter-spacing: 0.3px;
+
+  @include media-breakpoint-up(md) {
+    --bs-btn-padding-y: #{$btn-padding-y};
+    min-width: 200px;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    transition: transform 0.2s ease, color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease;
+
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+}
