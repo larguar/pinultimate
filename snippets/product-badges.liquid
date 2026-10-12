@@ -6,10 +6,12 @@
   - product {Object}
   - class {String}: wrapper classes (optional)
   - direction {String}: 'column' (default, stacked) or 'row'
+  - show_more_options {Boolean}: show the "More Options" badge, default true
 {%- endcomment -%}
 {%- liquid
   assign qty = product.selected_or_first_available_variant.inventory_quantity
   assign direction = direction | default: 'column'
+  assign show_more_options = show_more_options | default: true, allow_false: true
   assign on_home = false
   if request.page_type == 'index'
     assign on_home = true
@@ -28,7 +30,7 @@
   endfor
   assign feature_badges = feature_badges | split: '|'
 -%}
-<div class="product-badges d-flex flex-{{ direction }} align-items-end gap-1 {{ class }}">
+<div class="product-badges d-flex flex-{{ direction }} align-items-end gap-1 gap-xl-2 {{ class }}">
   {%- if product.tags contains 'clearance' -%}
     {%- unless on_home or collection.handle == 'last-chance' -%}
       <span class="badge rounded-pill text-bg-secondary">{{ 'theme.product.badges.last_chance' | t }}</span>
@@ -39,7 +41,7 @@
     <span class="badge rounded-pill text-bg-blue">{{ type }}</span>
   {%- endfor -%}
 
-  {%- if product.has_only_default_variant == false and product.type != 'Custom' -%}
+  {%- if show_more_options and product.has_only_default_variant == false and product.type != 'Custom' -%}
     <span class="badge rounded-pill text-bg-blue">{{ 'theme.product.badges.more_options' | t }}</span>
   {%- endif -%}
 

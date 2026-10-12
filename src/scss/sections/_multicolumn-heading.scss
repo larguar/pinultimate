@@ -1,0 +1,107 @@
+// Section heading shared by the content sections (snippets/multicolumn-heading.liquid).
+// Sizes and spacing measured from the previous theme's section headings.
+.content-heading {
+  padding-bottom: 25px;
+
+  @include media-breakpoint-up(lg) {
+    padding-bottom: 35px;
+  }
+
+  @include media-breakpoint-up(xl) {
+    padding-bottom: 50px;
+  }
+
+  &__title {
+    font-weight: 400;
+    line-height: 1.1;
+  }
+
+  &__subheading {
+    font-size: 0.8125rem;
+    line-height: 1.4;
+    opacity: 0.62;
+
+    @include media-breakpoint-up(md) {
+      font-size: 0.875rem;
+    }
+
+    @include media-breakpoint-up(lg) {
+      font-size: 0.9375rem;
+    }
+
+    a {
+      color: inherit;
+    }
+  }
+
+  // Sizes
+  &--small &__title {
+    font-size: 1.2222rem;
+    font-weight: 500;
+
+    @include media-breakpoint-up(sm) {
+      font-size: 1.375rem;
+    }
+  }
+
+  &--medium &__title {
+    font-size: 1.6806rem;
+
+    @include media-breakpoint-up(sm) {
+      font-size: 2.1389rem;
+    }
+
+    @include media-breakpoint-up(lg) {
+      font-size: 2.2917rem;
+    }
+  }
+
+  &--large &__title {
+    font-size: 2.25rem;
+    letter-spacing: -0.25px;
+    line-height: 1;
+
+    @include media-breakpoint-up(md) {
+      font-size: 2.5rem;
+    }
+  }
+
+  // Subheading under the title
+  &--stacked &__subheading {
+    margin-top: 24px;
+
+    @include media-breakpoint-up(md) {
+      margin-top: 34px;
+    }
+
+    @include media-breakpoint-up(lg) {
+      margin-top: 37px;
+    }
+
+    @include media-breakpoint-up(xl) {
+      margin-top: 40px;
+    }
+  }
+
+  // Subheading beside the title, after a thin divider
+  &--inline {
+    display: flex;
+    align-items: center;
+  }
+
+  &--inline &__subheading {
+    border-left: 1px solid rgba($body-color, 0.3);
+    margin-left: 15px;
+    padding-left: 15px;
+
+    @include media-breakpoint-up(lg) {
+      margin-left: 20px;
+      padding-left: 20px;
+    }
+
+    @include media-breakpoint-up(xl) {
+      margin-left: 25px;
+      padding-left: 25px;
+    }
+  }
+}

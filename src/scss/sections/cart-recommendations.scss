@@ -1,0 +1,51 @@
+@import "section-base";
+
+// Heading on the left with a muted line of text under it (previous theme's layout).
+.cart-recommendations {
+  &__heading {
+    padding-bottom: 25px;
+
+    @include media-breakpoint-up(lg) {
+      padding-bottom: 35px;
+    }
+
+    @include media-breakpoint-up(xl) {
+      padding-bottom: 50px;
+    }
+  }
+
+  &__title {
+    font-size: 1.68rem;
+    font-weight: 500;
+    line-height: 1.1;
+
+    @include media-breakpoint-up(md) {
+      font-size: 2.139rem;
+    }
+
+    @include media-breakpoint-up(lg) {
+      font-size: 2.292rem;
+    }
+  }
+
+  &__subtitle {
+    padding-top: 9px;
+    font-size: 0.8125rem;
+    line-height: 1.4;
+    opacity: 0.62;
+
+    @include media-breakpoint-up(md) {
+      font-size: 0.875rem;
+    }
+
+    @include media-breakpoint-up(xl) {
+      padding-top: 15px;
+      font-size: 0.9375rem;
+    }
+  }
+
+  &__grid {
+    --bs-gutter-x: 5px;
+    --bs-gutter-y: 4px;
+  }
+}

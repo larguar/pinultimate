@@ -9,5 +9,5 @@
   "remove": "Remove",
   "note": "Gift Note",
   "free_shipping_remaining_html": "You are {{ amount }} away from free shipping.",
-  "free_shipping_eligible": "Your order qualifies for free shipping!"
+  "free_shipping_eligible": "You are eligible for free shipping!"
 }

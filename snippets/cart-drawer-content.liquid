@@ -6,7 +6,7 @@
   <h2 class="offcanvas-title drawer__title" id="cart-drawer-title">
     {{- 'theme.cart.title' | t }} ({{ cart.item_count -}})
   </h2>
-  <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="{{ 'accessibility.close' | t }}"></button>
+  {% render 'drawer-close' %}
 </div>
 
 {%- if cart.item_count == 0 -%}
@@ -18,7 +18,7 @@
   {% render 'free-shipping-progress', class: 'drawer__section border-bottom' %}
 
   <div class="offcanvas-body drawer__body flex-grow-1">
-    <ul class="list-unstyled mb-4" data-cart-items>
+    <ul class="list-unstyled mb-5" data-cart-items>
       {%- for item in cart.items -%}
         <li class="cart-drawer__item row g-0 align-items-center mb-4" data-cart-line="{{ forloop.index }}">
           <div class="col-auto">
@@ -41,7 +41,7 @@
             {%- endfor -%}
             <div class="d-flex align-items-center gap-3">
               {% render 'quantity-stepper', item: item, line: forloop.index %}
-              <button type="button" class="btn btn-link p-0 text-reset small text-decoration-underline" data-cart-remove="{{ forloop.index }}">
+              <button type="button" class="cart-drawer__remove border-0 bg-transparent p-0 text-reset text-decoration-underline" data-cart-remove="{{ forloop.index }}">
                 {{- 'theme.cart.remove' | t -}}
                 <span class="visually-hidden">{{ item.product.title | escape }}</span>
               </button>
@@ -52,11 +52,11 @@
     </ul>
 
     <label for="cart-drawer-note" class="form-label">{{ 'theme.cart.note' | t }}</label>
-    <textarea id="cart-drawer-note" class="form-control" name="note" rows="4" data-cart-note>{{ cart.note }}</textarea>
+    <textarea id="cart-drawer-note" class="form-control" name="note" rows="5" data-cart-note>{{ cart.note }}</textarea>
   </div>
 
   <div class="drawer__footer bg-light">
-    <div class="d-flex justify-content-between align-items-center border-bottom pb-2 mb-3">
+    <div class="cart-drawer__total-row d-flex justify-content-between align-items-center border-bottom pb-2 mb-3">
       <span>{{ 'theme.cart.total' | t }}</span>
       <span class="cart-drawer__total fw-semibold">{{ cart.total_price | money }}</span>
     </div>

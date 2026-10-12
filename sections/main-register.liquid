@@ -1,0 +1,124 @@
+{%- comment -%}
+  Classic customer accounts: create an account.
+  Based on Dawn's main-register (Shopify, MIT), restyled with Bootstrap.
+{%- endcomment -%}
+{{ 'section-main-account.css' | asset_url | stylesheet_tag }}
+
+<section class="customer customer--register container-fluid px-0">
+  <div class="container customer__container customer__container--narrow">
+    <h1 class="customer__title">{{ 'theme.utility.account.register_title' | t }}</h1>
+    <div class="customer__body">
+      {%- form 'create_customer', novalidate: 'novalidate' -%}
+        {%- if form.errors -%}
+          <div class="alert alert-danger" role="alert" tabindex="-1" autofocus>
+            <ul class="mb-0 ps-3">
+              {%- for field in form.errors -%}
+                <li>
+                  {%- if field == 'form' -%}
+                    {{ form.errors.messages[field] }}
+                  {%- else -%}
+                    <a href="#RegisterForm-{{ field }}" class="alert-link">
+                      {{- form.errors.translated_fields[field] | capitalize }}
+                      {{ form.errors.messages[field] -}}
+                    </a>
+                  {%- endif -%}
+                </li>
+              {%- endfor -%}
+            </ul>
+          </div>
+        {%- endif -%}
+
+        <div class="row g-3">
+          <div class="col-12 col-sm-6">
+            <label for="RegisterForm-FirstName" class="form-label">{{ 'theme.utility.account.first_name' | t }}</label>
+            <input
+              type="text"
+              name="customer[first_name]"
+              id="RegisterForm-FirstName"
+              class="form-control"
+              {% if form.first_name %}
+                value="{{ form.first_name }}"
+              {% endif %}
+              autocomplete="given-name"
+            >
+          </div>
+          <div class="col-12 col-sm-6">
+            <label for="RegisterForm-LastName" class="form-label">{{ 'theme.utility.account.last_name' | t }}</label>
+            <input
+              type="text"
+              name="customer[last_name]"
+              id="RegisterForm-LastName"
+              class="form-control"
+              {% if form.last_name %}
+                value="{{ form.last_name }}"
+              {% endif %}
+              autocomplete="family-name"
+            >
+          </div>
+          <div class="col-12">
+            <label for="RegisterForm-email" class="form-label">{{ 'theme.utility.account.email' | t }}</label>
+            <input
+              type="email"
+              name="customer[email]"
+              id="RegisterForm-email"
+              class="form-control{% if form.errors contains 'email' %} is-invalid{% endif %}"
+              {% if form.email %}
+                value="{{ form.email }}"
+              {% endif %}
+              spellcheck="false"
+              autocapitalize="off"
+              autocomplete="email"
+              required
+              {% if form.errors contains 'email' %}
+                aria-invalid="true" aria-describedby="RegisterForm-email-error"
+              {% endif %}
+            >
+            {%- if form.errors contains 'email' -%}
+              <div class="invalid-feedback" id="RegisterForm-email-error">
+                {{ form.errors.translated_fields.email | capitalize }}
+                {{ form.errors.messages.email }}
+              </div>
+            {%- endif -%}
+          </div>
+          <div class="col-12">
+            <label for="RegisterForm-password" class="form-label">{{ 'theme.utility.account.password' | t }}</label>
+            <input
+              type="password"
+              name="customer[password]"
+              id="RegisterForm-password"
+              class="form-control{% if form.errors contains 'password' %} is-invalid{% endif %}"
+              autocomplete="new-password"
+              required
+              {% if form.errors contains 'password' %}
+                aria-invalid="true" aria-describedby="RegisterForm-password-error"
+              {% endif %}
+            >
+            {%- if form.errors contains 'password' -%}
+              <div class="invalid-feedback" id="RegisterForm-password-error">
+                {{ form.errors.translated_fields.password | capitalize }}
+                {{ form.errors.messages.password }}
+              </div>
+            {%- endif -%}
+          </div>
+        </div>
+
+        <div class="d-flex flex-wrap align-items-center gap-3 mt-4">
+          <button type="submit" class="btn btn-dark">{{ 'theme.utility.account.register_submit' | t }}</button>
+          <span>
+            {{ 'theme.utility.account.already_registered' | t }}
+            <a href="{{ routes.account_login_url }}">{{ 'theme.utility.account.sign_in' | t }}</a>
+          </span>
+        </div>
+      {%- endform -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Customer register",
+  "tag": "div",
+  "class": "section-main-register",
+  "settings": []
+}
+{% endschema %}

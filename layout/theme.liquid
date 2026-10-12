@@ -54,10 +54,6 @@
       };
     </script>
 
-    {%- comment -%} Dawn's shared helpers, used by the product and cart scripts. {%- endcomment -%}
-    <script src="{{ 'constants.js' | asset_url }}" defer></script>
-    <script src="{{ 'pubsub.js' | asset_url }}" defer></script>
-    <script src="{{ 'global.js' | asset_url }}" defer></script>
     <script src="{{ 'theme.js' | asset_url }}" defer></script>
 
     {{ content_for_header }}
@@ -85,30 +81,5 @@
       <li id="a11y-new-window-message">{{ 'accessibility.link_messages.new_window' | t }}</li>
     </ul>
 
-    {%- comment -%} Globals read by Dawn's scripts until they are ported into theme.js. {%- endcomment -%}
-    <script>
-      window.shopUrl = {{ request.origin | json }};
-      window.routes = {
-        cart_add_url: {{ routes.cart_add_url | json }},
-        cart_change_url: {{ routes.cart_change_url | json }},
-        cart_update_url: {{ routes.cart_update_url | json }},
-        cart_url: {{ routes.cart_url | json }},
-        predictive_search_url: {{ routes.predictive_search_url | json }},
-      };
-      window.cartStrings = {
-        error: {{ 'sections.cart.cart_error' | t | json }},
-        quantityError: {{ 'sections.cart.cart_quantity_error_html' | t: quantity: '[quantity]' | json }},
-      };
-      window.variantStrings = {
-        addToCart: {{ 'products.product.add_to_cart' | t | json }},
-        soldOut: {{ 'products.product.sold_out' | t | json }},
-        unavailable: {{ 'products.product.unavailable' | t | json }},
-        unavailable_with_option: {{ 'products.product.value_unavailable' | t: option_value: '[value]' | json }},
-      };
-      window.accessibilityStrings = {
-        imageAvailable: {{ 'products.product.media.image_available' | t: index: '[index]' | json }},
-        shareSuccess: {{ 'general.share.success_message' | t | json }},
-      };
-    </script>
   </body>
 </html>

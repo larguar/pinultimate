@@ -1,57 +1,46 @@
 {{ 'section-main-page.css' | asset_url | stylesheet_tag }}
 
-{%- style -%}
-  .section-{{ section.id }}-padding {
-    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
-    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
-  }
+<section class="main-page container-fluid px-0">
+  <div class="container{% if section.settings.content_width == 'narrow' %} main-page__container--narrow{% endif %}">
+    <div class="row">
+      <div class="col-12">
+        {%- if section.settings.show_title -%}
+          <h1 class="main-page__title mb-3">{{ page.title | escape }}</h1>
+        {%- endif -%}
 
-  @media screen and (min-width: 750px) {
-    .section-{{ section.id }}-padding {
-      padding-top: {{ section.settings.padding_top }}px;
-      padding-bottom: {{ section.settings.padding_bottom }}px;
-    }
-  }
-{%- endstyle -%}
-
-<div class="page-width page-width--narrow section-{{ section.id }}-padding">
-  <h1 class="main-page-title page-title h0{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
-    {{ page.title | escape }}
-  </h1>
-  <div class="rte{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
-    {{ page.content }}
+        <div class="main-page__content rte">
+          {{ page.content }}
+        </div>
+      </div>
+    </div>
   </div>
-</div>
+</section>
 
 {% schema %}
 {
-  "name": "t:sections.main-page.name",
-  "tag": "section",
-  "class": "section",
+  "name": "Page content",
+  "tag": "div",
+  "class": "section-main-page",
   "settings": [
     {
-      "type": "header",
-      "content": "t:sections.all.padding.section_padding_heading"
+      "type": "paragraph",
+      "content": "Shows the page's title and the content written in Online Store > Pages. The section that follows sits closer to it, without its usual top spacing."
     },
     {
-      "type": "range",
-      "id": "padding_top",
-      "min": 0,
-      "max": 100,
-      "step": 4,
-      "unit": "px",
-      "label": "t:sections.all.padding.padding_top",
-      "default": 36
+      "type": "checkbox",
+      "id": "show_title",
+      "label": "Show page title",
+      "default": true
     },
     {
-      "type": "range",
-      "id": "padding_bottom",
-      "min": 0,
-      "max": 100,
-      "step": 4,
-      "unit": "px",
-      "label": "t:sections.all.padding.padding_bottom",
-      "default": 36
+      "type": "select",
+      "id": "content_width",
+      "label": "Content width",
+      "options": [
+        { "value": "full", "label": "Full" },
+        { "value": "narrow", "label": "Narrow (easier to read)" }
+      ],
+      "default": "full"
     }
   ]
 }

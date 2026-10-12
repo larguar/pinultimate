@@ -3,7 +3,8 @@
 //
 // Usage: node tools/visual/section.mjs --path / --key featured_collection_more_yjFJEm [--widths 375,1440]
 //        [--view dev-hero]   (alternate template to render on the development theme only)
-// Writes tools/visual/shots/sections/<key>@<width>.{old,new,diff}.png and prints the mismatch.
+// Writes tools/visual/shots/sections/<page>--<key>@<width>.{old,new,diff}.png and prints the mismatch
+// (<page> is the path + view, so comparing the same key on different pages doesn't overwrite).
 import { chromium } from 'playwright';
 import pixelmatch from 'pixelmatch';
 import { PNG } from 'pngjs';
@@ -62,7 +63,8 @@ for (const width of args.widths.split(',').map(Number)) {
     shoot(browser, new URL(args.path, STORE).href, width),
     shoot(browser, devUrl.href, width),
   ]);
-  const base = `${outDir}${args.key}@${width}`;
+  const page = `${args.path}${args.view ? `-${args.view}` : ''}`.replace(/[^a-z0-9]+/gi, '-').replace(/^-|-$/g, '') || 'home';
+  const base = `${outDir}${page}--${args.key}@${width}`;
   if (!oldShot || !newShot) {
     console.log(`${width}: section not found on ${!oldShot ? 'live site' : 'dev theme'}`);
     continue;

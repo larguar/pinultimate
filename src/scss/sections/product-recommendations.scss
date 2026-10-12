@@ -1,0 +1,48 @@
+@import "section-base";
+@import "main-collection-product-grid-mixins";
+
+@include inline-heading;
+
+.product-recommendations {
+  &__heading,
+  .inline-heading {
+    padding-bottom: 25px;
+
+    @include media-breakpoint-up(lg) {
+      padding-bottom: 35px;
+    }
+
+    @include media-breakpoint-up(xl) {
+      padding-bottom: 50px;
+    }
+  }
+
+  &__title {
+    font-family: var(--font-heading-family);
+    font-size: clamp(1.68rem, 1.244rem + 1.865vw, 2.29rem);
+    font-weight: 500;
+    line-height: 1.1;
+  }
+
+  &__subheading {
+    margin-top: 8px;
+    opacity: 0.62;
+  }
+
+  .inline-heading__title {
+    font-weight: 500;
+  }
+
+  // Smaller inline heading ("Recommended | You may also like these products").
+  .inline-heading--small .inline-heading__title {
+    font-size: clamp(1.2225rem, 1.077rem + 0.62vw, 1.375rem);
+  }
+
+  &__grid {
+    @include collection-gutters;
+  }
+
+  .product-card__button {
+    border-color: rgba(var(--bs-body-color-rgb), 0.3);
+  }
+}

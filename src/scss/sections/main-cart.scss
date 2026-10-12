@@ -1,0 +1,367 @@
+@import "section-base";
+@import "utility";
+
+// Cart page. Measurements from the previous theme's cart page.
+$cart-border: rgba($body-color, 0.1);
+
+.main-cart {
+  @include utility-solid-buttons;
+
+  &__title {
+    @include utility-page-title;
+  }
+
+  &__container {
+    @include utility-page-top;
+  }
+
+  &__error {
+    @include utility-page-gap;
+  }
+
+  &__content {
+    @include utility-page-gap;
+    --main-cart-gap: 15px;
+    transition: opacity 0.2s ease;
+
+    @include media-breakpoint-up(lg) {
+      --main-cart-gap: 20px;
+    }
+
+    @include media-breakpoint-up(xl) {
+      --main-cart-gap: 25px;
+    }
+  }
+
+  &.is-loading &__content {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  // Empty state
+  &__empty {
+    padding-bottom: 15px;
+
+    @include media-breakpoint-up(lg) {
+      padding-bottom: 0;
+    }
+  }
+
+  &__empty-text {
+    font-size: 0.9375rem;
+    line-height: 1.4;
+
+    @include media-breakpoint-up(md) {
+      font-size: 1rem;
+    }
+  }
+
+  &__empty-actions {
+    padding: 15px 0 5px;
+
+    @include media-breakpoint-up(md) {
+      padding-bottom: 7px;
+    }
+
+    @include media-breakpoint-up(lg) {
+      padding-top: 20px;
+    }
+
+    @include media-breakpoint-up(xl) {
+      padding-top: 25px;
+    }
+  }
+
+
+  // Items and summary split 5 : 3 (lg) and 3 : 1.4 (xl), as on the previous theme.
+  &__layout {
+    --bs-gutter-x: var(--main-cart-gap);
+    --bs-gutter-y: 0;
+    --main-cart-main: 5;
+    --main-cart-side: 3;
+
+    @include media-breakpoint-up(xl) {
+      --main-cart-main: 3;
+      --main-cart-side: 1.4;
+    }
+
+    @include media-breakpoint-up(lg) {
+      > :first-child {
+        width: calc((100% - 2 * var(--main-cart-gap)) * var(--main-cart-main) / (var(--main-cart-main) + var(--main-cart-side)) + var(--main-cart-gap));
+      }
+
+      > :last-child {
+        width: calc((100% - 2 * var(--main-cart-gap)) * var(--main-cart-side) / (var(--main-cart-main) + var(--main-cart-side)) + var(--main-cart-gap));
+      }
+    }
+  }
+
+  // Items
+  &__items {
+    margin-bottom: calc(var(--main-cart-gap) * 2);
+
+    @include media-breakpoint-up(md) {
+      border: 1px solid $cart-border;
+    }
+
+    @include media-breakpoint-up(lg) {
+      margin-bottom: 0;
+    }
+  }
+
+  &__head,
+  &__item {
+    display: grid;
+    grid-template-columns: 100px minmax(0, 1fr);
+    column-gap: 15px;
+    align-items: center;
+
+    @include media-breakpoint-up(md) {
+      grid-template-columns: 100px 200px minmax(0, 1fr) 100px;
+    }
+
+    @include media-breakpoint-up(lg) {
+      column-gap: 20px;
+    }
+
+    @include media-breakpoint-up(xl) {
+      grid-template-columns: 100px 300px minmax(0, 1fr) 100px;
+      column-gap: 25px;
+    }
+  }
+
+  &__head {
+    min-height: 55px;
+    padding: 0 15px;
+    background-color: rgba(#000, 0.05);
+    border-bottom: 1px solid $cart-border;
+
+    @include media-breakpoint-up(lg) {
+      padding: 0 20px;
+    }
+
+    @include media-breakpoint-up(xl) {
+      padding: 0 25px;
+    }
+  }
+
+  &__head-product {
+    grid-column: span 2;
+  }
+
+  &__item {
+    grid-template-rows: auto auto;
+    row-gap: 8px;
+    align-content: center;
+    padding: 9px 0;
+
+    @include media-breakpoint-up(md) {
+      grid-template-rows: auto;
+      padding: 9px;
+    }
+
+    @include media-breakpoint-up(lg) {
+      padding: 12px;
+    }
+
+    @include media-breakpoint-up(xl) {
+      padding: 25px;
+    }
+  }
+
+  &__image {
+    grid-row: 1 / span 2;
+    border-color: $cart-border !important;
+
+    @include media-breakpoint-up(md) {
+      grid-row: auto;
+    }
+  }
+
+  &__info {
+    align-self: end;
+
+    @include media-breakpoint-up(md) {
+      align-self: center;
+    }
+  }
+
+  &__actions {
+    align-self: start;
+    gap: 6px 12px;
+
+    @include media-breakpoint-up(md) {
+      align-self: center;
+    }
+  }
+
+  &__price {
+    font-size: 0.9375rem;
+    line-height: 1.4;
+
+    @include media-breakpoint-up(md) {
+      font-size: 1rem;
+    }
+  }
+
+  &__name {
+    margin-top: 2px;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    line-height: 1.25;
+
+    @include media-breakpoint-up(md) {
+      font-size: 1rem;
+    }
+  }
+
+  &__meta {
+    margin-top: 4px;
+    font-size: 0.8125rem;
+    line-height: 1.4;
+    opacity: 0.62;
+
+    @include media-breakpoint-up(md) {
+      font-size: 0.875rem;
+    }
+  }
+
+  &__remove {
+    font-size: 0.8125rem;
+    line-height: 1;
+    padding-bottom: 1px;
+    border-bottom: 1px solid currentColor;
+    opacity: 0.62;
+    text-decoration: none;
+
+    &:hover {
+      opacity: 1;
+      text-decoration: none;
+    }
+
+    @include media-breakpoint-up(md) {
+      font-size: 0.875rem;
+    }
+
+    @include media-breakpoint-up(lg) {
+      font-size: 0.9375rem;
+    }
+  }
+
+  // The shared stepper, sized like the previous theme's (92 × 32).
+  .quantity-stepper {
+    height: 32px;
+    border-color: rgba($body-color, 0.3);
+    border-radius: 5px;
+
+    &__button {
+      width: 30px;
+      padding: 0;
+    }
+
+    &__input {
+      width: 30px;
+      font-size: 1rem;
+    }
+  }
+
+  &__line-price {
+    font-size: 1rem;
+  }
+
+  // Summary
+  &__box {
+    padding: 15px;
+    border-color: $cart-border !important;
+
+    @include media-breakpoint-up(lg) {
+      padding: 20px;
+    }
+
+    @include media-breakpoint-up(xl) {
+      padding: 25px;
+    }
+
+    & + & {
+      margin-top: var(--main-cart-gap);
+    }
+  }
+
+  &__shipping {
+    .free-shipping p {
+      margin-bottom: 0 !important;
+      font-size: 0.9375rem;
+      line-height: 1.4;
+
+      @include media-breakpoint-up(md) {
+        font-size: 1rem;
+      }
+    }
+
+    .free-shipping__bar {
+      --bs-progress-border-radius: 5px;
+      margin-top: 5px;
+    }
+
+    .progress-bar {
+      background-color: var(--bs-body-color) !important;
+    }
+  }
+
+  &__total {
+    padding-bottom: 12px;
+    border-bottom: 1px solid $cart-border;
+    font-size: 0.9375rem;
+
+    @include media-breakpoint-up(md) {
+      font-size: 1rem;
+    }
+  }
+
+  &__total-price {
+    font-size: 1.75rem;
+    line-height: 0.8;
+  }
+
+  &__note {
+    margin-top: 24px;
+
+    .form-label {
+      margin-bottom: 6px;
+      font-size: 0.9375rem;
+
+      @include media-breakpoint-up(md) {
+        font-size: 1rem;
+      }
+    }
+
+    .form-control {
+      height: 125px;
+      border-color: rgba($body-color, 0.3);
+      resize: vertical;
+    }
+  }
+
+  &__taxes {
+    margin-top: 15px;
+    opacity: 0.62;
+    font-size: 0.8125rem;
+    line-height: 1.4;
+
+    @include media-breakpoint-up(md) {
+      font-size: 0.875rem;
+    }
+
+    @include media-breakpoint-up(lg) {
+      font-size: 0.9375rem;
+    }
+
+    a {
+      text-decoration: underline;
+    }
+  }
+
+  &__checkout {
+    margin-top: 18px;
+  }
+}

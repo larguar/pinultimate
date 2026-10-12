@@ -1,0 +1,48 @@
+{
+  "list_title": "Collections",
+  "no_collections": "There are no collections to show yet.",
+  "maker_count": "{{ count }} Makers",
+  "empty": "There are currently no products in this collection.",
+  "no_matches": "No products found",
+  "use_fewer_filters_html": "Use fewer filters or <a href=\"{{ link }}\">clear all</a>",
+  "sort_by": "Sort by:",
+  "filter": "Filter:",
+  "filter_and_sort": "Filter and sort",
+  "apply": "Apply",
+  "clear_all": "Clear all",
+  "reset": "Reset",
+  "selected": "{{ count }} selected",
+  "show_more": "Show more",
+  "show_less": "Show less",
+  "price_from": "From",
+  "price_to": "To",
+  "price_range_label": "Price",
+  "results_loading": "Loading products",
+  "product_count": {
+    "one": "{{ count }} product",
+    "other": "{{ count }} products"
+  },
+  "pagination": {
+    "label": "Pagination",
+    "previous": "Previous page",
+    "next": "Next page",
+    "page": "Page {{ number }}",
+    "current": "Page {{ number }}, current page"
+  },
+  "search": {
+    "title": "Search results",
+    "label": "Search",
+    "placeholder": "Search for...",
+    "submit": "Search",
+    "search_again": "Search again",
+    "results": "{{ count }} results found for “{{ terms }}”",
+    "no_results": "No results could be found for “{{ terms }}”",
+    "showing": "Showing {{ offset }} - {{ page_size }} of {{ count }} results",
+    "products": "Products ({{ count }})",
+    "articles": "Blog Posts ({{ count }})",
+    "pages": "Pages ({{ count }})"
+  },
+  "recommendations": {
+    "loading": "Loading recommendations"
+  }
+}

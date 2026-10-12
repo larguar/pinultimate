@@ -1,5 +1,6 @@
 .btn {
-  --bs-btn-padding-y: 0.6875rem;
+  // With the 1px border this gives the previous theme's 47.25px / 53.25px button heights.
+  --bs-btn-padding-y: 0.75rem;
   letter-spacing: 0.3px;
 
   @include media-breakpoint-up(md) {
@@ -31,4 +32,12 @@
   --bs-btn-border-color: var(--bs-body-color);
   --bs-btn-hover-bg: var(--bs-body-color);
   --bs-btn-hover-border-color: var(--bs-body-color);
+}
+
+// Solid dark buttons (cart, add to cart) also use the body text color, as on the previous theme.
+.btn-dark {
+  --bs-btn-bg: var(--bs-body-color);
+  --bs-btn-border-color: var(--bs-body-color);
+  --bs-btn-hover-bg: var(--bs-dark);
+  --bs-btn-hover-border-color: var(--bs-dark);
 }

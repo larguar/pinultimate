@@ -1,0 +1,212 @@
+{%- liquid
+  assign limit = section.settings.products_to_show
+  assign mobile_cols = section.settings.columns_mobile
+  if section.settings.columns_desktop == '3'
+    assign grid_cols = 'row-cols-sm-2 row-cols-md-3'
+    assign sizes = '(min-width: 1360px) 425px, (min-width: 768px) 31vw'
+  else
+    assign grid_cols = 'row-cols-sm-2 row-cols-md-3 row-cols-xl-4'
+    assign sizes = '(min-width: 1360px) 316px, (min-width: 1200px) 23vw, (min-width: 768px) 31vw'
+  endif
+  if mobile_cols == '1'
+    assign sizes = sizes | append: ', (min-width: 576px) 46vw, 92vw'
+  else
+    assign sizes = sizes | append: ', 46vw'
+  endif
+
+  assign heading = section.settings.heading
+  assign subheading = section.settings.subheading
+-%}
+
+{{ 'section-product-recommendations.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'section-product-recommendations.js' | asset_url }}" defer></script>
+
+<recommended-products
+  class="product-recommendations d-block"
+  data-url="{{ routes.product_recommendations_url }}?section_id={{ section.id }}&product_id={{ product.id }}&limit={{ limit }}&intent={{ section.settings.intent }}"
+>
+  {%- if recommendations.performed and recommendations.products_count > 0 -%}
+    <div class="container-fluid px-0 {% render 'section-spacing' %}">
+      <div class="container">
+        {%- if heading != blank or subheading != blank -%}
+          {%- if section.settings.heading_style == 'inline' -%}
+            <div class="inline-heading inline-heading--small d-flex align-items-center">
+              {%- if heading != blank -%}
+                <h2 class="inline-heading__title mb-0">{{ heading | escape }}</h2>
+              {%- endif -%}
+              {%- if subheading != blank -%}
+                <p class="inline-heading__subheading mb-0">{{ subheading }}</p>
+              {%- endif -%}
+            </div>
+          {%- else -%}
+            <div class="product-recommendations__heading text-center">
+              {%- if heading != blank -%}
+                <h2 class="product-recommendations__title mb-0">{{ heading | escape }}</h2>
+              {%- endif -%}
+              {%- if subheading != blank -%}
+                <p class="product-recommendations__subheading mb-0">{{ subheading }}</p>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+        {%- endif -%}
+
+        <ul class="product-recommendations__grid row row-cols-{{ mobile_cols }} {{ grid_cols }} list-unstyled mb-0" role="list">
+          {%- for product in recommendations.products -%}
+            {%- liquid
+              # "One row only": hide the products that would start a second row at each width.
+              assign item_class = ''
+              if section.settings.one_row
+                if forloop.index == 3
+                  assign item_class = ' d-none d-md-block'
+                elsif forloop.index == 4 and section.settings.columns_desktop == '4'
+                  assign item_class = ' d-none d-xl-block'
+                elsif forloop.index > 3
+                  assign item_class = ' d-none'
+                endif
+              endif
+            -%}
+            <li class="col{{ item_class }}">
+              {% render 'product-card',
+                product: product,
+                show_vendor: section.settings.show_vendor,
+                show_price: section.settings.show_price,
+                show_quick_add: section.settings.show_quick_add,
+                price_first: section.settings.price_first,
+                button_label: section.settings.button_label,
+                sizes: sizes
+              %}
+            </li>
+          {%- endfor -%}
+        </ul>
+      </div>
+    </div>
+  {%- endif -%}
+</recommended-products>
+
+{% schema %}
+{
+  "name": "Product recommendations",
+  "tag": "div",
+  "class": "section-product-recommendations",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Recommendations are picked automatically from order and product data, or set with the Search & Discovery app."
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "more to love"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "subheading",
+      "label": "Subheading"
+    },
+    {
+      "type": "select",
+      "id": "heading_style",
+      "label": "Heading style",
+      "options": [
+        { "value": "center", "label": "Large, centered" },
+        { "value": "inline", "label": "Small, subheading beside it" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "intent",
+      "label": "Recommendation type",
+      "options": [
+        { "value": "related", "label": "Related products" },
+        { "value": "complementary", "label": "Complementary products" }
+      ],
+      "default": "related"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "label": "Products to show",
+      "min": 2,
+      "max": 10,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "columns_desktop",
+      "label": "Columns on desktop",
+      "options": [
+        { "value": "3", "label": "3" },
+        { "value": "4", "label": "4" }
+      ],
+      "default": "4"
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "label": "Columns on phones",
+      "options": [
+        { "value": "1", "label": "1" },
+        { "value": "2", "label": "2" }
+      ],
+      "default": "1"
+    },
+    {
+      "type": "checkbox",
+      "id": "one_row",
+      "label": "Show one row only",
+      "info": "Hides products that would wrap onto a second row (two on phones).",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Product cards"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "label": "Show maker",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_price",
+      "label": "Show price",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "price_first",
+      "label": "Show price above the title",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_quick_add",
+      "label": "Show quick add button",
+      "info": "A + button on the image. Adds products without options to the cart.",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "info": "Optional button under each product, linking to it."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product recommendations"
+    }
+  ],
+  "enabled_on": {
+    "templates": ["product"]
+  }
+}
+{% endschema %}

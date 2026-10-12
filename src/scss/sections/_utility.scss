@@ -1,0 +1,55 @@
+// Shared by the utility group's sections (cart, 404, password, customer accounts and the
+// gift card page). Import after "section-base". Partial: not compiled on its own.
+
+// Page title of the previous theme's utility pages: 32.9 / 44.5 / 48.3px, regular weight.
+@mixin utility-page-title {
+  font-size: calc(34px * 58 / 60);
+  font-weight: 400;
+  line-height: 0.99;
+
+  @include media-breakpoint-up(sm) {
+    font-size: calc(46px * 58 / 60);
+  }
+
+  @include media-breakpoint-up(lg) {
+    font-size: calc(50px * 58 / 60);
+  }
+}
+
+// Space above the page title: 25 / 35 / 70px.
+@mixin utility-page-top {
+  margin-top: 25px;
+
+  @include media-breakpoint-up(md) {
+    margin-top: 35px;
+  }
+
+  @include media-breakpoint-up(lg) {
+    margin-top: 70px;
+  }
+}
+
+// Space between the title and the page content: 20 / 28 / 40px.
+@mixin utility-page-gap($property: margin-top) {
+  #{$property}: 20px;
+
+  @include media-breakpoint-up(lg) {
+    #{$property}: 28px;
+  }
+
+  @include media-breakpoint-up(xl) {
+    #{$property}: 40px;
+  }
+}
+
+// Solid buttons in the body text color (#333), as on the previous theme.
+@mixin utility-solid-buttons {
+  .btn-dark {
+    --bs-btn-bg: var(--bs-body-color);
+    --bs-btn-border-color: var(--bs-body-color);
+    --bs-btn-hover-bg: var(--bs-dark);
+    --bs-btn-hover-border-color: var(--bs-dark);
+    --bs-btn-active-bg: var(--bs-dark);
+    --bs-btn-active-border-color: var(--bs-dark);
+  }
+}

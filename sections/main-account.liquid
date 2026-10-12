@@ -1,0 +1,115 @@
+{%- comment -%}
+  Classic customer accounts: order history and account details.
+  Based on Dawn's main-account (Shopify, MIT), restyled with Bootstrap.
+{%- endcomment -%}
+{{ 'section-main-account.css' | asset_url | stylesheet_tag }}
+
+{%- comment -%} Only reachable when logged in; guarded for the theme editor. {%- endcomment -%}
+{%- if customer -%}
+<section class="customer customer--account container-fluid px-0">
+  <div class="container customer__container">
+    <div class="d-flex flex-wrap align-items-end justify-content-between gap-3">
+      <h1 class="customer__title mb-0">{{ 'theme.utility.account.my_account' | t }}</h1>
+      <a href="{{ routes.account_logout_url }}" class="d-inline-flex align-items-center gap-2">
+        {%- render 'icon', name: 'account' -%}
+        {{ 'theme.utility.account.log_out' | t }}
+      </a>
+    </div>
+
+    <div class="row g-5 customer__body">
+      <div class="col-12 col-lg-8">
+        <h2 class="customer__subtitle mb-3">{{ 'theme.utility.account.order_history' | t }}</h2>
+
+        {%- paginate customer.orders by 20 -%}
+          {%- if customer.orders.size > 0 -%}
+            <table class="table customer__table">
+              <caption class="visually-hidden">{{ 'theme.utility.account.order_history' | t }}</caption>
+              <thead>
+                <tr>
+                  <th scope="col">{{ 'theme.utility.account.order' | t }}</th>
+                  <th scope="col">{{ 'theme.utility.account.date' | t }}</th>
+                  <th scope="col">{{ 'theme.utility.account.payment_status' | t }}</th>
+                  <th scope="col">{{ 'theme.utility.account.fulfillment_status' | t }}</th>
+                  <th scope="col" class="text-end">{{ 'theme.utility.account.total' | t }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {%- for order in customer.orders -%}
+                  <tr>
+                    <th scope="row" data-label="{{ 'theme.utility.account.order' | t }}">
+                      <a href="{{ order.customer_url }}" aria-label="{{ 'theme.utility.account.view_order' | t: name: order.name }}">
+                        {{- order.name -}}
+                      </a>
+                    </th>
+                    <td data-label="{{ 'theme.utility.account.date' | t }}">{{ order.created_at | time_tag: format: 'date' }}</td>
+                    <td data-label="{{ 'theme.utility.account.payment_status' | t }}">{{ order.financial_status_label }}</td>
+                    <td data-label="{{ 'theme.utility.account.fulfillment_status' | t }}">{{ order.fulfillment_status_label }}</td>
+                    <td data-label="{{ 'theme.utility.account.total' | t }}" class="text-end">
+                      {%- if settings.currency_code_enabled -%}
+                        {{ order.total_net_amount | money_with_currency }}
+                      {%- else -%}
+                        {{ order.total_net_amount | money }}
+                      {%- endif -%}
+                    </td>
+                  </tr>
+                {%- endfor -%}
+              </tbody>
+            </table>
+          {%- else -%}
+            <p>{{ 'theme.utility.account.no_orders' | t }}</p>
+          {%- endif -%}
+
+          {%- if paginate.pages > 1 -%}
+            <nav aria-label="{{ 'general.pagination.label' | t }}">
+              <ul class="pagination">
+                {%- if paginate.previous -%}
+                  <li class="page-item">
+                    <a class="page-link" href="{{ paginate.previous.url }}" aria-label="{{ 'general.pagination.previous' | t }}">&lsaquo;</a>
+                  </li>
+                {%- endif -%}
+                {%- for part in paginate.parts -%}
+                  {%- if part.is_link -%}
+                    <li class="page-item"><a class="page-link" href="{{ part.url }}">{{ part.title }}</a></li>
+                  {%- elsif part.title == paginate.current_page -%}
+                    <li class="page-item active" aria-current="page"><span class="page-link">{{ part.title }}</span></li>
+                  {%- else -%}
+                    <li class="page-item disabled"><span class="page-link">{{ part.title }}</span></li>
+                  {%- endif -%}
+                {%- endfor -%}
+                {%- if paginate.next -%}
+                  <li class="page-item">
+                    <a class="page-link" href="{{ paginate.next.url }}" aria-label="{{ 'general.pagination.next' | t }}">&rsaquo;</a>
+                  </li>
+                {%- endif -%}
+              </ul>
+            </nav>
+          {%- endif -%}
+        {%- endpaginate -%}
+      </div>
+
+      <div class="col-12 col-lg-4">
+        <div class="bg-light p-4">
+          <h2 class="customer__subtitle mb-3">{{ 'theme.utility.account.details' | t }}</h2>
+          <p class="fw-semibold mb-1">{{ customer.name | escape }}</p>
+          <p class="mb-3">{{ customer.email | escape }}</p>
+          {%- if customer.default_address -%}
+            <address class="mb-3">{{ customer.default_address | format_address }}</address>
+          {%- endif -%}
+          <a href="{{ routes.account_addresses_url }}">
+            {{- 'theme.utility.account.view_addresses' | t }} ({{ customer.addresses_count }})
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Customer account",
+  "tag": "div",
+  "class": "section-main-account",
+  "settings": []
+}
+{% endschema %}

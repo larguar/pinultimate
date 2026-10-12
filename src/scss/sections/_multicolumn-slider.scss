@@ -1,0 +1,75 @@
+// Carousel controls shared by the content sections (snippets/multicolumn-slider-nav.liquid):
+// chevron buttons either side of a segmented page indicator.
+.content-slider {
+  .swiper-slide {
+    height: auto;
+  }
+
+  // 10px above the controls; they tuck 12px into the space below, as in the previous theme.
+  // The space above stays when there is nothing to scroll and the controls are hidden.
+  &__nav {
+    padding-top: 10px;
+    margin-bottom: -12px;
+  }
+
+  .content-slider__button {
+    position: static;
+    width: 40px;
+    height: 40px;
+    margin: 0;
+    color: #000;
+    opacity: 0.8;
+    background: none;
+    border: 0;
+    border-radius: 50%;
+
+    &:hover {
+      opacity: 1;
+    }
+
+    &.swiper-button-disabled {
+      opacity: 0.36;
+    }
+
+    svg {
+      width: 11px;
+      height: 11px;
+    }
+  }
+
+  .content-slider__pagination {
+    position: static;
+    display: flex;
+    width: auto;
+    transform: none;
+    --swiper-pagination-bullet-horizontal-gap: 0;
+
+    .swiper-pagination-bullet {
+      width: 30px;
+      height: 6px;
+      margin: 0;
+      border-radius: 0;
+      background: rgba($body-color, 0.08);
+      opacity: 1;
+
+      &:first-child {
+        border-radius: 10px 0 0 10px;
+      }
+
+      &:last-child {
+        border-radius: 0 10px 10px 0;
+      }
+    }
+
+    .swiper-pagination-bullet.swiper-pagination-bullet-active {
+      background: $body-color;
+      border-radius: 10px;
+    }
+  }
+
+  // Nothing to scroll: hide the controls.
+  .swiper-pagination-lock,
+  .swiper-button-lock {
+    display: none;
+  }
+}

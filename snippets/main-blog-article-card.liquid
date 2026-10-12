@@ -1,0 +1,110 @@
+{%- comment -%}
+  Blog post card: image, title, date / author / comments, excerpt, tags and a "read more"
+  button. Styles live in section-main-blog.css (load it in the section that renders cards).
+
+  Accepts:
+  - article {Object}
+  - size {String}: 'large' (one column) or 'small' (two columns, related posts). Default 'large'
+  - show_image {Boolean}: default true
+  - image_ratio {String}: '4x3', '1x1', '5x6' or '2x3'. Default '4x3'
+  - image_radius {Number}: corner radius in px (optional)
+  - sizes {String}: image sizes attribute (optional)
+  - preload {Boolean}: load the image eagerly (first card above the fold)
+  - show_date, show_author, show_comments {Boolean}
+  - show_excerpt {Boolean}, excerpt_limit {Number}: words, when the post has no excerpt
+  - show_tags {Boolean}, tags_limit {Number}
+  - button_label {String}: shows a "read more" button when set (optional)
+  - heading_tag {String}: default 'h2'
+
+  Usage:
+  {% render 'main-blog-article-card', article: article, show_date: true, show_excerpt: true %}
+{%- endcomment -%}
+{%- liquid
+  assign size = size | default: 'large'
+  assign image_ratio = image_ratio | default: '4x3'
+  assign heading_tag = heading_tag | default: 'h2'
+  assign excerpt_limit = excerpt_limit | default: 15
+  assign tags_limit = tags_limit | default: 3
+  assign date_format = 'theme.pages.blog.date_format' | t
+  unless sizes
+    if size == 'small'
+      assign sizes = '(min-width: 920px) 420px, (min-width: 576px) calc(50vw - 40px), calc(100vw - 30px)'
+    else
+      assign sizes = '(min-width: 920px) 840px, calc(100vw - 60px)'
+    endif
+  endunless
+-%}
+
+<article class="article-card article-card--{{ size }} d-flex flex-column">
+  {%- if show_image != false -%}
+    <a
+      href="{{ article.url }}"
+      class="article-card__media d-block ratio ratio-{{ image_ratio }} overflow-hidden"
+      {% if image_radius > 0 %}
+        style="border-radius: {{ image_radius }}px;"
+      {% endif %}
+      tabindex="-1"
+      aria-hidden="true"
+    >
+      {%- if article.image -%}
+        {%- liquid
+          if preload
+            assign loading = 'eager'
+          else
+            assign loading = 'lazy'
+          endif
+          echo article.image | image_url: width: 1680 | image_tag: loading: loading, sizes: sizes, widths: '420, 560, 840, 1120, 1680', alt: article.image.alt, class: 'article-card__image object-fit-cover w-100 h-100'
+        -%}
+      {%- else -%}
+        <span class="article-card__placeholder d-flex align-items-center justify-content-center">
+          {{- 'image' | placeholder_svg_tag -}}
+        </span>
+      {%- endif -%}
+    </a>
+  {%- endif -%}
+
+  <{{ heading_tag }} class="article-card__title mb-0">
+    <a href="{{ article.url }}" class="text-reset text-decoration-none">{{ article.title | escape }}</a>
+  </{{ heading_tag }}>
+
+  {%- if show_tags and article.tags.size > 0 -%}
+    <ul class="article-card__tags list-unstyled d-flex flex-wrap gap-2 mb-0">
+      {%- for tag in article.tags limit: tags_limit -%}
+        <li><a class="article-card__tag badge rounded-pill text-reset text-decoration-none" href="{{ article.blog.url | default: blog.url }}/tagged/{{ tag | handleize }}">{{ tag }}</a></li>
+      {%- endfor -%}
+    </ul>
+  {%- endif -%}
+
+  {%- if show_date or show_author or show_comments -%}
+    <p class="article-card__meta mb-0">
+      {%- if show_date -%}
+        <span>{{ article.published_at | time_tag: date_format }}</span>
+      {%- endif -%}
+      {%- if show_author -%}
+        <span>{{ article.author | escape }}</span>
+      {%- endif -%}
+      {%- if show_comments -%}
+        <span>{{ 'theme.pages.blog.comments' | t: count: article.comments_count }}</span>
+      {%- endif -%}
+    </p>
+  {%- endif -%}
+
+  {%- if show_excerpt -%}
+    <p class="article-card__excerpt mb-0">
+      {%- if article.excerpt != blank -%}
+        {{ article.excerpt | strip_html }}
+      {%- else -%}
+        {{ article.content | strip_html | truncatewords: excerpt_limit, '...' }}
+      {%- endif -%}
+    </p>
+  {%- endif -%}
+
+  {%- if button_label != blank -%}
+    <div class="article-card__button">
+      <a href="{{ article.url }}" class="btn btn-outline-dark">
+        {{- button_label | escape -}}
+        <span class="visually-hidden">: {{ article.title | escape }}</span>
+      </a>
+    </div>
+  {%- endif -%}
+</article>

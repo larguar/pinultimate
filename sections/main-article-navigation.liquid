@@ -1,0 +1,207 @@
+{%- liquid
+  assign previous_article = section.settings.previous_article
+  assign next_article = section.settings.next_article
+
+  if previous_article == blank or next_article == blank
+    assign newer_article = nil
+    assign older_article = nil
+    assign last_item = nil
+    assign found = false
+    for item in blog.articles
+      if found
+        assign older_article = item
+        break
+      endif
+      if item.id == article.id
+        assign newer_article = last_item
+        assign found = true
+      endif
+      assign last_item = item
+    endfor
+
+    if previous_article == blank
+      assign previous_article = newer_article
+    endif
+    if next_article == blank
+      assign next_article = older_article
+    endif
+  endif
+
+  if section.settings.show_button
+    assign button_label = section.settings.button_label
+  endif
+
+  assign nav_label = section.settings.heading
+  if nav_label == blank
+    assign nav_label = 'theme.pages.article.more' | t
+  endif
+-%}
+
+{%- if previous_article != blank or next_article != blank -%}
+  {{ 'section-main-blog.css' | asset_url | stylesheet_tag }}
+  {{ 'section-main-article-navigation.css' | asset_url | stylesheet_tag }}
+
+  <nav class="main-article-navigation container-fluid px-0" aria-label="{{ nav_label | escape }}">
+    <div class="container main-article-navigation__container">
+      {%- if section.settings.heading != blank -%}
+        <h2 class="main-article-navigation__heading mb-0">{{ section.settings.heading | escape }}</h2>
+      {%- endif -%}
+
+      <div class="main-article-navigation__grid row row-cols-1 row-cols-sm-2 gx-4 row-gap-5 mt-3">
+        {%- for item in (1..2) -%}
+          {%- liquid
+            if forloop.first
+              assign card_article = previous_article
+            else
+              assign card_article = next_article
+            endif
+          -%}
+          {%- if card_article != blank -%}
+            <div class="col">
+              {% render 'main-blog-article-card',
+                article: card_article,
+                size: 'small',
+                heading_tag: 'h3',
+                show_image: section.settings.show_image,
+                image_ratio: section.settings.image_ratio,
+                image_radius: section.settings.image_radius,
+                show_date: section.settings.show_date,
+                show_author: section.settings.show_author,
+                show_comments: section.settings.show_comments,
+                show_excerpt: section.settings.show_excerpt,
+                excerpt_limit: section.settings.excerpt_limit,
+                show_tags: section.settings.show_tags,
+                tags_limit: section.settings.tags_limit,
+                button_label: button_label
+              %}
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </nav>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "More blog posts",
+  "tag": "div",
+  "class": "section-main-article-navigation",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Shows the newer and older posts next to the current one. Hidden when the blog has no other posts."
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "More articles"
+    },
+    {
+      "type": "article",
+      "id": "previous_article",
+      "label": "First post",
+      "info": "Leave empty to show the newer post automatically."
+    },
+    {
+      "type": "article",
+      "id": "next_article",
+      "label": "Second post",
+      "info": "Leave empty to show the older post automatically."
+    },
+    {
+      "type": "header",
+      "content": "Post cards"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_image",
+      "label": "Show featured image",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "label": "Image shape",
+      "options": [
+        { "value": "4x3", "label": "Landscape (4:3)" },
+        { "value": "1x1", "label": "Square" },
+        { "value": "5x6", "label": "Portrait (5:6)" },
+        { "value": "2x3", "label": "Tall (2:3)" }
+      ],
+      "default": "4x3"
+    },
+    {
+      "type": "range",
+      "id": "image_radius",
+      "label": "Image corner radius",
+      "min": 0,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "checkbox",
+      "id": "show_date",
+      "label": "Show date",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_author",
+      "label": "Show author",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_comments",
+      "label": "Show number of comments",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_excerpt",
+      "label": "Show excerpt",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "excerpt_limit",
+      "label": "Excerpt length (words)",
+      "min": 5,
+      "max": 40,
+      "step": 1,
+      "default": 15
+    },
+    {
+      "type": "checkbox",
+      "id": "show_tags",
+      "label": "Show tags",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "tags_limit",
+      "label": "Tags per post",
+      "min": 2,
+      "max": 8,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "checkbox",
+      "id": "show_button",
+      "label": "Show button",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Read more"
+    }
+  ]
+}
+{% endschema %}

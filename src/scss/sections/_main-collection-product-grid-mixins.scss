@@ -1,0 +1,100 @@
+// Shared by the collection, search, collection list, maker list and recommendations sections.
+
+// Page title of the previous theme: 33 / 44 / 48px, regular weight.
+@mixin collection-page-title {
+  font-size: clamp(2.05rem, 1.3625rem + 2.95vw, 3.02rem);
+  font-weight: 400;
+  line-height: 0.99;
+}
+
+// Space above the page title (25 / 35 / 70px) and below it (20 / 28 / 40px).
+@mixin collection-page-header {
+  margin-top: 25px;
+  margin-bottom: 20px;
+
+  @include media-breakpoint-up(md) {
+    margin-top: 35px;
+  }
+
+  @include media-breakpoint-up(lg) {
+    margin-top: 70px;
+    margin-bottom: 28px;
+  }
+
+  @include media-breakpoint-up(xl) {
+    margin-bottom: 40px;
+  }
+}
+
+// The previous theme's tight product grid gaps: 4 / 2.5 / 4 / 5px.
+@mixin collection-gutters {
+  --bs-gutter-x: 4px;
+  --bs-gutter-y: 4px;
+
+  @include media-breakpoint-up(md) {
+    --bs-gutter-x: 2.5px;
+    --bs-gutter-y: 2.5px;
+  }
+
+  @include media-breakpoint-up(lg) {
+    --bs-gutter-x: 4px;
+    --bs-gutter-y: 4px;
+  }
+
+  @include media-breakpoint-up(xl) {
+    --bs-gutter-x: 5px;
+    --bs-gutter-y: 5px;
+  }
+}
+
+// Heading with a smaller, divided subheading on the same line ("40 Makers | + counting").
+@mixin inline-heading {
+  .inline-heading {
+    padding-bottom: 25px;
+
+    @include media-breakpoint-up(lg) {
+      padding-bottom: 35px;
+    }
+
+    @include media-breakpoint-up(xl) {
+      padding-bottom: 50px;
+    }
+
+    &__title {
+      padding-right: 15px;
+      font-family: var(--font-heading-family);
+      font-size: clamp(1.68rem, 1.244rem + 1.865vw, 2.29rem);
+      font-weight: 400;
+      line-height: 1.1;
+
+      @include media-breakpoint-up(lg) {
+        padding-right: 20px;
+      }
+
+      @include media-breakpoint-up(xl) {
+        padding-right: 25px;
+      }
+    }
+
+    &__subheading {
+      padding-left: 15px;
+      border-left: 1px solid rgba(var(--bs-body-color-rgb), 0.3);
+      font-size: 0.8125rem;
+      line-height: 1.4;
+      opacity: 0.62;
+
+      @include media-breakpoint-up(md) {
+        font-size: 0.875rem;
+      }
+
+      @include media-breakpoint-up(lg) {
+        padding-left: 20px;
+        font-size: 0.9375rem;
+      }
+
+      @include media-breakpoint-up(xl) {
+        padding-left: 25px;
+      }
+    }
+  }
+}

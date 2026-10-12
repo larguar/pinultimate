@@ -1,23 +1,62 @@
-<style type="text/css">
-  .template-404 .title + * {
-    margin-top: 1rem;
-  }
+{{ 'section-main-404.css' | asset_url | stylesheet_tag }}
 
-  @media screen and (min-width: 750px) {
-    .template-404 .title + * {
-      margin-top: 2rem;
-    }
-  }
-</style>
-
-<div class="template-404 page-width page-margin center">
-  <p>
-    {{ 'templates.404.subtext' | t }}
-  </p>
-  <h1 class="title">
-    {{ 'templates.404.title' | t }}
-  </h1>
-  <a href="{{ routes.all_products_collection_url }}" class="button">
-    {{ 'general.continue_shopping' | t }}
-  </a>
+{%- liquid
+  assign heading = section.settings.heading
+  if heading == blank
+    assign heading = 'theme.utility.not_found.title' | t
+  endif
+  assign button_label = section.settings.button_label
+  if button_label == blank
+    assign button_label = 'theme.utility.not_found.continue' | t
+  endif
+  assign button_link = section.settings.button_link | default: routes.all_products_collection_url
+-%}
+<div class="main-404 container-fluid px-0">
+  <div class="container main-404__container">
+    <h1 class="main-404__title">{{ heading | escape }}</h1>
+    {%- if section.settings.text != blank -%}
+      <div class="main-404__text rte">{{ section.settings.text }}</div>
+    {%- else -%}
+      <p class="main-404__text mb-0">{{ 'theme.utility.not_found.text' | t }}</p>
+    {%- endif -%}
+    <a href="{{ button_link }}" class="main-404__button btn btn-dark btn-cta">{{ button_label | escape }}</a>
+  </div>
 </div>
+
+{% schema %}
+{
+  "name": "Page not found",
+  "tag": "section",
+  "class": "section-main-404",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Leave a field empty to use the default text."
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "info": "Default: Page not found"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "info": "Default: The page you are looking for cannot be found"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "info": "Default: Continue browsing"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link",
+      "info": "Default: all products"
+    }
+  ]
+}
+{% endschema %}

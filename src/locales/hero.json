@@ -1,0 +1,6 @@
+{
+  "slideshow_label": "Slideshow",
+  "slide_label": "Slide {{ index }} of {{ count }}",
+  "pause": "Pause slideshow",
+  "play": "Play slideshow"
+}

@@ -5,7 +5,8 @@
   - item {Object}: cart line item (cart usage), or
   - product {Object}: product (product form usage)
   - line {Number}: cart line index (cart usage)
-  - name {String}: input name (product form usage, default 'quantity')
+  - name {String}: input name (default 'quantity'; none in cart mode unless given, e.g. 'updates[]')
+  - id {String}: input id (optional)
 {%- endcomment -%}
 {%- liquid
   if item
@@ -32,8 +33,14 @@
     {% endif %}
     step="{{ rules.increment }}"
     aria-label="{{ 'products.product.quantity.input_label' | t: product: title | escape }}"
+    {% if id %}
+      id="{{ id }}"
+    {% endif %}
     {% if item %}
       data-cart-quantity="{{ line }}"
+      {% if name %}
+        name="{{ name }}"
+      {% endif %}
     {% else %}
       name="{{ name | default: 'quantity' }}"
     {% endif %}

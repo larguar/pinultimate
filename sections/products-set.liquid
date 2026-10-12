@@ -1,0 +1,219 @@
+{%- liquid
+  assign products = section.settings.products
+  assign products_count = products.size | default: 0
+
+  # Two products share a row; three or four get their own columns from lg up.
+  assign cols_lg = 2
+  if products_count == 3
+    assign cols_lg = 3
+  elsif products_count >= 4
+    assign cols_lg = 4
+  endif
+  assign sizes = '(min-width: 1360px) 640px, (min-width: 768px) 50vw, 100vw'
+  if cols_lg == 3
+    assign sizes = '(min-width: 1360px) 430px, (min-width: 992px) 33vw, (min-width: 768px) 50vw, 100vw'
+  elsif cols_lg == 4
+    assign sizes = '(min-width: 1360px) 320px, (min-width: 992px) 25vw, (min-width: 768px) 50vw, 100vw'
+  endif
+-%}
+
+{{ 'section-products-set.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'section-products-set.js' | asset_url }}" defer></script>
+
+<products-set
+  class="products-set d-block container-fluid px-0 {% render 'section-spacing', size: section.settings.spacing %}"
+  style="--set-panel-bg: {{ section.settings.panel_bg_color }}; --set-panel-color: {{ section.settings.panel_text_color }};"
+  data-selected-label="{{ 'theme.product_page.set.selected' | t | escape }}"
+>
+  <div class="container">
+    {% render 'section-heading',
+      heading: section.settings.heading,
+      subheading: section.settings.subheading,
+      class: 'mb-4'
+    %}
+
+    <div class="products-set__grid row row-cols-1 row-cols-md-2 row-cols-lg-{{ cols_lg }} gx-0 gx-md-1 gy-0">
+      {%- for product in products -%}
+        <div class="col">
+          <div
+            class="products-set__item position-relative h-100{% unless product.available %} products-set__item--unavailable{% endunless %}"
+            data-set-item
+            {% if product.has_only_default_variant and product.available %}
+              data-variant-id="{{ product.selected_or_first_available_variant.id }}"
+            {% endif %}
+          >
+            {%- comment -%} Price rendered here so varying prices show "From" the lowest price. {%- endcomment -%}
+            {% render 'product-card', product: product, show_swatches: false, show_vendor: false, show_price: false, sizes: sizes %}
+            <div class="price product-card__price products-set__price">
+              {%- if product.price_varies -%}
+                {%- assign min_price = product.price_min | money -%}
+                {{ 'theme.product.from_price_html' | t: price: min_price }}
+              {%- else -%}
+                {{ product.price | money }}
+              {%- endif -%}
+            </div>
+
+            {%- comment -%} Same shape as the card image, so the check mark sits just under the image. {%- endcomment -%}
+            <span
+              class="products-set__anchor position-absolute pe-none"
+              style="aspect-ratio: {{ settings.card_image_ratio | default: '5x6' | replace: 'x', ' / ' }};"
+              aria-hidden="true"
+            >
+              <span class="products-set__check position-absolute end-0 top-100">
+                {%- render 'icon', name: 'check-lg' -%}
+              </span>
+            </span>
+            <span class="visually-hidden" data-set-status aria-live="polite">
+              {%- if product.has_only_default_variant and product.available -%}
+                {{ 'theme.product_page.set.selected' | t }}
+              {%- endif -%}
+            </span>
+
+            {%- unless product.has_only_default_variant -%}
+              <div class="products-set__options">
+                {%- for option in product.options_with_values -%}
+                  {%- assign select_id = 'SetOption-' | append: section.id | append: '-' | append: forloop.parentloop.index | append: '-' | append: forloop.index -%}
+                  <label class="visually-hidden" for="{{ select_id }}">
+                    {{- 'theme.product_page.select_option' | t: option: option.name }} ({{ product.title | escape }})
+                  </label>
+                  <select
+                    id="{{ select_id }}"
+                    class="form-select products-set__select"
+                    data-set-option
+                    {% unless product.available %}
+                      disabled
+                    {% endunless %}
+                  >
+                    <option value="" selected disabled>{{ 'theme.product_page.select_option' | t: option: option.name }}</option>
+                    {%- for value in option.values -%}
+                      <option value="{{ value | escape }}">{{ value | escape }}</option>
+                    {%- endfor -%}
+                  </select>
+                {%- endfor -%}
+              </div>
+              <script type="application/json" data-set-variants>
+                {{ product.variants | json }}
+              </script>
+            {%- endunless -%}
+          </div>
+        </div>
+      {%- else -%}
+        {%- for i in (1..2) -%}
+          <div class="col">
+            <div class="products-set__item">
+              <div class="ratio ratio-{{ settings.card_image_ratio }} bg-tile">
+                {{ 'product-1' | placeholder_svg_tag: 'w-100 h-100' }}
+              </div>
+              <p class="product-card__title mt-3 mb-0">{{ 'onboarding.product_title' | t }}</p>
+            </div>
+          </div>
+        {%- endfor -%}
+      {%- endfor -%}
+    </div>
+
+    <div class="products-set__action">
+      <div class="products-set__panel">
+        {%- if section.settings.panel_title != blank or section.settings.panel_subtitle != blank -%}
+          <div class="products-set__panel-text d-md-none">
+            {%- if section.settings.panel_title != blank -%}
+              <p class="products-set__panel-title mb-0">{{ section.settings.panel_title | escape }}</p>
+            {%- endif -%}
+            {%- if section.settings.panel_subtitle != blank -%}
+              <p class="products-set__panel-subtitle mb-0">{{ section.settings.panel_subtitle | escape }}</p>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+        <button
+          type="button"
+          class="btn btn-dark products-set__button w-100"
+          data-set-submit
+          data-label-empty="{{ 'theme.product_page.set.choose_products' | t | escape }}"
+          data-label-ready="{{ 'theme.product_page.set.add_all' | t | escape }}"
+          disabled
+        >
+          {{- 'theme.product_page.set.choose_products' | t -}}
+        </button>
+        <div class="alert alert-danger small mt-2 mb-0 py-2" role="alert" data-set-error hidden></div>
+      </div>
+    </div>
+  </div>
+</products-set>
+
+{% schema %}
+{
+  "name": "Products set",
+  "tag": "section",
+  "class": "section-products-set",
+  "settings": [
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "info": "Shown in the script font above the heading."
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "product_list",
+      "id": "products",
+      "label": "Products",
+      "info": "Customers choose an option for each product, then add them all to the cart at once.",
+      "limit": 4
+    },
+    {
+      "type": "header",
+      "content": "Mobile panel"
+    },
+    {
+      "type": "paragraph",
+      "content": "On mobile the add to cart button sits in a panel that stays at the bottom of the screen."
+    },
+    {
+      "type": "text",
+      "id": "panel_title",
+      "label": "Title",
+      "default": "Build your set"
+    },
+    {
+      "type": "text",
+      "id": "panel_subtitle",
+      "label": "Subtitle"
+    },
+    {
+      "type": "color",
+      "id": "panel_bg_color",
+      "label": "Background",
+      "default": "#3E3E3E"
+    },
+    {
+      "type": "color",
+      "id": "panel_text_color",
+      "label": "Text",
+      "default": "#F5F5F5"
+    },
+    {
+      "type": "header",
+      "content": "Section"
+    },
+    {
+      "type": "select",
+      "id": "spacing",
+      "label": "Vertical spacing",
+      "options": [
+        { "value": "default", "label": "Default" },
+        { "value": "small", "label": "Small" },
+        { "value": "none", "label": "None" }
+      ],
+      "default": "default"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Products set"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,219 @@
+{%- comment -%}
+  A row of text and brand shapes that scrolls continuously. The items are rendered twice and
+  src/js/sections/marquee.js adds more copies when needed to fill wide screens, then sets the
+  animation length from the speed. Visitors who prefer reduced motion see the items still.
+{%- endcomment -%}
+{%- liquid
+  assign background_class = ''
+  if section.settings.background != 'none'
+    assign background_class = 'bg-' | append: section.settings.background
+  endif
+  assign text_class = ''
+  if section.settings.text_color != 'default'
+    assign text_class = 'text-' | append: section.settings.text_color
+  endif
+
+  capture spacing_class
+    render 'section-spacing', size: section.settings.spacing
+  endcapture
+  if section.settings.pull_next_section_up
+    # Cancels the next section's standard top margin (see the section-spacing snippet).
+    assign spacing_class = spacing_class | append: ' mb-n5 mb-md-n6 mb-lg-n7 mb-xl-n8'
+  endif
+-%}
+
+{%- if section.blocks.size > 0 -%}
+  {{ 'section-marquee.css' | asset_url | stylesheet_tag }}
+  <script src="{{ 'section-marquee.js' | asset_url }}" defer="defer"></script>
+
+  <section class="marquee container-fluid px-0 {{ background_class }} {{ text_class }} {{ spacing_class }}">
+    <div class="container-fluid px-0">
+      <div class="row g-0">
+        <div class="col-12">
+          <marquee-scroller
+            class="marquee__viewport marquee--{{ section.settings.text_size }} marquee--{{ section.settings.direction }}{% if section.settings.pause_on_hover %} marquee--pause-on-hover{% endif %} d-flex overflow-hidden"
+            data-speed="{{ section.settings.speed }}"
+          >
+            {%- for copy in (1..2) -%}
+              <div class="marquee__group d-flex flex-shrink-0 align-items-center"{% if copy > 1 %} aria-hidden="true"{% endif %}>
+                {%- for block in section.blocks -%}
+                  {%- case block.type -%}
+                    {%- when 'text' -%}
+                      <div class="marquee__item marquee__text"{% if copy == 1 %} {{ block.shopify_attributes }}{% endif %}>
+                        {{- block.settings.text -}}
+                      </div>
+                    {%- when 'shape' -%}
+                      <div class="marquee__item marquee__shape text-{{ block.settings.color }}"{% if copy == 1 %} {{ block.shopify_attributes }}{% endif %}>
+                        {% render 'shape-svg', name: block.settings.shape, class: 'd-block w-100 h-100' %}
+                      </div>
+                  {%- endcase -%}
+                {%- endfor -%}
+              </div>
+            {%- endfor -%}
+          </marquee-scroller>
+        </div>
+      </div>
+    </div>
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Scrolling text",
+  "tag": "div",
+  "class": "section-marquee",
+  "settings": [
+    {
+      "type": "select",
+      "id": "direction",
+      "label": "Scroll direction",
+      "options": [
+        { "value": "left", "label": "To the left" },
+        { "value": "right", "label": "To the right" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "range",
+      "id": "speed",
+      "label": "Speed",
+      "info": "Pixels per second.",
+      "min": 20,
+      "max": 300,
+      "step": 10,
+      "default": 60
+    },
+    {
+      "type": "checkbox",
+      "id": "pause_on_hover",
+      "label": "Pause when hovered",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "text_size",
+      "label": "Text size",
+      "options": [
+        { "value": "small", "label": "Small" },
+        { "value": "large", "label": "Large" },
+        { "value": "xlarge", "label": "Extra large" }
+      ],
+      "default": "xlarge"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "select",
+      "id": "background",
+      "label": "Background",
+      "options": [
+        { "value": "none", "label": "None" },
+        { "value": "light", "label": "Light" },
+        { "value": "yellow", "label": "Yellow" },
+        { "value": "blue", "label": "Blue" },
+        { "value": "purple", "label": "Purple" },
+        { "value": "green", "label": "Green" },
+        { "value": "red", "label": "Red" },
+        { "value": "primary", "label": "Dark green" }
+      ],
+      "default": "none"
+    },
+    {
+      "type": "select",
+      "id": "text_color",
+      "label": "Text color",
+      "options": [
+        { "value": "default", "label": "Default" },
+        { "value": "dark", "label": "Black" },
+        { "value": "primary", "label": "Dark green" },
+        { "value": "white", "label": "White" }
+      ],
+      "default": "dark"
+    },
+    {
+      "type": "header",
+      "content": "Section"
+    },
+    {
+      "type": "select",
+      "id": "spacing",
+      "label": "Space above",
+      "options": [
+        { "value": "default", "label": "Default" },
+        { "value": "small", "label": "Small" },
+        { "value": "none", "label": "None" }
+      ],
+      "default": "default"
+    },
+    {
+      "type": "checkbox",
+      "id": "pull_next_section_up",
+      "label": "Remove the space below",
+      "info": "Pulls the next section up against this one.",
+      "default": false
+    }
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "name": "Text",
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<strong>Buy 3 pins</strong> ➺ <em>get 20% off</em>"
+        }
+      ]
+    },
+    {
+      "type": "shape",
+      "name": "Shape",
+      "settings": [
+        {
+          "type": "select",
+          "id": "shape",
+          "label": "Shape",
+          "options": [
+            { "value": "arch", "label": "Arch" },
+            { "value": "circle", "label": "Circle" },
+            { "value": "flower", "label": "Flower" },
+            { "value": "half-circle", "label": "Half circle" },
+            { "value": "leaf", "label": "Leaf" },
+            { "value": "triangle", "label": "Triangle" },
+            { "value": "wedge", "label": "Wedge" }
+          ],
+          "default": "wedge"
+        },
+        {
+          "type": "select",
+          "id": "color",
+          "label": "Color",
+          "options": [
+            { "value": "red", "label": "Red" },
+            { "value": "yellow", "label": "Yellow" },
+            { "value": "green", "label": "Green" },
+            { "value": "primary", "label": "Dark green" },
+            { "value": "blue", "label": "Blue" },
+            { "value": "purple", "label": "Purple" }
+          ],
+          "default": "purple"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Scrolling text",
+      "blocks": [
+        { "type": "shape" },
+        { "type": "text" },
+        { "type": "shape", "settings": { "shape": "triangle", "color": "blue" } },
+        { "type": "text", "settings": { "text": "<strong>Spend $50</strong> ➺ <em>get free shipping</em>" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

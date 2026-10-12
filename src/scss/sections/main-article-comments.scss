@@ -1,0 +1,53 @@
+@import "section-base";
+@import "main-page-content";
+
+@include pagination;
+
+.main-article-comments {
+  margin-top: 24px;
+
+  @include media-breakpoint-up(md) {
+    margin-top: 36px;
+  }
+
+  @include media-breakpoint-up(lg) {
+    margin-top: 48px;
+  }
+
+  @include media-breakpoint-up(xl) {
+    margin-top: 60px;
+  }
+
+  &__container {
+    @include narrow-container;
+  }
+
+  &__heading {
+    font-size: calc(18px * 58 / 60);
+    font-weight: 600;
+    line-height: 0.99;
+  }
+
+  &__comment {
+    border-color: rgba(var(--bs-body-color-rgb), 0.1) !important;
+
+    .rte {
+      @include rich-text;
+    }
+  }
+
+  .article-card__meta {
+    font-size: 0.875rem;
+    color: rgba(var(--bs-body-color-rgb), 0.6);
+  }
+
+  .form-control {
+    padding: 12px;
+    border-color: rgba(var(--bs-body-color-rgb), 0.3);
+
+    &:focus {
+      border-color: var(--bs-body-color);
+      box-shadow: none;
+    }
+  }
+}

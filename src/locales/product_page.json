@@ -1,0 +1,42 @@
+{
+  "add_to_cart": "Add to cart",
+  "choose_variant": "Choose a variant",
+  "sold_out": "Sold out",
+  "unavailable": "Unavailable",
+  "gone_for_good": "Gone for Good",
+  "more_on_the_way": "More On The Way!",
+  "temporarily_out": "Temporarily Out",
+  "select_option": "Select {{ option }}",
+  "quantity": "Quantity",
+  "gallery": "Product images",
+  "media_label": "Image {{ index }} of {{ count }}",
+  "previous_image": "Previous image",
+  "next_image": "Next image",
+  "details": {
+    "maker": "Maker:",
+    "dimensions": "Dimensions:",
+    "weight": "Weight:",
+    "type": "Type:",
+    "plating": "Plating:",
+    "colors": "Colors:",
+    "clutch": "Clutch:",
+    "posts": "Posts:"
+  },
+  "set": {
+    "choose_products": "Choose products first",
+    "add_all": "Add all to cart",
+    "added": "Added to cart",
+    "selected": "Selected",
+    "not_selected": "Choose options"
+  },
+  "bundle": {
+    "title": "Bundle contents",
+    "add_to_bundle": "Add to bundle",
+    "added_to_bundle": "Added to bundle",
+    "add_bundle": "Add to cart",
+    "remove": "Remove {{ title }} from the bundle",
+    "empty_slot": "Empty bundle slot",
+    "toggle": "Show or hide the bundle contents",
+    "progress": "{{ count }} of {{ total }} items added"
+  }
+}

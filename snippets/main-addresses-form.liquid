@@ -1,0 +1,70 @@
+{%- comment -%}
+  Address fields for sections/main-addresses.liquid. Render inside {% form 'customer_address' %}.
+
+  Accepts:
+  - form {Object}: the customer_address form
+  - id {String}: 'new' or the address id, used to make field ids unique
+{%- endcomment -%}
+<div class="row g-3">
+  <div class="col-12 col-sm-6">
+    <label for="AddressFirstName_{{ id }}" class="form-label">{{ 'theme.utility.account.first_name' | t }}</label>
+    <input type="text" id="AddressFirstName_{{ id }}" class="form-control" name="address[first_name]" value="{{ form.first_name }}" autocomplete="given-name">
+  </div>
+  <div class="col-12 col-sm-6">
+    <label for="AddressLastName_{{ id }}" class="form-label">{{ 'theme.utility.account.last_name' | t }}</label>
+    <input type="text" id="AddressLastName_{{ id }}" class="form-control" name="address[last_name]" value="{{ form.last_name }}" autocomplete="family-name">
+  </div>
+  <div class="col-12">
+    <label for="AddressCompany_{{ id }}" class="form-label">{{ 'theme.utility.account.company' | t }}</label>
+    <input type="text" id="AddressCompany_{{ id }}" class="form-control" name="address[company]" value="{{ form.company }}" autocomplete="organization">
+  </div>
+  <div class="col-12">
+    <label for="AddressAddress1_{{ id }}" class="form-label">{{ 'theme.utility.account.address1' | t }}</label>
+    <input type="text" id="AddressAddress1_{{ id }}" class="form-control" name="address[address1]" value="{{ form.address1 }}" autocomplete="address-line1">
+  </div>
+  <div class="col-12">
+    <label for="AddressAddress2_{{ id }}" class="form-label">{{ 'theme.utility.account.address2' | t }}</label>
+    <input type="text" id="AddressAddress2_{{ id }}" class="form-control" name="address[address2]" value="{{ form.address2 }}" autocomplete="address-line2">
+  </div>
+  <div class="col-12 col-sm-6">
+    <label for="AddressCity_{{ id }}" class="form-label">{{ 'theme.utility.account.city' | t }}</label>
+    <input type="text" id="AddressCity_{{ id }}" class="form-control" name="address[city]" value="{{ form.city }}" autocomplete="address-level2">
+  </div>
+  <div class="col-12 col-sm-6">
+    <label for="AddressCountry_{{ id }}" class="form-label">{{ 'theme.utility.account.country' | t }}</label>
+    <select
+      id="AddressCountry_{{ id }}"
+      class="form-select"
+      name="address[country]"
+      data-address-country="{{ id }}"
+      data-default="{{ form.country }}"
+      autocomplete="country"
+    >
+      {{ all_country_option_tags }}
+    </select>
+  </div>
+  <div class="col-12 col-sm-6" id="AddressProvinceContainer_{{ id }}">
+    <label for="AddressProvince_{{ id }}" class="form-label">{{ 'theme.utility.account.province' | t }}</label>
+    <select
+      id="AddressProvince_{{ id }}"
+      class="form-select"
+      name="address[province]"
+      data-default="{{ form.province }}"
+      autocomplete="address-level1"
+    ></select>
+  </div>
+  <div class="col-12 col-sm-6">
+    <label for="AddressZip_{{ id }}" class="form-label">{{ 'theme.utility.account.zip' | t }}</label>
+    <input type="text" id="AddressZip_{{ id }}" class="form-control" name="address[zip]" value="{{ form.zip }}" autocapitalize="characters" autocomplete="postal-code">
+  </div>
+  <div class="col-12 col-sm-6">
+    <label for="AddressPhone_{{ id }}" class="form-label">{{ 'theme.utility.account.phone' | t }}</label>
+    <input type="tel" id="AddressPhone_{{ id }}" class="form-control" name="address[phone]" value="{{ form.phone }}" autocomplete="tel">
+  </div>
+  <div class="col-12">
+    <div class="form-check">
+      {{ form.set_as_default_checkbox | replace: '<input ', '<input class="form-check-input" ' }}
+      <label for="address_default_address_{{ id }}" class="form-check-label">{{ 'theme.utility.account.set_default' | t }}</label>
+    </div>
+  </div>
+</div>

@@ -1,5 +1,7 @@
 {
   "options": "{{ count }} options",
+  "quick_add": "Add {{ title }} to cart",
+  "choose_options": "Choose options for {{ title }}",
   "from_price_html": "From {{ price }}",
   "sale_price": "Sale price",
   "regular_price": "Regular price",

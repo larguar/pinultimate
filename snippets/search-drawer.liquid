@@ -4,7 +4,7 @@
 <div class="offcanvas offcanvas-start drawer" tabindex="-1" id="search-drawer" aria-labelledby="search-drawer-title">
   <div class="offcanvas-header drawer__header border-bottom">
     <h2 class="offcanvas-title drawer__title" id="search-drawer-title">{{ 'theme.search.title' | t }}</h2>
-    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="{{ 'accessibility.close' | t }}"></button>
+    {% render 'drawer-close' %}
   </div>
 
   <div class="offcanvas-body drawer__body">

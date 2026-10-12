@@ -1,0 +1,292 @@
+@import "section-base";
+@import "main-collection-product-grid-mixins";
+
+[data-facets-results] {
+  transition: opacity 0.2s ease;
+
+  &.is-loading {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+}
+
+.collection-grid {
+  > .container > .row,
+  &__products {
+    @include collection-gutters;
+  }
+
+  > .container > .row {
+    --bs-gutter-y: 0;
+  }
+
+  &__drawer-toggle {
+    margin-bottom: 16px;
+    padding-block: 10px;
+    border-color: rgba(var(--bs-body-color-rgb), 0.3);
+  }
+
+  &__toolbar {
+    margin-bottom: 25px;
+  }
+
+  // Sidebar: inline from md up (it is an offcanvas-md), a drawer on phones.
+  &__sidebar {
+    @include media-breakpoint-up(md) {
+      position: sticky;
+      top: 5px;
+      align-self: flex-start;
+    }
+  }
+
+  &__facets {
+    @include media-breakpoint-up(md) {
+      padding-right: 10px !important;
+    }
+
+    @include media-breakpoint-up(lg) {
+      padding-right: 16px !important;
+    }
+
+    @include media-breakpoint-up(xl) {
+      padding-top: 5px !important;
+      padding-right: 20px !important;
+    }
+  }
+
+  &__pagination {
+    padding-top: 25px;
+
+    @include media-breakpoint-up(lg) {
+      padding-top: 35px;
+    }
+
+    @include media-breakpoint-up(xl) {
+      padding-top: 50px;
+    }
+  }
+}
+
+// Sort and filter form (also used by the search results).
+.facets {
+  &__label,
+  &__heading {
+    float: none;
+    width: auto;
+    margin-bottom: 12px;
+    padding: 0;
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.4;
+  }
+
+  &__heading {
+    font-size: 1.0625rem;
+    font-weight: 400;
+  }
+
+  &__select,
+  &__summary {
+    height: 48px;
+    padding: 0 44px 0 16px;
+    border-color: rgba(var(--bs-body-color-rgb), 0.3);
+    background-position: right 16px center;
+    background-size: 12px 12px;
+    font-size: 1rem;
+    line-height: 46px;
+    cursor: pointer;
+  }
+
+  &--vertical &__sort {
+    margin-bottom: 40px;
+  }
+
+  &--horizontal &__sort {
+    width: 205px;
+    margin-left: auto;
+  }
+
+  &--horizontal &__label {
+    font-weight: 400;
+  }
+
+  &--horizontal &__summary {
+    padding-right: 53px;
+  }
+
+  &__clear {
+    margin: -24px 0 24px;
+    font-size: 0.875rem;
+
+    a {
+      text-decoration: underline;
+    }
+  }
+
+  &__filter {
+    margin-bottom: 24px;
+
+    .facets__label {
+      margin-bottom: 10px;
+    }
+  }
+
+  &__values.is-collapsed {
+    max-height: 200px;
+    overflow: hidden;
+    mask-image: linear-gradient(to bottom, #000 calc(100% - 30px), transparent);
+  }
+
+  &__item {
+    padding: 7px 0;
+  }
+
+  .form-check {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-height: 0;
+    padding-left: 0;
+  }
+
+  .form-check-input {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    margin: 0;
+    float: none;
+    border-color: rgba(var(--bs-body-color-rgb), 0.3);
+    border-radius: 5px;
+    cursor: pointer;
+
+    &:checked {
+      border-color: var(--bs-body-color);
+      background-color: var(--bs-body-color);
+    }
+
+    &:focus {
+      box-shadow: 0 0 0 0.2rem rgba(var(--bs-body-color-rgb), 0.15);
+    }
+  }
+
+  .form-check-label {
+    font-size: 0.875rem;
+    line-height: 1.4;
+    cursor: pointer;
+
+    @include media-breakpoint-up(lg) {
+      font-size: 0.9375rem;
+    }
+  }
+
+  &__show-more {
+    font-size: 1rem;
+  }
+
+  // Horizontal layout: one dropdown per filter.
+  &__summary {
+    width: auto;
+    list-style: none;
+
+    &::-webkit-details-marker {
+      display: none;
+    }
+  }
+
+  &__dropdown-panel {
+    z-index: 3;
+    top: calc(100% + 4px);
+    width: 280px;
+    max-height: 360px;
+    overflow-y: auto;
+    padding: 0 16px 8px;
+    border: 1px solid rgba(var(--bs-body-color-rgb), 0.15);
+    border-radius: 5px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  }
+
+  &__dropdown-header {
+    position: sticky;
+    top: 0;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(var(--bs-body-color-rgb), 0.1);
+    background: #fff;
+    font-size: 0.875rem;
+
+    a {
+      text-decoration: underline;
+    }
+  }
+
+  // In the drawer the form fills the width.
+  .offcanvas-body & &__sort,
+  .offcanvas & &__sort {
+    width: 100%;
+  }
+}
+
+// Page numbers: 40px circles, the current page filled.
+.collection-pagination {
+  .pagination {
+    --bs-pagination-padding-x: 0;
+    --bs-pagination-padding-y: 0;
+    --bs-pagination-font-size: 1rem;
+    --bs-pagination-color: var(--bs-body-color);
+    --bs-pagination-bg: transparent;
+    --bs-pagination-border-width: 0;
+    --bs-pagination-hover-color: var(--bs-body-color);
+    --bs-pagination-hover-bg: rgba(var(--bs-body-color-rgb), 0.06);
+    --bs-pagination-focus-color: var(--bs-body-color);
+    --bs-pagination-focus-bg: transparent;
+    --bs-pagination-active-color: #fff;
+    --bs-pagination-active-bg: var(--bs-body-color);
+    --bs-pagination-disabled-color: var(--bs-body-color);
+    --bs-pagination-disabled-bg: transparent;
+    gap: 10px;
+  }
+
+  .page-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50% !important;
+
+    svg {
+      width: 12px;
+      height: 12px;
+    }
+
+    &--arrow {
+      border: 1px solid rgba(var(--bs-body-color-rgb), 0.1);
+    }
+
+    &--count {
+      width: auto;
+      padding: 0 8px;
+    }
+  }
+
+  .disabled .page-link--arrow {
+    border-color: transparent;
+  }
+}
+
+// Standard section spacing (48 / 72 / 96 / 120px), except directly under the collection
+// banner, which already provides the gap (e.g. the wholesale page puts other sections between).
+:not(.section-main-collection-banner) + .section-main-collection-product-grid > .collection-grid {
+  margin-top: map-get($spacers, 5);
+
+  @include media-breakpoint-up(md) {
+    margin-top: map-get($spacers, 6);
+  }
+
+  @include media-breakpoint-up(lg) {
+    margin-top: map-get($spacers, 7);
+  }
+
+  @include media-breakpoint-up(xl) {
+    margin-top: map-get($spacers, 8);
+  }
+}

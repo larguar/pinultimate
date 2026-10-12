@@ -1,11 +1,11 @@
 // Shared look for the search, menu and cart offcanvas drawers.
 .drawer {
-  --bs-offcanvas-width: 100%;
+  --bs-offcanvas-width: min(100%, 375px);
   --bs-offcanvas-padding-x: 1.25rem;
   --bs-offcanvas-padding-y: 1.25rem;
   --drawer-padding: 1.25rem;
 
-  @include media-breakpoint-up(sm) {
+  @include media-breakpoint-up(lg) {
     --bs-offcanvas-width: 420px;
     --bs-offcanvas-padding-x: 1.875rem;
     --drawer-padding: 1.875rem;
@@ -15,15 +15,12 @@
     min-height: 57px;
     padding-block: 0.75rem;
 
-    @include media-breakpoint-up(sm) {
+    @include media-breakpoint-up(md) {
       min-height: 69px;
     }
 
-    .btn-close {
-      --bs-btn-close-opacity: 1;
-      width: 0.75rem;
-      height: 0.75rem;
-      background-size: 0.75rem;
+    .drawer__close {
+      font-size: 0.8125rem;
     }
   }
 
@@ -55,13 +52,17 @@
   &__footer {
     padding-block: 1.25rem;
 
-    @include media-breakpoint-up(sm) {
+    @include media-breakpoint-up(lg) {
       padding-block: var(--drawer-padding);
     }
   }
 }
 
 .menu-drawer {
+  .drawer__body {
+    padding-top: 10px;
+  }
+
   &__link {
     padding-block: 1rem;
     font-size: 1.125rem;
@@ -74,10 +75,14 @@
     &:not(.collapsed) .bi {
       transform: rotate(180deg);
     }
+
+    &:not(.fw-semibold) {
+      font-size: 1.0625rem;
+    }
   }
 
   &__social {
-    font-size: 1.75rem;
+    font-size: 1.5rem;
   }
 }
 
@@ -99,6 +104,15 @@
   &__total {
     font-size: 1.875rem;
   }
+
+  &__total-row {
+    border-color: rgba($brand-black, 0.15) !important;
+  }
+
+  &__remove {
+    font-size: 0.9375rem;
+    text-underline-offset: 3px;
+  }
 }
 
 .free-shipping__bar {
@@ -118,6 +132,7 @@
   }
 
   &__input {
+    flex: 0 0 2rem !important;
     width: 2rem;
     padding-inline: 0;
     border: 0;

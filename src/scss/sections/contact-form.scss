@@ -1,0 +1,67 @@
+@import "section-base";
+
+.contact-form {
+  &__heading {
+    font-size: calc(18px * 58 / 60);
+    font-weight: 400;
+    line-height: 0.9;
+    margin-bottom: 25px;
+
+    @include media-breakpoint-up(lg) {
+      margin-bottom: 28px;
+    }
+
+    @include media-breakpoint-up(xl) {
+      margin-bottom: 31px;
+    }
+  }
+
+  &__info {
+    border-color: rgba(var(--bs-body-color-rgb), 0.1) !important;
+  }
+}
+
+// Field sizes and spacing of the previous theme's form.
+.contact-form__fields {
+  gap: 9px;
+
+  @include media-breakpoint-up(lg) {
+    gap: 12px;
+  }
+
+  @include media-breakpoint-up(xl) {
+    gap: 15px;
+  }
+
+  .form-control {
+    padding: 8px;
+    border-color: rgba(var(--bs-body-color-rgb), 0.3);
+
+    @include media-breakpoint-up(sm) {
+      padding: 12px;
+    }
+
+    &::placeholder {
+      color: rgba(var(--bs-body-color-rgb), 0.6);
+    }
+
+    &:focus {
+      border-color: var(--bs-body-color);
+      box-shadow: none;
+    }
+  }
+
+  textarea.form-control {
+    height: 228px;
+    padding-top: 10px;
+    resize: vertical;
+  }
+}
+
+// Solid button in the body text color.
+.contact-form__submit {
+  --bs-btn-bg: var(--bs-body-color);
+  --bs-btn-border-color: var(--bs-body-color);
+  --bs-btn-hover-bg: var(--bs-dark);
+  --bs-btn-hover-border-color: var(--bs-dark);
+}

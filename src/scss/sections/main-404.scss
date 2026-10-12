@@ -1,0 +1,25 @@
+@import "section-base";
+@import "utility";
+
+.main-404 {
+  @include utility-solid-buttons;
+
+  // Narrow column (920px including padding) from lg, like the previous theme.
+  &__container {
+    @include utility-page-top;
+    @include utility-page-gap(margin-bottom);
+
+    @include media-breakpoint-up(lg) {
+      max-width: 920px;
+    }
+  }
+
+  &__title {
+    @include utility-page-title;
+    margin-bottom: 16px !important;
+  }
+
+  &__button {
+    margin-top: 17px;
+  }
+}

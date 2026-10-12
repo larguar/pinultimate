@@ -1,0 +1,285 @@
+{%- comment -%}
+  Full-width images with a huge title that bounces around inside them (like an old screensaver)
+  and a button near the bottom. Only the first image shows on mobile.
+{%- endcomment -%}
+{%- liquid
+  assign images = ''
+  if section.settings.image != blank
+    assign images = images | append: 'image,'
+  endif
+  if section.settings.image_2 != blank
+    assign images = images | append: 'image_2,'
+  endif
+  if section.settings.image_3 != blank
+    assign images = images | append: 'image_3,'
+  endif
+  assign images = images | split: ','
+  assign image_count = images.size | at_least: 1
+  assign desktop_vw = 100 | divided_by: image_count
+
+  assign title_color = section.settings.title_color
+  assign x_duration = section.settings.speed | plus: 0.05
+  assign y_duration = section.settings.speed | plus: 0.4
+
+  if section.settings.full_width
+    assign container = 'container-fluid px-0'
+  else
+    assign container = 'container'
+  endif
+-%}
+
+{{ 'section-hero-bounce.css' | asset_url | stylesheet_tag }}
+
+<section class="hero-bounce container-fluid px-0 {% render 'section-spacing', size: section.settings.spacing %}">
+  <div
+    class="hero-bounce__frame {{ container }} position-relative overflow-hidden hero-bounce__frame--{{ section.settings.height }} hero-bounce__frame--mobile-{{ section.settings.height_mobile }}"
+    style="--hb-font-size: {{ section.settings.font_size }}px; --hb-font-size-mobile: {{ section.settings.font_size_mobile }}px; --hb-text-width: {{ section.settings.text_width }}px; --hb-text-width-mobile: {{ section.settings.text_width_mobile }}px; --hb-color: {{ title_color }}; --hb-x-duration: {{ x_duration }}s; --hb-y-duration: {{ y_duration }}s;"
+  >
+    <div class="row g-0 h-100">
+      {%- if images.size == 0 -%}
+        <div class="col h-100 bg-light">
+          {{ 'hero-apparel-1' | placeholder_svg_tag: 'd-block w-100 h-100' }}
+        </div>
+      {%- endif -%}
+      {%- for setting_id in images -%}
+        {%- liquid
+          assign image = section.settings[setting_id]
+          assign loading = 'lazy'
+          assign fetchpriority = 'auto'
+          if section.index <= 3 and forloop.first
+            assign loading = 'eager'
+            assign fetchpriority = 'high'
+          endif
+          capture sizes
+            echo '(min-width: 768px) ' | append: desktop_vw | append: 'vw, 100vw'
+          endcapture
+        -%}
+        <div class="col h-100{% unless forloop.first %} d-none d-md-block{% endunless %}">
+          {{
+            image
+            | image_url: width: 2000
+            | image_tag:
+              widths: '375, 550, 750, 1000, 1250, 1500, 2000',
+              sizes: sizes,
+              loading: loading,
+              fetchpriority: fetchpriority,
+              alt: image.alt,
+              class: 'd-block w-100 h-100 object-fit-cover'
+          }}
+        </div>
+      {%- endfor -%}
+    </div>
+
+    {%- if section.settings.title != blank -%}
+      <div class="hero-bounce__track hero-bounce__track--{{ section.settings.text_transform }}">
+        <h2 class="hero-bounce__title m-0">{{ section.settings.title | escape }}</h2>
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.button_label != blank -%}
+      <div class="hero-bounce__actions position-absolute bottom-0 start-0 end-0 text-center px-3">
+        <a
+          {% if section.settings.link != blank %}
+            href="{{ section.settings.link }}"
+          {% else %}
+            role="link" aria-disabled="true"
+          {% endif %}
+          {% if section.settings.open_in_new_window %}
+            target="_blank" rel="noopener"
+          {% endif %}
+          class="btn btn-{{ section.settings.button_style }} btn-cta"
+        >
+          {{- section.settings.button_label | escape -}}
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hero with bouncing title",
+  "tag": "div",
+  "class": "section-hero-bounce",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "First image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_2",
+      "label": "Second image",
+      "info": "Shown beside the first image on tablets and desktops."
+    },
+    {
+      "type": "image_picker",
+      "id": "image_3",
+      "label": "Third image",
+      "info": "Shown beside the first image on tablets and desktops."
+    },
+    {
+      "type": "header",
+      "content": "Title"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Your best promotion yet"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title color",
+      "default": "#FEFF86"
+    },
+    {
+      "type": "select",
+      "id": "text_transform",
+      "label": "Letters",
+      "options": [
+        { "value": "uppercase", "label": "UPPERCASE" },
+        { "value": "lowercase", "label": "lowercase" },
+        { "value": "none", "label": "As typed" }
+      ],
+      "default": "uppercase"
+    },
+    {
+      "type": "range",
+      "id": "font_size",
+      "label": "Text size",
+      "min": 40,
+      "max": 240,
+      "step": 4,
+      "unit": "px",
+      "default": 160
+    },
+    {
+      "type": "number",
+      "id": "text_width",
+      "label": "Title width (px)",
+      "info": "The title wraps onto more lines when it's wider than this.",
+      "default": 1000
+    },
+    {
+      "type": "range",
+      "id": "speed",
+      "label": "Bounce duration",
+      "info": "Seconds the title takes to cross the image. Visitors who prefer reduced motion see it still.",
+      "min": 2,
+      "max": 30,
+      "step": 1,
+      "unit": "s",
+      "default": 10
+    },
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Shop now"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "Button link"
+    },
+    {
+      "type": "checkbox",
+      "id": "open_in_new_window",
+      "label": "Open link in a new tab",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "button_style",
+      "label": "Button style",
+      "options": [
+        { "value": "primary", "label": "Dark green" },
+        { "value": "light", "label": "White" },
+        { "value": "outline-light", "label": "White outline" }
+      ],
+      "default": "primary"
+    },
+    {
+      "type": "header",
+      "content": "Mobile"
+    },
+    {
+      "type": "range",
+      "id": "font_size_mobile",
+      "label": "Text size",
+      "min": 24,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 120
+    },
+    {
+      "type": "number",
+      "id": "text_width_mobile",
+      "label": "Title width (px)",
+      "default": 460
+    },
+    {
+      "type": "header",
+      "content": "Section"
+    },
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Full width",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "height",
+      "label": "Height on desktop",
+      "options": [
+        { "value": "40", "label": "40% of the screen" },
+        { "value": "50", "label": "50% of the screen" },
+        { "value": "60", "label": "60% of the screen" },
+        { "value": "80", "label": "80% of the screen" },
+        { "value": "100", "label": "Full screen" },
+        { "value": "fit", "label": "Fit below the header, next section peeking" }
+      ],
+      "default": "fit"
+    },
+    {
+      "type": "select",
+      "id": "height_mobile",
+      "label": "Height on mobile and tablet",
+      "options": [
+        { "value": "40", "label": "40% of the screen" },
+        { "value": "50", "label": "50% of the screen" },
+        { "value": "60", "label": "60% of the screen" },
+        { "value": "80", "label": "80% of the screen" },
+        { "value": "100", "label": "Full screen" },
+        { "value": "fit", "label": "Fit below the header, next section peeking" }
+      ],
+      "default": "fit"
+    },
+    {
+      "type": "select",
+      "id": "spacing",
+      "label": "Space above",
+      "options": [
+        { "value": "default", "label": "Default" },
+        { "value": "small", "label": "Small" },
+        { "value": "none", "label": "None" }
+      ],
+      "default": "none"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero with bouncing title"
+    }
+  ]
+}
+{% endschema %}

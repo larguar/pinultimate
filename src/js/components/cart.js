@@ -10,6 +10,9 @@ import Offcanvas from 'bootstrap/js/dist/offcanvas';
  * - [data-cart-count] elements show the item count after every change.
  *
  * Fires `cart:updated` on document with the cart JSON as `detail`.
+ *
+ * Section scripts add several lines at once with `window.theme.cart.addItems(items)`
+ * (items as for /cart/add.js); it refreshes and opens the drawer the same way.
  */
 
 const SECTIONS = ['cart-drawer'];
@@ -54,6 +57,18 @@ export function openDrawer() {
   if (element) Offcanvas.getOrCreateInstance(element).show();
 }
 
+/** Adds cart lines, then opens the refreshed drawer (or goes to the cart page). Throws on failure. */
+export async function addItems(items) {
+  const added = await request(window.theme.routes.cartAdd + '.js', { items });
+  if (window.theme.settings.cartType !== 'drawer') {
+    window.location.href = window.theme.routes.cart;
+    return added;
+  }
+  await refresh(added);
+  openDrawer();
+  return added;
+}
+
 async function changeLine(line, quantity) {
   const drawer = drawerElement();
   drawer?.classList.add('is-loading');
@@ -86,18 +101,14 @@ document.addEventListener('submit', async (event) => {
       const match = key.match(/^properties\[(.+)\]$/);
       if (match && value !== '') properties[match[1]] = value;
     }
-    const added = await request(window.theme.routes.cartAdd + '.js', {
-      items: [
-        {
-          id: formData.id,
-          quantity: Number(formData.quantity || 1),
-          ...(formData.selling_plan && { selling_plan: formData.selling_plan }),
-          ...(Object.keys(properties).length && { properties }),
-        },
-      ],
-    });
-    await refresh(added);
-    openDrawer();
+    await addItems([
+      {
+        id: formData.id,
+        quantity: Number(formData.quantity || 1),
+        ...(formData.selling_plan && { selling_plan: formData.selling_plan }),
+        ...(Object.keys(properties).length && { properties }),
+      },
+    ]);
   } catch (e) {
     if (error) {
       error.textContent = e.message;

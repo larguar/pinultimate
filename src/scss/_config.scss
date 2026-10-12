@@ -32,7 +32,7 @@ $body-color: #333;
 $body-bg: #fff;
 $link-color: $body-color;
 $link-decoration: none;
-$link-hover-decoration: underline;
+$link-hover-decoration: none;
 
 // Typography. Font families come from theme settings via CSS custom properties.
 $font-family-sans-serif: var(--font-body-family);
@@ -71,7 +71,7 @@ $grid-gutter-width: 20px;
 $btn-font-weight: 600;
 $btn-font-size: 1.0625rem;
 $btn-line-height: 1.25;
-$btn-padding-y: 0.875rem;
+$btn-padding-y: 0.9375rem;
 $btn-padding-x: 2.5rem;
 $btn-border-radius: 30px;
 $btn-border-radius-sm: 30px;

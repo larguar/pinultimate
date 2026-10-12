@@ -1,0 +1,298 @@
+{%- liquid
+  assign image_position = section.settings.image_position
+  assign has_images = false
+  if image_position != 'none'
+    for block in section.blocks
+      if block.settings.image != blank
+        assign has_images = true
+        break
+      endif
+    endfor
+  endif
+
+  case section.settings.image_width
+    when 'third'
+      assign media_col = 'col-md-4'
+      assign steps_col = 'col-md-8'
+    when 'two-thirds'
+      assign media_col = 'col-md-8'
+      assign steps_col = 'col-md-4'
+    else
+      assign media_col = 'col-md-6'
+      assign steps_col = 'col-md-6'
+  endcase
+
+  case section.settings.image_ratio
+    when 'square'
+      assign ratio = 100
+    when 'tall'
+      assign ratio = 150
+    else
+      assign ratio = 120
+  endcase
+
+  assign spacing = section.settings.spacing
+  assign accordion_id = 'Timeline-' | append: section.id | append: '-steps'
+-%}
+{%- capture spacing_class -%}
+  {%- if spacing == 'compact' -%}
+    mt-4 mt-md-6
+  {%- else -%}
+    {%- render 'section-spacing', size: spacing -%}
+  {%- endif -%}
+{%- endcapture -%}
+
+{{ 'section-timeline.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'section-timeline.js' | asset_url }}" defer></script>
+
+<section class="timeline container-fluid px-0 {{ spacing_class }}">
+  <div class="container">
+    {% render 'multicolumn-heading',
+      heading: section.settings.heading,
+      subheading: section.settings.subheading,
+      size: section.settings.heading_size,
+      italic: section.settings.heading_italic,
+      layout: 'stacked',
+      alignment: section.settings.heading_alignment,
+      heading_tag: section.settings.heading_tag
+    %}
+
+    <timeline-steps class="row align-items-center timeline__grid">
+      {%- if has_images -%}
+        <div class="col-12 {{ media_col }}{% if image_position == 'right' %} order-md-last{% endif %}">
+          <div class="ratio timeline__media" style="--bs-aspect-ratio: {{ ratio }}%;">
+            <div>
+              {%- for block in section.blocks -%}
+                {%- if block.settings.image != blank -%}
+                  <div class="timeline__image{% if forloop.first %} is-active{% endif %}" data-step="{{ forloop.index0 }}">
+                    {{
+                      block.settings.image
+                      | image_url: width: 1400
+                      | image_tag:
+                        class: 'position-absolute top-0 start-0 w-100 h-100 object-fit-cover',
+                        widths: '375, 550, 750, 1000, 1400',
+                        sizes: '(min-width: 1400px) 680px, (min-width: 768px) 50vw, 100vw',
+                        loading: 'lazy',
+                        alt: block.settings.title
+                    }}
+                  </div>
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
+          </div>
+        </div>
+      {%- endif -%}
+
+      <div class="col-12{% if has_images %} {{ steps_col }}{% endif %}">
+        <div class="timeline__steps{% unless section.settings.show_numbers %} timeline__steps--plain{% endunless %}" id="{{ accordion_id }}">
+          {%- for block in section.blocks -%}
+            {%- assign body_id = 'TimelineStep-' | append: block.id -%}
+            <div
+              class="timeline__step{% if forloop.first %} is-active{% endif %}"
+              data-step="{{ forloop.index0 }}"
+              {{ block.shopify_attributes }}
+            >
+              <h3 class="timeline__heading m-0">
+                <button
+                  type="button"
+                  class="timeline__toggle d-block w-100 p-0 border-0 bg-transparent text-start"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#{{ body_id }}"
+                  aria-controls="{{ body_id }}"
+                  aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}"
+                >
+                  {%- if section.settings.show_numbers -%}
+                    <span class="timeline__number">
+                      {%- if forloop.index < 10 %}0{% endif %}{{ forloop.index }}.
+                    </span>
+                  {%- endif -%}
+                  <span class="timeline__title d-block">{{ block.settings.title | escape }}</span>
+                  {%- if block.settings.caption != blank -%}
+                    <em class="timeline__caption d-block">{{ block.settings.caption | escape }}</em>
+                  {%- endif -%}
+                </button>
+              </h3>
+              <div
+                id="{{ body_id }}"
+                class="collapse{% if forloop.first %} show{% endif %}"
+                data-bs-parent="#{{ accordion_id }}"
+              >
+                {%- if block.settings.text != blank -%}
+                  <div class="timeline__body rte">{{ block.settings.text }}</div>
+                {%- endif -%}
+              </div>
+            </div>
+          {%- endfor -%}
+        </div>
+      </div>
+    </timeline-steps>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Timeline",
+  "tag": "div",
+  "class": "section-timeline",
+  "max_blocks": 12,
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "How it works"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Timeline"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading size",
+      "options": [
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "large"
+    },
+    {
+      "type": "checkbox",
+      "id": "heading_italic",
+      "label": "Italic heading",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "heading_alignment",
+      "label": "Heading alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "heading_tag",
+      "label": "Heading level",
+      "info": "For search engines and screen readers; doesn't change the look.",
+      "options": [
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h4", "label": "H4" }
+      ],
+      "default": "h2"
+    },
+    {
+      "type": "header",
+      "content": "Steps"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_numbers",
+      "label": "Number the steps",
+      "default": true
+    },
+    {
+      "type": "paragraph",
+      "content": "One step is open at a time. Each step's image shows while it's open."
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Image position",
+      "info": "On phones the image sits above the steps.",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "right", "label": "Right" },
+        { "value": "none", "label": "No image" }
+      ],
+      "default": "right"
+    },
+    {
+      "type": "select",
+      "id": "image_width",
+      "label": "Image width",
+      "options": [
+        { "value": "third", "label": "One third" },
+        { "value": "half", "label": "Half" },
+        { "value": "two-thirds", "label": "Two thirds" }
+      ],
+      "default": "half"
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "label": "Image shape",
+      "options": [
+        { "value": "square", "label": "Square" },
+        { "value": "portrait", "label": "Portrait" },
+        { "value": "tall", "label": "Tall" }
+      ],
+      "default": "portrait"
+    },
+    {
+      "type": "header",
+      "content": "Section"
+    },
+    {
+      "type": "select",
+      "id": "spacing",
+      "label": "Space above",
+      "options": [
+        { "value": "default", "label": "Default" },
+        { "value": "small", "label": "Small" },
+        { "value": "compact", "label": "Extra small" },
+        { "value": "none", "label": "None" }
+      ],
+      "default": "default"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Step",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Step"
+        },
+        {
+          "type": "text",
+          "id": "caption",
+          "label": "Caption",
+          "info": "Shown in italics under the title, e.g. how long the step takes.",
+          "default": "1–2 Days"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>Describe what happens during this step.</p>"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Timeline",
+      "blocks": [
+        { "type": "step", "settings": { "title": "Design" } },
+        { "type": "step", "settings": { "title": "Production" } },
+        { "type": "step", "settings": { "title": "Delivery" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

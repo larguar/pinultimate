@@ -1,0 +1,10 @@
+{
+  "slider": {
+    "previous": "Previous slide",
+    "next": "Next slide",
+    "label": "Carousel"
+  },
+  "testimonials": {
+    "rating": "{{ rating }} out of 5 stars"
+  }
+}

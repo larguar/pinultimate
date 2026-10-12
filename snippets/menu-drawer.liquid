@@ -5,10 +5,10 @@
   - menu {Object}: link list
   - show_account {Boolean}
 {%- endcomment -%}
-<div class="offcanvas offcanvas-end drawer" tabindex="-1" id="menu-drawer" aria-labelledby="menu-drawer-title">
+<div class="offcanvas offcanvas-end drawer menu-drawer" tabindex="-1" id="menu-drawer" aria-labelledby="menu-drawer-title">
   <div class="offcanvas-header drawer__header border-bottom">
     <h2 class="offcanvas-title drawer__title" id="menu-drawer-title">{{ 'theme.header.menu' | t }}</h2>
-    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="{{ 'accessibility.close' | t }}"></button>
+    {% render 'drawer-close' %}
   </div>
 
   <div class="offcanvas-body drawer__body">

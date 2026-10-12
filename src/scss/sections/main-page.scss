@@ -1,0 +1,49 @@
+@import "section-base";
+@import "main-page-content";
+
+// Page title spacing of the previous theme: 25 / 35 / 70px above, 20 / 28 / 40px below.
+.main-page {
+  margin-top: 25px;
+  margin-bottom: 20px;
+
+  @include media-breakpoint-up(md) {
+    margin-top: 35px;
+  }
+
+  @include media-breakpoint-up(lg) {
+    margin-top: 70px;
+    margin-bottom: 28px;
+  }
+
+  @include media-breakpoint-up(xl) {
+    margin-bottom: 40px;
+  }
+
+  &__container--narrow {
+    @include narrow-container;
+  }
+
+  &__title {
+    @include page-title;
+  }
+
+  // The previous theme's small gutter between title and content: 9 / 12 / 15px.
+  &__content {
+    @include rich-text;
+    padding-top: 9px;
+
+    @include media-breakpoint-up(lg) {
+      padding-top: 12px;
+    }
+
+    @include media-breakpoint-up(xl) {
+      padding-top: 15px;
+    }
+  }
+}
+
+// The section after the page content follows on directly (its top margin is dropped;
+// background padding is kept), as in the previous theme.
+.section-main-page + .shopify-section > .container-fluid {
+  margin-top: 0 !important;
+}

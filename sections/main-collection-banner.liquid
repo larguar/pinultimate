@@ -1,76 +1,96 @@
-{% comment %}theme-check-disable ImgLazyLoading{% endcomment %}
-{{ 'component-collection-hero.css' | asset_url | stylesheet_tag }}
+{%- liquid
+  assign show_image = false
+  if section.settings.show_collection_image and collection.image
+    assign show_image = true
+  endif
+-%}
 
-{%- style -%}
-  @media screen and (max-width: 749px) {
-    .collection-hero--with-image .collection-hero__inner {
-      padding-bottom: calc({{ settings.media_shadow_vertical_offset | at_least: 0 }}px + 2rem);
-    }
-  }
-{%- endstyle -%}
+{{ 'section-main-collection-banner.css' | asset_url | stylesheet_tag }}
 
-<div class="collection-hero{% if section.settings.show_collection_image and collection.image %} collection-hero--with-image{% endif %} color-{{ section.settings.color_scheme }} gradient">
-  <div class="collection-hero__inner page-width {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
-    <div class="collection-hero__text-wrapper">
-      <h1 class="collection-hero__title">
-        <span class="visually-hidden">{{ 'sections.collection_template.title' | t }}: </span>
-        {{- collection.title | escape -}}
-      </h1>
-
-      {%- if section.settings.show_collection_description -%}
-        <div class="collection-hero__description rte">{{ collection.description }}</div>
-      {%- endif -%}
-    </div>
-
-    {%- if section.settings.show_collection_image and collection.image -%}
-      <div class="collection-hero__image-container media gradient">
-        <img
-          srcset="
-            {%- if collection.image.width >= 165 -%}{{ collection.image | image_url: width: 165 }} 165w,{%- endif -%}
-            {%- if collection.image.width >= 360 -%}{{ collection.image | image_url: width: 360 }} 360w,{%- endif -%}
-            {%- if collection.image.width >= 535 -%}{{ collection.image | image_url: width: 535 }} 535w,{%- endif -%}
-            {%- if collection.image.width >= 750 -%}{{ collection.image | image_url: width: 750 }} 750w,{%- endif -%}
-            {%- if collection.image.width >= 1070 -%}{{ collection.image | image_url: width: 1070 }} 1070w,{%- endif -%}
-            {%- if collection.image.width >= 1500 -%}{{ collection.image | image_url: width: 1500 }} 1500w,{%- endif -%}
-            {{ collection.image | image_url }} {{ collection.image.width }}w
-          "
-          src="{{ collection.image | image_url: width: 750 }}"
-          sizes="(min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 100 | divided_by: 2 }}px, (min-width: 750px) calc(50vw - 130px), calc(50vw - 55px)"
-          alt="{{ collection.image.alt | escape }}"
-          width="{{ collection.image.width }}"
-          height="{{ collection.image.height }}"
-        >
+{%- if show_image -%}
+  <section class="collection-banner collection-banner--image collection-banner--{{ section.settings.image_height }} container-fluid px-0 position-relative d-flex align-items-end text-white overflow-hidden">
+    {{
+      collection.image
+      | image_url: width: 2400
+      | image_tag:
+        class: 'collection-banner__image position-absolute top-0 start-0 w-100 h-100 object-fit-cover',
+        sizes: '100vw',
+        widths: '750, 1100, 1500, 1800, 2400',
+        alt: '',
+        fetchpriority: 'high'
+    }}
+    <div
+      class="position-absolute top-0 start-0 w-100 h-100 bg-dark"
+      style="opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }}"
+    ></div>
+    <div class="container position-relative py-5">
+      <div class="row">
+        <div class="col-12 col-lg-8">
+          <h1 class="collection-banner__title mb-0">{{ collection.title | escape }}</h1>
+          {%- if section.settings.show_collection_description and collection.description != blank -%}
+            <div class="collection-banner__description rte mt-3">{{ collection.description }}</div>
+          {%- endif -%}
+        </div>
       </div>
-    {%- endif -%}
-  </div>
-</div>
+    </div>
+  </section>
+{%- else -%}
+  <section class="collection-banner container-fluid px-0">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <h1 class="collection-banner__title mb-0">{{ collection.title | escape }}</h1>
+          {%- if section.settings.show_collection_description and collection.description != blank -%}
+            <div class="collection-banner__description rte">{{ collection.description }}</div>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </section>
+{%- endif -%}
 
 {% schema %}
 {
-  "name": "t:sections.main-collection-banner.name",
-  "class": "section",
+  "name": "Collection banner",
+  "tag": "div",
+  "class": "section-main-collection-banner",
   "settings": [
     {
       "type": "paragraph",
-      "content": "t:sections.main-collection-banner.settings.paragraph.content"
+      "content": "Shows the collection's title. Edit the title, description and image under Products > Collections."
     },
     {
       "type": "checkbox",
       "id": "show_collection_description",
-      "default": true,
-      "label": "t:sections.main-collection-banner.settings.show_collection_description.label"
+      "label": "Show collection description",
+      "default": true
     },
     {
       "type": "checkbox",
       "id": "show_collection_image",
-      "default": false,
-      "label": "t:sections.main-collection-banner.settings.show_collection_image.label"
+      "label": "Show collection image",
+      "info": "Shows the title over the collection's image.",
+      "default": false
     },
     {
-      "type": "color_scheme",
-      "id": "color_scheme",
-      "label": "t:sections.all.colors.label",
-      "default": "scheme-1"
+      "type": "select",
+      "id": "image_height",
+      "label": "Image height",
+      "options": [
+        { "value": "small", "label": "Small" },
+        { "value": "regular", "label": "Regular" }
+      ],
+      "default": "small"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Image overlay opacity",
+      "min": 0,
+      "max": 80,
+      "step": 5,
+      "unit": "%",
+      "default": 30
     }
   ]
 }

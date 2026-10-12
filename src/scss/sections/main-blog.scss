@@ -1,0 +1,84 @@
+@import "section-base";
+@import "main-page-content";
+
+@include article-card;
+@include pagination;
+
+// Same top spacing as the page title: 25 / 35 / 70px.
+.main-blog {
+  margin-top: 25px;
+
+  @include media-breakpoint-up(md) {
+    margin-top: 35px;
+  }
+
+  @include media-breakpoint-up(lg) {
+    margin-top: 70px;
+  }
+
+  &__container {
+    @include narrow-container;
+  }
+
+  &__title {
+    @include page-title;
+  }
+
+  &__header {
+    padding-bottom: 30px;
+
+    @include media-breakpoint-up(lg) {
+      padding-bottom: 35px;
+    }
+
+    @include media-breakpoint-up(xl) {
+      padding-bottom: 40px;
+    }
+  }
+
+  &__separator {
+    @include separator;
+  }
+
+  &__posts {
+    margin-top: 36px;
+
+    @include media-breakpoint-up(md) {
+      margin-top: 76px;
+    }
+  }
+
+  // One column: a line under each post, then the gap to the next one.
+  &__separator--post {
+    margin-top: 51px;
+    margin-bottom: 6px;
+
+    @include media-breakpoint-up(md) {
+      margin-top: 53px;
+    }
+
+    @include media-breakpoint-up(lg) {
+      margin-top: 63px;
+    }
+
+    @include media-breakpoint-up(xl) {
+      margin-top: 78px;
+    }
+  }
+
+  &__grid--one > .col + .col {
+    margin-top: 30px;
+
+    @include media-breakpoint-up(md) {
+      margin-top: 40px;
+    }
+
+    @include media-breakpoint-up(lg) {
+      margin-top: 60px;
+    }
+
+    @include media-breakpoint-up(xl) {
+      margin-top: 80px;
+    }
+  }
+}

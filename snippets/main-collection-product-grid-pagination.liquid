@@ -1,0 +1,49 @@
+{%- comment -%}
+  Round page numbers with previous / next arrows. Phones show "2 / 5" instead of the numbers.
+
+  Accepts:
+  - paginate {Object}
+{%- endcomment -%}
+{%- if paginate.pages > 1 -%}
+  <nav class="collection-pagination" aria-label="{{ 'theme.collection.pagination.label' | t }}">
+    <ul class="pagination justify-content-center align-items-center mb-0">
+      <li class="page-item{% unless paginate.previous %} disabled{% endunless %}">
+        {%- if paginate.previous -%}
+          <a class="page-link page-link--arrow" href="{{ paginate.previous.url }}" aria-label="{{ 'theme.collection.pagination.previous' | t }}">
+            {%- render 'icon', name: 'chevron-left' -%}
+          </a>
+        {%- else -%}
+          <span class="page-link page-link--arrow" aria-hidden="true">{%- render 'icon', name: 'chevron-left' -%}</span>
+        {%- endif -%}
+      </li>
+
+      {%- for part in paginate.parts -%}
+        {%- if part.is_link -%}
+          <li class="page-item d-none d-md-block">
+            <a class="page-link" href="{{ part.url }}" aria-label="{{ 'theme.collection.pagination.page' | t: number: part.title }}">{{ part.title }}</a>
+          </li>
+        {%- elsif part.title == paginate.current_page -%}
+          <li class="page-item active d-none d-md-block" aria-current="page">
+            <span class="page-link" aria-label="{{ 'theme.collection.pagination.current' | t: number: part.title }}">{{ part.title }}</span>
+          </li>
+        {%- else -%}
+          <li class="page-item d-none d-md-block"><span class="page-link page-link--gap">{{ part.title }}</span></li>
+        {%- endif -%}
+      {%- endfor -%}
+
+      <li class="page-item d-md-none" aria-hidden="true">
+        <span class="page-link page-link--count">{{ paginate.current_page }} / {{ paginate.pages }}</span>
+      </li>
+
+      <li class="page-item{% unless paginate.next %} disabled{% endunless %}">
+        {%- if paginate.next -%}
+          <a class="page-link page-link--arrow" href="{{ paginate.next.url }}" aria-label="{{ 'theme.collection.pagination.next' | t }}">
+            {%- render 'icon', name: 'chevron-right' -%}
+          </a>
+        {%- else -%}
+          <span class="page-link page-link--arrow" aria-hidden="true">{%- render 'icon', name: 'chevron-right' -%}</span>
+        {%- endif -%}
+      </li>
+    </ul>
+  </nav>
+{%- endif -%}

@@ -1,0 +1,113 @@
+{%- comment -%}
+  Contact form contents: status messages, fields and submit button. Render inside
+  {% form 'contact' %}.
+
+  Accepts:
+  - form {Object}: the form object from the surrounding {% form %} tag
+  - form_id {String}: the form's id, used to build field ids
+  - show_phone {Boolean}: add a phone number field (optional)
+  - show_subject {Boolean}: add a subject field (optional)
+  - rows {Number}: message box height in rows (optional, default 10)
+
+  Usage:
+  {% form 'contact', id: form_id %}
+    {% render 'contact-form-fields', form: form, form_id: form_id, show_phone: true %}
+  {% endform %}
+{%- endcomment -%}
+{%- liquid
+  assign rows = rows | default: 10
+  assign error_id = form_id | append: '-errors'
+-%}
+
+{%- if form.posted_successfully? -%}
+  <div class="alert alert-success d-flex align-items-center gap-2 mb-3" role="status" tabindex="-1" autofocus>
+    {% render 'icon', name: 'check-circle', class: 'flex-shrink-0' %}
+    <span>{{ 'theme.pages.contact.success' | t }}</span>
+  </div>
+{%- elsif form.errors -%}
+  <div id="{{ error_id }}" class="alert alert-danger mb-3" role="alert" tabindex="-1" autofocus>
+    <p class="fw-semibold mb-1">{{ 'theme.pages.contact.error_heading' | t }}</p>
+    {{ form.errors | default_errors }}
+  </div>
+{%- endif -%}
+
+<div class="contact-form__fields d-grid">
+  <div>
+    <label class="visually-hidden" for="{{ form_id }}-name">{{ 'theme.pages.contact.name' | t }}</label>
+    <input
+      type="text"
+      id="{{ form_id }}-name"
+      class="form-control"
+      name="contact[name]"
+      autocomplete="name"
+      value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
+      placeholder="{{ 'theme.pages.contact.name' | t }}"
+    >
+  </div>
+
+  <div>
+    <label class="visually-hidden" for="{{ form_id }}-email">{{ 'theme.pages.contact.email' | t }}</label>
+    <input
+      type="email"
+      id="{{ form_id }}-email"
+      class="form-control{% if form.errors contains 'email' %} is-invalid{% endif %}"
+      name="contact[email]"
+      autocomplete="email"
+      spellcheck="false"
+      autocapitalize="off"
+      required
+      value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
+      placeholder="{{ 'theme.pages.contact.email' | t }}"
+      {% if form.errors contains 'email' %}
+        aria-invalid="true" aria-describedby="{{ error_id }}"
+      {% endif %}
+    >
+  </div>
+
+  {%- if show_subject -%}
+    <div>
+      <label class="visually-hidden" for="{{ form_id }}-subject">{{ 'theme.pages.contact.subject' | t }}</label>
+      <input
+        type="text"
+        id="{{ form_id }}-subject"
+        class="form-control"
+        name="contact[subject]"
+        value="{{ form.subject }}"
+        placeholder="{{ 'theme.pages.contact.subject' | t }}"
+      >
+    </div>
+  {%- endif -%}
+
+  {%- if show_phone -%}
+    <div>
+      <label class="visually-hidden" for="{{ form_id }}-phone">{{ 'theme.pages.contact.phone' | t }}</label>
+      <input
+        type="tel"
+        id="{{ form_id }}-phone"
+        class="form-control"
+        name="contact[phone]"
+        autocomplete="tel"
+        pattern="[0-9\-\+\(\) ]*"
+        value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}"
+        placeholder="{{ 'theme.pages.contact.phone' | t }}"
+      >
+    </div>
+  {%- endif -%}
+
+  <div>
+    <label class="visually-hidden" for="{{ form_id }}-body">{{ 'theme.pages.contact.message' | t }}</label>
+    <textarea
+      id="{{ form_id }}-body"
+      class="form-control"
+      name="contact[body]"
+      rows="{{ rows }}"
+      placeholder="{{ 'theme.pages.contact.message' | t }}"
+    >{{- form.body -}}</textarea>
+  </div>
+
+  <div>
+    <button type="submit" class="contact-form__submit btn btn-dark">
+      {{ 'theme.pages.contact.submit' | t }}
+    </button>
+  </div>
+</div>

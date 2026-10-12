@@ -1,514 +1,357 @@
-{{ 'component-accordion.css' | asset_url | stylesheet_tag }}
-{{ 'collapsible-content.css' | asset_url | stylesheet_tag }}
+{%- liquid
+  assign accordion_id = 'Accordion-' | append: section.id
+  assign form_id = 'ContactForm-' | append: section.id
+  assign show_form = section.settings.show_form
 
-{%- style -%}
-  .section-{{ section.id }}-padding {
-    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
-    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
-  }
+  assign heading_class = 'mb-4'
+  if section.settings.heading_alignment == 'center'
+    assign heading_class = 'text-center mb-4'
+  endif
 
-  @media screen and (min-width: 750px) {
-    .section-{{ section.id }}-padding {
-      padding-top: {{ section.settings.padding_top }}px;
-      padding-bottom: {{ section.settings.padding_bottom }}px;
-    }
-  }
-{%- endstyle -%}
+  assign background_class = ''
+  if section.settings.background != 'none'
+    assign background_class = 'bg-' | append: section.settings.background
+  endif
+-%}
 
-<div class="color-{{ section.settings.color_scheme }} gradient">
-  <div class="collapsible-content collapsible-{{ section.settings.layout }}-layout isolate{% if section.settings.layout == 'section' %} page-width{% elsif section.settings.layout == 'none' %} content-container content-container--full-width{% endif %}">
-    <div class="collapsible-content__wrapper section-{{ section.id }}-padding{% if section.settings.layout == 'section' %} content-container color-{{ section.settings.container_color_scheme }} gradient{% endif %}">
-      <div class="{% if section.settings.image == blank %}collapsible-content-wrapper-narrow{% else %}page-width{% endif %}">
-        <div
-          class="collapsible-content__header{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
-          style="text-align: {{ section.settings.heading_alignment }};"
-        >
-          {%- if section.settings.caption != blank -%}
-            <p class="caption-with-letter-spacing">
-              {{ section.settings.caption | escape }}
-            </p>
-          {% endif %}
-          {%- if section.settings.heading != blank -%}
-            <h2 class="collapsible-content__heading inline-richtext {{ section.settings.heading_size }}">
-              {{ section.settings.heading }}
-            </h2>
-          {%- else -%}
-            <h2 class="visually-hidden">{{ 'accessibility.collapsible_content_title' | t }}</h2>
-          {% endif %}
-        </div>
-        <div class="grid grid--1-col grid--2-col-tablet collapsible-content__grid{% if section.settings.desktop_layout == 'image_second' %} collapsible-content__grid--reverse{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
-          {%- if section.settings.image != blank -%}
-            <div class="grid__item collapsible-content__grid-item">
+{{ 'section-collapsible-content.css' | asset_url | stylesheet_tag }}
+
+<section class="collapsible-content container-fluid px-0 {{ background_class }} {% if section.settings.background != 'none' %}{% render 'section-spacing', property: 'p', side: 'y', size: section.settings.spacing %}{% else %}{% render 'section-spacing', size: section.settings.spacing %}{% endif %}">
+  <div class="container">
+    {% render 'section-heading',
+      heading: section.settings.heading,
+      subheading: section.settings.subheading,
+      heading_tag: section.settings.heading_tag,
+      class: heading_class
+    %}
+
+    <div class="row gx-5 row-gap-5 align-items-start">
+      <div class="col-12{% if show_form %} col-lg-7 col-xl-8{% endif %}">
+        <div class="collapsible-content__accordion accordion accordion-flush" id="{{ accordion_id }}">
+          {%- assign shown = 0 -%}
+          {%- for block in section.blocks -%}
+            {%- if block.settings.hide_if_empty and block.settings.body == blank and block.settings.image == blank -%}
+              {%- continue -%}
+            {%- endif -%}
+            {%- liquid
+              assign shown = shown | plus: 1
+              assign open = false
+              if shown == 1 and section.settings.open_first
+                assign open = true
+              endif
+              assign heading_id = 'CollapsibleHeading-' | append: block.id
+              assign panel_id = 'CollapsiblePanel-' | append: block.id
+            -%}
+            <div class="accordion-item" {{ block.shopify_attributes }}>
+              <h3 class="accordion-header" id="{{ heading_id }}">
+                <button
+                  class="accordion-button{% unless open %} collapsed{% endunless %} gap-3"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#{{ panel_id }}"
+                  aria-expanded="{{ open }}"
+                  aria-controls="{{ panel_id }}"
+                >
+                  {%- if block.settings.icon != 'none' -%}
+                    {% render 'icon', name: block.settings.icon, class: 'collapsible-content__icon flex-shrink-0' %}
+                  {%- endif -%}
+                  <span class="d-flex flex-column flex-sm-row flex-wrap align-items-sm-baseline column-gap-3 row-gap-1">
+                    <span class="collapsible-content__title">{{ block.settings.title | escape }}</span>
+                    {%- if block.settings.subtitle != blank -%}
+                      <span class="collapsible-content__subtitle">{{ block.settings.subtitle | escape }}</span>
+                    {%- endif -%}
+                  </span>
+                </button>
+              </h3>
               <div
-                class="collapsible-content__media collapsible-content__media--{{ section.settings.image_ratio }} media global-media-settings gradient"
-                {% if section.settings.image_ratio == 'adapt' %}
-                  style="padding-bottom: {{ 1 | divided_by: section.settings.image.aspect_ratio | times: 100 }}%;"
+                id="{{ panel_id }}"
+                class="accordion-collapse collapse{% if open %} show{% endif %}"
+                aria-labelledby="{{ heading_id }}"
+                {% if section.settings.one_at_a_time %}
+                  data-bs-parent="#{{ accordion_id }}"
                 {% endif %}
               >
-                {%- liquid
-                  assign padding_multiplier = 1
-                  if section.settings.layout == 'section'
-                    assign padding_multiplier = 2
-                  endif
-                  assign desktop_tablet_padding = 100 | times: padding_multiplier | append: 'px'
-                  assign mobile_padding = 30 | times: padding_multiplier | append: 'px'
-                -%}
-                {%- capture sizes -%}
-                  (min-width: {{ settings.page_width }}px) calc(({{ settings.page_width }}px - {{ desktop_tablet_padding }}) / 2),
-                  (min-width: 750px) calc((100vw - {{ desktop_tablet_padding }}) / 2),
-                  calc(100vw - {{ mobile_padding }})
-                {%- endcapture -%}
-                {{
-                  section.settings.image
-                  | image_url: width: 3200
-                  | image_tag:
-                    sizes: sizes,
-                    widths: '50, 75, 100, 150, 200, 300, 400, 500, 750, 1000, 1250, 1500, 1750, 2000, 2250, 2500, 2750, 3000, 3200'
-                }}
+                <div class="accordion-body">
+                  {%- if block.settings.body != blank -%}
+                    <div class="collapsible-content__body rte">{{ block.settings.body }}</div>
+                  {%- endif -%}
+                  {%- if block.settings.image != blank -%}
+                    {%- liquid
+                      if show_form
+                        assign sizes = '(min-width: 1200px) 840px, (min-width: 992px) 55vw, calc(100vw - 30px)'
+                      else
+                        assign sizes = '(min-width: 1400px) 1280px, calc(100vw - 60px)'
+                      endif
+                    -%}
+                    {{
+                      block.settings.image
+                      | image_url: width: 1600
+                      | image_tag:
+                        loading: 'lazy',
+                        sizes: sizes,
+                        widths: '400, 600, 800, 1200, 1600',
+                        class: 'collapsible-content__image d-block mw-100 h-auto mt-3 rounded'
+                    }}
+                  {%- endif -%}
+                  {%- if block.settings.button_label != blank -%}
+                    <a
+                      {% if block.settings.button_link != blank %}
+                        href="{{ block.settings.button_link }}"
+                      {% else %}
+                        role="link" aria-disabled="true"
+                      {% endif %}
+                      class="btn btn-sm btn-outline-dark rounded-pill mt-3"
+                    >
+                      {{- block.settings.button_label | escape -}}
+                    </a>
+                  {%- endif -%}
+                </div>
               </div>
             </div>
-          {% endif %}
-          <div class="grid__item">
-            {%- for block in section.blocks -%}
-              <div
-                class="accordion{% if section.settings.layout == 'row' %} content-container color-{{ section.settings.container_color_scheme }} gradient{% endif %}"
-                {{ block.shopify_attributes }}
-              >
-                <details
-                  id="Details-{{ block.id }}-{{ section.id }}"
-                  {% if section.settings.open_first_collapsible_row and forloop.first %}
-                    open
-                  {% endif %}
-                >
-                  <summary id="Summary-{{ block.id }}-{{ section.id }}">
-                    {% render 'icon-accordion', icon: block.settings.icon %}
-                    <h3 class="accordion__title inline-richtext h4">
-                      {{ block.settings.heading | default: block.settings.page.title | escape }}
-                    </h3>
-                    {{- 'icon-caret.svg' | inline_asset_content -}}
-                  </summary>
-                  <div
-                    class="accordion__content rte"
-                    id="CollapsibleAccordion-{{ block.id }}-{{ section.id }}"
-                    role="region"
-                    aria-labelledby="Summary-{{ block.id }}-{{ section.id }}"
-                  >
-                    {{ block.settings.row_content }}
-                    {{ block.settings.page.content }}
-                  </div>
-                </details>
-              </div>
-            {%- endfor -%}
-          </div>
+          {%- endfor -%}
         </div>
       </div>
+
+      {%- if show_form -%}
+        <div class="col-12 col-lg-5 col-xl-4 collapsible-content__aside">
+          <div class="collapsible-content__form p-4{% if section.settings.form_style == 'filled' %} bg-light{% else %} border{% endif %}">
+            {%- if section.settings.form_title != blank -%}
+              <h3 class="collapsible-content__form-title mb-3">{{ section.settings.form_title | escape }}</h3>
+            {%- endif -%}
+            {%- form 'contact', id: form_id -%}
+              {% render 'contact-form-fields', form: form, form_id: form_id, rows: 6 %}
+            {%- endform -%}
+          </div>
+        </div>
+      {%- endif -%}
     </div>
+
+    {%- if section.settings.button_label != blank -%}
+      <div class="{% if section.settings.heading_alignment == 'center' %}text-center {% endif %}mt-5">
+        <a
+          {% if section.settings.button_link != blank %}
+            href="{{ section.settings.button_link }}"
+          {% else %}
+            role="link" aria-disabled="true"
+          {% endif %}
+          class="btn btn-outline-dark btn-cta"
+        >
+          {{- section.settings.button_label | escape -}}
+        </a>
+      </div>
+    {%- endif -%}
   </div>
-</div>
+</section>
 
 {% schema %}
 {
-  "name": "t:sections.collapsible_content.name",
-  "tag": "section",
-  "class": "section",
-  "disabled_on": {
-    "groups": ["header", "footer"]
-  },
+  "name": "Collapsible content",
+  "tag": "div",
+  "class": "section-collapsible-content",
   "settings": [
     {
       "type": "text",
-      "id": "caption",
-      "label": "t:sections.collapsible_content.settings.caption.label"
+      "id": "subheading",
+      "label": "Subheading",
+      "info": "Shown in the script font above the heading."
     },
     {
-      "type": "inline_richtext",
+      "type": "text",
       "id": "heading",
-      "label": "t:sections.collapsible_content.settings.heading.label",
-      "default": "t:sections.collapsible_content.settings.heading.default"
-    },
-    {
-      "type": "select",
-      "id": "heading_size",
-      "options": [
-        {
-          "value": "h2",
-          "label": "t:sections.all.heading_size.options__1.label"
-        },
-        {
-          "value": "h1",
-          "label": "t:sections.all.heading_size.options__2.label"
-        },
-        {
-          "value": "h0",
-          "label": "t:sections.all.heading_size.options__3.label"
-        },
-        {
-          "value": "hxl",
-          "label": "t:sections.all.heading_size.options__4.label"
-        },
-        {
-          "value": "hxxl",
-          "label": "t:sections.all.heading_size.options__5.label"
-        }
-      ],
-      "default": "h1",
-      "label": "t:sections.all.heading_size.label"
+      "label": "Heading",
+      "default": "FAQ"
     },
     {
       "type": "select",
       "id": "heading_alignment",
-      "label": "t:sections.collapsible_content.settings.heading_alignment.label",
+      "label": "Heading alignment",
       "options": [
-        {
-          "value": "left",
-          "label": "t:sections.collapsible_content.settings.heading_alignment.options__1.label"
-        },
-        {
-          "value": "center",
-          "label": "t:sections.collapsible_content.settings.heading_alignment.options__2.label"
-        },
-        {
-          "value": "right",
-          "label": "t:sections.collapsible_content.settings.heading_alignment.options__3.label"
-        }
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" }
       ],
-      "default": "center"
+      "default": "left"
+    },
+    {
+      "type": "select",
+      "id": "heading_tag",
+      "label": "Heading level (for search engines)",
+      "options": [
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "p", "label": "Paragraph" }
+      ],
+      "default": "h2"
+    },
+    {
+      "type": "checkbox",
+      "id": "open_first",
+      "label": "Open the first item",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "one_at_a_time",
+      "label": "Close other items when one opens",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "info": "Optional button under the list."
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
     },
     {
       "type": "header",
-      "content": "t:sections.collapsible_content.settings.layout_header.content"
-    },    
+      "content": "Contact form"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_form",
+      "label": "Show contact form beside the list",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "form_title",
+      "label": "Form heading",
+      "default": "Contact form"
+    },
     {
       "type": "select",
-      "id": "layout",
-      "label": "t:sections.collapsible_content.settings.layout.label",
+      "id": "form_style",
+      "label": "Form box style",
       "options": [
-        {
-          "value": "none",
-          "label": "t:sections.collapsible_content.settings.layout.options__1.label"
-        },
-        {
-          "value": "row",
-          "label": "t:sections.collapsible_content.settings.layout.options__2.label"
-        },
-        {
-          "value": "section",
-          "label": "t:sections.collapsible_content.settings.layout.options__3.label"
-        }
+        { "value": "outline", "label": "Outline" },
+        { "value": "filled", "label": "Filled" }
+      ],
+      "default": "outline"
+    },
+    {
+      "type": "header",
+      "content": "Section"
+    },
+    {
+      "type": "select",
+      "id": "background",
+      "label": "Background",
+      "options": [
+        { "value": "none", "label": "None" },
+        { "value": "light", "label": "Light" },
+        { "value": "yellow", "label": "Yellow" },
+        { "value": "blue", "label": "Blue" },
+        { "value": "purple", "label": "Purple" }
       ],
       "default": "none"
     },
     {
-      "type": "color_scheme",
-      "id": "container_color_scheme",
-      "label": "t:sections.collapsible_content.settings.container_color_scheme.label",
-      "default": "scheme-2"
-    },    
-    {
-      "type": "color_scheme",
-      "id": "color_scheme",
-      "label": "t:sections.collapsible_content.settings.section_color_scheme.label",
-      "default": "scheme-1"
-    },
-    {
-      "type": "checkbox",
-      "id": "open_first_collapsible_row",
-      "default": false,
-      "label": "t:sections.collapsible_content.settings.open_first_collapsible_row.label"
-    },
-    {
-      "type": "header",
-      "content": "t:sections.collapsible_content.settings.header.content"
-    },
-    {
-      "type": "image_picker",
-      "id": "image",
-      "label": "t:sections.collapsible_content.settings.image.label"
-    },
-    {
       "type": "select",
-      "id": "image_ratio",
+      "id": "spacing",
+      "label": "Vertical spacing",
       "options": [
-        {
-          "value": "adapt",
-          "label": "t:sections.collapsible_content.settings.image_ratio.options__1.label"
-        },
-        {
-          "value": "small",
-          "label": "t:sections.collapsible_content.settings.image_ratio.options__2.label"
-        },
-        {
-          "value": "large",
-          "label": "t:sections.collapsible_content.settings.image_ratio.options__3.label"
-        }
+        { "value": "default", "label": "Default" },
+        { "value": "small", "label": "Small" },
+        { "value": "none", "label": "None" }
       ],
-      "default": "adapt",
-      "label": "t:sections.collapsible_content.settings.image_ratio.label"
-    },
-    {
-      "type": "select",
-      "id": "desktop_layout",
-      "options": [
-        {
-          "value": "image_first",
-          "label": "t:sections.collapsible_content.settings.desktop_layout.options__1.label"
-        },
-        {
-          "value": "image_second",
-          "label": "t:sections.collapsible_content.settings.desktop_layout.options__2.label"
-        }
-      ],
-      "default": "image_second",
-      "label": "t:sections.collapsible_content.settings.desktop_layout.label"
-    },
-    {
-      "type": "header",
-      "content": "t:sections.all.padding.section_padding_heading"
-    },
-    {
-      "type": "range",
-      "id": "padding_top",
-      "min": 0,
-      "max": 100,
-      "step": 4,
-      "unit": "px",
-      "label": "t:sections.all.padding.padding_top",
-      "default": 36
-    },
-    {
-      "type": "range",
-      "id": "padding_bottom",
-      "min": 0,
-      "max": 100,
-      "step": 4,
-      "unit": "px",
-      "label": "t:sections.all.padding.padding_bottom",
-      "default": 36
+      "default": "default"
     }
   ],
   "blocks": [
     {
-      "type": "collapsible_row",
-      "name": "t:sections.collapsible_content.blocks.collapsible_row.name",
+      "type": "text",
+      "name": "Question",
       "settings": [
         {
           "type": "text",
-          "id": "heading",
-          "default": "t:sections.collapsible_content.blocks.collapsible_row.settings.heading.default",
-          "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.heading.label"
+          "id": "title",
+          "label": "Question",
+          "default": "Question"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Note beside the question",
+          "info": "Optional, shown in smaller text."
         },
         {
           "type": "select",
           "id": "icon",
+          "label": "Icon",
           "options": [
-            {
-              "value": "none",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__1.label"
-            },
-            {
-              "value": "apple",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__2.label"
-            },
-            {
-              "value": "banana",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__3.label"
-            },
-            {
-              "value": "bottle",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__4.label"
-            },
-            {
-              "value": "box",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__5.label"
-            },
-            {
-              "value": "carrot",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__6.label"
-            },
-            {
-              "value": "chat_bubble",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__7.label"
-            },
-            {
-              "value": "check_mark",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__8.label"
-            },
-            {
-              "value": "clipboard",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__9.label"
-            },
-            {
-              "value": "dairy",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__10.label"
-            },
-            {
-              "value": "dairy_free",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__11.label"
-            },
-            {
-              "value": "dryer",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__12.label"
-            },
-            {
-              "value": "eye",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__13.label"
-            },
-            {
-              "value": "fire",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__14.label"
-            },
-            {
-              "value": "gluten_free",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__15.label"
-            },
-            {
-              "value": "heart",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__16.label"
-            },
-            {
-              "value": "iron",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__17.label"
-            },
-            {
-              "value": "leaf",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__18.label"
-            },
-            {
-              "value": "leather",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__19.label"
-            },
-            {
-              "value": "lightning_bolt",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__20.label"
-            },
-            {
-              "value": "lipstick",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__21.label"
-            },
-            {
-              "value": "lock",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__22.label"
-            },
-            {
-              "value": "map_pin",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__23.label"
-            },
-            {
-              "value": "nut_free",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__24.label"
-            },
-            {
-              "value": "pants",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__25.label"
-            },
-            {
-              "value": "paw_print",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__26.label"
-            },
-            {
-              "value": "pepper",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__27.label"
-            },
-            {
-              "value": "perfume",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__28.label"
-            },
-            {
-              "value": "plane",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__29.label"
-            },
-            {
-              "value": "plant",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__30.label"
-            },
-            {
-              "value": "price_tag",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__31.label"
-            },
-            {
-              "value": "question_mark",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__32.label"
-            },
-            {
-              "value": "recycle",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__33.label"
-            },
-            {
-              "value": "return",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__34.label"
-            },
-            {
-              "value": "ruler",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__35.label"
-            },
-            {
-              "value": "serving_dish",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__36.label"
-            },
-            {
-              "value": "shirt",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__37.label"
-            },
-            {
-              "value": "shoe",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__38.label"
-            },
-            {
-              "value": "silhouette",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__39.label"
-            },
-            {
-              "value": "snowflake",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__40.label"
-            },
-            {
-              "value": "star",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__41.label"
-            },
-            {
-              "value": "stopwatch",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__42.label"
-            },
-            {
-              "value": "truck",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__43.label"
-            },
-            {
-              "value": "washing",
-              "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.options__44.label"
-            }
+            { "value": "none", "label": "None" },
+            { "value": "truck", "label": "Delivery truck" },
+            { "value": "box-seam", "label": "Box" },
+            { "value": "geo-alt", "label": "Map pin" },
+            { "value": "envelope", "label": "Envelope" },
+            { "value": "telephone", "label": "Phone" },
+            { "value": "heart", "label": "Heart" },
+            { "value": "star", "label": "Star" },
+            { "value": "check-circle", "label": "Check mark" },
+            { "value": "info-circle", "label": "Info" },
+            { "value": "question-circle", "label": "Question mark" }
           ],
-          "default": "check_mark",
-          "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.icon.label"
+          "default": "none"
         },
         {
           "type": "richtext",
-          "id": "row_content",
-          "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.row_content.label"
+          "id": "body",
+          "label": "Answer",
+          "default": "<p>Answer common questions about shipping, returns, sizing or anything else customers ask about.</p>"
         },
         {
-          "type": "page",
-          "id": "page",
-          "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.page.label"
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button link"
+        },
+        {
+          "type": "checkbox",
+          "id": "hide_if_empty",
+          "label": "Hide when the answer and image are empty",
+          "info": "Useful when the answer comes from a dynamic source.",
+          "default": false
         }
       ]
     }
   ],
   "presets": [
     {
-      "name": "t:sections.collapsible_content.presets.name",
+      "name": "Collapsible content",
       "blocks": [
         {
-          "type": "collapsible_row"
+          "type": "text",
+          "settings": {
+            "title": "How long does shipping take?",
+            "icon": "truck"
+          }
         },
         {
-          "type": "collapsible_row"
+          "type": "text",
+          "settings": {
+            "title": "Can I return my order?",
+            "icon": "box-seam"
+          }
         },
         {
-          "type": "collapsible_row"
-        },
-        {
-          "type": "collapsible_row"
+          "type": "text",
+          "settings": {
+            "title": "How do I contact you?",
+            "icon": "envelope"
+          }
         }
       ]
     }

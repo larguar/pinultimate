@@ -21,7 +21,13 @@
 -%}
 <div class="price {{ class }}">
   {%- if show_from and product.price_varies and variant == blank -%}
-    {{ 'theme.product.from_price_html' | t: price: price }}
+    {%- liquid
+      assign from_price = product.price_min | money
+      if settings.currency_code_enabled
+        assign from_price = product.price_min | money_with_currency
+      endif
+    -%}
+    {{ 'theme.product.from_price_html' | t: price: from_price }}
   {%- elsif on_sale -%}
     <span class="visually-hidden">{{ 'theme.product.sale_price' | t }}</span>
     <span class="price__current">{{ price }}</span>

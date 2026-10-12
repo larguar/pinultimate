@@ -8,6 +8,10 @@
   - show_price {Boolean}: default true
   - show_badges {Boolean}: default true
   - show_swatches {Boolean}: variant thumbnails under the price, default true
+  - show_quick_add {Boolean}: round "+" button over the image on hover, default false.
+    Adds single-variant products to the cart; links to the product when it has options.
+  - price_first {Boolean}: show the price (and swatches) above the title, default false
+  - button_label {String}: optional outline button linking to the product, under the text
   - tile {Boolean}: light gray background behind the image, default true
   - sizes {String}: image sizes attribute, default a 4-column grid
   - lazy {Boolean}: lazy-load the image, default true
@@ -22,6 +26,8 @@
   assign show_price = show_price | default: true, allow_false: true
   assign show_badges = show_badges | default: true, allow_false: true
   assign show_swatches = show_swatches | default: true, allow_false: true
+  assign show_quick_add = show_quick_add | default: false, allow_false: true
+  assign price_first = price_first | default: false, allow_false: true
   assign tile = tile | default: true, allow_false: true
   assign sizes = sizes | default: '(min-width: 992px) 25vw, 50vw'
   assign heading_tag = heading_tag | default: 'h3'
@@ -38,64 +44,111 @@
   # Previous theme convention: "Booked Enamel Pin by Tiny Bee Cards" shows as "Booked Pin".
   assign short_title = product.title | split: ' by ' | first | remove: 'Enamel '
   assign second_image = product.media[1]
+
+  assign has_options = false
+  if product.has_only_default_variant == false and product.type != 'Custom'
+    assign has_options = true
+  endif
 -%}
+{%- capture price_block -%}
+  {%- if show_price -%}
+    {% render 'price', product: product, class: 'product-card__price' %}
+  {%- endif -%}
+
+  {%- comment -%} Variant thumbnails (previous theme convention, skipped for custom products). {%- endcomment -%}
+  {%- if show_swatches and has_options -%}
+    <div class="product-card__swatches d-flex align-items-center">
+      {%- for variant in product.variants limit: 5 -%}
+        {%- if variant.image -%}
+          <a href="{{ variant.url }}" class="product-card__swatch d-block rounded-circle" title="{{ variant.title | escape }}">
+            <span class="d-block w-100 h-100 rounded-circle overflow-hidden">
+              {{- variant.image | image_url: width: 300 | image_tag: class: 'w-100 h-100 object-fit-contain', alt: variant.title, loading: 'lazy' -}}
+            </span>
+          </a>
+        {%- endif -%}
+      {%- endfor -%}
+      <span class="product-card__options">{{ 'theme.product.options' | t: count: product.variants.size }}</span>
+    </div>
+  {%- endif -%}
+{%- endcapture -%}
 <div class="product-card position-relative{% unless product.available %} product-card--sold-out{% endunless %}">
-  <a
-    href="{{ product.url }}"
-    class="product-card__media d-block position-relative ratio ratio-{{ settings.card_image_ratio }}{% if tile %} bg-tile{% endif %}"
-    tabindex="-1"
-    aria-hidden="true"
-  >
-    {%- if product.featured_media -%}
-      {{
-        product.featured_media
-        | image_url: width: 800
-        | image_tag: class: fit_class, alt: product.featured_media.alt, loading: loading, sizes: sizes, widths: '300, 400, 600, 800'
-      }}
-      {%- if settings.card_show_secondary_image and second_image.media_type == 'image' -%}
-        {%- assign secondary_class = 'product-card__secondary-image ' | append: fit_class -%}
+  <div class="position-relative">
+    <a
+      href="{{ product.url }}"
+      class="product-card__media d-block position-relative ratio ratio-{{ settings.card_image_ratio }}{% if tile %} bg-tile{% endif %}"
+      tabindex="-1"
+      aria-hidden="true"
+    >
+      {%- if product.featured_media -%}
         {{
-          second_image
+          product.featured_media
           | image_url: width: 800
-          | image_tag: class: secondary_class, alt: '', loading: 'lazy', sizes: sizes, widths: '300, 400, 600, 800'
+          | image_tag: class: fit_class, alt: product.featured_media.alt, loading: loading, sizes: sizes, widths: '300, 400, 600, 800'
         }}
+        {%- if settings.card_show_secondary_image and second_image.media_type == 'image' -%}
+          {%- assign secondary_class = 'product-card__secondary-image ' | append: fit_class -%}
+          {{
+            second_image
+            | image_url: width: 800
+            | image_tag: class: secondary_class, alt: '', loading: 'lazy', sizes: sizes, widths: '300, 400, 600, 800'
+          }}
+        {%- endif -%}
+      {%- else -%}
+        {{ 'product-1' | placeholder_svg_tag: 'w-100 h-100' }}
       {%- endif -%}
-    {%- else -%}
-      {{ 'product-1' | placeholder_svg_tag: 'w-100 h-100' }}
+    </a>
+
+    {%- if show_quick_add and product.available -%}
+      <div class="product-card__quick-add position-absolute bottom-0 end-0">
+        {%- if product.has_only_default_variant -%}
+          <form action="{{ routes.cart_add_url }}" method="post" data-add-to-cart>
+            <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+            <button
+              type="submit"
+              class="product-card__quick-add-button d-flex align-items-center justify-content-center rounded-circle border-0 p-0"
+              aria-label="{{ 'theme.product.quick_add' | t: title: short_title | escape }}"
+            >
+              {% render 'icon', name: 'plus-lg' %}
+            </button>
+          </form>
+        {%- else -%}
+          <a
+            href="{{ product.url }}"
+            class="product-card__quick-add-button d-flex align-items-center justify-content-center rounded-circle text-reset"
+            aria-label="{{ 'theme.product.choose_options' | t: title: short_title | escape }}"
+          >
+            {% render 'icon', name: 'plus-lg' %}
+          </a>
+        {%- endif -%}
+      </div>
     {%- endif -%}
-  </a>
+  </div>
 
   {%- if show_badges -%}
     {% render 'product-badges', product: product, class: 'product-card__badges position-absolute top-0 end-0' %}
   {%- endif -%}
 
   <div class="product-card__info">
+    {%- if price_first -%}
+      {{ price_block }}
+    {%- endif -%}
+
     {%- if show_title -%}
-      <{{ heading_tag }} class="product-card__title mb-1">
+      <{{ heading_tag }} class="product-card__title">
         <a href="{{ product.url }}" class="text-reset">{{ short_title | escape }}</a>
       </{{ heading_tag }}>
     {%- endif -%}
 
     {%- if show_vendor and product.vendor != blank -%}
-      <p class="product-card__vendor text-uppercase mb-1">{{ product.vendor | escape }}</p>
+      <p class="product-card__vendor text-uppercase">{{ product.vendor | escape }}</p>
     {%- endif -%}
 
-    {%- if show_price -%}
-      {% render 'price', product: product, class: 'product-card__price' %}
-    {%- endif -%}
+    {%- unless price_first -%}
+      {{ price_block }}
+    {%- endunless -%}
 
-    {%- comment -%} Variant thumbnails (previous theme convention, skipped for custom products). {%- endcomment -%}
-    {%- if show_swatches and product.has_only_default_variant == false and product.type != 'Custom' -%}
-      <div class="product-card__swatches d-flex align-items-center gap-1 mt-2">
-        {%- for variant in product.variants limit: 5 -%}
-          {%- if variant.image -%}
-            <a href="{{ variant.url }}" class="product-card__swatch d-block rounded-circle overflow-hidden" title="{{ variant.title | escape }}">
-              {{ variant.image | image_url: width: 60 | image_tag: class: 'w-100 h-100 object-fit-cover', alt: variant.title, loading: 'lazy' }}
-            </a>
-          {%- endif -%}
-        {%- endfor -%}
-        <span class="product-card__options ms-1">{{ 'theme.product.options' | t: count: product.variants.size }}</span>
-      </div>
+    {%- if button_label != blank -%}
+      <a href="{{ product.url }}" class="product-card__button btn btn-outline-dark w-100">{{ button_label | escape }}</a>
     {%- endif -%}
   </div>
 </div>

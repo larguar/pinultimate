@@ -1,0 +1,44 @@
+{
+  "contact": {
+    "name": "Name",
+    "email": "Email",
+    "phone": "Phone Number",
+    "subject": "Subject",
+    "message": "Message",
+    "submit": "Submit",
+    "success": "Thanks for contacting us! We'll get back to you as soon as possible.",
+    "error_heading": "Please check the following:"
+  },
+  "blog": {
+    "date_format": "%b %d, %Y",
+    "all_tags": "All",
+    "empty": "There are currently no articles in this blog.",
+    "comments": {
+      "one": "{{ count }} comment",
+      "other": "{{ count }} comments"
+    }
+  },
+  "article": {
+    "back": "Back",
+    "more": "More articles",
+    "share_facebook": "Share on Facebook",
+    "share_x": "Share on X",
+    "share_pinterest": "Pin on Pinterest",
+    "comments_heading": "Comments",
+    "no_comments": "There are no comments for this article. Be the first one to leave a message!",
+    "form_heading": "Leave a comment",
+    "name": "Name",
+    "email": "Email",
+    "message": "Message",
+    "post": "Submit Comment",
+    "moderated": "Please note: comments must be approved before they are published.",
+    "success": "Your comment was posted successfully! Thank you!",
+    "success_moderated": "Your comment was posted successfully. We will publish it in a little while, as our blog is moderated."
+  },
+  "pagination": {
+    "label": "Pagination",
+    "previous": "Previous page",
+    "next": "Next page",
+    "page": "Page {{ number }}"
+  }
+}

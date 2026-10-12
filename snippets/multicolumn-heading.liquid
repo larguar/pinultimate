@@ -1,0 +1,36 @@
+{%- comment -%}
+  Section heading used by the content sections (multicolumn, testimonials, timeline):
+  a title with an optional subheading, either stacked under it or beside it after a
+  thin divider. Styles live in src/scss/sections/_multicolumn-heading.scss.
+
+  Accepts:
+  - heading {String}
+  - subheading {String}: inline rich text (optional)
+  - size {String}: 'small', 'medium' (default) or 'large'
+  - italic {Boolean}: italic title
+  - layout {String}: 'stacked' (default) or 'inline'
+  - alignment {String}: 'left' (default) or 'center'
+  - heading_tag {String}: default 'h2'
+{%- endcomment -%}
+{%- if heading != blank or subheading != blank -%}
+  {%- liquid
+    assign heading_tag = heading_tag | default: 'h2'
+    assign size = size | default: 'medium'
+    assign layout = layout | default: 'stacked'
+    if alignment == 'center'
+      assign align_class = 'text-center justify-content-center'
+    else
+      assign align_class = 'text-start'
+    endif
+  -%}
+  <div class="content-heading content-heading--{{ size }} content-heading--{{ layout }} {{ align_class }}">
+    {%- if heading != blank -%}
+      <{{ heading_tag }} class="content-heading__title mb-0{% if italic %} fst-italic{% endif %}">
+        {{- heading | escape -}}
+      </{{ heading_tag }}>
+    {%- endif -%}
+    {%- if subheading != blank -%}
+      <p class="content-heading__subheading mb-0">{{ subheading }}</p>
+    {%- endif -%}
+  </div>
+{%- endif -%}

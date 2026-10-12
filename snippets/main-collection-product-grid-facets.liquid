@@ -1,0 +1,125 @@
+{%- comment -%}
+  Sort and filter form for collection and search results. A plain GET form: with JavaScript
+  the results update in place (src/js/sections/main-collection-product-grid.js); without it
+  the Apply button reloads the page.
+
+  Accepts:
+  - results {Object}: collection or search
+  - id_prefix {String}: unique per form on the page, e.g. 'sidebar' or 'drawer'
+  - layout {String}: 'vertical' (sidebar / drawer, default) or 'horizontal' (dropdowns in a row)
+  - enable_filtering {Boolean}
+  - enable_sorting {Boolean}
+{%- endcomment -%}
+{%- liquid
+  assign layout = layout | default: 'vertical'
+  assign sort_by = results.sort_by | default: results.default_sort_by
+  assign is_search = false
+  if results.terms != blank or request.page_type == 'search'
+    assign is_search = true
+  endif
+
+  assign active_count = 0
+  if enable_filtering
+    for filter in results.filters
+      if filter.type == 'price_range'
+        if filter.min_value.value != null or filter.max_value.value != null
+          assign active_count = active_count | plus: 1
+        endif
+      else
+        assign active_count = active_count | plus: filter.active_values.size
+      endif
+    endfor
+  endif
+
+  if is_search
+    assign clear_url = routes.search_url | append: '?q=' | append: results.terms | append: '&options%5Bprefix%5D=last&sort_by=' | append: sort_by
+  else
+    assign clear_url = results.url | append: '?sort_by=' | append: sort_by
+  endif
+-%}
+<form
+  class="facets facets--{{ layout }}"
+  action="{% if is_search %}{{ routes.search_url }}{% else %}{{ results.url }}{% endif %}"
+  method="get"
+  data-facets-form
+>
+  {%- if is_search -%}
+    <input type="hidden" name="q" value="{{ results.terms | escape }}">
+    <input type="hidden" name="options[prefix]" value="last">
+  {%- endif -%}
+
+  {%- capture sort_field -%}
+    {%- if enable_sorting -%}
+      <div class="facets__sort">
+        <label class="facets__label d-block" for="{{ id_prefix }}-SortBy">{{ 'theme.collection.sort_by' | t }}</label>
+        <select name="sort_by" id="{{ id_prefix }}-SortBy" class="form-select facets__select">
+          {%- for option in results.sort_options -%}
+            <option value="{{ option.value | escape }}"{% if option.value == sort_by %} selected{% endif %}>
+              {{- option.name | escape -}}
+            </option>
+          {%- endfor -%}
+        </select>
+      </div>
+    {%- endif -%}
+  {%- endcapture -%}
+
+  {%- if layout == 'horizontal' -%}
+    <div class="d-flex flex-wrap align-items-start justify-content-between gap-3">
+      {%- if enable_filtering and results.filters != empty -%}
+        <div class="facets__filters">
+          <p class="facets__heading">{{ 'theme.collection.filter' | t }}</p>
+          <div class="d-flex flex-wrap gap-2">
+            {%- for filter in results.filters -%}
+              {%- liquid
+                assign selected = filter.active_values.size
+                if filter.type == 'price_range'
+                  assign selected = 0
+                  if filter.min_value.value != null or filter.max_value.value != null
+                    assign selected = 1
+                  endif
+                endif
+              -%}
+              <details class="facets__dropdown position-relative" id="{{ id_prefix }}-Details-{{ forloop.index }}" data-facets-details>
+                <summary class="facets__summary form-select d-flex align-items-center">
+                  {{ filter.label | escape }}
+                  {%- if selected > 0 %} ({{ selected }}){% endif -%}
+                </summary>
+                <div class="facets__dropdown-panel position-absolute start-0 bg-white">
+                  <div class="facets__dropdown-header d-flex justify-content-between align-items-center">
+                    <span>{{ 'theme.collection.selected' | t: count: selected }}</span>
+                    <a href="{{ filter.url_to_remove }}" class="facets__reset" data-facets-link>{{ 'theme.collection.reset' | t }}</a>
+                  </div>
+                  {% render 'main-collection-product-grid-filter', filter: filter, id_prefix: id_prefix, collapse: false %}
+                </div>
+              </details>
+            {%- endfor -%}
+          </div>
+        </div>
+      {%- endif -%}
+
+      {{ sort_field }}
+    </div>
+  {%- else -%}
+    {{ sort_field }}
+
+    {%- if active_count > 0 -%}
+      <p class="facets__clear mb-0">
+        <a href="{{ clear_url }}" data-facets-link>{{ 'theme.collection.clear_all' | t }}</a>
+      </p>
+    {%- endif -%}
+
+    {%- if enable_filtering -%}
+      {%- for filter in results.filters -%}
+        <fieldset class="facets__filter">
+          <legend class="facets__label">{{ filter.label | escape }}</legend>
+          {% render 'main-collection-product-grid-filter', filter: filter, id_prefix: id_prefix, collapse: true %}
+        </fieldset>
+      {%- endfor -%}
+    {%- endif -%}
+  {%- endif -%}
+
+  {%- comment -%} Without JavaScript the form is submitted with this button; the script hides it. {%- endcomment -%}
+  <button type="submit" class="facets__submit btn btn-outline-dark btn-sm mt-3" data-facets-submit>
+    {{- 'theme.collection.apply' | t -}}
+  </button>
+</form>

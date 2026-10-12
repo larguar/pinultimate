@@ -1,0 +1,45 @@
+@import "section-base";
+@import "utility";
+
+// Gift card page (templates/gift_card.liquid).
+.gift-card {
+  @include utility-solid-buttons;
+
+  &__logo {
+    width: auto;
+    height: 50px;
+
+    @include media-breakpoint-up(md) {
+      height: 58px;
+    }
+  }
+
+  &__heading {
+    font-size: 2.5rem;
+    line-height: 1;
+    text-transform: lowercase;
+
+    @include media-breakpoint-up(md) {
+      font-size: 3rem;
+    }
+  }
+
+  &__balance {
+    font-size: 2.5rem;
+    line-height: 1.1;
+  }
+
+  &__code {
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+  }
+
+  @media print {
+    background: none !important;
+
+    &__card {
+      padding: 0 !important;
+    }
+  }
+}

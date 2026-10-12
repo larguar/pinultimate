@@ -1,0 +1,19 @@
+@import "section-base";
+@import "main-collection-product-grid-mixins";
+
+@include inline-heading;
+
+.maker-list {
+  // Previous theme's reduced spacing: 24px on phones, 70px from md.
+  &--compact {
+    margin-top: 24px;
+
+    @include media-breakpoint-up(md) {
+      margin-top: 70px;
+    }
+  }
+
+  &__grid {
+    @include collection-gutters;
+  }
+}

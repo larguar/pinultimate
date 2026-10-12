@@ -1,80 +1,80 @@
-<footer class="site-footer container-fluid px-0 bg-primary text-white position-relative" data-bs-theme="dark">
+<footer class="site-footer position-relative">
   {%- if section.settings.show_paper_edge -%}
-    {% render 'footer-paper' %}
+    <div class="site-footer__paper text-primary">{% render 'footer-paper' %}</div>
   {%- endif -%}
 
-  {%- if section.settings.signup_heading != blank or section.settings.klaviyo_form_id != blank -%}
-    <div class="container pt-7 pb-5">
-      <div class="row justify-content-center text-center">
-        <div class="col-md-10 col-lg-6">
+  <div class="site-footer__body bg-primary text-white position-relative" data-bs-theme="dark">
+    {%- if section.settings.signup_heading != blank or section.settings.klaviyo_form_id != blank -%}
+      <div class="container">
+        <div class="site-footer__signup text-center mx-auto">
           {%- if section.settings.signup_heading != blank -%}
-            <h2 class="site-footer__signup-heading fst-italic fw-medium mb-2">{{ section.settings.signup_heading }}</h2>
+            <h2 class="site-footer__signup-heading fst-italic fw-medium">{{ section.settings.signup_heading }}</h2>
           {%- endif -%}
           {%- if section.settings.signup_text != blank -%}
-            <div class="site-footer__signup-text mb-4">{{ section.settings.signup_text }}</div>
+            <div class="site-footer__signup-text">{{ section.settings.signup_text }}</div>
           {%- endif -%}
           {%- if section.settings.klaviyo_form_id != blank -%}
-            <div class="site-footer__signup-form mb-4">
+            <div class="site-footer__signup-form bg-secondary">
               <div class="klaviyo-form-{{ section.settings.klaviyo_form_id | escape }}"></div>
             </div>
           {%- endif -%}
           {%- if section.settings.signup_legal != blank -%}
-            <div class="site-footer__legal small">{{ section.settings.signup_legal }}</div>
+            <div class="site-footer__legal">{{ section.settings.signup_legal }}</div>
           {%- endif -%}
         </div>
       </div>
-    </div>
-  {%- endif -%}
+    {%- endif -%}
 
-  {%- if section.blocks.size > 0 -%}
-    <div class="container pt-4 pb-5">
-      <div class="row gy-5">
-        {%- for block in section.blocks -%}
-          {%- case block.type -%}
-            {%- when 'text' -%}
-              <div class="col-12 col-lg-4 site-footer__block" {{ block.shopify_attributes }}>
-                {%- if block.settings.heading != blank -%}
-                  <h2 class="site-footer__heading{% if block.settings.heading_accent %} text-yellow{% endif %} mb-2">{{ block.settings.heading | escape }}</h2>
-                {%- endif -%}
-                <div class="site-footer__text">{{ block.settings.text }}</div>
-              </div>
-            {%- when 'menu' -%}
-              <div class="col-6 col-lg-2 site-footer__block" {{ block.shopify_attributes }}>
-                {%- if block.settings.heading != blank -%}
-                  <h2 class="site-footer__heading mb-2">{{ block.settings.heading | escape }}</h2>
-                {%- endif -%}
-                <ul class="list-unstyled mb-0">
-                  {%- for link in block.settings.menu.links -%}
-                    <li><a href="{{ link.url }}" class="site-footer__link">{{ link.title | escape }}</a></li>
-                  {%- endfor -%}
-                </ul>
-              </div>
-          {%- endcase -%}
-        {%- endfor -%}
+    {%- if section.blocks.size > 0 -%}
+      <div class="container site-footer__top">
+        <div class="row flex-lg-nowrap gy-4">
+          {%- for block in section.blocks -%}
+            {%- case block.type -%}
+              {%- when 'text' -%}
+                <div class="col-12 col-lg-auto site-footer__block site-footer__block--text" {{ block.shopify_attributes }}>
+                  {%- if block.settings.heading != blank -%}
+                    <h2 class="site-footer__heading{% if block.settings.heading_accent %} site-footer__heading--accent text-yellow{% endif %}">{{ block.settings.heading | escape }}</h2>
+                  {%- endif -%}
+                  <div class="site-footer__text">{{ block.settings.text }}</div>
+                </div>
+              {%- when 'menu' -%}
+                <div class="col-6 col-md site-footer__block" {{ block.shopify_attributes }}>
+                  {%- if block.settings.heading != blank -%}
+                    <h2 class="site-footer__heading">{{ block.settings.heading | escape }}</h2>
+                  {%- endif -%}
+                  <ul class="list-unstyled mb-0">
+                    {%- for link in block.settings.menu.links -%}
+                      <li><a href="{{ link.url }}" class="site-footer__link">{{ link.title | escape }}</a></li>
+                    {%- endfor -%}
+                  </ul>
+                </div>
+            {%- endcase -%}
+          {%- endfor -%}
+        </div>
       </div>
-    </div>
-  {%- endif -%}
+    {%- endif -%}
 
-  <div class="site-footer__bottom border-top">
-    <div class="container py-4">
-      <div class="row align-items-center gy-4">
-        <div class="col-12 col-lg-4 order-lg-3 d-flex justify-content-lg-end">
-          {% render 'social-icons', class: 'gap-4' %}
-        </div>
-        <div class="col-12 col-lg-4 order-lg-1 d-flex align-items-center gap-5 small">
-          {%- if section.settings.show_localization -%}
-            {% render 'localization-dropdown', id: 'FooterLocalization', direction: 'up' %}
-          {%- endif -%}
-          {%- if shop.terms_of_service -%}
-            <a href="{{ shop.terms_of_service.url }}" class="site-footer__link text-center">{{ shop.terms_of_service.title | escape }}</a>
-          {%- endif -%}
-          {%- if shop.privacy_policy -%}
-            <a href="{{ shop.privacy_policy.url }}" class="site-footer__link text-center">{{ shop.privacy_policy.title | escape }}</a>
-          {%- endif -%}
-        </div>
-        <div class="col-12 col-lg-4 order-lg-2 text-lg-center small">
-          &copy; {% if section.settings.copyright_start_year != blank %}{{ section.settings.copyright_start_year }}–{% endif %}{{ 'now' | date: '%Y' }}
-          {{ section.settings.copyright_name | default: shop.name | escape }}
+    <div class="site-footer__bottom border-top">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-12 col-md-6 col-lg order-1 order-lg-3 d-flex justify-content-md-end site-footer__social">
+            {% render 'social-icons' %}
+          </div>
+          <div class="col-12 col-md-6 col-lg order-2 order-lg-1 d-flex align-items-center site-footer__legal-links">
+            {%- if section.settings.show_localization -%}
+              {% render 'localization-dropdown', id: 'FooterLocalization', direction: 'up' %}
+            {%- endif -%}
+            {%- if shop.terms_of_service -%}
+              <a href="{{ shop.terms_of_service.url }}" class="site-footer__link site-footer__policy text-center">{{ 'theme.footer.terms' | t }}</a>
+            {%- endif -%}
+            {%- if shop.privacy_policy -%}
+              <a href="{{ shop.privacy_policy.url }}" class="site-footer__link site-footer__policy text-center">{{ 'theme.footer.privacy' | t }}</a>
+            {%- endif -%}
+          </div>
+          <div class="col-12 col-lg-auto order-3 order-lg-2 site-footer__copyright">
+            &copy; {% if section.settings.copyright_start_year != blank %}{{ section.settings.copyright_start_year }}–{% endif %}{{ 'now' | date: '%Y' }}
+            {{ section.settings.copyright_name | default: shop.name | escape }}
+          </div>
         </div>
       </div>
     </div>

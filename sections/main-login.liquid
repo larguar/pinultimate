@@ -1,0 +1,127 @@
+{%- comment -%}
+  Classic customer accounts: log in, recover password and guest checkout.
+  Based on Dawn's main-login (Shopify, MIT), restyled with Bootstrap.
+{%- endcomment -%}
+{{ 'section-main-account.css' | asset_url | stylesheet_tag }}
+
+<section class="customer customer--login container-fluid px-0">
+  <div class="container customer__container customer__container--narrow">
+    {%- comment -%} Recover password; shown at /account/login#recover. {%- endcomment -%}
+    <div class="customer__recover" id="recover" tabindex="-1">
+      <h1 class="customer__title">{{ 'theme.utility.account.recover_title' | t }}</h1>
+      <div class="customer__body">
+        <p>{{ 'theme.utility.account.recover_text' | t }}</p>
+        {%- form 'recover_customer_password' -%}
+          {%- assign recover_success = form.posted_successfully? -%}
+          {%- assign recover_errors = form.errors -%}
+          {%- if form.errors -%}
+            <div class="alert alert-danger" role="alert" id="RecoverEmail-error">{{ form.errors.messages['form'] }}</div>
+          {%- endif -%}
+          <div class="mb-3">
+            <label for="RecoverEmail" class="form-label">{{ 'theme.utility.account.email' | t }}</label>
+            <input
+              type="email"
+              name="email"
+              id="RecoverEmail"
+              class="form-control{% if form.errors %} is-invalid{% endif %}"
+              value=""
+              autocorrect="off"
+              autocapitalize="off"
+              autocomplete="email"
+              required
+              {% if form.errors %}
+                aria-invalid="true" aria-describedby="RecoverEmail-error"
+              {% endif %}
+            >
+          </div>
+          <div class="d-flex flex-wrap align-items-center gap-3">
+            <button type="submit" class="btn btn-dark">{{ 'theme.utility.account.submit' | t }}</button>
+            <a href="#login">{{ 'theme.utility.account.cancel' | t }}</a>
+          </div>
+        {%- endform -%}
+      </div>
+    </div>
+
+    <div class="customer__login" id="login">
+      <h1 class="customer__title">{{ 'theme.utility.account.login_title' | t }}</h1>
+      <div class="customer__body">
+        {%- if recover_success == true -%}
+          <div class="alert alert-success" role="status" tabindex="-1" autofocus>
+            {{ 'theme.utility.account.recover_success' | t }}
+          </div>
+        {%- endif -%}
+
+        {%- form 'customer_login', novalidate: 'novalidate' -%}
+          {%- if form.errors -%}
+            <div class="alert alert-danger" role="alert" id="CustomerLoginErrors" tabindex="-1" autofocus>
+              {{ form.errors | default_errors }}
+            </div>
+          {%- endif -%}
+
+          <div class="mb-3">
+            <label for="CustomerEmail" class="form-label">{{ 'theme.utility.account.email' | t }}</label>
+            <input
+              type="email"
+              name="customer[email]"
+              id="CustomerEmail"
+              class="form-control{% if form.errors contains 'form' %} is-invalid{% endif %}"
+              autocomplete="email"
+              autocorrect="off"
+              autocapitalize="off"
+              required
+              {% if form.errors contains 'form' %}
+                aria-invalid="true" aria-describedby="CustomerLoginErrors"
+              {% endif %}
+            >
+          </div>
+
+          {%- if form.password_needed -%}
+            <div class="mb-2">
+              <label for="CustomerPassword" class="form-label">{{ 'theme.utility.account.password' | t }}</label>
+              <input
+                type="password"
+                name="customer[password]"
+                id="CustomerPassword"
+                class="form-control{% if form.errors contains 'form' %} is-invalid{% endif %}"
+                autocomplete="current-password"
+                required
+                {% if form.errors contains 'form' %}
+                  aria-invalid="true" aria-describedby="CustomerLoginErrors"
+                {% endif %}
+              >
+            </div>
+            <p class="mb-3"><a href="#recover">{{ 'theme.utility.account.forgot_password' | t }}</a></p>
+          {%- endif -%}
+
+          <div class="d-flex flex-wrap align-items-center gap-3">
+            <button type="submit" class="btn btn-dark">{{ 'theme.utility.account.sign_in' | t }}</button>
+            <a href="{{ routes.account_register_url }}">{{ 'theme.utility.account.create_account' | t }}</a>
+          </div>
+        {%- endform -%}
+
+        {%- if shop.checkout.guest_login -%}
+          <hr class="my-5">
+          <h2 class="customer__subtitle mb-3">{{ 'theme.utility.account.guest_title' | t }}</h2>
+          {%- form 'guest_login' -%}
+            <button type="submit" class="btn btn-outline-dark">{{ 'theme.utility.account.guest_continue' | t }}</button>
+          {%- endform -%}
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{%- if recover_errors -%}
+  <script>
+    document.getElementById('recover')?.classList.add('is-visible');
+  </script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Customer login",
+  "tag": "div",
+  "class": "section-main-login",
+  "settings": []
+}
+{% endschema %}

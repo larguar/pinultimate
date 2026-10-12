@@ -1,0 +1,185 @@
+{%- comment -%}
+  Classic customer accounts: one order's details.
+  Based on Dawn's main-order (Shopify, MIT), restyled with Bootstrap.
+{%- endcomment -%}
+{{ 'section-main-account.css' | asset_url | stylesheet_tag }}
+
+<section class="customer customer--order container-fluid px-0">
+  <div class="container customer__container">
+    <p class="mb-2"><a href="{{ routes.account_url }}">{{ 'theme.utility.account.return' | t }}</a></p>
+    <h1 class="customer__title">{{ 'theme.utility.account.order_title' | t: name: order.name }}</h1>
+    <p class="mt-3 mb-0">
+      {%- assign order_date = order.created_at | time_tag: format: 'date_at_time' -%}
+      {{ 'theme.utility.account.placed_on_html' | t: date: order_date }}
+    </p>
+    {%- if order.cancelled -%}
+      <div class="alert alert-warning mt-3 mb-0">
+        {%- assign cancelled_at = order.cancelled_at | time_tag: format: 'date_at_time' -%}
+        <p class="mb-1">{{ 'theme.utility.account.cancelled_html' | t: date: cancelled_at }}</p>
+        <p class="mb-0">{{ 'theme.utility.account.cancelled_reason' | t: reason: order.cancel_reason_label }}</p>
+      </div>
+    {%- endif -%}
+
+    <div class="row g-5 customer__body">
+      <div class="col-12 col-lg-8">
+        <table class="table customer__table">
+          <caption class="visually-hidden">{{ 'theme.utility.account.order_title' | t: name: order.name }}</caption>
+          <thead>
+            <tr>
+              <th scope="col">{{ 'theme.utility.account.product' | t }}</th>
+              <th scope="col">{{ 'theme.utility.account.sku' | t }}</th>
+              <th scope="col" class="text-end">{{ 'theme.utility.account.price' | t }}</th>
+              <th scope="col" class="text-end">{{ 'theme.utility.account.quantity' | t }}</th>
+              <th scope="col" class="text-end">{{ 'theme.utility.account.total' | t }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {%- for line_item in order.line_items -%}
+              <tr>
+                <td data-label="{{ 'theme.utility.account.product' | t }}">
+                  <div class="text-start">
+                    {%- if line_item.url != blank -%}
+                      <a href="{{ line_item.url }}">{{ line_item.title | escape }}</a>
+                    {%- else -%}
+                      {{ line_item.title | escape }}
+                    {%- endif -%}
+                    {%- for property in line_item.properties -%}
+                      {%- assign first_char = property.first | slice: 0 -%}
+                      {%- if property.last != blank and first_char != '_' -%}
+                        <div class="small text-body-secondary">{{ property.first | escape }}: {{ property.last | escape }}</div>
+                      {%- endif -%}
+                    {%- endfor -%}
+                    {%- if line_item.selling_plan_allocation != nil -%}
+                      <div class="small text-body-secondary">{{ line_item.selling_plan_allocation.selling_plan.name | escape }}</div>
+                    {%- endif -%}
+                    {%- for discount in line_item.line_level_discount_allocations -%}
+                      <div class="small text-body-secondary">
+                        {{ discount.discount_application.title | escape }} (-{{ discount.amount | money }})
+                      </div>
+                    {%- endfor -%}
+                    {%- if line_item.fulfillment -%}
+                      <div class="small text-body-secondary">
+                        {%- assign fulfilled_at = line_item.fulfillment.created_at | time_tag: format: 'date' -%}
+                        {{ 'theme.utility.account.fulfilled_html' | t: date: fulfilled_at }}
+                        {%- if line_item.fulfillment.tracking_url -%}
+                          · <a href="{{ line_item.fulfillment.tracking_url }}">{{ 'theme.utility.account.track_shipment' | t }}</a>
+                        {%- endif -%}
+                        {%- if line_item.fulfillment.tracking_company -%}
+                          <br>{{ 'theme.utility.account.tracking_company' | t }}: {{ line_item.fulfillment.tracking_company }}
+                        {%- endif -%}
+                        {%- if line_item.fulfillment.tracking_number -%}
+                          <br>{{ 'theme.utility.account.tracking_number' | t }}: {{ line_item.fulfillment.tracking_number }}
+                        {%- endif -%}
+                      </div>
+                    {%- endif -%}
+                  </div>
+                </td>
+                <td data-label="{{ 'theme.utility.account.sku' | t }}">{{ line_item.sku }}</td>
+                <td data-label="{{ 'theme.utility.account.price' | t }}" class="text-end">
+                  {%- if line_item.original_price != line_item.final_price -%}
+                    <del class="text-body-secondary me-1">{{ line_item.original_price | money }}</del>
+                  {%- endif -%}
+                  {{ line_item.final_price | money }}
+                </td>
+                <td data-label="{{ 'theme.utility.account.quantity' | t }}" class="text-end">{{ line_item.quantity }}</td>
+                <td data-label="{{ 'theme.utility.account.total' | t }}" class="text-end">
+                  {%- if line_item.original_line_price != line_item.final_line_price -%}
+                    <del class="text-body-secondary me-1">{{ line_item.original_line_price | money }}</del>
+                  {%- endif -%}
+                  {{ line_item.final_line_price | money }}
+                </td>
+              </tr>
+            {%- endfor -%}
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="4" data-label="{{ 'theme.utility.account.subtotal' | t }}">{{ 'theme.utility.account.subtotal' | t }}</td>
+              <td class="text-end" data-label="{{ 'theme.utility.account.subtotal' | t }}">{{ order.line_items_subtotal_price | money }}</td>
+            </tr>
+            {%- for discount_application in order.cart_level_discount_applications -%}
+              <tr>
+                <td colspan="4" data-label="{{ 'theme.utility.account.discount' | t }}">
+                  {{ 'theme.utility.account.discount' | t }} ({{ discount_application.title | escape }})
+                </td>
+                <td class="text-end" data-label="{{ 'theme.utility.account.discount' | t }}">-{{ discount_application.total_allocated_amount | money }}</td>
+              </tr>
+            {%- endfor -%}
+            {%- for shipping_method in order.shipping_methods -%}
+              <tr>
+                <td colspan="4" data-label="{{ 'theme.utility.account.shipping' | t }}">
+                  {{ 'theme.utility.account.shipping' | t }} ({{ shipping_method.title | escape }})
+                </td>
+                <td class="text-end" data-label="{{ 'theme.utility.account.shipping' | t }}">{{ shipping_method.price | money }}</td>
+              </tr>
+            {%- endfor -%}
+            {%- if order.total_duties -%}
+              <tr>
+                <td colspan="4" data-label="{{ 'theme.utility.account.duties' | t }}">{{ 'theme.utility.account.duties' | t }}</td>
+                <td class="text-end" data-label="{{ 'theme.utility.account.duties' | t }}">{{ order.total_duties | money }}</td>
+              </tr>
+            {%- endif -%}
+            {%- for tax_line in order.tax_lines -%}
+              <tr>
+                <td colspan="4" data-label="{{ 'theme.utility.account.tax' | t }}">
+                  {{ 'theme.utility.account.tax' | t }} ({{ tax_line.title | escape }} {{ tax_line.rate | times: 100 }}%)
+                </td>
+                <td class="text-end" data-label="{{ 'theme.utility.account.tax' | t }}">{{ tax_line.price | money }}</td>
+              </tr>
+            {%- endfor -%}
+            <tr class="fw-semibold">
+              <td colspan="4" data-label="{{ 'theme.utility.account.total' | t }}">{{ 'theme.utility.account.total' | t }}</td>
+              <td class="text-end" data-label="{{ 'theme.utility.account.total' | t }}">
+                {%- if settings.currency_code_enabled -%}
+                  {{ order.total_net_amount | money_with_currency }}
+                {%- else -%}
+                  {{ order.total_net_amount | money }}
+                {%- endif -%}
+              </td>
+            </tr>
+            {%- if order.total_refunded_amount > 0 -%}
+              <tr>
+                <td colspan="4" data-label="{{ 'theme.utility.account.refunded' | t }}">{{ 'theme.utility.account.refunded' | t }}</td>
+                <td class="text-end" data-label="{{ 'theme.utility.account.refunded' | t }}">-{{ order.total_refunded_amount | money }}</td>
+              </tr>
+            {%- endif -%}
+          </tfoot>
+        </table>
+      </div>
+
+      <div class="col-12 col-lg-4">
+        <div class="bg-light p-4">
+          <h2 class="customer__subtitle mb-3">{{ 'theme.utility.account.billing_title' | t }}</h2>
+          <p class="mb-2">
+            <span class="fw-semibold">{{ 'theme.utility.account.payment_status' | t }}:</span>
+            {{ order.financial_status_label }}
+          </p>
+          {%- if order.billing_address -%}
+            <address class="mb-0">{{ order.billing_address | format_address }}</address>
+          {%- else -%}
+            <p class="mb-0">{{ 'theme.utility.account.no_address' | t }}</p>
+          {%- endif -%}
+
+          <h2 class="customer__subtitle mt-4 mb-3">{{ 'theme.utility.account.shipping_title' | t }}</h2>
+          <p class="mb-2">
+            <span class="fw-semibold">{{ 'theme.utility.account.fulfillment_status' | t }}:</span>
+            {{ order.fulfillment_status_label }}
+          </p>
+          {%- if order.shipping_address -%}
+            <address class="mb-0">{{ order.shipping_address | format_address }}</address>
+          {%- else -%}
+            <p class="mb-0">{{ 'theme.utility.account.no_address' | t }}</p>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Customer order",
+  "tag": "div",
+  "class": "section-main-order",
+  "settings": []
+}
+{% endschema %}

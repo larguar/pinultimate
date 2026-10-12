@@ -1,0 +1,157 @@
+{%- comment -%}
+  A decorative brand shape that overlaps the sections around it. The section itself takes no
+  space: the shape is positioned from the top of the section, against its left or right edge,
+  and drifts with a parallax effect while the page scrolls (src/js/sections/shape.js).
+{%- endcomment -%}
+{%- liquid
+  assign side = section.settings.side
+  assign z_index = 2
+  if section.settings.layer == 'behind'
+    assign z_index = -1
+  endif
+-%}
+
+{{ 'section-shape.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'section-shape.js' | asset_url }}" defer="defer"></script>
+
+<div class="shape container-fluid px-0" aria-hidden="true">
+  <div class="container px-0 position-relative">
+    <div class="row g-0">
+      <div class="col-12">
+        <parallax-shape
+          class="shape__item shape__item--{{ section.settings.size }} shape__item--{{ side }} text-{{ section.settings.color }}"
+          data-speed="{{ section.settings.speed }}"
+          style="--shape-x: {{ section.settings.x_offset }}px; --shape-y: {{ section.settings.y_offset }}px; --shape-x-mobile: {{ section.settings.x_offset_mobile }}px; --shape-y-mobile: {{ section.settings.y_offset_mobile }}px; z-index: {{ z_index }};"
+        >
+          {% render 'shape-svg', name: section.settings.shape, class: 'd-block w-100 h-100' %}
+        </parallax-shape>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Shape",
+  "tag": "div",
+  "class": "section-shape",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "A decorative shape that overlaps the sections around it. Place it just before the section it should sit on and move it into place with the offsets."
+    },
+    {
+      "type": "select",
+      "id": "shape",
+      "label": "Shape",
+      "options": [
+        { "value": "arch", "label": "Arch" },
+        { "value": "circle", "label": "Circle" },
+        { "value": "flower", "label": "Flower" },
+        { "value": "half-circle", "label": "Half circle" },
+        { "value": "leaf", "label": "Leaf" },
+        { "value": "triangle", "label": "Triangle" },
+        { "value": "wedge", "label": "Wedge" }
+      ],
+      "default": "circle"
+    },
+    {
+      "type": "select",
+      "id": "color",
+      "label": "Color",
+      "options": [
+        { "value": "red", "label": "Red" },
+        { "value": "yellow", "label": "Yellow" },
+        { "value": "green", "label": "Green" },
+        { "value": "primary", "label": "Dark green" },
+        { "value": "blue", "label": "Blue" },
+        { "value": "purple", "label": "Purple" }
+      ],
+      "default": "blue"
+    },
+    {
+      "type": "select",
+      "id": "size",
+      "label": "Size",
+      "options": [
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "speed",
+      "label": "Parallax speed",
+      "info": "How fast the shape drifts up as the page scrolls.",
+      "options": [
+        { "value": "0", "label": "None" },
+        { "value": "-3", "label": "Slow" },
+        { "value": "-2", "label": "Medium" },
+        { "value": "-1", "label": "Fast" }
+      ],
+      "default": "-2"
+    },
+    {
+      "type": "header",
+      "content": "Placement"
+    },
+    {
+      "type": "select",
+      "id": "layer",
+      "label": "Layer",
+      "options": [
+        { "value": "front", "label": "In front of other sections" },
+        { "value": "behind", "label": "Behind other sections" }
+      ],
+      "default": "front"
+    },
+    {
+      "type": "select",
+      "id": "side",
+      "label": "Side",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "number",
+      "id": "x_offset",
+      "label": "Distance from the side (px)",
+      "info": "Negative values push the shape past the edge of the page.",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "y_offset",
+      "label": "Distance from the top (px)",
+      "info": "Negative values move the shape up over the previous section.",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Mobile"
+    },
+    {
+      "type": "number",
+      "id": "x_offset_mobile",
+      "label": "Distance from the side (px)",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "y_offset_mobile",
+      "label": "Distance from the top (px)",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "Shape"
+    }
+  ]
+}
+{% endschema %}

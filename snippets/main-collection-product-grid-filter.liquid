@@ -1,0 +1,94 @@
+{%- comment -%}
+  One storefront filter's inputs: checkboxes with counts, or a price range.
+
+  Accepts:
+  - filter {Object}
+  - id_prefix {String}
+  - collapse {Boolean}: cut long lists off with a "Show more" button (needs JavaScript)
+{%- endcomment -%}
+{%- case filter.type -%}
+  {%- when 'price_range' -%}
+    {%- liquid
+      assign min_value = filter.min_value.value | divided_by: 100.0
+      assign max_value = filter.max_value.value | divided_by: 100.0
+      assign range_max = filter.range_max | divided_by: 100.0 | ceil
+    -%}
+    <div class="facets__price d-flex align-items-center gap-2">
+      <div class="flex-fill">
+        <label class="visually-hidden" for="{{ id_prefix }}-{{ filter.min_value.param_name | handle }}">{{ 'theme.collection.price_from' | t }}</label>
+        <div class="input-group">
+          <span class="input-group-text">{{ cart.currency.symbol }}</span>
+          <input
+            type="number"
+            class="form-control"
+            id="{{ id_prefix }}-{{ filter.min_value.param_name | handle }}"
+            name="{{ filter.min_value.param_name }}"
+            {% if filter.min_value.value != null %}value="{{ min_value }}"{% endif %}
+            placeholder="0"
+            min="0"
+            max="{{ range_max }}"
+            step="0.01"
+            inputmode="decimal"
+          >
+        </div>
+      </div>
+      <span aria-hidden="true">–</span>
+      <div class="flex-fill">
+        <label class="visually-hidden" for="{{ id_prefix }}-{{ filter.max_value.param_name | handle }}">{{ 'theme.collection.price_to' | t }}</label>
+        <div class="input-group">
+          <span class="input-group-text">{{ cart.currency.symbol }}</span>
+          <input
+            type="number"
+            class="form-control"
+            id="{{ id_prefix }}-{{ filter.max_value.param_name | handle }}"
+            name="{{ filter.max_value.param_name }}"
+            {% if filter.max_value.value != null %}value="{{ max_value }}"{% endif %}
+            placeholder="{{ range_max }}"
+            min="0"
+            max="{{ range_max }}"
+            step="0.01"
+            inputmode="decimal"
+          >
+        </div>
+      </div>
+    </div>
+
+  {%- else -%}
+    <div class="facets__values"{% if collapse %} data-show-more{% endif %} id="{{ id_prefix }}-Values-{{ filter.param_name | handle }}">
+      <ul class="facets__list list-unstyled mb-0">
+        {%- for value in filter.values -%}
+          {%- assign input_id = id_prefix | append: '-' | append: filter.param_name | append: '-' | append: forloop.index | handle -%}
+          <li class="facets__item">
+            <div class="form-check mb-0">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                name="{{ value.param_name }}"
+                value="{{ value.value | escape }}"
+                id="{{ input_id }}"
+                {% if value.active %}checked{% endif %}
+                {% if value.count == 0 and value.active == false %}disabled{% endif %}
+              >
+              <label class="form-check-label" for="{{ input_id }}">
+                {{- value.label | escape }} ({{ value.count }})
+              </label>
+            </div>
+          </li>
+        {%- endfor -%}
+      </ul>
+    </div>
+    {%- if collapse -%}
+      <button
+        type="button"
+        class="facets__show-more btn btn-link p-0 text-reset text-decoration-none"
+        aria-controls="{{ id_prefix }}-Values-{{ filter.param_name | handle }}"
+        aria-expanded="false"
+        data-show-more-toggle
+        data-label-more="{{ 'theme.collection.show_more' | t | escape }}"
+        data-label-less="{{ 'theme.collection.show_less' | t | escape }}"
+        hidden
+      >
+        {{- 'theme.collection.show_more' | t -}}
+      </button>
+    {%- endif -%}
+{%- endcase -%}

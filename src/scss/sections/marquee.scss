@@ -1,0 +1,134 @@
+@import "section-base";
+
+.marquee__viewport {
+  --marquee-gap: 5px;
+  --marquee-shape: 38px;
+  box-sizing: border-box;
+  height: 3.75rem;
+  padding-top: 5px;
+  line-height: 1.4;
+  white-space: nowrap;
+
+  @include media-breakpoint-up(sm) {
+    --marquee-gap: 8px;
+    --marquee-shape: 42px;
+  }
+
+  @include media-breakpoint-up(md) {
+    --marquee-gap: 10px;
+    --marquee-shape: 50px;
+  }
+
+  @include media-breakpoint-up(lg) {
+    --marquee-shape: 60px;
+  }
+}
+
+// Text sizes (the previous theme's small / large / extra large).
+.marquee--small {
+  height: 2.5rem;
+  font-size: 13px;
+
+  @include media-breakpoint-up(sm) {
+    font-size: 14px;
+  }
+
+  @include media-breakpoint-up(lg) {
+    font-size: 15px;
+  }
+}
+
+.marquee--large {
+  font-size: 16px;
+
+  @include media-breakpoint-up(sm) {
+    font-size: 18px;
+  }
+}
+
+.marquee--xlarge {
+  font-size: 24px;
+
+  @include media-breakpoint-up(sm) {
+    font-size: 30px;
+  }
+
+  @include media-breakpoint-up(md) {
+    height: 5rem;
+  }
+
+  @include media-breakpoint-up(lg) {
+    height: 6.25rem;
+    font-size: 36px;
+  }
+}
+
+.marquee__item {
+  display: inline-flex;
+  align-items: center;
+  margin: 0 var(--marquee-gap);
+}
+
+.marquee__text {
+  padding-top: 5px;
+
+  > * {
+    margin: 0 10px;
+  }
+
+  strong {
+    font-weight: 600;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: underline;
+  }
+}
+
+.marquee__shape {
+  width: var(--marquee-shape);
+  height: var(--marquee-shape);
+}
+
+// Each copy of the items slides left by its own width, so the copies loop seamlessly.
+@media (prefers-reduced-motion: no-preference) {
+  .marquee__group {
+    animation: marquee-scroll var(--marquee-duration, 20s) linear infinite;
+  }
+
+  .marquee--right .marquee__group {
+    animation-direction: reverse;
+  }
+
+  .marquee--pause-on-hover:hover .marquee__group {
+    animation-play-state: paused;
+  }
+}
+
+// Without motion, show each item once, wrapped and centered.
+@media (prefers-reduced-motion: reduce) {
+  .marquee__viewport {
+    flex-wrap: wrap;
+    justify-content: center;
+    height: auto;
+    min-height: 3.75rem;
+    white-space: normal;
+  }
+
+  .marquee__group {
+    flex-wrap: wrap;
+    flex-shrink: 1 !important;
+    justify-content: center;
+
+    &[aria-hidden="true"] {
+      display: none !important;
+    }
+  }
+}
+
+@keyframes marquee-scroll {
+  to {
+    transform: translateX(-100%);
+  }
+}

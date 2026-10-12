@@ -1,0 +1,506 @@
+@import "section-base";
+
+// Product page: media column + product information column.
+// Sizes and spacing were measured from the previous theme.
+
+$text-muted-border: rgba($body-color, 0.3);
+
+.main-product {
+  // Space below the header, as on the other first-of-page sections: 25 / 35 / 70px.
+  margin-top: 25px;
+
+  @include media-breakpoint-up(md) {
+    margin-top: 35px;
+  }
+
+  @include media-breakpoint-up(lg) {
+    margin-top: 70px;
+  }
+
+  &__row {
+    --bs-gutter-x: 20px;
+
+    @include media-breakpoint-up(md) {
+      --bs-gutter-x: 32px;
+    }
+
+    @include media-breakpoint-up(lg) {
+      --bs-gutter-x: 48px;
+    }
+
+    @include media-breakpoint-up(xl) {
+      --bs-gutter-x: 64px;
+    }
+  }
+
+  // ---------------------------------------------------------------- Media
+
+  &__gallery {
+    // Full-bleed slider on mobile.
+    margin-inline: -15px;
+
+    @include media-breakpoint-up(md) {
+      margin-inline: 0;
+    }
+  }
+
+  // With sticky information, whichever column is shorter stays in view.
+  @include media-breakpoint-up(md) {
+    &__info--sticky,
+    &--sticky &__gallery {
+      position: sticky;
+      top: 32px;
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    &__info--sticky,
+    &--sticky &__gallery {
+      top: 48px;
+    }
+  }
+
+  @include media-breakpoint-up(xl) {
+    &__info--sticky,
+    &--sticky &__gallery {
+      top: 64px;
+    }
+  }
+
+  &__media-embed {
+    > * {
+      width: 100%;
+      height: 100%;
+    }
+
+    iframe,
+    video {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+  }
+
+  &__gallery-nav {
+    height: 40px;
+    margin-top: 10px;
+  }
+
+  // Swiper's navigation buttons, laid out in a row under the image.
+  .swiper-button-prev,
+  .swiper-button-next {
+    position: static;
+    width: 40px;
+    height: 40px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: $body-color;
+    opacity: 0.8;
+
+    &::after {
+      display: none;
+    }
+
+    svg {
+      width: 12px;
+      height: 12px;
+    }
+
+    &.swiper-button-disabled {
+      opacity: 0.36;
+    }
+  }
+
+  // Segmented progress track: one segment per image, the current one dark.
+  .swiper-pagination.main-product__gallery-pagination {
+    position: static;
+    width: calc(30px * var(--count, 2));
+    max-width: 240px;
+    height: 6px;
+    overflow: hidden;
+    transform: none;
+    border-radius: 10px;
+
+    .swiper-pagination-bullet {
+      flex: 1 1 0;
+      width: auto;
+      height: 6px;
+      margin: 0;
+      border-radius: 0;
+      background: rgba($body-color, 0.08);
+      opacity: 1;
+
+      &-active {
+        border-radius: 10px;
+        background: $body-color;
+      }
+    }
+  }
+
+  // Stacked layouts: from md up the slider is disabled and the slides become a grid.
+  @include media-breakpoint-up(md) {
+    &__gallery--stack,
+    &__gallery--stack_2 {
+      .swiper-wrapper {
+        display: grid;
+        gap: 18px;
+        transform: none !important;
+      }
+
+      .swiper-slide {
+        width: auto !important;
+        margin: 0 !important;
+      }
+
+      .main-product__gallery-nav {
+        display: none !important;
+      }
+    }
+
+    &__gallery--stack_2 .swiper-wrapper {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  // ---------------------------------------------------------------- Information
+
+  &__info {
+    margin-top: 12px;
+    font-size: 15px;
+    line-height: 1.4;
+
+    @include media-breakpoint-up(sm) {
+      font-size: 16px;
+    }
+
+    @include media-breakpoint-up(md) {
+      margin-top: 0;
+    }
+
+    @include media-breakpoint-up(lg) {
+      padding-top: 27px;
+    }
+
+    @include media-breakpoint-up(xl) {
+      padding-top: 30px;
+    }
+
+    // Spacing between blocks. Each block type sets its own top margin.
+    > * + *,
+    > .main-product__group + * {
+      margin-top: 15px;
+    }
+
+    // Paragraphs keep the global size (17px); the previous theme spaced them 16px apart.
+    .rte p,
+    .main-product__custom p {
+      margin-bottom: 16px;
+    }
+
+    .main-product__custom p:last-child {
+      margin-bottom: 0;
+    }
+
+    // A paragraph followed by a title (vendor written in custom Liquid).
+    .main-product__custom p:has(+ h1) {
+      margin-bottom: 15px;
+    }
+
+    .rte a {
+      text-decoration: none;
+      border-bottom: 1px solid currentColor;
+
+      &:hover {
+        border-bottom-color: transparent;
+      }
+    }
+  }
+
+  &__group {
+    column-gap: 5px;
+  }
+
+  &__group > *,
+  &__info > :first-child {
+    margin-top: 0 !important;
+  }
+
+  &__vendor {
+    font-size: 12px;
+    line-height: 1.4;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+
+    a {
+      border-bottom: 1px solid currentColor;
+      text-decoration: none;
+    }
+  }
+
+  // The title block, and titles written in custom Liquid blocks (slightly larger on desktop).
+  &__title,
+  &__custom h1 {
+    margin: 0;
+    font-size: 2.0542rem;
+    font-weight: 600;
+    line-height: 0.99;
+
+    @include media-breakpoint-up(sm) {
+      font-size: 2.7792rem;
+    }
+
+    @include media-breakpoint-up(lg) {
+      font-size: 3.0208rem;
+    }
+  }
+
+  &__custom h1 {
+    line-height: 0.9;
+
+    @include media-breakpoint-up(lg) {
+      font-size: 3.625rem;
+    }
+  }
+
+  &__info > &__title,
+  &__info > &__custom:has(h1) {
+    margin-top: 15px;
+  }
+
+  &__info > &__price-row,
+  &__info > &__group {
+    margin-top: 8px;
+  }
+
+  &__price {
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 24px;
+
+    .price__compare {
+      margin-left: 5px;
+      font-weight: 400;
+      opacity: 0.54;
+    }
+  }
+
+  &__info > &__badges {
+    margin-top: 14px;
+
+    &:not(:has(.badge)) {
+      display: none;
+    }
+  }
+
+  &__badges .product-badges {
+    align-items: center !important;
+    gap: 2px !important;
+  }
+
+  &__info > &__variants {
+    margin-top: 30px;
+
+    @include media-breakpoint-up(lg) {
+      margin-top: 60px;
+    }
+  }
+
+  &__option + &__option {
+    margin-top: 15px;
+
+    @include media-breakpoint-up(lg) {
+      margin-top: 25px;
+    }
+  }
+
+  &__option-label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.4;
+
+    @include media-breakpoint-up(md) {
+      font-size: 14px;
+    }
+
+    @include media-breakpoint-up(lg) {
+      font-size: 15px;
+    }
+  }
+
+  &__select {
+    height: 42px;
+    padding-left: 12px;
+    border-color: $text-muted-border;
+    border-radius: 5px;
+    color: $body-color;
+    font-size: 13px;
+
+    @include media-breakpoint-up(md) {
+      height: 43px;
+      font-size: 14px;
+    }
+
+    @include media-breakpoint-up(lg) {
+      height: 44px;
+      font-size: 15px;
+    }
+  }
+
+  &__info > &__buy {
+    margin-top: 56px;
+  }
+
+  // Quantity stepper joined to the add to cart button.
+  &__form .quantity-stepper {
+    flex: 0 0 120px;
+    width: 120px !important;
+    height: 50px;
+    border: 1px solid $text-muted-border;
+    border-right: 0;
+    border-radius: 5px 0 0 5px;
+
+    .quantity-stepper__button {
+      width: 40px;
+      padding: 0;
+      justify-content: center;
+      font-size: 14px;
+    }
+
+    .quantity-stepper__button,
+    .quantity-stepper__input {
+      margin-left: 0;
+    }
+
+    .quantity-stepper__input {
+      flex: 0 0 39px;
+      width: 39px;
+      padding: 0;
+      font-size: 16px;
+    }
+  }
+
+  &__add {
+    --bs-btn-bg: #{$body-color};
+    --bs-btn-border-color: #{$body-color};
+    --bs-btn-hover-bg: #{$dark};
+    --bs-btn-hover-border-color: #{$dark};
+    --bs-btn-disabled-bg: #{$body-color};
+    --bs-btn-disabled-border-color: #{$body-color};
+    --bs-btn-disabled-opacity: 0.5;
+    --bs-btn-padding-x: 1rem;
+    height: 50px;
+    border-radius: 0 30px 30px 0;
+    font-size: 17px;
+    letter-spacing: 0.3px;
+
+    &--solo {
+      border-radius: 30px;
+    }
+
+    &[aria-busy="true"] {
+      opacity: 0.7;
+    }
+  }
+
+  &__installments {
+    margin-top: 20px;
+    font-size: 15px;
+    line-height: 1.5;
+
+    @include media-breakpoint-up(sm) {
+      font-size: 16px;
+    }
+  }
+
+  &__description p:last-child {
+    margin-bottom: 0;
+  }
+
+  // Collapsible tabs
+  &__info > &__tab {
+    margin-top: 16px;
+  }
+
+  &__info > &__tab + &__tab {
+    margin-top: 0;
+    border-top: 1px solid rgba($body-color, 0.1);
+  }
+
+  &__tab-heading {
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    line-height: inherit;
+  }
+
+  &__tab-toggle {
+    padding: 19px 0;
+    border: 0;
+    background: none;
+    color: inherit;
+    font-size: inherit;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  // Plus that turns into a minus when the tab is open.
+  &__tab-icon {
+    position: relative;
+    flex: 0 0 13px;
+    width: 13px;
+    height: 13px;
+    margin-left: 1rem;
+
+    &::before,
+    &::after {
+      content: "";
+      position: absolute;
+      background: $black;
+    }
+
+    &::before {
+      top: 6px;
+      left: 0;
+      width: 13px;
+      height: 1px;
+    }
+
+    &::after {
+      top: 0;
+      left: 6px;
+      width: 1px;
+      height: 13px;
+      transition: transform 0.2s ease;
+    }
+  }
+
+  &__tab-toggle:not(.collapsed) &__tab-icon::after {
+    transform: scaleY(0);
+  }
+
+  &__tab-content {
+    padding-bottom: 19px;
+
+    p:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  // [LG] Variant title pills in the product details.
+  .variant-title {
+    margin-right: 2px;
+    padding: 3px 2px 1px;
+    border: 1px solid #ddd;
+    border-radius: 2px;
+    background: $brand-light;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    vertical-align: middle;
+  }
+}

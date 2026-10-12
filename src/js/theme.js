@@ -2,7 +2,7 @@
 import Collapse from 'bootstrap/js/dist/collapse';
 import Modal from 'bootstrap/js/dist/modal';
 import Offcanvas from 'bootstrap/js/dist/offcanvas';
-import { openDrawer } from './components/cart';
+import { addItems, openDrawer } from './components/cart';
 import './components/predictive-search';
 import './components/quantity-stepper';
 import './components/sticky-header';
@@ -10,4 +10,4 @@ import './components/swiper-slider';
 
 // Exposed for section scripts and the theme editor.
 window.bootstrap = { Collapse, Modal, Offcanvas };
-window.theme.cart = { openDrawer };
+window.theme.cart = { addItems, openDrawer };

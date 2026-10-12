@@ -16,6 +16,7 @@
     {%- if settings[setting] != blank -%}
       {%- assign icon = network -%}
       {%- if network == 'twitter' %}{% assign icon = 'twitter-x' %}{% endif -%}
+      {%- if network == 'facebook' %}{% assign icon = 'facebook-f' %}{% endif -%}
       <li>
         <a href="{{ settings[setting] | escape }}" class="d-block text-{{ colors[forloop.index0] }} {{ link_class }}" target="_blank" rel="noopener">
           {%- render 'icon', name: icon -%}

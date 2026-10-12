@@ -1,0 +1,116 @@
+{%- comment -%}
+  Product recommendations for the first item in the cart. Shopify only fills
+  `recommendations` when the section is requested from the recommendations endpoint, so
+  src/js/sections/cart-recommendations.js loads the products after the page renders.
+{%- endcomment -%}
+{%- liquid
+  assign product_id = cart.items.first.product_id
+  assign limit = section.settings.products_count
+-%}
+{{ 'section-cart-recommendations.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'section-cart-recommendations.js' | asset_url }}" defer="defer"></script>
+
+<cart-recommendations
+  class="cart-recommendations d-block"
+  {% if product_id %}
+    data-url="{{ routes.product_recommendations_url }}?section_id={{ section.id }}&product_id={{ product_id }}&limit={{ limit }}"
+  {% endif %}
+>
+  {%- if recommendations.performed and recommendations.products_count > 0 -%}
+    <div class="container-fluid px-0 {% render 'section-spacing' %}">
+      <div class="container">
+        <div class="cart-recommendations__heading">
+          {%- if section.settings.heading != blank -%}
+            <h2 class="cart-recommendations__title mb-0">{{ section.settings.heading | escape }}</h2>
+          {%- endif -%}
+          {%- if section.settings.subheading != blank -%}
+            <p class="cart-recommendations__subtitle mb-0">{{ section.settings.subheading }}</p>
+          {%- endif -%}
+        </div>
+
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-{{ section.settings.columns_desktop }} cart-recommendations__grid">
+          {%- liquid
+            # Like the previous theme, an incomplete last row is hidden on tablets and desktops.
+            assign total = recommendations.products_count
+            assign columns_xl = section.settings.columns_desktop | times: 1
+            assign full_md = total | divided_by: 3 | times: 3
+            assign full_xl = total | divided_by: columns_xl | times: columns_xl
+          -%}
+          {%- for product in recommendations.products -%}
+            {%- liquid
+              assign item_class = ''
+              if total > 3 and forloop.index > full_md
+                assign item_class = item_class | append: ' d-md-none'
+                if forloop.index <= full_xl or total <= columns_xl
+                  assign item_class = item_class | append: ' d-xl-block'
+                endif
+              elsif total > columns_xl and forloop.index > full_xl
+                assign item_class = item_class | append: ' d-xl-none'
+              endif
+            -%}
+            <div class="col{{ item_class }}">
+              {% render 'product-card',
+                product: product,
+                show_swatches: false,
+                sizes: '(min-width: 1200px) 25vw, (min-width: 768px) 33vw, (min-width: 576px) 50vw, 100vw'
+              %}
+            </div>
+          {%- endfor -%}
+        </div>
+      </div>
+    </div>
+  {%- endif -%}
+</cart-recommendations>
+
+{% schema %}
+{
+  "name": "Cart recommendations",
+  "tag": "section",
+  "class": "section-cart-recommendations",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Shows products related to the first item in the cart, picked automatically by Shopify. Hidden when the cart is empty."
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Recommended"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "subheading",
+      "label": "Text below the heading",
+      "default": "You may also <strong>like</strong> these products"
+    },
+    {
+      "type": "range",
+      "id": "products_count",
+      "label": "Products to show",
+      "min": 2,
+      "max": 10,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "select",
+      "id": "columns_desktop",
+      "label": "Columns on desktop",
+      "options": [
+        { "value": "3", "label": "3" },
+        { "value": "4", "label": "4" }
+      ],
+      "default": "4"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Cart recommendations"
+    }
+  ],
+  "enabled_on": {
+    "templates": ["cart"]
+  }
+}
+{% endschema %}
