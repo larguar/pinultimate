@@ -3,13 +3,21 @@
     "main": {
       "type": "main-blog",
       "settings": {
-        "layout": "collage",
+        "layout": "one_column",
+        "posts_per_page": 6,
+        "show_tags": false,
         "show_image": true,
-        "image_height": "medium",
+        "image_ratio": "4x3",
+        "image_radius": 0,
         "show_date": true,
         "show_author": false,
-        "padding_top": 36,
-        "padding_bottom": 36
+        "show_comments": false,
+        "show_excerpt": true,
+        "excerpt_limit": 15,
+        "show_card_tags": false,
+        "tags_limit": 3,
+        "show_button": false,
+        "button_label": "Read more"
       }
     }
   },

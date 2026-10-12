@@ -1,0 +1,34 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "settings": {
+        "show_title": true,
+        "content_width": "full"
+      },
+      "disabled": true
+    },
+    "custom_liquid_aypqxa": {
+      "type": "custom-liquid",
+      "settings": {
+        "custom_liquid": "<div class=\"signup-form\"><div class=\"form\">{{ page.metafields.custom.klaviyo_form.value }}</div></div>",
+        "subheading": "",
+        "heading": "",
+        "heading_alignment": "left",
+        "heading_tag": "h2",
+        "button_label": "",
+        "full_width": true,
+        "background": "none",
+        "spacing": "default"
+      },
+      "custom_css": [
+        ".signup-form {background: #14452f; display: flex; align-items: center; height: 90vh;}",
+        ".signup-form .form {max-width: 560px; background: #fafafa; margin: 0 auto; padding: 30px;}"
+      ]
+    }
+  },
+  "order": [
+    "main",
+    "custom_liquid_aypqxa"
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "settings": {
+        "show_title": true,
+        "content_width": "full"
+      },
+      "disabled": true
+    },
+    "bf951c52-14cf-4a57-a2f8-e954483ee89c": {
+      "type": "newsletter",
+      "settings": {
+        "heading": "Your best promotion yet",
+        "text": "<p>Use this text to share information about your brand with your customers. Describe a product, share announcements or welcome customers to your store.</p>",
+        "heading_tag": "h3",
+        "background": "light",
+        "full_width": false,
+        "spacing": "default"
+      }
+    },
+    "928823c2-d30d-4675-b5f9-fa0083b5e909": {
+      "type": "featured-collection",
+      "settings": {
+        "collection": "",
+        "heading": "Featured collection",
+        "subheading": "Share your best offers",
+        "style": "cards",
+        "products_count": 8,
+        "columns_desktop": "4",
+        "columns_mobile": "2",
+        "show_button": true,
+        "button_label": "Shop {collection}",
+        "spacing": "default"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "bf951c52-14cf-4a57-a2f8-e954483ee89c",
+    "928823c2-d30d-4675-b5f9-fa0083b5e909"
+  ]
+}

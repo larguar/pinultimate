@@ -1,0 +1,43 @@
+{
+  "sections": {
+    "banner": {
+      "type": "main-collection-banner",
+      "settings": {
+        "show_collection_description": false,
+        "show_collection_image": false,
+        "image_height": "small"
+      }
+    },
+    "maker_list_NXYAKU": {
+      "type": "maker-list",
+      "settings": {
+        "heading": "{count} Makers",
+        "subheading": "+ counting",
+        "columns_desktop": "6",
+        "image_ratio": "5x6",
+        "show_view_all": false,
+        "compact_spacing": true
+      }
+    },
+    "product-grid": {
+      "type": "main-collection-product-grid",
+      "settings": {
+        "products_per_page": 24,
+        "enable_filtering": true,
+        "enable_sorting": true,
+        "filters_layout": "top",
+        "columns_desktop": "4",
+        "columns_mobile": "1",
+        "show_vendor": false,
+        "show_price": false,
+        "show_quick_add": false
+      },
+      "disabled": true
+    }
+  },
+  "order": [
+    "banner",
+    "maker_list_NXYAKU",
+    "product-grid"
+  ]
+}

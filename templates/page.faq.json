@@ -1,0 +1,72 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "settings": {
+        "show_title": true,
+        "content_width": "full"
+      }
+    },
+    "16b2dba1-91cf-41a2-aace-f1795a74fd4b": {
+      "type": "collapsible-content",
+      "settings": {
+        "subheading": "",
+        "heading": "",
+        "heading_alignment": "left",
+        "heading_tag": "h2",
+        "open_first": false,
+        "one_at_a_time": true,
+        "button_label": "",
+        "show_form": true,
+        "form_title": "Contact form",
+        "form_style": "outline",
+        "background": "none",
+        "spacing": "default"
+      },
+      "blocks": {
+        "template--18077632758078__16b2dba1-91cf-41a2-aace-f1795a74fd4b-1677675595b001aa13-0": {
+          "type": "text",
+          "settings": {
+            "title": "Shipping details",
+            "subtitle": "Question subtitle",
+            "icon": "truck",
+            "body": "<p>Write some useful information about your shipping details</p><p>Link to your <a href=\"#\">shipping policy</a>.</p>",
+            "button_label": "",
+            "hide_if_empty": false
+          }
+        },
+        "template--18077632758078__16b2dba1-91cf-41a2-aace-f1795a74fd4b-1677675595b001aa13-1": {
+          "type": "text",
+          "settings": {
+            "title": "Delivery details",
+            "subtitle": "Question subtitle",
+            "icon": "info-circle",
+            "body": "<p>Let your customers know if you offer free delivery for certain types of orders</p><p>Link to your <a href=\"#\">offers page</a>.</p>",
+            "button_label": "",
+            "hide_if_empty": false
+          }
+        },
+        "template--18077632758078__16b2dba1-91cf-41a2-aace-f1795a74fd4b-1677675595b001aa13-2": {
+          "type": "text",
+          "settings": {
+            "title": "Returns details",
+            "subtitle": "Question subtitle",
+            "icon": "box-seam",
+            "body": "<p>Show customers how much time they have for testing your products</p><p>Link to your <a href=\"#\">returns policy</a>.</p>",
+            "button_label": "",
+            "hide_if_empty": false
+          }
+        }
+      },
+      "block_order": [
+        "template--18077632758078__16b2dba1-91cf-41a2-aace-f1795a74fd4b-1677675595b001aa13-0",
+        "template--18077632758078__16b2dba1-91cf-41a2-aace-f1795a74fd4b-1677675595b001aa13-1",
+        "template--18077632758078__16b2dba1-91cf-41a2-aace-f1795a74fd4b-1677675595b001aa13-2"
+      ]
+    }
+  },
+  "order": [
+    "main",
+    "16b2dba1-91cf-41a2-aace-f1795a74fd4b"
+  ]
+}

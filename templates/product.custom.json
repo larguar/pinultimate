@@ -1,0 +1,737 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "title": {
+          "type": "title",
+          "settings": {}
+        },
+        "price": {
+          "type": "price",
+          "settings": {
+            "beside": "none"
+          }
+        },
+        "description": {
+          "type": "description",
+          "settings": {}
+        },
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": {
+            "show_labels": true,
+            "unavailable": "hide"
+          }
+        },
+        "custom_liquid_4rY49G": {
+          "type": "custom_liquid",
+          "settings": {
+            "custom_liquid": "<span id=\"delivery-date\"></span>\n<span id=\"rush-info\"></span>\n<span id=\"date-warning\"></span>"
+          }
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_quantity": false,
+            "show_payment_terms": true
+          }
+        }
+      },
+      "block_order": [
+        "title",
+        "price",
+        "description",
+        "variant_picker",
+        "custom_liquid_4rY49G",
+        "buy_buttons"
+      ],
+      "settings": {
+        "media_layout": "slider",
+        "media_width": "half",
+        "media_ratio": "5x6",
+        "media_fit": "contain",
+        "media_tile": true,
+        "video_loop": false,
+        "preselect_variant": false,
+        "sticky_info": true
+      }
+    },
+    "marquee_3c9BJW": {
+      "type": "marquee",
+      "settings": {
+        "direction": "left",
+        "speed": 60,
+        "pause_on_hover": true,
+        "text_size": "xlarge",
+        "background": "yellow",
+        "text_color": "dark",
+        "spacing": "default",
+        "pull_next_section_up": true
+      },
+      "blocks": {
+        "text_H7EiUx": {
+          "type": "text",
+          "settings": {
+            "text": "<strong>4-8 WEEKS</strong> ➺ <em>turnaround time</em>"
+          }
+        },
+        "text_a8NAfh": {
+          "type": "text",
+          "settings": {
+            "text": "<strong>100+ PINS</strong> ➺ <em>minimum order quantity</em>"
+          }
+        },
+        "text_TFpQpB": {
+          "type": "text",
+          "settings": {
+            "text": "<strong>$2-5/PIN</strong> ➺ <em>average budget</em>"
+          }
+        }
+      },
+      "block_order": [
+        "text_H7EiUx",
+        "text_a8NAfh",
+        "text_TFpQpB"
+      ]
+    },
+    "slideshow_bFGUxT": {
+      "type": "slideshow",
+      "settings": {
+        "autoplay": false,
+        "autoplay_interval": 5,
+        "text_position": "bottom-left",
+        "text_box": true,
+        "full_width": true,
+        "height": "40",
+        "height_mobile": "40",
+        "spacing": "default"
+      },
+      "blocks": {
+        "image_AAFgVw": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/20240414-215.png",
+            "overlay": 0,
+            "caption": "Say it fun-sized with",
+            "title": "Custom Pins",
+            "button_label": "",
+            "open_in_new_window": false
+          }
+        },
+        "image_JhJJUG": {
+          "type": "slide",
+          "settings": {
+            "overlay": 0,
+            "caption": "Introducing",
+            "title": "Your best promotion yet",
+            "button_label": "Show more",
+            "open_in_new_window": false
+          },
+          "disabled": true
+        },
+        "image_Pwqhdi": {
+          "type": "slide",
+          "settings": {
+            "overlay": 0,
+            "caption": "Introducing",
+            "title": "Your best promotion yet",
+            "button_label": "Show more",
+            "open_in_new_window": false
+          },
+          "disabled": true
+        }
+      },
+      "block_order": [
+        "image_AAFgVw",
+        "image_JhJJUG",
+        "image_Pwqhdi"
+      ],
+      "disabled": true
+    },
+    "info_tabs_3DB4tB": {
+      "type": "timeline",
+      "blocks": {
+        "tab_t4QM4E": {
+          "type": "step",
+          "settings": {
+            "title": "{{ shop.metaobjects.custom[\"design-ideation\"].title.value }}",
+            "caption": "{{ shop.metaobjects.custom[\"design-ideation\"].timeline.value }}",
+            "text": "{{ shop.metaobjects.custom[\"design-ideation\"].content | metafield_tag }}",
+            "image": "{{ shop.metaobjects.custom[\"design-ideation\"].image.value }}"
+          }
+        },
+        "tab_BmFqb7": {
+          "type": "step",
+          "settings": {
+            "title": "{{ shop.metaobjects.custom.production.title.value }}",
+            "caption": "{{ shop.metaobjects.custom.production.timeline.value }}",
+            "text": "{{ shop.metaobjects.custom.production.content | metafield_tag }}",
+            "image": "{{ shop.metaobjects.custom.production.image.value }}"
+          }
+        },
+        "tab_jhp3Pt": {
+          "type": "step",
+          "settings": {
+            "title": "{{ shop.metaobjects.custom[\"final-touches\"].title.value }}",
+            "caption": "{{ shop.metaobjects.custom[\"final-touches\"].timeline.value }}",
+            "text": "{{ shop.metaobjects.custom[\"final-touches\"].content | metafield_tag }}",
+            "image": "{{ shop.metaobjects.custom[\"final-touches\"].image.value }}"
+          }
+        },
+        "tab_AJtYXk": {
+          "type": "step",
+          "settings": {
+            "title": "{{ shop.metaobjects.custom.delivery.title.value }}",
+            "caption": "{{ shop.metaobjects.custom.delivery.timeline.value }}",
+            "text": "{{ shop.metaobjects.custom.delivery.content | metafield_tag }}",
+            "image": "{{ shop.metaobjects.custom.delivery.image.value }}"
+          }
+        }
+      },
+      "block_order": [
+        "tab_t4QM4E",
+        "tab_BmFqb7",
+        "tab_jhp3Pt",
+        "tab_AJtYXk"
+      ],
+      "settings": {
+        "heading": "How It Works",
+        "subheading": "Timeline",
+        "heading_size": "large",
+        "heading_italic": true,
+        "heading_alignment": "center",
+        "heading_tag": "h2",
+        "show_numbers": true,
+        "image_position": "right",
+        "image_width": "half",
+        "image_ratio": "portrait",
+        "spacing": "default"
+      }
+    },
+    "slider_zbnU77": {
+      "type": "floating-images",
+      "settings": {
+        "caption": "Say it fun-sized with",
+        "title": "<p>Custom Pins</p>",
+        "title_size": "xlarge",
+        "button_label": "",
+        "button_style": "primary",
+        "text_position": "middle-center",
+        "background": "light",
+        "text_color": "white",
+        "invert_text": true,
+        "height": 125,
+        "height_mobile": 170,
+        "spacing": "none"
+      },
+      "blocks": {
+        "image_K4hzNB": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/PIN-UMD-BC-T.png",
+            "width": 15,
+            "x": 15,
+            "y": 20,
+            "hide_on_desktop": false,
+            "width_mobile": 30,
+            "x_mobile": 0,
+            "y_mobile": 0,
+            "hide_on_mobile": false,
+            "speed": 0
+          }
+        },
+        "image_aRiR6c": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/PIN-WED-BC-T.png",
+            "width": 30,
+            "x": 60,
+            "y": 10,
+            "hide_on_desktop": false,
+            "width_mobile": 65,
+            "x_mobile": 30,
+            "y_mobile": 35,
+            "hide_on_mobile": false,
+            "speed": 0
+          }
+        },
+        "image_6f7GXN": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/PIN-JHU-BC-T.png",
+            "width": 25,
+            "x": 0,
+            "y": 60,
+            "hide_on_desktop": false,
+            "width_mobile": 35,
+            "x_mobile": 15,
+            "y_mobile": 90,
+            "hide_on_mobile": false,
+            "speed": 0
+          }
+        },
+        "image_cCUnLx": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/PIN-MYE-BC-T_5db3059e-fc63-454d-855a-d5bd936e8ecd.png",
+            "width": 40,
+            "x": 55,
+            "y": 85,
+            "hide_on_desktop": false,
+            "width_mobile": 50,
+            "x_mobile": 65,
+            "y_mobile": 120,
+            "hide_on_mobile": false,
+            "speed": 0
+          }
+        },
+        "image_Xq6FDV": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/PIN-WIN-T.png",
+            "width": 25,
+            "x": 30,
+            "y": 40,
+            "hide_on_desktop": false,
+            "width_mobile": 25,
+            "x_mobile": 30,
+            "y_mobile": 40,
+            "hide_on_mobile": false,
+            "speed": 0
+          }
+        }
+      },
+      "block_order": [
+        "image_K4hzNB",
+        "image_aRiR6c",
+        "image_6f7GXN",
+        "image_cCUnLx",
+        "image_Xq6FDV"
+      ],
+      "disabled": true
+    },
+    "rich_text_ezmgNi": {
+      "type": "rich-text",
+      "blocks": {
+        "text_dTJMMB": {
+          "type": "text",
+          "settings": {
+            "text": "<h3>Design & Ideation</h3><h4>Custom Designs</h4><p>It all starts with an idea! Tell us about your project and we’ll collaborate with you to create the most epic design for your custom pins and refine until it’s *chef’s kiss* perfect and ready for production.</p><p><em>Timeline: 1 Week or 3 Days for rush orders*</em></p><h4>Existing Designs</h4><p>Already have your design ready? We're so excited to bring it to life for you! Upload your vector or high-res raster artwork when you place your order. We'll take a look at your design files and get everything production-ready.</p><p><em>Timeline: 4-5 Days or 3 Days for rush orders*</em></p>"
+          }
+        }
+      },
+      "block_order": [
+        "text_dTJMMB"
+      ],
+      "settings": {
+        "image": "shopify://shop_images/designs-ipad.jpg",
+        "image_position": "right",
+        "image_fit": "cover",
+        "height": "medium",
+        "text_alignment": "left",
+        "content_spacing": 20,
+        "button_spacing": 30,
+        "background": "none",
+        "full_width": false,
+        "spacing": "default",
+        "bottom_spacing": false
+      },
+      "disabled": true
+    },
+    "rich_text_8BRBUV": {
+      "type": "rich-text",
+      "blocks": {
+        "text_tb6EJi": {
+          "type": "text",
+          "settings": {
+            "text": "<h3>Production</h3><h4>Manufacturing</h4><p>The pins are created through a meticulous process involving molds, plating, and a harmonious balance of machine-made and hand-made techniques.</p><p><em>Timeline: 3-4 Weeks</em></p><h4>Quality Check</h4><p>Once the pins are ready, we’ll send pics (because duh), then we check each one to ensure you're receiving a high quality deliverable.</p><p><em>Timeline: 1-2 Days</em></p><h4>Carding</h4><p>Lastly, we carefully attach the pins to their backing cards.</p><p><em>Timeline: 3-5 Days</em></p>"
+          }
+        }
+      },
+      "block_order": [
+        "text_tb6EJi"
+      ],
+      "settings": {
+        "image": "shopify://shop_images/IMG_7670.jpg",
+        "image_position": "left",
+        "image_fit": "cover",
+        "height": "medium",
+        "text_alignment": "left",
+        "content_spacing": 20,
+        "button_spacing": 30,
+        "background": "none",
+        "full_width": false,
+        "spacing": "default",
+        "bottom_spacing": false
+      },
+      "disabled": true
+    },
+    "rich_text_mxxPTq": {
+      "type": "rich-text",
+      "blocks": {
+        "text_cDeJUz": {
+          "type": "text",
+          "settings": {
+            "text": "<h3>Delivery</h3><h4>Priority Shipping</h4><p>The best part! We'll carefully package up your pins and ship them Priority Mail and send you a tracking number as soon as they’re out the door.</p><p><em>Timeline: 3-5 Days</em></p><h4>Expedited Shipping</h4><p>Alternatively, we can send your pins Priority Mail Express. We recommend going this route if you're placing a rush order.</p><p><em>Timeline: 1-2 Days</em></p><h4>Hand Delivery</h4><p>If you're local, we’ll coordinate a time to hand-deliver them to you.</p><p><em>Timeline: 3-5 Days</em></p>"
+          }
+        }
+      },
+      "block_order": [
+        "text_cDeJUz"
+      ],
+      "settings": {
+        "image": "shopify://shop_images/IMG_8042.jpg",
+        "image_position": "right",
+        "image_fit": "cover",
+        "height": "medium",
+        "text_alignment": "left",
+        "content_spacing": 20,
+        "button_spacing": 30,
+        "background": "none",
+        "full_width": false,
+        "spacing": "default",
+        "bottom_spacing": false
+      },
+      "disabled": true
+    },
+    "info_tabs_yaAXF4": {
+      "type": "timeline",
+      "blocks": {
+        "tab_9Abdmz": {
+          "type": "step",
+          "settings": {
+            "title": "Type",
+            "caption": "Timeline",
+            "text": "<h4>Hard Enamel</h4><p>Hard Enamel pins have a flat surface and tend to be heavier than soft enamel pins, giving them a more expensive, quality feel.</p><h4>Die Struck</h4><p>Die struck pins are recessed without enamel coloring. This effect is really nice when combined with hard enamel and can make certain elements stand out by giving the illusion of depth.</p>",
+            "image": "shopify://shop_images/PIN-JHU-C.png"
+          }
+        },
+        "tab_BXVc4n": {
+          "type": "step",
+          "settings": {
+            "title": "Plating",
+            "caption": "Timeline",
+            "text": "<h4>Gold Plated</h4><p>Gold plating gives a pin a luxurious, jewely-like feel. Gold plating looks incredible with (almost) every pin design, so it's typically our go-to.</p><h4>Black Nickel</h4><p>For designs with heavy text against a light or yellow background, black nickel plating is a great option. All text becomes easily legible, while maintaining a sleek appearance.</p>",
+            "image": "shopify://shop_images/PIN-MYE-C.png"
+          }
+        },
+        "tab_FXzi6V": {
+          "type": "step",
+          "settings": {
+            "title": "Embellishments",
+            "caption": "Timeline",
+            "text": "<h4>Silkscreen</h4><p>Screen printing defies the laws of pin making, allowing for colors to touch other colors without metal needing to be in between.</p>",
+            "image": "shopify://shop_images/PIN-WIN-C.png"
+          }
+        },
+        "tab_dUP9ci": {
+          "type": "step",
+          "settings": {
+            "title": "Posts",
+            "caption": "Timeline",
+            "text": "<h4>2 Posts</h4><p>If size allows for it, having 2 posts adds an extra layer of security. In addition to keeping the pin in place, if one of the clutches were to accidentally fall off, your pin won't fall off too.</p>",
+            "image": "shopify://shop_images/posts.png"
+          }
+        },
+        "tab_pytwtV": {
+          "type": "step",
+          "settings": {
+            "title": "Clutches",
+            "caption": "Timeline",
+            "text": "<h4>Locking</h4><p>Deluxe locking pin backs are the most secure option and are best for high-traffic areas. The internal spring mechanism makes them more difficult to remove, so they're much less likely to accidentally fall off during wear.</p><h4>Rubber</h4><p>Rubber clutches are more comfortable for wearing and are a great option for low traffic wear, especially if you plan on moving your pin around from spot to spot more frequently.</p>",
+            "image": "shopify://shop_images/clutches.png"
+          }
+        }
+      },
+      "block_order": [
+        "tab_9Abdmz",
+        "tab_BXVc4n",
+        "tab_FXzi6V",
+        "tab_dUP9ci",
+        "tab_pytwtV"
+      ],
+      "settings": {
+        "heading": "Our Preferences",
+        "subheading": "for the <strong>highest quality</strong> pins",
+        "heading_size": "large",
+        "heading_italic": true,
+        "heading_alignment": "center",
+        "heading_tag": "h3",
+        "show_numbers": false,
+        "image_position": "right",
+        "image_width": "half",
+        "image_ratio": "tall",
+        "spacing": "default"
+      },
+      "disabled": true
+    },
+    "slideshow_YAKxCm": {
+      "type": "slideshow",
+      "settings": {
+        "autoplay": false,
+        "autoplay_interval": 5,
+        "text_position": "bottom-left",
+        "text_box": true,
+        "full_width": false,
+        "height": "80",
+        "height_mobile": "60",
+        "spacing": "default"
+      },
+      "blocks": {
+        "image_6BFG4X": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/20240414-215.png",
+            "overlay": 0,
+            "caption": "",
+            "title": "",
+            "button_label": "",
+            "open_in_new_window": false
+          }
+        },
+        "image_8p3hez": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/202404330-447.png",
+            "overlay": 0,
+            "caption": "",
+            "title": "",
+            "button_label": "",
+            "open_in_new_window": false
+          }
+        },
+        "image_kQtFXz": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/IMG_8042.jpg",
+            "overlay": 0,
+            "caption": "",
+            "title": "",
+            "button_label": "",
+            "open_in_new_window": false
+          }
+        }
+      },
+      "block_order": [
+        "image_6BFG4X",
+        "image_8p3hez",
+        "image_kQtFXz"
+      ],
+      "disabled": true
+    },
+    "content_toggles_mHpCMp": {
+      "type": "collapsible-content",
+      "settings": {
+        "subheading": "",
+        "heading": "FAQ",
+        "heading_alignment": "center",
+        "heading_tag": "h2",
+        "open_first": true,
+        "one_at_a_time": true,
+        "button_label": "",
+        "show_form": false,
+        "form_title": "Contact form",
+        "form_style": "outline",
+        "background": "none",
+        "spacing": "default"
+      },
+      "blocks": {
+        "text_eyNP6B": {
+          "type": "text",
+          "settings": {
+            "title": "Type",
+            "subtitle": "",
+            "icon": "none",
+            "body": "<p>Hard Enamel pins have a flat surface and tend to be heavier than soft enamel pins, giving them a more expensive, quality feel.</p><p>Die struck pins are recessed without enamel coloring. This effect is really nice when combined with hard enamel and can make certain elements stand out by giving the illusion of depth.</p>",
+            "button_label": "",
+            "hide_if_empty": false
+          }
+        },
+        "text_dhVGtA": {
+          "type": "text",
+          "settings": {
+            "title": "Plating",
+            "subtitle": "",
+            "icon": "none",
+            "body": "<p>Gold plating gives a pin a luxurious, jewelry-like feel. Gold plating looks incredible with (almost) every pin design, so it's typically our go-to.</p><p>For designs with heavy text against a light or yellow background, black nickel plating is a great option. All text becomes easily legible, while maintaining a sleek appearance.</p>",
+            "button_label": "",
+            "hide_if_empty": false
+          }
+        },
+        "text_tX46UV": {
+          "type": "text",
+          "settings": {
+            "title": "Embellishments",
+            "subtitle": "",
+            "icon": "none",
+            "body": "<p>Screen printing defies the laws of pin making, allowing for colors to touch other colors without metal needing to be in between.</p>",
+            "button_label": "",
+            "hide_if_empty": false
+          }
+        },
+        "text_KatjjE": {
+          "type": "text",
+          "settings": {
+            "title": "Posts",
+            "subtitle": "",
+            "icon": "none",
+            "body": "<p>If size allows for it, having 2 posts adds an extra layer of security. In addition to keeping the pin in place, if one of the clutches were to accidentally fall off, your pin won't fall off too.</p>",
+            "button_label": "",
+            "hide_if_empty": false
+          }
+        },
+        "text_A6rtG7": {
+          "type": "text",
+          "settings": {
+            "title": "Clutches",
+            "subtitle": "",
+            "icon": "none",
+            "body": "<p>Deluxe locking pin backs are the most secure option and are best for high-traffic areas. The internal spring mechanism makes them more difficult to remove, so they're much less likely to accidentally fall off during wear.</p><p>Rubber clutches are more comfortable for wearing and are a great option for low traffic wear, especially if you plan on moving your pin around from spot to spot more frequently.</p>",
+            "button_label": "",
+            "hide_if_empty": false
+          }
+        }
+      },
+      "block_order": [
+        "text_eyNP6B",
+        "text_dhVGtA",
+        "text_tX46UV",
+        "text_KatjjE",
+        "text_A6rtG7"
+      ],
+      "disabled": true
+    },
+    "text_columns_icons_7B8bEB": {
+      "type": "multicolumn",
+      "blocks": {
+        "image_YN9jJa": {
+          "type": "column",
+          "settings": {
+            "image": "{{ shop.metaobjects.client[\"university-of-maryland-school-of-pharmacy\"].logo.value }}",
+            "icon": "none",
+            "title": "",
+            "text": "",
+            "link": "",
+            "link_label": ""
+          }
+        },
+        "image_cwfB93": {
+          "type": "column",
+          "settings": {
+            "image": "{{ shop.metaobjects.client[\"hawaiian-airlines\"].logo.value }}",
+            "icon": "none",
+            "title": "",
+            "text": "",
+            "link": "",
+            "link_label": ""
+          }
+        },
+        "image_Jc7FzN": {
+          "type": "column",
+          "settings": {
+            "image": "{{ shop.metaobjects.client[\"kaiser-permanente\"].logo.value }}",
+            "icon": "none",
+            "title": "",
+            "text": "",
+            "link": "",
+            "link_label": ""
+          }
+        },
+        "image_9hxh9X": {
+          "type": "column",
+          "settings": {
+            "image": "{{ shop.metaobjects.client[\"johns-hopkins-whiting-school-of-engineering\"].logo.value }}",
+            "icon": "none",
+            "title": "",
+            "text": "",
+            "link": "",
+            "link_label": ""
+          }
+        },
+        "image_XGDf3V": {
+          "type": "column",
+          "settings": {
+            "image": "{{ shop.metaobjects.client.loop.logo.value }}",
+            "icon": "none",
+            "title": "",
+            "text": "",
+            "link": "",
+            "link_label": ""
+          }
+        },
+        "image_Hne47d": {
+          "type": "column",
+          "settings": {
+            "image": "{{ shop.metaobjects.client[\"baystate-health\"].logo.value }}",
+            "icon": "none",
+            "title": "",
+            "text": "",
+            "link": "",
+            "link_label": ""
+          }
+        }
+      },
+      "block_order": [
+        "image_YN9jJa",
+        "image_cwfB93",
+        "image_Jc7FzN",
+        "image_9hxh9X",
+        "image_XGDf3V",
+        "image_Hne47d"
+      ],
+      "settings": {
+        "heading": "Brands We've Worked With",
+        "subheading": "",
+        "heading_size": "small",
+        "heading_layout": "stacked",
+        "heading_alignment": "center",
+        "heading_tag": "h4",
+        "layout": "carousel",
+        "columns_desktop": 5,
+        "columns_tablet": 4,
+        "columns_mobile": "2",
+        "media_style": "logo",
+        "image_ratio": "square",
+        "card_style": "card",
+        "text_alignment": "center",
+        "background": "none",
+        "spacing": "default"
+      }
+    },
+    "product-recommendations": {
+      "type": "product-recommendations",
+      "settings": {
+        "heading": "Recommended",
+        "subheading": "You may also <strong>like</strong> these products",
+        "heading_style": "inline",
+        "intent": "related",
+        "products_to_show": 4,
+        "columns_desktop": "4",
+        "columns_mobile": "1",
+        "one_row": true,
+        "show_vendor": false,
+        "show_price": true,
+        "price_first": true,
+        "show_quick_add": false,
+        "button_label": "View product"
+      },
+      "disabled": true
+    }
+  },
+  "order": [
+    "main",
+    "marquee_3c9BJW",
+    "slideshow_bFGUxT",
+    "info_tabs_3DB4tB",
+    "slider_zbnU77",
+    "rich_text_ezmgNi",
+    "rich_text_8BRBUV",
+    "rich_text_mxxPTq",
+    "info_tabs_yaAXF4",
+    "slideshow_YAKxCm",
+    "content_toggles_mHpCMp",
+    "text_columns_icons_7B8bEB",
+    "product-recommendations"
+  ]
+}

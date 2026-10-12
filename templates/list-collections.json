@@ -4,11 +4,50 @@
       "type": "main-list-collections",
       "settings": {
         "title": "Collections",
+        "display_type": "selected",
         "sort": "alphabetical",
-        "image_ratio": "square",
-        "columns_desktop": 3,
-        "columns_mobile": "2"
-      }
+        "columns_desktop": "3",
+        "image_ratio": "4x3"
+      },
+      "blocks": {
+        "collection_WzP84E": {
+          "type": "collection",
+          "settings": {
+            "collection": "dogs"
+          }
+        },
+        "collection_MkzKi4": {
+          "type": "collection",
+          "settings": {
+            "collection": "last-chance"
+          }
+        },
+        "collection_W8JmrV": {
+          "type": "collection",
+          "settings": {
+            "collection": "lgbtqia"
+          }
+        },
+        "collection_F8emDH": {
+          "type": "collection",
+          "settings": {
+            "collection": "out-of-stock"
+          }
+        },
+        "collection_MrVbKb": {
+          "type": "collection",
+          "settings": {
+            "collection": "sale"
+          }
+        }
+      },
+      "block_order": [
+        "collection_WzP84E",
+        "collection_MkzKi4",
+        "collection_W8JmrV",
+        "collection_F8emDH",
+        "collection_MrVbKb"
+      ]
     }
   },
   "order": [

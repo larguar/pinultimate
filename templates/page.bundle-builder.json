@@ -1,0 +1,34 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "settings": {
+        "show_title": true,
+        "content_width": "full"
+      }
+    },
+    "1cf71d0e-5fa1-4af6-8f00-68078e56da2f": {
+      "type": "products-bundle",
+      "settings": {
+        "heading": "Products bundle",
+        "subheading": "Share your <strong>best</strong> offers",
+        "collection_limit": 12,
+        "products": [],
+        "once_per_product": true,
+        "bundle_size": 2,
+        "allow_more": false,
+        "discount_title": "Add 2 items to get a discount",
+        "panel_bg_color": "#3E3E3E",
+        "panel_text_color": "#F5F5F5",
+        "open_on_mobile": true,
+        "button_label": "",
+        "button_link": "",
+        "spacing": "default"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "1cf71d0e-5fa1-4af6-8f00-68078e56da2f"
+  ]
+}

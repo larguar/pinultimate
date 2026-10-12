@@ -1,0 +1,69 @@
+{
+  "sections": {
+    "banner": {
+      "type": "main-collection-banner",
+      "settings": {
+        "show_collection_description": true,
+        "show_collection_image": false,
+        "image_height": "small"
+      }
+    },
+    "rich_text_GCHpgN": {
+      "type": "rich-text",
+      "blocks": {
+        "text_QrAJLe": {
+          "type": "eyebrow",
+          "settings": {
+            "text": "Meet the Maker",
+            "max_width_mobile": 0
+          }
+        },
+        "title_VRwJmx": {
+          "type": "title",
+          "settings": {
+            "title": "Behind the Pins",
+            "size": "small",
+            "heading_tag": "h2"
+          }
+        }
+      },
+      "block_order": [
+        "text_QrAJLe",
+        "title_VRwJmx"
+      ],
+      "settings": {
+        "image": "{{ collection.image }}",
+        "image_position": "right",
+        "image_fit": "cover",
+        "height": "large",
+        "text_alignment": "left",
+        "content_spacing": 20,
+        "button_spacing": 30,
+        "background": "none",
+        "full_width": false,
+        "spacing": "none",
+        "bottom_spacing": false
+      },
+      "disabled": true
+    },
+    "product-grid": {
+      "type": "main-collection-product-grid",
+      "settings": {
+        "products_per_page": 48,
+        "enable_filtering": false,
+        "enable_sorting": false,
+        "filters_layout": "top",
+        "columns_desktop": "4",
+        "columns_mobile": "1",
+        "show_vendor": true,
+        "show_price": true,
+        "show_quick_add": true
+      }
+    }
+  },
+  "order": [
+    "banner",
+    "rich_text_GCHpgN",
+    "product-grid"
+  ]
+}

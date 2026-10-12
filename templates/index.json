@@ -1,75 +1,601 @@
 {
   "sections": {
-    "image_banner": {
-      "type": "image-banner",
+    "shape_qWT9zK": {
+      "type": "shape",
+      "settings": {
+        "shape": "circle",
+        "color": "green",
+        "size": "small",
+        "speed": "-1",
+        "layer": "front",
+        "side": "left",
+        "x_offset": -66,
+        "y_offset": 8,
+        "x_offset_mobile": -86,
+        "y_offset_mobile": -12
+      }
+    },
+    "hero_bounce_jxXn9F": {
+      "type": "hero-bounce",
+      "settings": {
+        "image": "shopify://shop_images/317775361_533204498456320_4531707310695921206_n.jpg",
+        "image_2": "shopify://shop_images/Lauren-177.jpg",
+        "title": "Last Chance",
+        "title_color": "#feff86",
+        "text_transform": "uppercase",
+        "font_size": 160,
+        "text_width": 612,
+        "speed": 20,
+        "button_label": "Shop Clearance",
+        "link": "shopify://collections/sale",
+        "open_in_new_window": false,
+        "button_style": "primary",
+        "font_size_mobile": 120,
+        "text_width_mobile": 460,
+        "full_width": true,
+        "height": "fit",
+        "height_mobile": "fit",
+        "spacing": "none"
+      }
+    },
+    "shape_GDJcUQ": {
+      "type": "shape",
+      "settings": {
+        "shape": "flower",
+        "color": "red",
+        "size": "large",
+        "speed": "-2",
+        "layer": "front",
+        "side": "right",
+        "x_offset": -42,
+        "y_offset": -68,
+        "x_offset_mobile": -48,
+        "y_offset_mobile": -88
+      }
+    },
+    "rich_text_HrEAqK": {
+      "type": "rich-text",
       "blocks": {
-        "heading": {
-          "type": "heading",
+        "text_mbQCK8": {
+          "type": "eyebrow",
           "settings": {
-            "heading": "Browse our latest products",
-            "heading_size": "h0"
+            "text": "Woman owned & operated since 2018",
+            "max_width_mobile": 220
           }
         },
-        "button": {
-          "type": "buttons",
+        "title_3NNrim": {
+          "type": "title",
           "settings": {
-            "button_label_1": "Shop all",
-            "button_link_1": "shopify://collections/all",
-            "button_style_secondary_1": true,
-            "button_label_2": "",
-            "button_link_2": "",
-            "button_style_secondary_2": false
+            "title": "A curated shop of pins made by the artists that get you.",
+            "size": "large",
+            "heading_tag": "h2"
+          }
+        },
+        "text_C9t889": {
+          "type": "text",
+          "settings": {
+            "text": "<p>We’ve all got things that make us who we are. Beliefs and values. Quirks and rituals. Passions and causes. Pinultimate was created for you to help share your story with the world.</p>"
+          },
+          "disabled": true
+        },
+        "button_e4fJ4m": {
+          "type": "button",
+          "settings": {
+            "label": "Shop All Pins",
+            "link": "shopify://collections/pins",
+            "style": "solid",
+            "new_tab": false
+          }
+        },
+        "button_wm9wc4": {
+          "type": "button",
+          "settings": {
+            "label": "Shop by Maker",
+            "link": "shopify://collections/makers",
+            "style": "outline",
+            "new_tab": false
           }
         }
       },
       "block_order": [
-        "heading",
-        "button"
+        "text_mbQCK8",
+        "title_3NNrim",
+        "text_C9t889",
+        "button_e4fJ4m",
+        "button_wm9wc4"
       ],
       "settings": {
-        "image_overlay_opacity": 40,
-        "image_height": "large",
-        "desktop_content_position": "bottom-center",
-        "show_text_box": false,
-        "image_behavior": "none",
-        "desktop_content_alignment": "center",
-        "color_scheme": "scheme-3",
-        "mobile_content_alignment": "center",
-        "stack_images_on_mobile": false,
-        "show_text_below": false
+        "image_position": "none",
+        "image_fit": "cover",
+        "height": "auto",
+        "text_alignment": "left",
+        "content_spacing": 24,
+        "button_spacing": 42,
+        "background": "none",
+        "full_width": false,
+        "spacing": "default",
+        "bottom_spacing": false
       }
     },
-    "featured_collection": {
+    "marquee_hJEmAL": {
+      "type": "marquee",
+      "settings": {
+        "direction": "left",
+        "speed": 60,
+        "pause_on_hover": true,
+        "text_size": "xlarge",
+        "background": "none",
+        "text_color": "dark",
+        "spacing": "default",
+        "pull_next_section_up": false
+      },
+      "blocks": {
+        "image_Hf9mwf": {
+          "type": "shape",
+          "settings": {
+            "shape": "wedge",
+            "color": "purple"
+          }
+        },
+        "text_Un7bp4": {
+          "type": "text",
+          "settings": {
+            "text": "<strong>Buy 3 Pins</strong> ➺ <em>Get 20% Off</em>"
+          }
+        },
+        "image_8nMPAG": {
+          "type": "shape",
+          "settings": {
+            "shape": "triangle",
+            "color": "blue"
+          }
+        },
+        "text_wVEtFH": {
+          "type": "text",
+          "settings": {
+            "text": "<strong>Spend $50</strong> ➺ <em>Get Free Domestic Shipping</em>"
+          }
+        }
+      },
+      "block_order": [
+        "image_Hf9mwf",
+        "text_Un7bp4",
+        "image_8nMPAG",
+        "text_wVEtFH"
+      ]
+    },
+    "marquee_b9kV9J": {
+      "type": "marquee",
+      "settings": {
+        "direction": "left",
+        "speed": 60,
+        "pause_on_hover": true,
+        "text_size": "xlarge",
+        "background": "none",
+        "text_color": "dark",
+        "spacing": "default",
+        "pull_next_section_up": false
+      },
+      "blocks": {
+        "image_4r6hR4": {
+          "type": "shape",
+          "settings": {
+            "shape": "wedge",
+            "color": "purple"
+          }
+        },
+        "text_EXd7JP": {
+          "type": "text",
+          "settings": {
+            "text": "<strong>Holiday Sale</strong> ➺ <em>Get 40% Off Sitewide</em>"
+          }
+        },
+        "image_RPYb4Q": {
+          "type": "shape",
+          "settings": {
+            "shape": "triangle",
+            "color": "blue"
+          }
+        },
+        "text_GiMkqE": {
+          "type": "text",
+          "settings": {
+            "text": "<strong>Spend $50</strong> ➺ <em>Get Free Domestic Shipping</em>"
+          }
+        }
+      },
+      "block_order": [
+        "image_4r6hR4",
+        "text_EXd7JP",
+        "image_RPYb4Q",
+        "text_GiMkqE"
+      ],
+      "disabled": true
+    },
+    "featured_collection_more_yjFJEm": {
       "type": "featured-collection",
       "settings": {
-        "title": "Featured products",
-        "heading_size": "h2",
-        "description": "",
-        "show_description": false,
-        "description_style": "body",
-        "collection": "all",
-        "products_to_show": 8,
-        "columns_desktop": 4,
-        "color_scheme": "scheme-1",
-        "full_width": false,
-        "show_view_all": true,
-        "view_all_style": "solid",
-        "enable_desktop_slider": false,
-        "swipe_on_mobile": false,
-        "image_ratio": "adapt",
-        "image_shape": "default",
-        "show_secondary_image": true,
-        "show_vendor": false,
-        "show_rating": false,
-        "quick_add": "none",
-        "columns_mobile": "2",
-        "padding_top": 44,
-        "padding_bottom": 36
+        "collection": "new",
+        "heading": "Gotta Keep Up",
+        "subheading": "{collection}",
+        "style": "compact",
+        "products_count": 6,
+        "show_button": true,
+        "button_label": "Shop {collection}",
+        "background": "light",
+        "spacing": "small"
       }
+    },
+    "rich_text_Rq767t": {
+      "type": "rich-text",
+      "blocks": {
+        "text_n6CyFk": {
+          "type": "eyebrow",
+          "settings": {
+            "text": "Our Mission",
+            "max_width_mobile": 0
+          }
+        },
+        "title_3inmB8": {
+          "type": "title",
+          "settings": {
+            "title": "Celebrating the Makers",
+            "size": "medium",
+            "heading_tag": "h2"
+          }
+        },
+        "text_K6hjMn": {
+          "type": "text",
+          "settings": {
+            "text": "<p>We love a good pin, but have you met the artists behind ‘em? They’re the real MVPs. Fighting for their passion, while getting knocked down over and over again as their art is stolen and mass produced by large corporations.</p><p>We created this community to lift up these makers, shout their names from the tallest rooftops, and share their art with the world—giving credit where credit is due.</p>"
+          }
+        },
+        "button_aHic9Y": {
+          "type": "button",
+          "settings": {
+            "label": "Our Story",
+            "link": "shopify://pages/about",
+            "style": "solid",
+            "new_tab": false
+          }
+        }
+      },
+      "block_order": [
+        "text_n6CyFk",
+        "title_3inmB8",
+        "text_K6hjMn",
+        "button_aHic9Y"
+      ],
+      "settings": {
+        "image": "shopify://shop_images/NOP.gif",
+        "image_position": "right",
+        "image_fit": "cover",
+        "height": "medium",
+        "text_alignment": "left",
+        "content_spacing": 24,
+        "button_spacing": 36,
+        "background": "none",
+        "full_width": false,
+        "spacing": "default",
+        "bottom_spacing": true
+      }
+    },
+    "shape_iiAcwj": {
+      "type": "shape",
+      "settings": {
+        "shape": "half-circle",
+        "color": "purple",
+        "size": "medium",
+        "speed": "-2",
+        "layer": "behind",
+        "side": "left",
+        "x_offset": -50,
+        "y_offset": -720,
+        "x_offset_mobile": -50,
+        "y_offset_mobile": -520
+      }
+    },
+    "featured_collection_more_yUNB9U": {
+      "type": "featured-collection",
+      "settings": {
+        "collection": "bestsellers",
+        "heading": "Can't Keep ‛Em Stocked",
+        "subheading": "{collection}",
+        "style": "compact",
+        "products_count": 6,
+        "show_button": true,
+        "button_label": "Shop {collection}",
+        "background": "light",
+        "spacing": "small"
+      }
+    },
+    "rich_text_zKLkaq": {
+      "type": "rich-text",
+      "blocks": {
+        "text_bi3UHi": {
+          "type": "eyebrow",
+          "settings": {
+            "text": "Custom Pins",
+            "max_width_mobile": 0
+          }
+        },
+        "title_FhcXzP": {
+          "type": "title",
+          "settings": {
+            "title": "Make It Custom",
+            "size": "medium",
+            "heading_tag": "h2"
+          }
+        },
+        "text_pjECTL": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Custom pins hit different. It’s a badge representing who you are and what you’ve accomplished. A fun-sized token of pride that packs a real punch. It’s honestly indescribable, but we’ll settle for pretty freakin’ epic.</p>"
+          }
+        },
+        "button_JN3YQT": {
+          "type": "button",
+          "settings": {
+            "label": "Learn More",
+            "link": "shopify://products/custom",
+            "style": "solid",
+            "new_tab": false
+          }
+        }
+      },
+      "block_order": [
+        "text_bi3UHi",
+        "title_FhcXzP",
+        "text_pjECTL",
+        "button_JN3YQT"
+      ],
+      "settings": {
+        "image": "shopify://shop_images/MYERS-01.jpg",
+        "image_position": "left",
+        "image_fit": "cover",
+        "height": "medium",
+        "text_alignment": "left",
+        "content_spacing": 24,
+        "button_spacing": 36,
+        "background": "none",
+        "full_width": false,
+        "spacing": "default",
+        "bottom_spacing": false
+      }
+    },
+    "shape_eYnDxg": {
+      "type": "shape",
+      "settings": {
+        "shape": "arch",
+        "color": "blue",
+        "size": "small",
+        "speed": "-2",
+        "layer": "behind",
+        "side": "right",
+        "x_offset": -32,
+        "y_offset": -522,
+        "x_offset_mobile": -34,
+        "y_offset_mobile": -382
+      }
+    },
+    "1662457455386507d1": {
+      "type": "floating-images",
+      "settings": {
+        "caption": "",
+        "title": "<p><em>say it fun-sized </em>☺</p>",
+        "title_size": "regular",
+        "button_label": "Shop Pins",
+        "button_link": "shopify://collections/pins",
+        "button_style": "primary",
+        "text_position": "bottom-left",
+        "background": "light",
+        "text_color": "dark",
+        "invert_text": false,
+        "height": 70,
+        "height_mobile": 100,
+        "spacing": "none"
+      },
+      "blocks": {
+        "image_nBUUQw": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/PIN-PRG.png",
+            "width": 20,
+            "x": 50,
+            "y": 55,
+            "hide_on_desktop": false,
+            "width_mobile": 60,
+            "x_mobile": 65,
+            "y_mobile": 70,
+            "hide_on_mobile": false,
+            "speed": -5
+          }
+        },
+        "3cd23f4b-1b25-4b72-8a40-ab007525cf7c": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/MOT-MOT-BC-T.png",
+            "width": 30,
+            "x": 40,
+            "y": 0,
+            "hide_on_desktop": false,
+            "width_mobile": 20,
+            "x_mobile": 65,
+            "y_mobile": 90,
+            "hide_on_mobile": false,
+            "speed": 4
+          }
+        },
+        "1662457455b8401316-0": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/DOG-POI-BC-T.png",
+            "width": 35,
+            "x": 20,
+            "y": 60,
+            "hide_on_desktop": false,
+            "width_mobile": 65,
+            "x_mobile": 25,
+            "y_mobile": 70,
+            "hide_on_mobile": false,
+            "speed": 3
+          }
+        },
+        "1662457455b8401316-1": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/ILO-SHI-T.png",
+            "width": 20,
+            "x": 90,
+            "y": 25,
+            "hide_on_desktop": false,
+            "width_mobile": 35,
+            "x_mobile": 20,
+            "y_mobile": 105,
+            "hide_on_mobile": false,
+            "speed": -9
+          }
+        },
+        "1662457455b8401316-2": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/RAD-WHA-T.png",
+            "width": 20,
+            "x": 5,
+            "y": 20,
+            "hide_on_desktop": false,
+            "width_mobile": 60,
+            "x_mobile": 0,
+            "y_mobile": 40,
+            "hide_on_mobile": false,
+            "speed": -3
+          }
+        },
+        "1662457455b8401316-3": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/SUS-GRP-BC-T.png",
+            "width": 35,
+            "x": 60,
+            "y": 25,
+            "hide_on_desktop": false,
+            "width_mobile": 65,
+            "x_mobile": 50,
+            "y_mobile": 50,
+            "hide_on_mobile": false,
+            "speed": 2
+          }
+        }
+      },
+      "block_order": [
+        "image_nBUUQw",
+        "3cd23f4b-1b25-4b72-8a40-ab007525cf7c",
+        "1662457455b8401316-0",
+        "1662457455b8401316-1",
+        "1662457455b8401316-2",
+        "1662457455b8401316-3"
+      ],
+      "disabled": true
+    },
+    "slideshow_rGzFiE": {
+      "type": "slideshow",
+      "settings": {
+        "autoplay": true,
+        "autoplay_interval": 10,
+        "text_position": "bottom-left",
+        "text_box": true,
+        "full_width": true,
+        "height": "60",
+        "height_mobile": "80",
+        "spacing": "default"
+      },
+      "blocks": {
+        "image_yzk97R": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/Lauren-177_2.jpg",
+            "overlay": 0,
+            "caption": "Something for Everyone",
+            "title": "55 incredible makers",
+            "button_label": "Shop Pins",
+            "link": "shopify://collections/pins",
+            "open_in_new_window": false
+          }
+        },
+        "image_KgBVnN": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/IG2.png",
+            "overlay": 0,
+            "caption": "Last Chance",
+            "title": "Up to 40% off",
+            "button_label": "Shop Sale",
+            "link": "shopify://collections/sale",
+            "open_in_new_window": false
+          },
+          "disabled": true
+        },
+        "image_eaMpjm": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/202404330-447.png",
+            "overlay": 0,
+            "caption": "Custom Pins",
+            "title": "Let's get creative",
+            "button_label": "Shop Custom",
+            "link": "shopify://products/custom",
+            "open_in_new_window": false
+          },
+          "disabled": true
+        }
+      },
+      "block_order": [
+        "image_yzk97R",
+        "image_KgBVnN",
+        "image_eaMpjm"
+      ],
+      "disabled": true
+    },
+    "hero_bounce_p8fkTY": {
+      "type": "hero-bounce",
+      "settings": {
+        "image": "shopify://shop_images/317775361_533204498456320_4531707310695921206_n.jpg",
+        "image_2": "shopify://shop_images/Lauren-177.jpg",
+        "title": "Say it Fun-Sized",
+        "title_color": "#feff86",
+        "text_transform": "lowercase",
+        "font_size": 160,
+        "text_width": 1054,
+        "speed": 8,
+        "button_label": "Shop Pins",
+        "link": "shopify://collections/pins",
+        "open_in_new_window": false,
+        "button_style": "primary",
+        "font_size_mobile": 120,
+        "text_width_mobile": 789,
+        "full_width": true,
+        "height": "60",
+        "height_mobile": "50",
+        "spacing": "default"
+      },
+      "disabled": true
     }
   },
   "order": [
-    "image_banner",
-    "featured_collection"
+    "shape_qWT9zK",
+    "hero_bounce_jxXn9F",
+    "shape_GDJcUQ",
+    "rich_text_HrEAqK",
+    "marquee_hJEmAL",
+    "marquee_b9kV9J",
+    "featured_collection_more_yjFJEm",
+    "rich_text_Rq767t",
+    "shape_iiAcwj",
+    "featured_collection_more_yUNB9U",
+    "rich_text_zKLkaq",
+    "shape_eYnDxg",
+    "1662457455386507d1",
+    "slideshow_rGzFiE",
+    "hero_bounce_p8fkTY"
   ]
 }
