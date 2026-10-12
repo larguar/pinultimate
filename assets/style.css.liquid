@@ -1361,20 +1361,22 @@ span.localization-form__item-symbol svg {
 .site-nav.style--classic .menu-link span {
   text-align: center;
 }
-.site-nav.style--classic .link-list > li:nth-of-type(1) > .menu-link span {
-  width: 93px;
+/* Keep top-level items on one line; a hidden bold copy of the label reserves
+   its hover width so the menu doesn't shift when the label turns bold */
+.site-nav.style--classic .link-list > li > .menu-link > span[data-text] {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  white-space: nowrap;
 }
-a#mega_menu_dqtnjU span, a#mega_menu_dqtnjU-sticky span {
-  width: 90px;
-}
-a#mega_menu_D7fEWk span, a#mega_menu_D7fEWk-sticky span {
-  width: 46px;
-}
-.site-nav.style--classic .link-list > li:nth-of-type(4) > .menu-link span {
-  width: 111px;
-}
-a#mega_menu_mMztAd span, a#mega_menu_mMztAd-sticky span {
-  width: 36px;
+.site-nav.style--classic .link-list > li > .menu-link > span[data-text]::after {
+  content: attr(data-text);
+  font-weight: 600;
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
+  pointer-events: none;
+  user-select: none;
 }
 .site-nav.style--classic a.menu-link:not(#mega_menu_mMztAd):not(#mega_menu_mMztAd-sticky):hover span, .site-nav.style--classic .babymenu a.menu-link:hover span {
   font-weight: 600;

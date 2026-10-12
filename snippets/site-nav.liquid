@@ -28,7 +28,7 @@
 
 		<a class="menu-link {% if link.active or link.child_active %} active {% endif %} {% unless link.links != blank %} no-focus-link {% endunless %} {{ links_weight }}" href="{{ link.url }}">
 
-			<span><span class="{{ links_class }}">{{ link.title | escape }}</span></span>
+			<span data-text="{{ link.title | escape }}"><span class="{{ links_class }}">{{ link.title | escape }}</span></span>
 
 			{% if link.links != blank %}
 				<span class="icon">{%- render 'theme-symbols', icon: 'chevron' -%}</span>
