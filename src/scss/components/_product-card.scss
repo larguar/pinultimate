@@ -1,0 +1,197 @@
+.product-card {
+  &__media {
+    overflow: hidden;
+
+    img {
+      transition: opacity 0.3s ease, transform 0.6s ease;
+    }
+  }
+
+  &__secondary-image {
+    opacity: 0;
+  }
+
+  @media (hover: hover) {
+    &__media:hover &__secondary-image {
+      opacity: 1;
+      transform: scale(1.1);
+    }
+
+    // Fade the main image out so transparent secondary images don't show it through.
+    &__media:hover > img:first-child:not(:only-child) {
+      opacity: 0;
+    }
+
+    &:not(&--sold-out):hover &__quick-add {
+      opacity: 1;
+    }
+  }
+
+  &--sold-out &__media {
+    opacity: 0.5;
+  }
+
+  // Round "+" button in the image's bottom corner, shown on hover.
+  &__quick-add {
+    z-index: 2;
+    margin: 0 10px 10px 0;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+
+    &:focus-within {
+      opacity: 1;
+    }
+
+    // Touch screens have no hover, so keep it visible there.
+    @media (hover: none) {
+      opacity: 1;
+    }
+  }
+
+  &__quick-add-button {
+    width: 40px;
+    height: 40px;
+    color: var(--bs-body-color);
+    background-color: rgba(255, 255, 255, 0.8);
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: #fff;
+    }
+
+    svg {
+      width: 14px;
+      height: 14px;
+    }
+  }
+
+  &__badges {
+    z-index: 1;
+    padding: 9px;
+
+    @include media-breakpoint-up(lg) {
+      padding: 12px;
+    }
+
+    @include media-breakpoint-up(xl) {
+      padding: 15px;
+    }
+  }
+
+  // Spacing measured from the previous theme's product item.
+  &__info {
+    padding: 12px 0 4px;
+
+    @include media-breakpoint-up(md) {
+      padding: 15px 0 11px;
+    }
+
+    @include media-breakpoint-up(lg) {
+      padding: 17px 0 20px;
+    }
+
+    @include media-breakpoint-up(xl) {
+      padding: 22px 0 25px;
+    }
+  }
+
+  &__title {
+    margin: 0 0 6px;
+    font-family: var(--font-body-family);
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.1;
+
+    @include media-breakpoint-up(md) {
+      font-size: 1.125rem;
+    }
+  }
+
+  &__vendor {
+    margin-bottom: 4px;
+    font-size: 0.75rem;
+    line-height: 13px;
+    letter-spacing: 1px;
+    opacity: 0.62;
+
+    @include media-breakpoint-up(md) {
+      margin-bottom: 9px;
+    }
+  }
+
+  &__price {
+    font-size: 0.8125rem;
+    line-height: 1.07;
+
+    @include media-breakpoint-up(md) {
+      font-size: 0.875rem;
+    }
+
+    @include media-breakpoint-up(lg) {
+      font-size: 0.9375rem;
+    }
+  }
+
+  // Price shown above the title (price_first).
+  &__price + &__title,
+  &__swatches + &__title {
+    margin-top: 12px;
+  }
+
+  // Variant thumbnails: the center of each variant image, zoomed in.
+  &__swatches {
+    margin-top: 12px;
+  }
+
+  &__swatch {
+    width: 28px;
+    height: 28px;
+    margin-right: 2px;
+    padding: 1px;
+    border: 1px solid transparent;
+    transition: border-color 0.2s ease;
+
+    &:first-child {
+      border-color: $brand-black;
+    }
+
+    &:not(:first-child):hover {
+      border-color: var(--bs-secondary);
+    }
+
+    > span {
+      border: 1px solid #ccc;
+    }
+
+    img {
+      transform: scale(6);
+    }
+  }
+
+  &__options {
+    margin: 2px 0 0 2px;
+    font-size: 0.8125rem;
+    line-height: 12px;
+    color: #777;
+  }
+
+  &__button {
+    margin-top: 12px;
+  }
+}
+
+.product-badges .badge {
+  --bs-badge-font-size: 0.75rem;
+  --bs-badge-font-weight: 600;
+  --bs-badge-padding-x: 0.625rem;
+  --bs-badge-padding-y: 0;
+  --bs-badge-color: var(--bs-dark);
+  color: var(--bs-dark) !important;
+  line-height: 24px;
+}
+
+.price {
+  &__compare {
+    opacity: 0.54;
+  }
+}

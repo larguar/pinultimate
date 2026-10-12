@@ -1,0 +1,17 @@
+{
+  "options": "{{ count }} options",
+  "quick_add": "Add {{ title }} to cart",
+  "choose_options": "Choose options for {{ title }}",
+  "from_price_html": "From {{ price }}",
+  "sale_price": "Sale price",
+  "regular_price": "Regular price",
+  "badges": {
+    "last_chance": "Last Chance",
+    "more_options": "More Options",
+    "new": "New",
+    "only_left": "Only {{ count }} left!",
+    "gone_for_good": "Gone for Good",
+    "more_on_the_way": "More On The Way!",
+    "temporarily_out": "Temporarily Out"
+  }
+}

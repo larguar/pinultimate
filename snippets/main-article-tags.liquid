@@ -1,0 +1,17 @@
+{%- comment -%}
+  A post's tags as pill links to the blog filtered by that tag.
+
+  Accepts:
+  - tags {Array}: article.tags
+  - blog_url {String}
+  - class {String}: extra classes for the list (optional)
+{%- endcomment -%}
+<ul class="list-unstyled d-flex flex-wrap gap-2 mb-0 {{ class }}">
+  {%- for tag in tags -%}
+    <li>
+      <a class="article-card__tag badge rounded-pill text-reset text-decoration-none" href="{{ blog_url }}/tagged/{{ tag | handleize }}">
+        {{- tag -}}
+      </a>
+    </li>
+  {%- endfor -%}
+</ul>

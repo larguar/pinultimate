@@ -1,0 +1,316 @@
+// Shared by the page, blog, article, custom Liquid and FAQ sections (import after
+// "section-base"). Partial: not compiled on its own.
+//
+// Reproduces the previous theme's page typography: page titles, merchant-written rich text
+// (page and article content, which can contain headings, lists, tables, images and embeds)
+// and the thin separator lines.
+
+// Heading scale of the previous theme (its sizes were set relative to a 60px base and
+// scaled to the store's 58px heading size). Index: [xs, sm, lg].
+$legacy-heading-sizes: (
+  h1: (34px, 46px, 60px),
+  h2: (28px, 38px, 42px),
+  h3: (24px, 30px, 36px),
+  h4: (20px, 20px, 20px),
+  h5: (18px, 18px, 18px),
+  h6: (18px, 18px, 18px),
+);
+
+@function legacy-size($px) {
+  @return calc(#{$px} * 58 / 60);
+}
+
+@mixin legacy-heading-size($tag) {
+  $sizes: map-get($legacy-heading-sizes, $tag);
+  font-size: legacy-size(nth($sizes, 1));
+
+  @if nth($sizes, 2) != nth($sizes, 1) {
+    @include media-breakpoint-up(sm) {
+      font-size: legacy-size(nth($sizes, 2));
+    }
+  }
+
+  @if nth($sizes, 3) != nth($sizes, 2) {
+    @include media-breakpoint-up(lg) {
+      font-size: legacy-size(nth($sizes, 3));
+    }
+  }
+}
+
+// Page, blog and article titles.
+@mixin page-title {
+  font-size: legacy-size(34px);
+  font-weight: 400;
+  line-height: 0.99;
+
+  @include media-breakpoint-up(sm) {
+    font-size: legacy-size(46px);
+  }
+
+  @include media-breakpoint-up(lg) {
+    font-size: legacy-size(50px);
+  }
+}
+
+// h1–h6 inside free-form content (rich text, custom Liquid).
+@mixin legacy-headings {
+  @each $tag in (h1, h2, h3, h4, h5, h6) {
+    #{$tag} {
+      @include legacy-heading-size($tag);
+      font-weight: 400;
+      line-height: 0.9;
+      margin-bottom: 1rem;
+    }
+  }
+}
+
+// Merchant-written HTML (page.content, article.content, richtext settings).
+@mixin rich-text {
+  // Element-level styles stay at element specificity (as in the previous theme), so apps
+  // rendered inside page content (reviews widgets, forms) keep their own look.
+  @at-root :where(#{&}) {
+    @include legacy-headings;
+
+    p {
+      margin-bottom: 1rem;
+    }
+  }
+
+  overflow-wrap: break-word;
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    &:not(:first-child) {
+      margin-top: 2rem;
+    }
+  }
+
+  p:last-child {
+    margin-bottom: 0;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 1px solid;
+    transition: opacity 0.175s linear;
+
+    &:hover {
+      opacity: 0.7;
+    }
+  }
+
+  ul,
+  ol {
+    margin: 0.75rem 0 1em 2em;
+    padding-left: 0;
+
+    ul,
+    ol {
+      margin-left: 2em;
+    }
+  }
+
+  li + li {
+    margin-top: 0.75rem;
+  }
+
+  ul {
+    list-style: disc outside;
+
+    ul {
+      list-style-type: circle;
+
+      ul {
+        list-style-type: square;
+      }
+    }
+  }
+
+  ol {
+    list-style: decimal outside;
+  }
+
+  blockquote {
+    margin: 1.5rem 0;
+    padding: 0.75rem 1.125rem;
+    border-left: 3px solid rgba(var(--bs-body-color-rgb), 0.1);
+
+    &:first-child {
+      margin-top: 0;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  iframe[src*="youtube"],
+  iframe[src*="vimeo"] {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+  }
+
+  table {
+    width: 100%;
+    margin-bottom: 1rem;
+    border: 1px solid rgba(var(--bs-body-color-rgb), 0.1);
+    border-collapse: collapse;
+    text-align: left;
+  }
+
+  tr {
+    border-top: 1px solid rgba(var(--bs-body-color-rgb), 0.1);
+  }
+
+  thead tr {
+    border-top: 0;
+  }
+
+  th,
+  td {
+    padding: 10px 14px 8px;
+    border-right: 1px solid rgba(var(--bs-body-color-rgb), 0.1);
+    vertical-align: top;
+  }
+}
+
+// Thin full-width line between blocks of content.
+@mixin separator {
+  margin: 0;
+  border: 0;
+  border-top: 1px solid rgba(var(--bs-body-color-rgb), 0.08);
+  opacity: 1;
+}
+
+// Narrow reading column (articles, blog): 920px including the container's side padding.
+@mixin narrow-container {
+  max-width: 920px;
+}
+
+// Page number links (snippets/main-blog-pagination.liquid).
+@mixin pagination {
+  .main-blog-pagination__item {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    color: inherit;
+    text-decoration: none;
+
+    &:is(a):hover {
+      background-color: rgba(var(--bs-body-color-rgb), 0.08);
+    }
+
+    &--current {
+      background-color: var(--bs-body-color);
+      color: var(--bs-body-bg);
+    }
+  }
+}
+
+// Blog post cards (snippets/main-blog-article-card.liquid).
+@mixin article-card {
+  .article-card {
+    gap: 0.75em;
+
+    &__media {
+      margin-bottom: 0.75em;
+      color: inherit;
+    }
+
+    &__image {
+      transition: transform 0.4s ease;
+    }
+
+    &__media:hover &__image {
+      @media (prefers-reduced-motion: no-preference) {
+        transform: scale(1.03);
+      }
+    }
+
+    &__placeholder {
+      background-color: rgba(var(--bs-body-color-rgb), 0.08);
+
+      svg {
+        width: 80%;
+        height: 80%;
+        fill: rgba(var(--bs-body-color-rgb), 0.6);
+      }
+    }
+
+    &__title {
+      font-family: var(--bs-body-font-family);
+      font-size: 1.5rem;
+      font-weight: 600;
+      line-height: 1.1;
+
+      @include media-breakpoint-up(sm) {
+        font-size: 1.875rem;
+      }
+
+      @include media-breakpoint-up(lg) {
+        font-size: 2.25rem;
+      }
+
+      a:hover {
+        text-decoration: underline !important;
+        text-decoration-thickness: 1px !important;
+        text-underline-offset: 0.15em;
+      }
+    }
+
+    &--small &__title {
+      font-size: 1.25rem;
+      font-weight: 500;
+      line-height: 1.25;
+
+      @include media-breakpoint-up(sm) {
+        font-size: 1.625rem;
+      }
+    }
+
+    &__meta {
+      font-size: 0.8125rem;
+      line-height: 1.4;
+      color: rgba(var(--bs-body-color-rgb), 0.6);
+
+      @include media-breakpoint-up(sm) {
+        font-size: 0.875rem;
+      }
+
+      @include media-breakpoint-up(lg) {
+        font-size: 0.9375rem;
+      }
+
+      span + span::before {
+        content: "|";
+        margin: 0 0.625rem;
+        opacity: 0.62;
+      }
+    }
+
+    &__excerpt {
+      font-size: inherit;
+      line-height: 1.4;
+    }
+
+    &__tag {
+      font-size: 0.8125rem;
+      font-weight: 400;
+      background-color: rgba(var(--bs-body-color-rgb), 0.08);
+    }
+  }
+}

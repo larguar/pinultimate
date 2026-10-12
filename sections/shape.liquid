@@ -1,204 +1,97 @@
-{% style %}
-html, body {
-  overflow-x: hidden;
-}
-.shape-container {
-  height: 0;
-}
-.shape {
-  position: absolute;
-}
-#shape-{{ section.id }} .shape {
-  height: {{ section.settings.dimensions }}vw;
-  width: {{ section.settings.dimensions }}vw;
-  min-width: {% if section.settings.dimensions == "16" %}210px{% elsif section.settings.dimensions == "14" %}190px{% else %}200px{% endif %};
-  min-height: {% if section.settings.dimensions == "16" %}210px{% elsif section.settings.dimensions == "14" %}190px{% else %}200px{% endif %};
-  top: {{ section.settings.y-offset }}px;
-  left: {% if section.settings.side == "left" %}{{ section.settings.x-offset }}px{% else %}auto{% endif %};
-  right: {% if section.settings.side == "right" %}{{ section.settings.x-offset }}px{% else %}auto{% endif %};
-  z-index: {{ section.settings.position }};
-}
-@media screen and (max-width: 767px) {
-  #shape-{{ section.id }} .shape {
-    top: {{ section.settings.y-offset-mobile }}px;
-    left: {% if section.settings.side == "left" %}{{ section.settings.x-offset-mobile }}px{% else %}auto{% endif %};
-    right: {% if section.settings.side == "right" %}{{ section.settings.x-offset-mobile }}px{% else %}auto{% endif %};
-  }
-}
-{% endstyle %}
+{%- comment -%}
+  A decorative brand shape that overlaps the sections around it. The section itself takes no
+  space: the shape is positioned from the top of the section, against its left or right edge,
+  and drifts with a parallax effect while the page scrolls (src/js/sections/shape.js).
+{%- endcomment -%}
+{%- liquid
+  assign side = section.settings.side
+  assign z_index = 2
+  if section.settings.layer == 'behind'
+    assign z_index = -1
+  endif
+-%}
 
-<div id="shape-{{ section.id }}" class="shape-container container--large remove-empty-space reduce-margin-if-first">
-  <div class="shape scrollnimate" data-magic-number="{{ section.settings.speed }}">
-    {%- if section.settings.shape == "arch" -%}     
-      <svg viewBox="0 0 200 200" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-        <path fill="{{ section.settings.color }}" d="M106.996,200.000406 C100.582,185.563406 94.423,171.701406 88.388,158.122406 C97.437,153.444406 106.431,148.986406 115.241,144.187406 C125.142,138.793406 131.284,130.130406 135.233,119.795406 C136.51,116.454406 137.457,112.990406 138.629,109.609406 C144.886,91.5694063 142.862,74.2934063 133.206,58.0474063 C126.68,47.0664063 116.549,40.7644063 104.069,38.3344063 C87.462,35.1014063 70.783,34.3624063 53.996,36.9964063 C45.831,38.2764063 37.616,39.2274063 28.851,40.4064063 C24.026,28.2024063 19.067,15.6694063 14,2.85940628 C14.874,2.61840628 15.359,2.38140628 15.849,2.36640628 C41.477,1.48040628 67.109,-0.0825937183 92.733,0.00340628165 C108.662,0.0574062817 124.79,1.88040628 139.467,9.17940628 C158.186,18.4884063 172.02,32.9574063 179.215,52.4444063 C184.711,67.3284063 187.669,83.0294063 184.059,99.2584063 C182.218,107.533406 181.6,116.072406 180.21,124.454406 C178.022,137.633406 171.179,148.307406 163.126,158.818406 C148.425,178.009406 128.374,189.255406 106.996,200.000406"></path>
-      </svg>
-    {%- elsif section.settings.shape == "circle" -%}     
-      <svg viewBox="0 0 200 200" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-        <path fill="{{ section.settings.color }}" d="M4.0126,106.338715 C3.7726,93.6717151 7.0026,81.5897151 10.0786,69.4917151 C12.2786,60.8277151 15.1026,52.3647151 18.8156,44.2167151 C21.0686,39.2837151 23.9836,34.7567151 27.7576,30.8907151 C32.2446,26.2937151 36.8126,21.7347151 41.6676,17.5267151 C51.9546,8.61271509 63.9476,3.45671509 77.5626,2.22071509 C85.6296,1.48871509 93.6816,0.479715094 101.7676,0.0737150937 C111.4916,-0.420284906 120.9016,1.59971509 129.9256,5.19871509 C142.3146,10.1407151 154.0856,16.0987151 164.6696,24.4727151 C179.8136,36.4607151 189.2956,51.7717151 193.6966,70.4247151 C195.2856,77.1477151 195.8226,83.8987151 195.3516,90.8517151 C195.0036,96.0337151 195.7556,101.296715 196.0836,106.520715 C196.6016,114.721715 196.6766,122.909715 194.0826,130.812715 C191.0386,140.091715 187.1966,149.040715 181.8146,157.249715 C181.3106,158.019715 180.7396,158.956715 179.9686,159.302715 C175.8316,161.171715 173.2306,164.802715 170.0376,167.740715 C157.6036,179.181715 143.8346,188.494715 127.9906,194.582715 C122.1336,196.836715 116.0426,198.017715 109.8316,198.583715 C103.6396,199.148715 97.4426,199.913715 91.2376,199.992715 C74.6006,200.203715 59.2746,195.530715 46.2346,185.220715 C36.6566,177.645715 27.9486,169.001715 20.7826,158.901715 C16.0326,152.203715 10.8146,145.768715 8.7426,137.692715 C6.9706,130.765715 5.8156,123.670715 4.6636,116.606715 C4.1126,113.237715 4.2076,109.763715 4.0126,106.338715 M44.4416,101.444715 C44.6486,102.831715 44.6996,104.233715 45.0816,105.533715 C47.5916,114.093715 50.1016,122.655715 52.7946,131.158715 C53.4836,133.330715 54.6626,135.395715 55.8896,137.340715 C65.1446,152.008715 78.5196,161.362715 94.6446,167.071715 C97.3776,168.038715 100.2206,168.100715 103.1136,167.444715 C110.9806,165.657715 117.7576,161.596715 124.5326,157.472715 C129.0376,154.733715 132.8756,151.370715 135.7796,146.943715 C143.1176,135.768715 147.4426,123.588715 148.6396,110.225715 C149.0656,105.483715 148.5396,100.619715 150.1236,95.9887151 C150.2036,95.7477151 150.0006,95.4067151 149.9286,95.1097151 C149.7006,94.1547151 149.4256,93.2047151 149.2536,92.2407151 C148.9026,90.2237151 148.9596,88.0597151 148.2286,86.1997151 C144.5266,76.8317151 139.9926,67.8577151 134.5796,59.3597151 C130.6746,53.2357151 125.8126,48.0807151 119.3986,44.3887151 C114.1046,41.3417151 109.1626,37.6887151 103.9056,34.5697151 C100.3276,32.4457151 96.5196,30.6857151 92.7286,28.9437151 C90.3746,27.8627151 87.8296,27.6077151 85.2316,28.1727151 C78.8516,29.5617151 73.3376,32.5547151 68.5596,36.9717151 C59.8456,45.0247151 54.4286,55.2957151 49.2896,65.7427151 C48.8896,66.5547151 48.7546,67.5307151 48.6436,68.4487151 C47.8036,75.3157151 47.0326,82.1897151 46.1746,89.0537151 C45.6566,93.1967151 45.0216,97.3237151 44.4416,101.444715"></path>
-      </svg>
-    {%- elsif section.settings.shape == "flower" -%}    
-      <svg viewBox="0 0 200 200" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-        <path fill="{{ section.settings.color }}" d="M75.6360984,99.8577 C75.2750984,98.7647 74.9760984,97.6477 74.5480984,96.5797 C72.4700984,91.3847 71.6880984,85.9297 71.1360984,80.4047 C70.7760984,76.7697 70.0260984,73.1727 69.7020984,69.5367 C69.1380984,63.1817 68.4870984,56.7387 69.8780984,50.4747 C71.3780984,43.7097 74.6740984,37.8227 80.5110984,33.6447 C83.2850984,31.6577 86.5060984,30.9607 89.6980984,30.1247 C96.2140984,28.4187 102.688098,28.7447 109.136098,30.4857 C117.157098,32.6527 121.806098,38.1297 124.026098,45.8807 C125.800098,52.0747 125.894098,58.4927 125.203098,64.7607 C123.901098,76.5907 122.066098,88.3657 120.261098,100.1367 C119.479098,105.2397 118.214098,110.2697 117.185098,115.3377 C117.130098,115.6087 117.230098,115.9127 117.289098,116.4987 C118.611098,115.3267 119.970098,114.6507 120.430098,112.9687 C121.577098,108.7857 123.067098,104.7607 125.354098,101.0057 C126.283098,99.4787 126.515098,97.4487 126.764098,95.6067 C127.308098,91.5367 128.896098,87.8777 130.862098,84.3577 C133.777098,79.1377 136.562098,73.8247 139.795098,68.8047 C142.219098,65.0367 145.265098,61.6727 148.027098,58.1197 C149.612098,56.0797 151.189098,54.0327 152.755098,51.9737 C155.520098,48.3317 159.416098,46.6867 163.757098,46.3787 C173.972098,45.6537 182.687098,48.8937 189.562098,56.7207 C192.059098,59.5637 194.806098,62.1867 197.433098,64.9167 C199.208098,66.7637 199.721098,69.0357 199.886098,71.5297 C200.429098,79.6717 198.980098,87.5167 196.543098,95.2217 C195.590098,98.2367 194.656098,101.2797 193.389098,104.1697 C191.625098,108.1977 188.574098,111.3937 184.991098,113.7117 C177.517098,118.5527 171.971098,125.1417 166.793098,132.1767 C161.020098,140.0277 153.915098,146.4207 145.797098,151.8277 C137.644098,157.2577 129.314098,162.3397 120.522098,166.6427 C118.630098,167.5677 116.503098,168.0107 114.478098,168.6577 C113.633098,168.9287 112.785098,169.2127 111.917098,169.3817 C109.393098,169.8737 106.873098,170.4867 104.321098,170.7347 C97.6610984,171.3837 91.8740984,169.0377 86.3180984,165.5357 C80.9470984,162.1457 77.1960984,157.3497 73.6480984,152.2907 C72.1140984,150.1057 70.7670984,147.7287 68.9270984,145.8377 C66.7440984,143.5907 63.9410984,142.0637 60.8370984,141.3367 C58.0740984,140.6897 55.4300984,139.8107 53.0260984,138.2787 C52.6530984,138.0417 52.2240984,137.8947 51.8070984,137.7307 C47.1290984,135.8767 42.4090984,134.1227 37.7780984,132.1487 C34.0010984,130.5397 30.3080984,128.7677 26.2500984,127.9077 C23.2230984,127.2677 20.6810984,125.5977 18.1470984,123.8927 C14.4510984,121.4067 10.7640984,118.8757 6.89609844,116.6837 C2.33509844,114.0987 0.264098435,110.2467 0.144098435,105.1857 C0.0750984351,102.2067 -0.158901565,99.1937 0.175098435,96.2507 C0.909098435,89.7487 4.61809844,85.4787 10.7190984,83.1457 C18.5250984,80.1607 26.5800984,79.5407 34.8220984,80.3077 C40.8890984,80.8707 46.7500984,82.4537 52.5620984,84.1227 C56.4770984,85.2437 59.9420984,87.4247 63.0960984,90.0797 C65.2020984,91.8537 67.5310984,93.3647 69.7120984,95.0547 C71.0450984,96.0847 72.3060984,97.2087 73.5580984,98.3367 C74.1760984,98.8897 74.6970984,99.5467 75.2620984,100.1577 C75.3860984,100.0577 75.5100984,99.9577 75.6360984,99.8577"></path>
-      </svg>
-    {%- elsif section.settings.shape == "halfcircle" -%}
-      <svg viewBox="0 0 200 200" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-        <path fill="{{ section.settings.color }}"  d="M25.333499,13.9997 C31.685499,17.9957 37.673499,21.6917 43.594499,25.4937 C65.759499,39.7237 87.977499,53.8687 109.984499,68.3387 C114.312499,71.1877 117.720499,75.4107 121.653499,78.8897 C144.653499,99.2237 167.691499,119.5217 190.699499,139.8517 C193.751499,142.5487 196.703499,145.3577 200.000499,148.3887 C190.010499,156.7327 180.814499,165.6577 168.590499,169.5747 C151.963499,174.9027 135.141499,179.6757 118.237499,184.0637 C98.338499,189.2317 79.440499,185.3087 61.614499,175.7967 C50.623499,169.9327 38.895499,164.7877 29.311499,157.0727 C13.076499,144.0057 -2.00350102,129.3147 0.218498978,105.4257 C1.01649898,96.8587 1.75949898,88.2847 2.68349898,79.7297 C4.30649898,64.7367 9.31349898,50.7007 15.154499,36.9317 C18.308499,29.4867 21.705499,22.1457 25.333499,13.9997"></path>
-      </svg>
-    {%- elsif section.settings.shape == "leaf" -%}
-      <svg viewBox="0 0 200 200" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-        <path fill="{{ section.settings.color }}" d="M99.2486537,184.337406 C78.3752454,168.362234 59.5277397,150.316673 46.8901961,126.697175 C38.2731972,110.589747 30.168385,94.2081913 21.4816518,78.1392378 C15.7429975,67.5251921 13.3672211,56.2991675 14.1427149,44.4323085 C14.99155,31.4665326 16.4415431,18.5392309 17.3697311,5.57826427 C17.7208074,0.689647368 19.8693461,-0.209685008 24.4838349,0.0367897739 C41.251334,0.925301306 56.8273379,6.128925 72.2229944,12.2114417 C79.8096084,15.2088155 87.5597374,17.8382806 94.9684087,21.2215979 C120.548884,32.9045025 141.694016,50.6062012 158.377353,72.8117756 C172.595942,91.7362296 179.295247,114.444372 182.623257,137.73684 C184.786224,152.883617 185.191404,168.281678 186.317975,183.572733 C186.444218,185.29445 186.39372,187.112352 185.986135,188.778762 C183.232832,200.030035 182.952692,200.024023 171.201255,199.997572 C147.347306,199.941064 124.778632,193.763564 102.526167,185.967747 C101.436869,185.587815 100.441351,184.938564 99.2486537,184.337406"></path>
-      </svg>
-    {%- endif -%}
+{{ 'section-shape.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'section-shape.js' | asset_url }}" defer="defer"></script>
+
+<div class="shape container-fluid px-0" aria-hidden="true">
+  <div class="container px-0 position-relative">
+    <div class="row g-0">
+      <div class="col-12">
+        <parallax-shape
+          class="shape__item shape__item--{{ section.settings.size }} shape__item--{{ side }} text-{{ section.settings.color }}"
+          data-speed="{{ section.settings.speed }}"
+          style="--shape-x: {{ section.settings.x_offset }}px; --shape-y: {{ section.settings.y_offset }}px; --shape-x-mobile: {{ section.settings.x_offset_mobile }}px; --shape-y-mobile: {{ section.settings.y_offset_mobile }}px; z-index: {{ z_index }};"
+        >
+          {% render 'shape-svg', name: section.settings.shape, class: 'd-block w-100 h-100' %}
+        </parallax-shape>
+      </div>
+    </div>
   </div>
 </div>
-
-{% javascript %}
-  (function() {
-    var start = null;
-    var scrollPosition = window.scrollY;
-    var halfWindowHeight = window.innerHeight / 2;
-    var rAFstarted = false;
-
-    var scrollnimates = [].slice.call(document.getElementsByClassName('scrollnimate'));
-    // get their offset from top of screen and their scroll speed
-    scrollnimates.forEach( function ( sn ) {
-        var clientOffsets = sn.getBoundingClientRect();
-        sn.animationOffset = clientOffsets.top + scrollPosition;
-        sn.magicNumber = sn.dataset.magicNumber || sn.getAttribute("data-magic-number") || "-14";
-    });
-
-    // The rAF function
-    function step(timestamp) {
-      if (!start) start = timestamp;
-      // full progress indicator
-      var progress = timestamp - start;
-      var scrollPoint = window.scrollY;
-
-      scrollnimates.forEach( function ( sn ) {
-        //sn.animationOffsets == main.he
-        if ( scrollPoint > ( sn.animationOffset - halfWindowHeight * 2 ) && scrollPoint < ( sn.animationOffset + halfWindowHeight ) ) {
-          var magicPoint = ( ( scrollPoint - ( sn.animationOffset - halfWindowHeight ) ) / sn.magicNumber ) / 5;
-          var up = magicPoint  + 'px';
-
-          sn.style.webkitTransform = 'translateY('+up+')';
-          sn.style.MozTransform = 'translateY('+up+')';
-          sn.style.msTransform = 'translateY('+up+')';
-          sn.style.OTransform = 'translateY('+up+')';
-          sn.style.transform = 'translateY('+up+')';
-        }
-      });
-      window.requestAnimationFrame(step);
-    }
-    window.requestAnimationFrame(step);   
-  })();
-{% endjavascript %}
 
 {% schema %}
 {
   "name": "Shape",
-  "tag": "section",
-  "class": "spaced-section spaced-section--full-width",
+  "tag": "div",
+  "class": "section-shape",
   "settings": [
+    {
+      "type": "paragraph",
+      "content": "A decorative shape that overlaps the sections around it. Place it just before the section it should sit on and move it into place with the offsets."
+    },
     {
       "type": "select",
       "id": "shape",
+      "label": "Shape",
       "options": [
-        {
-          "value": "arch",
-          "label": "Arch"
-        },
-        {
-          "value": "circle",
-          "label": "Circle"
-        },
-        {
-          "value": "flower",
-          "label": "Flower"
-        },
-        {
-          "value": "halfcircle",
-          "label": "Half Circle"
-        },
-        {
-          "value": "leaf",
-          "label": "Leaf"
-        }
+        { "value": "arch", "label": "Arch" },
+        { "value": "circle", "label": "Circle" },
+        { "value": "flower", "label": "Flower" },
+        { "value": "half-circle", "label": "Half circle" },
+        { "value": "leaf", "label": "Leaf" },
+        { "value": "triangle", "label": "Triangle" },
+        { "value": "wedge", "label": "Wedge" }
       ],
-      "default": "circle",
-      "label": "Shape"
+      "default": "circle"
     },
     {
       "type": "select",
       "id": "color",
+      "label": "Color",
       "options": [
-        {
-          "value": "#F6786C",
-          "label": "Red"
-        },
-        {
-          "value": "#FEFF86",
-          "label": "Yellow"
-        },
-        {
-          "value": "#C6CC3D",
-          "label": "Green"
-        },
-        {
-          "value": "#14452F",
-          "label": "Dark Green"
-        },
-        {
-          "value": "#8ED6CF",
-          "label": "Blue"
-        },
-        {
-          "value": "#DDC7E8",
-          "label": "Purple"
-        }
+        { "value": "red", "label": "Red" },
+        { "value": "yellow", "label": "Yellow" },
+        { "value": "green", "label": "Green" },
+        { "value": "primary", "label": "Dark green" },
+        { "value": "blue", "label": "Blue" },
+        { "value": "purple", "label": "Purple" }
       ],
-      "default": "#8ED6CF",
-      "label": "Color"
+      "default": "blue"
     },
     {
       "type": "select",
-      "id": "dimensions",
+      "id": "size",
+      "label": "Size",
       "options": [
-        {
-          "value": "14",
-          "label": "Smaller"
-        },
-        {
-          "value": "15",
-          "label": "Normal"
-        },
-        {
-          "value": "16",
-          "label": "Larger"
-        }
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
       ],
-      "default": "15",
-      "label": "Size"
+      "default": "medium"
     },
     {
       "type": "select",
       "id": "speed",
+      "label": "Parallax speed",
+      "info": "How fast the shape drifts up as the page scrolls.",
       "options": [
-        {
-          "value": "-3",
-          "label": "-3"
-        },
-        {
-          "value": "-2",
-          "label": "-2"
-        },
-        {
-          "value": "-1",
-          "label": "-1"
-        }
+        { "value": "0", "label": "None" },
+        { "value": "-3", "label": "Slow" },
+        { "value": "-2", "label": "Medium" },
+        { "value": "-1", "label": "Fast" }
       ],
-      "default": "-2",
-      "label": "Speed"
+      "default": "-2"
     },
     {
       "type": "header",
@@ -206,46 +99,36 @@ html, body {
     },
     {
       "type": "select",
-      "id": "position",
+      "id": "layer",
+      "label": "Layer",
       "options": [
-        {
-          "value": "-1",
-          "label": "Behind"
-        },
-        {
-          "value": "2",
-          "label": "In Front"
-        }
+        { "value": "front", "label": "In front of other sections" },
+        { "value": "behind", "label": "Behind other sections" }
       ],
-      "default": "2",
-      "label": "Position"
+      "default": "front"
     },
     {
       "type": "select",
       "id": "side",
+      "label": "Side",
       "options": [
-        {
-          "value": "left",
-          "label": "Left"
-        },
-        {
-          "value": "right",
-          "label": "Right"
-        }
+        { "value": "left", "label": "Left" },
+        { "value": "right", "label": "Right" }
       ],
-      "default": "left",
-      "label": "Side"
+      "default": "left"
     },
     {
       "type": "number",
-      "id": "x-offset",
-      "label": "X Offset (px)",
+      "id": "x_offset",
+      "label": "Distance from the side (px)",
+      "info": "Negative values push the shape past the edge of the page.",
       "default": 0
     },
     {
       "type": "number",
-      "id": "y-offset",
-      "label": "Y Offset (px)",
+      "id": "y_offset",
+      "label": "Distance from the top (px)",
+      "info": "Negative values move the shape up over the previous section.",
       "default": 0
     },
     {
@@ -254,18 +137,17 @@ html, body {
     },
     {
       "type": "number",
-      "id": "x-offset-mobile",
-      "label": "X Offset (px)",
+      "id": "x_offset_mobile",
+      "label": "Distance from the side (px)",
       "default": 0
     },
     {
       "type": "number",
-      "id": "y-offset-mobile",
-      "label": "Y Offset (px)",
+      "id": "y_offset_mobile",
+      "label": "Distance from the top (px)",
       "default": 0
     }
   ],
-  "blocks": [],
   "presets": [
     {
       "name": "Shape"

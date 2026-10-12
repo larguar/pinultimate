@@ -1,1 +1,27 @@
-{"sections":{"main":{"type":"main-blog","blocks":{"title":{"type":"title","settings":{}},"info":{"type":"info","settings":{}},"summary":{"type":"summary","settings":{}}},"block_order":["title","info","summary"],"settings":{}}},"order":["main"]}
+{
+  "sections": {
+    "main": {
+      "type": "main-blog",
+      "settings": {
+        "layout": "one_column",
+        "posts_per_page": 6,
+        "show_tags": false,
+        "show_image": true,
+        "image_ratio": "4x3",
+        "image_radius": 0,
+        "show_date": true,
+        "show_author": false,
+        "show_comments": false,
+        "show_excerpt": true,
+        "excerpt_limit": 15,
+        "show_card_tags": false,
+        "tags_limit": 3,
+        "show_button": false,
+        "button_label": "Read more"
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

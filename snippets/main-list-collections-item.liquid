@@ -1,0 +1,39 @@
+{%- comment -%}
+  Collection tile: image with the title centered underneath. Used by the collections list
+  and the maker list.
+
+  Accepts:
+  - collection {Object}
+  - image {Object}: optional, replaces the collection's image
+  - ratio {String}: Bootstrap ratio name, e.g. '4x3' or '5x6' (default '1x1')
+  - sizes {String}: image sizes attribute
+  - lazy {Boolean}: default true
+  - index {Number}: picks the placeholder when there is no image
+  - attributes {String}: extra attributes for the wrapper, e.g. block.shopify_attributes
+{%- endcomment -%}
+{%- liquid
+  assign ratio = ratio | default: '1x1'
+  assign tile_image = image | default: collection.featured_image
+  assign loading = 'lazy'
+  if lazy == false
+    assign loading = 'eager'
+  endif
+  assign title = collection.title | default: 'Collection'
+-%}
+<a href="{{ collection.url }}" class="collection-tile d-block text-center text-reset text-decoration-none" {{ attributes }}>
+  <span class="collection-tile__media d-block ratio ratio-{{ ratio }} overflow-hidden">
+    {%- if tile_image != blank -%}
+      {{
+        tile_image
+        | image_url: width: 1000
+        | image_tag: class: 'object-fit-cover', alt: '', loading: loading, sizes: sizes, widths: '300, 450, 600, 800, 1000'
+      }}
+    {%- else -%}
+      {%- assign placeholder = index | default: 0 | modulo: 6 | plus: 1 -%}
+      {{ 'collection-' | append: placeholder | placeholder_svg_tag: 'collection-tile__placeholder w-100 h-100' }}
+    {%- endif -%}
+  </span>
+  <span class="collection-tile__title d-block">
+    <span>{{ title | escape }}</span>
+  </span>
+</a>

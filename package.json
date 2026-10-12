@@ -1,0 +1,21 @@
+{
+  "name": "pinultimate-theme",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node tools/build/build.mjs",
+    "push:dev": "tools/push-dev.sh",
+    "visual:capture": "node tools/visual/capture.mjs",
+    "visual:compare": "node tools/visual/compare.mjs"
+  },
+  "devDependencies": {
+    "bootstrap": "^5.3.8",
+    "bootstrap-icons": "^1.13.2",
+    "esbuild": "^0.28.2",
+    "pixelmatch": "^8.0.0",
+    "playwright": "^1.64.0",
+    "pngjs": "^7.0.0",
+    "sass": "^1.105.1",
+    "swiper": "^14.3.0"
+  }
+}

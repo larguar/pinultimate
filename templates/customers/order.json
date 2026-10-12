@@ -1,1 +1,11 @@
-{"sections":{"main":{"type":"customers-order","settings":{}}},"order":["main"]}
+{
+  "sections": {
+    "main": {
+      "type": "main-order",
+      "settings": {}
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

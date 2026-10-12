@@ -1,0 +1,65 @@
+{%- comment -%}
+  Classic customer accounts: set a password to activate an invited account.
+  Based on Dawn's main-activate-account (Shopify, MIT), restyled with Bootstrap.
+{%- endcomment -%}
+{{ 'section-main-account.css' | asset_url | stylesheet_tag }}
+
+<section class="customer customer--activate container-fluid px-0">
+  <div class="container customer__container customer__container--narrow">
+    <h1 class="customer__title">{{ 'theme.utility.account.activate_title' | t }}</h1>
+    <div class="customer__body">
+      <p>{{ 'theme.utility.account.activate_text' | t }}</p>
+
+      {%- form 'activate_customer_password' -%}
+        {%- if form.errors -%}
+          <div class="alert alert-danger" role="alert" tabindex="-1" autofocus>
+            {{ form.errors | default_errors }}
+          </div>
+        {%- endif -%}
+
+        <div class="mb-3">
+          <label for="ActivatePassword" class="form-label">{{ 'theme.utility.account.password' | t }}</label>
+          <input
+            type="password"
+            name="customer[password]"
+            id="ActivatePassword"
+            class="form-control{% if form.errors contains 'password' %} is-invalid{% endif %}"
+            autocomplete="new-password"
+            required
+            {% if form.errors contains 'password' %}
+              aria-invalid="true"
+            {% endif %}
+          >
+        </div>
+        <div class="mb-4">
+          <label for="ActivatePasswordConfirmation" class="form-label">{{ 'theme.utility.account.password_confirm' | t }}</label>
+          <input
+            type="password"
+            name="customer[password_confirmation]"
+            id="ActivatePasswordConfirmation"
+            class="form-control{% if form.errors contains 'password_confirmation' %} is-invalid{% endif %}"
+            autocomplete="new-password"
+            required
+            {% if form.errors contains 'password_confirmation' %}
+              aria-invalid="true"
+            {% endif %}
+          >
+        </div>
+
+        <div class="d-flex flex-wrap gap-3">
+          <button type="submit" class="btn btn-dark">{{ 'theme.utility.account.activate_submit' | t }}</button>
+          <button type="submit" name="decline" class="btn btn-outline-dark">{{ 'theme.utility.account.activate_decline' | t }}</button>
+        </div>
+      {%- endform -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Activate account",
+  "tag": "div",
+  "class": "section-main-activate-account",
+  "settings": []
+}
+{% endschema %}

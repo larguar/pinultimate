@@ -1,1 +1,217 @@
-{"sections":{"banner":{"type":"main-collection-banner","settings":{"show_collection_description":false,"show_collection_image":false,"color_background_main":"rgba(0,0,0,0)","color_text_main":"rgba(0,0,0,0)","height":"small"}},"marquee_UBaMGn":{"type":"marquee","blocks":{"text_pkfPA8":{"type":"text","settings":{"marquee_text":"<strong>NET 60<\/strong> ➺ payment terms"}},"text_aBqUVj":{"type":"text","settings":{"marquee_text":"<strong>$0 ORDER MIN<\/strong> ➺ <em>for opening orders and reorders<\/em>"}},"text_bEgEmF":{"type":"text","settings":{"marquee_text":"<strong>$100 OFF<\/strong> ➺ <em>when you sign up for Faire<\/em>"}}},"block_order":["text_pkfPA8","text_aBqUVj","text_bEgEmF"],"settings":{"scroll_direction":"ltr","speed":60,"pause_on_hover":true,"horizontal_space":"regular-x-2","text_size":"text-size--xlarge","color_background_main":"#feff86","color_text_main":"{{ shop.brand.colors.secondary[0].foreground }}","remove_top_margin":true,"remove_bottom_margin":false}},"rich_text_6XHdtb":{"type":"rich-text","blocks":{"title_D8HWxR":{"type":"title","settings":{"title":"Stock Our Products","title_size":"heading-size--regular","seo_h_tag":"h2"}},"text_CMKqm3":{"type":"text","settings":{"text":"<p>We’re always on the hunt for new wholesale friends. To make the process easy, we’ve partnered with Faire to offer you free returns for risk-free buying and net 60 terms for stress-free payments. To grab all of the deets and see what’s available, hop on over to our Faire profile.<\/p><p>New to Faire? You'll get $100 off your first wholesale order, plus free shipping with us for an entire year.<\/p>","text_size":"regular"}},"button_WbU4M4":{"type":"button","settings":{"button_label":"Shop Wholesale","link":"https:\/\/faire.com\/direct\/pinultimate","button_style":"solid"}}},"block_order":["title_D8HWxR","text_CMKqm3","button_WbU4M4"],"settings":{"image":"shopify:\/\/shop_images\/371930997_950486289358411_4863834360435208797_n.jpg","image_position":"left","height":"regular","image_crop":true,"is_fullwidth":false,"text_alignment":"horizontal-left","spacing":20,"color_background_main":"rgba(0,0,0,0)","color_text_main":"rgba(0,0,0,0)","color_borders_main":"rgba(0,0,0,0)","border_radius":0,"color_hide_borders":true,"gutter_decrease":true,"remove_margin":false,"remove_bottom_margin":false}},"text_columns_images_N37NFP":{"type":"text-columns-images","settings":{"heading":"Catalog","subheading":"available for wholesale prices on <a href=\"https:\/\/faire.com\/direct\/pinultimate\" target=\"_blank\" title=\"https:\/\/faire.com\/direct\/pinultimate\">Faire<\/a>","section_heading_size":"text-size--large","section_heading_layout":"section-heading--left section-heading--one-row","cta_label":"","cta_url":"","text_alignment":"text-align--center","style":"slider","layout":"grid-4 grid-portable-3 grid-lap-2 grid-palm-1","image_aspect_ratio":"1","border_radius":0,"gutter_decrease":false,"seo_h_tag":"h2"}},"product-grid":{"type":"main-collection-product-grid","blocks":{"title":{"type":"title","settings":{}},"price":{"type":"price","settings":{}}},"block_order":["title","price"],"settings":{"products_number":24,"enable_filtering":false,"enable_sorting":false,"filters_position":"top"}},"custom_liquid_jheJ9x":{"type":"custom-liquid","settings":{"custom_liquid":"<iframe src=\"https:\/\/www.faire.com\/embed\/bw_a3ad2xpp27\" width=\"500\" height=\"600\" scrolling=\"no\" style=\"margin:0 auto;border:none;display:block;max-width:100%;width:500px;height:600px;\"><\/iframe>","full_width":true,"remove_margin":false}},"testimonials_tBbfGg":{"type":"testimonials","blocks":{"testimonial_fjGecX":{"type":"testimonial","settings":{"author_name":"Vertigo Vending","author_title":"★★★★★","quote":"<p>I love the product designs. The pins I received were high quality. I loved the eco-friendly shipping.<\/p>"}},"testimonial_PyKp9f":{"type":"testimonial","settings":{"author_name":"Scrappy Cat","author_title":"★★★★★","quote":"<p>A+ great product and arrived faster than I thought humanly possible!<\/p>"}},"testimonial_3dDCBt":{"type":"testimonial","settings":{"author_name":"The Garden","author_title":"★★★★★","quote":"<p>These are beautifully made-we LOVE the double screw-on backing on these pins. What a lovely twist on Pride pins.<\/p>"}},"testimonial_AWRgQi":{"type":"testimonial","settings":{"author_name":"Equitas Health Cincinnati Medical Center","author_title":"★★★★★","quote":"<p>Great quality items, and excellent customer service!<\/p>"}}},"block_order":["testimonial_fjGecX","testimonial_PyKp9f","testimonial_3dDCBt","testimonial_AWRgQi"],"settings":{"heading":"","subheading":"","section_heading_size":"text-size--regular","section_heading_layout":"section-heading--left section-heading--one-row","cta_label":"","cta_url":"","layout_mode":"slider","content_alignment":"center","color_background_main":"rgba(0,0,0,0)","color_text_main":"rgba(0,0,0,0)","color_borders_main":"rgba(0,0,0,0)","border_radius":0,"color_hide_borders":false,"gutter_decrease":true,"seo_h_tag":"h2"}}},"order":["banner","marquee_UBaMGn","rich_text_6XHdtb","text_columns_images_N37NFP","product-grid","custom_liquid_jheJ9x","testimonials_tBbfGg"]}
+{
+  "sections": {
+    "banner": {
+      "type": "main-collection-banner",
+      "settings": {
+        "show_collection_description": false,
+        "show_collection_image": false,
+        "image_height": "small"
+      }
+    },
+    "marquee_UBaMGn": {
+      "type": "marquee",
+      "settings": {
+        "direction": "left",
+        "speed": 60,
+        "pause_on_hover": true,
+        "text_size": "xlarge",
+        "background": "yellow",
+        "text_color": "dark",
+        "spacing": "none",
+        "pull_next_section_up": false
+      },
+      "blocks": {
+        "text_pkfPA8": {
+          "type": "text",
+          "settings": {
+            "text": "<strong>NET 60</strong> ➺ payment terms"
+          }
+        },
+        "text_aBqUVj": {
+          "type": "text",
+          "settings": {
+            "text": "<strong>$0 ORDER MIN</strong> ➺ <em>for opening orders and reorders</em>"
+          }
+        },
+        "text_bEgEmF": {
+          "type": "text",
+          "settings": {
+            "text": "<strong>$100 OFF</strong> ➺ <em>when you sign up for Faire</em>"
+          }
+        }
+      },
+      "block_order": [
+        "text_pkfPA8",
+        "text_aBqUVj",
+        "text_bEgEmF"
+      ]
+    },
+    "rich_text_6XHdtb": {
+      "type": "rich-text",
+      "blocks": {
+        "title_D8HWxR": {
+          "type": "title",
+          "settings": {
+            "title": "Stock Our Products",
+            "size": "medium",
+            "heading_tag": "h2"
+          }
+        },
+        "text_CMKqm3": {
+          "type": "text",
+          "settings": {
+            "text": "<p>We’re always on the hunt for new wholesale friends. To make the process easy, we’ve partnered with Faire to offer you free returns for risk-free buying and net 60 terms for stress-free payments. To grab all of the deets and see what’s available, hop on over to our Faire profile.</p><p>New to Faire? You'll get $100 off your first wholesale order, plus free shipping with us for an entire year.</p>"
+          }
+        },
+        "button_WbU4M4": {
+          "type": "button",
+          "settings": {
+            "label": "Shop Wholesale",
+            "link": "https://faire.com/direct/pinultimate",
+            "style": "solid",
+            "new_tab": false
+          }
+        }
+      },
+      "block_order": [
+        "title_D8HWxR",
+        "text_CMKqm3",
+        "button_WbU4M4"
+      ],
+      "settings": {
+        "image": "shopify://shop_images/371930997_950486289358411_4863834360435208797_n.jpg",
+        "image_position": "left",
+        "image_fit": "cover",
+        "height": "medium",
+        "text_alignment": "left",
+        "content_spacing": 20,
+        "button_spacing": 30,
+        "background": "none",
+        "full_width": false,
+        "spacing": "compact",
+        "bottom_spacing": false
+      }
+    },
+    "text_columns_images_N37NFP": {
+      "type": "multicolumn",
+      "blocks": {},
+      "block_order": [],
+      "settings": {
+        "heading": "Catalog",
+        "subheading": "available for wholesale prices on <a href=\"https://faire.com/direct/pinultimate\" target=\"_blank\" title=\"https://faire.com/direct/pinultimate\">Faire</a>",
+        "heading_size": "medium",
+        "heading_layout": "inline",
+        "heading_alignment": "left",
+        "heading_tag": "h2",
+        "layout": "carousel",
+        "columns_desktop": 4,
+        "columns_tablet": 3,
+        "columns_mobile": "1",
+        "media_style": "image",
+        "image_ratio": "square",
+        "card_style": "bordered",
+        "text_alignment": "center",
+        "background": "none",
+        "spacing": "default"
+      }
+    },
+    "product-grid": {
+      "type": "main-collection-product-grid",
+      "settings": {
+        "products_per_page": 24,
+        "enable_filtering": false,
+        "enable_sorting": false,
+        "filters_layout": "top",
+        "columns_desktop": "4",
+        "columns_mobile": "1",
+        "show_vendor": false,
+        "show_price": false,
+        "show_quick_add": false
+      }
+    },
+    "custom_liquid_jheJ9x": {
+      "type": "custom-liquid",
+      "settings": {
+        "custom_liquid": "<iframe src=\"https://www.faire.com/embed/bw_a3ad2xpp27\" width=\"500\" height=\"600\" scrolling=\"no\" style=\"margin:0 auto;border:none;display:block;max-width:100%;width:500px;height:600px;\"></iframe>",
+        "subheading": "",
+        "heading": "",
+        "heading_alignment": "left",
+        "heading_tag": "h2",
+        "button_label": "",
+        "full_width": true,
+        "background": "none",
+        "spacing": "default"
+      }
+    },
+    "testimonials_tBbfGg": {
+      "type": "testimonials",
+      "blocks": {
+        "testimonial_fjGecX": {
+          "type": "testimonial",
+          "settings": {
+            "author_name": "Vertigo Vending",
+            "rating": "5",
+            "author_title": "",
+            "quote": "<p>I love the product designs. The pins I received were high quality. I loved the eco-friendly shipping.</p>"
+          }
+        },
+        "testimonial_PyKp9f": {
+          "type": "testimonial",
+          "settings": {
+            "author_name": "Scrappy Cat",
+            "rating": "5",
+            "author_title": "",
+            "quote": "<p>A+ great product and arrived faster than I thought humanly possible!</p>"
+          }
+        },
+        "testimonial_3dDCBt": {
+          "type": "testimonial",
+          "settings": {
+            "author_name": "The Garden",
+            "rating": "5",
+            "author_title": "",
+            "quote": "<p>These are beautifully made-we LOVE the double screw-on backing on these pins. What a lovely twist on Pride pins.</p>"
+          }
+        },
+        "testimonial_AWRgQi": {
+          "type": "testimonial",
+          "settings": {
+            "author_name": "Equitas Health Cincinnati Medical Center",
+            "rating": "5",
+            "author_title": "",
+            "quote": "<p>Great quality items, and excellent customer service!</p>"
+          }
+        }
+      },
+      "block_order": [
+        "testimonial_fjGecX",
+        "testimonial_PyKp9f",
+        "testimonial_3dDCBt",
+        "testimonial_AWRgQi"
+      ],
+      "settings": {
+        "heading": "",
+        "subheading": "",
+        "heading_size": "small",
+        "heading_layout": "inline",
+        "heading_alignment": "left",
+        "heading_tag": "h2",
+        "layout": "carousel",
+        "columns_desktop": 3,
+        "text_alignment": "center",
+        "show_border": true,
+        "background": "none",
+        "spacing": "compact"
+      }
+    }
+  },
+  "order": [
+    "banner",
+    "marquee_UBaMGn",
+    "rich_text_6XHdtb",
+    "text_columns_images_N37NFP",
+    "product-grid",
+    "custom_liquid_jheJ9x",
+    "testimonials_tBbfGg"
+  ]
+}

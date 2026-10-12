@@ -1,0 +1,340 @@
+{%- liquid
+  assign image = section.settings.image
+  assign position = section.settings.content_position | split: '-'
+  assign vertical = position[0]
+  assign horizontal = position[1]
+
+  case vertical
+    when 'top'
+      assign align_class = 'align-items-start'
+    when 'bottom'
+      assign align_class = 'align-items-end'
+    else
+      assign align_class = 'align-items-center'
+  endcase
+  case horizontal
+    when 'left'
+      assign justify_class = 'justify-content-start text-start'
+    when 'right'
+      assign justify_class = 'justify-content-end text-end'
+    else
+      assign justify_class = 'justify-content-center text-center'
+  endcase
+
+  if section.settings.text_color == 'light'
+    assign text_class = 'text-white'
+  else
+    assign text_class = 'text-body'
+  endif
+
+  assign spacing = section.settings.spacing
+  if section.index == 1
+    assign loading = 'eager'
+  else
+    assign loading = 'lazy'
+  endif
+-%}
+{%- capture spacing_class -%}
+  {%- if spacing == 'compact' -%}
+    mt-4 mt-md-6
+  {%- else -%}
+    {%- render 'section-spacing', size: spacing -%}
+  {%- endif -%}
+{%- endcapture -%}
+
+{{ 'section-image-banner.css' | asset_url | stylesheet_tag }}
+
+<section class="image-banner container-fluid px-0 {{ spacing_class }}">
+  <div class="{% if section.settings.full_width %}container-fluid px-0{% else %}container{% endif %}">
+    <div
+      class="image-banner__inner image-banner--height-{{ section.settings.height }} position-relative overflow-hidden d-flex {{ align_class }} {{ justify_class }}"
+      {% if section.settings.height == 'adapt' and image != blank %}
+        style="--image-banner-ratio: {{ 100.0 | divided_by: image.aspect_ratio }}%;"
+      {% endif %}
+    >
+      {%- if image != blank -%}
+        {%- liquid
+          if section.settings.full_width
+            assign sizes = '100vw'
+          else
+            assign sizes = '(min-width: 1400px) 1360px, 100vw'
+          endif
+          echo image | image_url: width: 3000 | image_tag: class: 'image-banner__image position-absolute top-0 start-0 w-100 h-100 object-fit-cover', widths: '375, 750, 1100, 1500, 2000, 2500, 3000', sizes: sizes, loading: loading
+        -%}
+      {%- else -%}
+        {%- liquid
+          if section.settings.text_color == 'light'
+            assign placeholder_class = 'image-banner__image position-absolute top-0 start-0 w-100 h-100 bg-secondary'
+          else
+            assign placeholder_class = 'image-banner__image position-absolute top-0 start-0 w-100 h-100 bg-light'
+          endif
+          echo 'hero-apparel-1' | placeholder_svg_tag: placeholder_class
+        -%}
+      {%- endif -%}
+
+      {%- if section.settings.overlay_opacity > 0 -%}
+        <div
+          class="position-absolute top-0 start-0 w-100 h-100 bg-black"
+          style="opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};"
+          aria-hidden="true"
+        ></div>
+      {%- endif -%}
+
+      {%- if section.blocks.size > 0 -%}
+        <div
+          class="image-banner__content position-relative p-4 p-md-5 {{ text_class }}{% if section.settings.content_box %} image-banner__content--box bg-white text-body{% endif %}"
+          style="--image-banner-content-width: {{ section.settings.content_width }}%;"
+        >
+          {%- for block in section.blocks -%}
+            {%- case block.type -%}
+              {%- when 'eyebrow' -%}
+                <p class="eyebrow mb-0" {{ block.shopify_attributes }}>{{ block.settings.text }}</p>
+              {%- when 'heading' -%}
+                <{{ block.settings.heading_tag }}
+                  class="image-banner__heading image-banner__heading--{{ block.settings.size }} mb-0"
+                  {{ block.shopify_attributes }}
+                >
+                  {{- block.settings.heading | escape -}}
+                </{{ block.settings.heading_tag }}>
+              {%- when 'text' -%}
+                <div class="image-banner__text rte" {{ block.shopify_attributes }}>{{ block.settings.text }}</div>
+              {%- when 'button' -%}
+                {%- if block.settings.label != blank -%}
+                  <div class="image-banner__button" {{ block.shopify_attributes }}>
+                    <a
+                      {% if block.settings.link != blank %}
+                        href="{{ block.settings.link }}"
+                      {% else %}
+                        role="link" aria-disabled="true"
+                      {% endif %}
+                      class="btn btn-cta {% if block.settings.style == 'outline' %}btn-outline-dark{% else %}btn-primary{% endif %}"
+                      {% if block.settings.new_tab %}
+                        target="_blank" rel="noopener"
+                      {% endif %}
+                    >
+                      {{- block.settings.label | escape -}}
+                    </a>
+                  </div>
+                {%- endif -%}
+            {%- endcase -%}
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Image banner",
+  "tag": "div",
+  "class": "section-image-banner",
+  "max_blocks": 6,
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "select",
+      "id": "height",
+      "label": "Height",
+      "options": [
+        { "value": "adapt", "label": "Fit the image" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Full page width",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Darken image",
+      "min": 0,
+      "max": 80,
+      "step": 5,
+      "unit": "%",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Text"
+    },
+    {
+      "type": "select",
+      "id": "content_position",
+      "label": "Position",
+      "options": [
+        { "value": "top-left", "label": "Top left" },
+        { "value": "top-center", "label": "Top center" },
+        { "value": "top-right", "label": "Top right" },
+        { "value": "middle-left", "label": "Middle left" },
+        { "value": "middle-center", "label": "Middle center" },
+        { "value": "middle-right", "label": "Middle right" },
+        { "value": "bottom-left", "label": "Bottom left" },
+        { "value": "bottom-center", "label": "Bottom center" },
+        { "value": "bottom-right", "label": "Bottom right" }
+      ],
+      "default": "middle-center"
+    },
+    {
+      "type": "range",
+      "id": "content_width",
+      "label": "Maximum width",
+      "min": 30,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 60
+    },
+    {
+      "type": "select",
+      "id": "text_color",
+      "label": "Text color",
+      "options": [
+        { "value": "light", "label": "Light" },
+        { "value": "dark", "label": "Dark" }
+      ],
+      "default": "light"
+    },
+    {
+      "type": "checkbox",
+      "id": "content_box",
+      "label": "Show text on a white box",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Section"
+    },
+    {
+      "type": "select",
+      "id": "spacing",
+      "label": "Space above",
+      "options": [
+        { "value": "default", "label": "Default" },
+        { "value": "small", "label": "Small" },
+        { "value": "compact", "label": "Extra small" },
+        { "value": "none", "label": "None" }
+      ],
+      "default": "default"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "eyebrow",
+      "name": "Small heading",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "Introducing"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "name": "Heading",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Image banner"
+        },
+        {
+          "type": "select",
+          "id": "size",
+          "label": "Size",
+          "options": [
+            { "value": "small", "label": "Small" },
+            { "value": "medium", "label": "Medium" },
+            { "value": "large", "label": "Large" }
+          ],
+          "default": "medium"
+        },
+        {
+          "type": "select",
+          "id": "heading_tag",
+          "label": "Heading level",
+          "info": "For search engines and screen readers; doesn't change the look.",
+          "options": [
+            { "value": "h1", "label": "H1" },
+            { "value": "h2", "label": "H2" },
+            { "value": "h3", "label": "H3" }
+          ],
+          "default": "h2"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "Text",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>Tell customers about your latest collection or promotion.</p>"
+        }
+      ]
+    },
+    {
+      "type": "button",
+      "name": "Button",
+      "limit": 2,
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Shop now"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        },
+        {
+          "type": "select",
+          "id": "style",
+          "label": "Style",
+          "options": [
+            { "value": "solid", "label": "Solid" },
+            { "value": "outline", "label": "Outline" }
+          ],
+          "default": "solid"
+        },
+        {
+          "type": "checkbox",
+          "id": "new_tab",
+          "label": "Open link in a new tab",
+          "default": false
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Image banner",
+      "blocks": [
+        { "type": "heading" },
+        { "type": "text" },
+        { "type": "button" }
+      ]
+    }
+  ]
+}
+{% endschema %}

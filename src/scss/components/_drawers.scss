@@ -1,0 +1,165 @@
+// Shared look for the search, menu and cart offcanvas drawers.
+.drawer {
+  --bs-offcanvas-width: min(100%, 375px);
+  --bs-offcanvas-padding-x: 1.25rem;
+  --bs-offcanvas-padding-y: 1.25rem;
+  --drawer-padding: 1.25rem;
+
+  @include media-breakpoint-up(lg) {
+    --bs-offcanvas-width: 420px;
+    --bs-offcanvas-padding-x: 1.875rem;
+    --drawer-padding: 1.875rem;
+  }
+
+  &__header {
+    min-height: 57px;
+    padding-block: 0.75rem;
+
+    @include media-breakpoint-up(md) {
+      min-height: 69px;
+    }
+
+    .drawer__close {
+      font-size: 0.8125rem;
+    }
+  }
+
+  &__title {
+    margin: 0;
+    font-family: var(--font-body-family);
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  &__subtitle {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+  }
+
+  &__body {
+    padding-top: var(--drawer-padding);
+  }
+
+  &__section,
+  &__footer {
+    padding: 1rem var(--drawer-padding);
+  }
+
+  &__footer {
+    padding-block: 1.25rem;
+
+    @include media-breakpoint-up(lg) {
+      padding-block: var(--drawer-padding);
+    }
+  }
+}
+
+.menu-drawer {
+  .drawer__body {
+    padding-top: 10px;
+  }
+
+  &__link {
+    padding-block: 1rem;
+    font-size: 1.125rem;
+    letter-spacing: 0.3px;
+
+    .bi {
+      transition: transform 0.2s ease;
+    }
+
+    &:not(.collapsed) .bi {
+      transform: rotate(180deg);
+    }
+
+    &:not(.fw-semibold) {
+      font-size: 1.0625rem;
+    }
+  }
+
+  &__social {
+    font-size: 1.5rem;
+  }
+}
+
+.predictive-search__image {
+  width: 4rem;
+}
+
+// Cart drawer
+.cart-drawer {
+  &__image {
+    width: 100px;
+    margin-right: 1.25rem;
+
+    @include media-breakpoint-down(sm) {
+      width: 100px;
+    }
+  }
+
+  &__total {
+    font-size: 1.875rem;
+  }
+
+  &__total-row {
+    border-color: rgba($brand-black, 0.15) !important;
+  }
+
+  &__remove {
+    font-size: 0.9375rem;
+    text-underline-offset: 3px;
+  }
+}
+
+.free-shipping__bar {
+  --bs-progress-height: 5px;
+  --bs-progress-bg: #{rgba($brand-black, 0.08)};
+  --bs-progress-border-radius: 3px;
+}
+
+.quantity-stepper {
+  border: 1px solid rgba($brand-black, 0.3);
+  border-radius: 3px;
+
+  &__button {
+    --bs-btn-padding-x: 0.5rem;
+    --bs-btn-padding-y: 0.25rem;
+    border: 0;
+  }
+
+  &__input {
+    flex: 0 0 2rem !important;
+    width: 2rem;
+    padding-inline: 0;
+    border: 0;
+    -moz-appearance: textfield;
+
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      margin: 0;
+      -webkit-appearance: none;
+    }
+  }
+}
+
+// Country / currency picker
+.localization-dropdown {
+  summary {
+    list-style: none;
+    cursor: pointer;
+
+    &::-webkit-details-marker {
+      display: none;
+    }
+  }
+
+  &__list {
+    z-index: $zindex-dropdown;
+    min-width: 16rem;
+    max-height: 18rem;
+  }
+}

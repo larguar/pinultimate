@@ -1,0 +1,84 @@
+@import "section-base";
+
+.floating-images__stage {
+  height: var(--fi-height-mobile);
+  min-height: 360px;
+
+  @include media-breakpoint-up(md) {
+    height: var(--fi-height);
+  }
+}
+
+// Items are placed from the stage's top-left corner (mobile values below md).
+.floating-images__item {
+  top: var(--fi-y-mobile);
+  left: var(--fi-x-mobile);
+  width: var(--fi-width-mobile);
+
+  @include media-breakpoint-up(md) {
+    top: var(--fi-y);
+    left: var(--fi-x);
+    width: var(--fi-width);
+  }
+
+  &[data-speed] {
+    will-change: transform;
+  }
+
+  a img {
+    transition: transform 0.3s ease;
+  }
+
+  a:hover img {
+    transform: scale(1.03);
+  }
+}
+
+// The text sits above the items but lets clicks through around itself.
+.floating-images__content {
+  z-index: 100;
+  pointer-events: none;
+
+  &--invert {
+    mix-blend-mode: difference;
+  }
+}
+
+.floating-images__text {
+  max-width: 80%;
+  pointer-events: auto;
+
+  @include media-breakpoint-up(sm) {
+    max-width: 70%;
+  }
+
+}
+
+.floating-images__title {
+  font-weight: 600;
+  line-height: 1;
+
+  p {
+    margin: 0;
+  }
+
+  $sizes: (
+    regular: (34px, 46px, 60px),
+    large: (40px, 60px, 80px),
+    xlarge: (50px, 80px, 120px),
+  );
+
+  @each $name, $values in $sizes {
+    &--#{$name} {
+      font-size: nth($values, 1);
+
+      @include media-breakpoint-up(sm) {
+        font-size: nth($values, 2);
+      }
+
+      @include media-breakpoint-up(lg) {
+        font-size: nth($values, 3);
+      }
+    }
+  }
+}

@@ -1,0 +1,153 @@
+{%- comment -%}
+  Classic customer accounts: address book (add, edit, delete).
+  Based on Dawn's main-addresses (Shopify, MIT), restyled with Bootstrap. The add and edit
+  forms are Bootstrap collapses, open by default without JavaScript.
+{%- endcomment -%}
+{{ 'section-main-account.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'shopify_common.js' | shopify_asset_url }}" defer="defer"></script>
+
+{%- comment -%} Only reachable when logged in; guarded for the theme editor. {%- endcomment -%}
+{%- if customer -%}
+<section class="customer customer--addresses container-fluid px-0">
+  <div class="container customer__container">
+    <p class="mb-2"><a href="{{ routes.account_url }}">{{ 'theme.utility.account.return' | t }}</a></p>
+    <h1 class="customer__title">{{ 'theme.utility.account.addresses' | t }}</h1>
+
+    <div class="row g-5 customer__body">
+      <div class="col-12 col-lg-5 order-lg-2">
+        <button
+          type="button"
+          class="btn btn-dark"
+          data-bs-toggle="collapse"
+          data-bs-target="#AddAddress"
+          aria-expanded="false"
+          aria-controls="AddAddress"
+        >
+          {{- 'theme.utility.account.add_address' | t -}}
+        </button>
+        <div class="collapse mt-4" id="AddAddress">
+          <div class="bg-light p-4">
+            <h2 class="customer__subtitle mb-3">{{ 'theme.utility.account.add_address' | t }}</h2>
+            {%- form 'customer_address', customer.new_address -%}
+              {%- if form.errors -%}
+                <div class="alert alert-danger" role="alert">{{ form.errors | default_errors }}</div>
+              {%- endif -%}
+              {% render 'main-addresses-form', form: form, id: 'new' %}
+              <div class="d-flex flex-wrap gap-3 mt-4">
+                <button type="submit" class="btn btn-dark">{{ 'theme.utility.account.add' | t }}</button>
+                <button type="reset" class="btn btn-outline-dark" data-bs-toggle="collapse" data-bs-target="#AddAddress">
+                  {{- 'theme.utility.account.cancel' | t -}}
+                </button>
+              </div>
+            {%- endform -%}
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-lg-7 order-lg-1">
+        {%- paginate customer.addresses by 20 -%}
+          <ul class="list-unstyled mb-0">
+            {%- for address in customer.addresses -%}
+              <li class="border-bottom pb-4 mb-4">
+                {%- if address == customer.default_address -%}
+                  <span class="badge text-bg-light mb-2">{{ 'theme.utility.account.default' | t }}</span>
+                {%- endif -%}
+                <address class="mb-3">{{ address | format_address }}</address>
+                <div class="d-flex flex-wrap gap-3">
+                  <button
+                    type="button"
+                    class="btn btn-outline-dark btn-sm"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#EditAddress_{{ address.id }}"
+                    aria-expanded="false"
+                    aria-controls="EditAddress_{{ address.id }}"
+                    aria-label="{{ 'theme.utility.account.edit_label' | t: number: forloop.index }}"
+                  >
+                    {{- 'theme.utility.account.edit' | t -}}
+                  </button>
+                  <form method="post" action="{{ routes.account_addresses_url }}/{{ address.id }}" data-confirm="{{ 'theme.utility.account.delete_confirm' | t | escape }}">
+                    <input type="hidden" name="_method" value="delete">
+                    <button type="submit" class="btn btn-outline-dark btn-sm" aria-label="{{ 'theme.utility.account.delete_label' | t: number: forloop.index }}">
+                      {{- 'theme.utility.account.delete' | t -}}
+                    </button>
+                  </form>
+                </div>
+
+                <div class="collapse mt-4" id="EditAddress_{{ address.id }}">
+                  <div class="bg-light p-4">
+                    <h2 class="customer__subtitle mb-3">{{ 'theme.utility.account.edit_address' | t }}</h2>
+                    {%- form 'customer_address', address -%}
+                      {%- if form.errors -%}
+                        <div class="alert alert-danger" role="alert">{{ form.errors | default_errors }}</div>
+                      {%- endif -%}
+                      {% render 'main-addresses-form', form: form, id: form.id %}
+                      <div class="d-flex flex-wrap gap-3 mt-4">
+                        <button type="submit" class="btn btn-dark">{{ 'theme.utility.account.update' | t }}</button>
+                        <button type="reset" class="btn btn-outline-dark" data-bs-toggle="collapse" data-bs-target="#EditAddress_{{ address.id }}">
+                          {{- 'theme.utility.account.cancel' | t -}}
+                        </button>
+                      </div>
+                    {%- endform -%}
+                  </div>
+                </div>
+              </li>
+            {%- endfor -%}
+          </ul>
+
+          {%- if paginate.pages > 1 -%}
+            <nav aria-label="{{ 'general.pagination.label' | t }}">
+              <ul class="pagination">
+                {%- if paginate.previous -%}
+                  <li class="page-item"><a class="page-link" href="{{ paginate.previous.url }}" aria-label="{{ 'general.pagination.previous' | t }}">&lsaquo;</a></li>
+                {%- endif -%}
+                {%- if paginate.next -%}
+                  <li class="page-item"><a class="page-link" href="{{ paginate.next.url }}" aria-label="{{ 'general.pagination.next' | t }}">&rsaquo;</a></li>
+                {%- endif -%}
+              </ul>
+            </nav>
+          {%- endif -%}
+        {%- endpaginate -%}
+      </div>
+    </div>
+  </div>
+</section>
+{%- endif -%}
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Country / province dropdowns (Shopify's helper from shopify_common.js).
+    if (window.Shopify && Shopify.CountryProvinceSelector) {
+      document.querySelectorAll('[data-address-country]').forEach((select) => {
+        const id = select.dataset.addressCountry;
+        new Shopify.CountryProvinceSelector(`AddressCountry_${id}`, `AddressProvince_${id}`, {
+          hideElement: `AddressProvinceContainer_${id}`,
+        });
+      });
+    }
+    // Keep a form with errors open.
+    document.querySelectorAll('.customer--addresses .collapse .alert-danger').forEach((alert) => {
+      alert.closest('.collapse').classList.add('show');
+    });
+    // Ask before deleting an address.
+    document.querySelectorAll('form[data-confirm]').forEach((form) => {
+      form.addEventListener('submit', (event) => {
+        if (!window.confirm(form.dataset.confirm)) event.preventDefault();
+      });
+    });
+  });
+</script>
+<noscript>
+  <style>
+    .customer--addresses .collapse { display: block; }
+    .customer--addresses [data-bs-toggle] { display: none; }
+  </style>
+</noscript>
+
+{% schema %}
+{
+  "name": "Customer addresses",
+  "tag": "div",
+  "class": "section-main-addresses",
+  "settings": []
+}
+{% endschema %}

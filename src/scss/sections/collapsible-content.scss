@@ -1,0 +1,93 @@
+@import "section-base";
+@import "main-page-content";
+
+.collapsible-content {
+  &__accordion {
+    --bs-accordion-bg: transparent;
+    --bs-accordion-color: inherit;
+    --bs-accordion-border-color: rgba(var(--bs-body-color-rgb), 0.15);
+    --bs-accordion-btn-color: inherit;
+    --bs-accordion-btn-bg: transparent;
+    --bs-accordion-active-color: inherit;
+    --bs-accordion-active-bg: transparent;
+    --bs-accordion-btn-padding-x: 0;
+    --bs-accordion-btn-padding-y: 1.25rem;
+    --bs-accordion-body-padding-x: 0;
+    --bs-accordion-body-padding-y: 0;
+    --bs-accordion-btn-active-icon: var(--bs-accordion-btn-icon);
+    --bs-accordion-btn-focus-box-shadow: none;
+    border-top: 1px solid var(--bs-accordion-border-color);
+    border-bottom: 1px solid var(--bs-accordion-border-color);
+
+    .accordion-button {
+      font-size: 1.0625rem;
+      line-height: 1.3;
+      text-align: left;
+
+      &:focus-visible {
+        outline: 2px solid currentColor;
+        outline-offset: 2px;
+      }
+    }
+
+    .accordion-body {
+      padding-bottom: 1.5rem;
+    }
+  }
+
+  &__title {
+    font-weight: 600;
+  }
+
+  &__subtitle {
+    font-size: 0.875rem;
+    opacity: 0.7;
+  }
+
+  &__icon {
+    font-size: 1.375rem;
+  }
+
+  &__body {
+    @include rich-text;
+  }
+
+  &__form-title {
+    font-size: calc(18px * 58 / 60);
+    font-weight: 400;
+    line-height: 0.99;
+  }
+
+  &__form {
+    border-color: rgba(var(--bs-body-color-rgb), 0.15) !important;
+
+    .contact-form__fields {
+      gap: 12px;
+    }
+
+    .form-control {
+      padding: 12px;
+      border-color: rgba(var(--bs-body-color-rgb), 0.3);
+
+      &:focus {
+        border-color: var(--bs-body-color);
+        box-shadow: none;
+      }
+    }
+
+    .contact-form__submit {
+      --bs-btn-bg: var(--bs-body-color);
+      --bs-btn-border-color: var(--bs-body-color);
+      --bs-btn-hover-bg: var(--bs-dark);
+      --bs-btn-hover-border-color: var(--bs-dark);
+    }
+  }
+
+  // The contact form stays in view while the list scrolls on large screens.
+  &__aside {
+    @include media-breakpoint-up(lg) {
+      position: sticky;
+      top: 1.25rem;
+    }
+  }
+}

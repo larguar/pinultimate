@@ -1,0 +1,497 @@
+{%- comment -%}
+  A heading and button with images (or short texts) floating around them. Each item is placed
+  with offsets from the section's top-left corner, separately for mobile, and can drift with a
+  parallax effect on larger screens (src/js/sections/floating-images.js).
+{%- endcomment -%}
+{%- liquid
+  assign background_class = ''
+  if section.settings.background != 'none'
+    assign background_class = 'bg-' | append: section.settings.background
+  endif
+
+  case section.settings.text_position
+    when 'top-left'
+      assign position_class = 'justify-content-start align-items-start'
+    when 'top-center'
+      assign position_class = 'justify-content-center align-items-start text-center'
+    when 'top-right'
+      assign position_class = 'justify-content-end align-items-start text-end'
+    when 'middle-left'
+      assign position_class = 'justify-content-start align-items-center'
+    when 'middle-right'
+      assign position_class = 'justify-content-end align-items-center text-end'
+    when 'bottom-left'
+      assign position_class = 'justify-content-start align-items-end'
+    when 'bottom-center'
+      assign position_class = 'justify-content-center align-items-end text-center'
+    when 'bottom-right'
+      assign position_class = 'justify-content-end align-items-end text-end'
+    else
+      assign position_class = 'justify-content-center align-items-center text-center'
+  endcase
+-%}
+
+{{ 'section-floating-images.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'section-floating-images.js' | asset_url }}" defer="defer"></script>
+
+<section class="floating-images container-fluid px-0 {{ background_class }} text-{{ section.settings.text_color }} {% render 'section-spacing', size: section.settings.spacing %}">
+  <floating-images
+    class="floating-images__stage container-fluid px-0 d-block position-relative overflow-hidden"
+    style="--fi-height: {{ section.settings.height }}vh; --fi-height-mobile: {{ section.settings.height_mobile }}vh;"
+  >
+    <div class="row g-0 h-100">
+      <div class="col-12 h-100">
+        {%- for block in section.blocks -%}
+          {%- liquid
+            assign max_x = 100 | minus: block.settings.width
+            assign x = block.settings.x | at_most: max_x
+            assign z = forloop.length | minus: forloop.index0
+            capture sizes
+              echo '(min-width: 768px) ' | append: block.settings.width | append: 'vw, ' | append: block.settings.width_mobile | append: 'vw'
+            endcapture
+          -%}
+          <div
+            class="floating-images__item floating-images__item--{{ block.type }} position-absolute{% if block.settings.hide_on_mobile %} d-none d-md-block{% endif %}{% if block.settings.hide_on_desktop %} d-md-none{% endif %}"
+            style="--fi-x: {{ x }}%; --fi-y: {{ block.settings.y }}vh; --fi-width: {{ block.settings.width }}%; --fi-x-mobile: {{ block.settings.x_mobile }}%; --fi-y-mobile: {{ block.settings.y_mobile }}vh; --fi-width-mobile: {{ block.settings.width_mobile }}%; z-index: {{ z }};"
+            {% if block.settings.speed != 0 %}
+              data-speed="{{ block.settings.speed | divided_by: 10.0 }}"
+            {% endif %}
+            {{ block.shopify_attributes }}
+          >
+            {%- case block.type -%}
+              {%- when 'image' -%}
+                {%- if block.settings.link != blank -%}<a href="{{ block.settings.link }}" class="d-block">{%- endif -%}
+                {%- if block.settings.image != blank -%}
+                  {{
+                    block.settings.image
+                    | image_url: width: 1200
+                    | image_tag: widths: '200, 400, 600, 800, 1200', sizes: sizes, loading: 'lazy', class: 'd-block w-100 h-auto'
+                  }}
+                {%- else -%}
+                  {{ 'product-apparel-1' | placeholder_svg_tag: 'd-block w-100 h-auto bg-white' }}
+                {%- endif -%}
+                {%- if block.settings.link != blank -%}</a>{%- endif -%}
+              {%- when 'text' -%}
+                <div class="rte text-{{ block.settings.color }}{% if block.settings.background != 'none' %} bg-{{ block.settings.background }} p-3 p-md-4{% endif %}">
+                  {{ block.settings.text }}
+                </div>
+            {%- endcase -%}
+          </div>
+        {%- endfor -%}
+
+        <div class="floating-images__content{% if section.settings.invert_text %} floating-images__content--invert{% endif %} container position-relative h-100 d-flex {{ position_class }}">
+          <div class="floating-images__text py-5">
+            {%- if section.settings.caption != blank -%}
+              <p class="eyebrow mb-3">{{ section.settings.caption | escape }}</p>
+            {%- endif -%}
+            {%- if section.settings.title != blank -%}
+              <h2 class="floating-images__title floating-images__title--{{ section.settings.title_size }} rte">
+                {{- section.settings.title | remove: '<p>' | remove: '</p>' -}}
+              </h2>
+            {%- endif -%}
+            {%- if section.settings.button_label != blank -%}
+              <a
+                {% if section.settings.button_link != blank %}
+                  href="{{ section.settings.button_link }}"
+                {% else %}
+                  role="link" aria-disabled="true"
+                {% endif %}
+                class="btn btn-{{ section.settings.button_style }} btn-cta mt-4"
+              >
+                {{- section.settings.button_label | escape -}}
+              </a>
+            {%- endif -%}
+          </div>
+        </div>
+      </div>
+    </div>
+  </floating-images>
+</section>
+
+{% schema %}
+{
+  "name": "Floating images",
+  "tag": "div",
+  "class": "section-floating-images",
+  "settings": [
+    {
+      "type": "text",
+      "id": "caption",
+      "label": "Caption",
+      "info": "Small uppercase text above the heading."
+    },
+    {
+      "type": "richtext",
+      "id": "title",
+      "label": "Heading",
+      "default": "<p><em>say it fun-sized</em></p>"
+    },
+    {
+      "type": "select",
+      "id": "title_size",
+      "label": "Heading size",
+      "options": [
+        { "value": "regular", "label": "Regular" },
+        { "value": "large", "label": "Large" },
+        { "value": "xlarge", "label": "Extra large" }
+      ],
+      "default": "regular"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Shop now"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "select",
+      "id": "button_style",
+      "label": "Button style",
+      "options": [
+        { "value": "primary", "label": "Dark green" },
+        { "value": "outline-dark", "label": "Outline" }
+      ],
+      "default": "primary"
+    },
+    {
+      "type": "select",
+      "id": "text_position",
+      "label": "Text position",
+      "options": [
+        { "value": "top-left", "label": "Top left" },
+        { "value": "top-center", "label": "Top center" },
+        { "value": "top-right", "label": "Top right" },
+        { "value": "middle-left", "label": "Middle left" },
+        { "value": "middle-center", "label": "Middle center" },
+        { "value": "middle-right", "label": "Middle right" },
+        { "value": "bottom-left", "label": "Bottom left" },
+        { "value": "bottom-center", "label": "Bottom center" },
+        { "value": "bottom-right", "label": "Bottom right" }
+      ],
+      "default": "middle-center"
+    },
+    {
+      "type": "header",
+      "content": "Section"
+    },
+    {
+      "type": "select",
+      "id": "background",
+      "label": "Background",
+      "options": [
+        { "value": "none", "label": "None" },
+        { "value": "light", "label": "Light" },
+        { "value": "yellow", "label": "Yellow" },
+        { "value": "blue", "label": "Blue" },
+        { "value": "purple", "label": "Purple" },
+        { "value": "primary", "label": "Dark green" }
+      ],
+      "default": "light"
+    },
+    {
+      "type": "select",
+      "id": "text_color",
+      "label": "Text color",
+      "options": [
+        { "value": "dark", "label": "Black" },
+        { "value": "primary", "label": "Dark green" },
+        { "value": "white", "label": "White" }
+      ],
+      "default": "dark"
+    },
+    {
+      "type": "checkbox",
+      "id": "invert_text",
+      "label": "Invert text colors over images",
+      "info": "Keeps the text readable where it overlaps images. Works best with white text.",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "height",
+      "label": "Height on desktop",
+      "info": "As a share of the screen height. Items further down are cut off.",
+      "min": 30,
+      "max": 200,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "height_mobile",
+      "label": "Height on mobile and tablet",
+      "min": 30,
+      "max": 200,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "select",
+      "id": "spacing",
+      "label": "Space above",
+      "options": [
+        { "value": "default", "label": "Default" },
+        { "value": "small", "label": "Small" },
+        { "value": "none", "label": "None" }
+      ],
+      "default": "default"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image",
+          "info": "Cut-out images with a transparent background work best."
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        },
+        {
+          "type": "range",
+          "id": "speed",
+          "label": "Parallax speed",
+          "info": "Negative values drift up, positive values drift down. Desktop only.",
+          "min": -10,
+          "max": 10,
+          "step": 1,
+          "default": 0
+        },
+        {
+          "type": "header",
+          "content": "Desktop"
+        },
+        {
+          "type": "range",
+          "id": "width",
+          "label": "Width",
+          "min": 5,
+          "max": 100,
+          "step": 5,
+          "unit": "%",
+          "default": 25
+        },
+        {
+          "type": "range",
+          "id": "x",
+          "label": "From the left",
+          "min": -20,
+          "max": 100,
+          "step": 5,
+          "unit": "%",
+          "default": 30
+        },
+        {
+          "type": "range",
+          "id": "y",
+          "label": "From the top",
+          "info": "As a share of the screen height.",
+          "min": -20,
+          "max": 200,
+          "step": 5,
+          "unit": "%",
+          "default": 40
+        },
+        {
+          "type": "checkbox",
+          "id": "hide_on_desktop",
+          "label": "Hide on desktop",
+          "default": false
+        },
+        {
+          "type": "header",
+          "content": "Mobile"
+        },
+        {
+          "type": "range",
+          "id": "width_mobile",
+          "label": "Width",
+          "min": 5,
+          "max": 100,
+          "step": 5,
+          "unit": "%",
+          "default": 40
+        },
+        {
+          "type": "range",
+          "id": "x_mobile",
+          "label": "From the left",
+          "min": -20,
+          "max": 100,
+          "step": 5,
+          "unit": "%",
+          "default": 30
+        },
+        {
+          "type": "range",
+          "id": "y_mobile",
+          "label": "From the top",
+          "min": -20,
+          "max": 200,
+          "step": 5,
+          "unit": "%",
+          "default": 40
+        },
+        {
+          "type": "checkbox",
+          "id": "hide_on_mobile",
+          "label": "Hide on mobile",
+          "default": false
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "Text",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>Write a short statement or quote.</p>"
+        },
+        {
+          "type": "select",
+          "id": "color",
+          "label": "Text color",
+          "options": [
+            { "value": "dark", "label": "Black" },
+            { "value": "primary", "label": "Dark green" },
+            { "value": "white", "label": "White" }
+          ],
+          "default": "dark"
+        },
+        {
+          "type": "select",
+          "id": "background",
+          "label": "Background",
+          "options": [
+            { "value": "none", "label": "None" },
+            { "value": "white", "label": "White" },
+            { "value": "light", "label": "Light" },
+            { "value": "yellow", "label": "Yellow" },
+            { "value": "blue", "label": "Blue" },
+            { "value": "purple", "label": "Purple" }
+          ],
+          "default": "none"
+        },
+        {
+          "type": "range",
+          "id": "speed",
+          "label": "Parallax speed",
+          "info": "Negative values drift up, positive values drift down. Desktop only.",
+          "min": -10,
+          "max": 10,
+          "step": 1,
+          "default": 0
+        },
+        {
+          "type": "header",
+          "content": "Desktop"
+        },
+        {
+          "type": "range",
+          "id": "width",
+          "label": "Width",
+          "min": 5,
+          "max": 100,
+          "step": 5,
+          "unit": "%",
+          "default": 25
+        },
+        {
+          "type": "range",
+          "id": "x",
+          "label": "From the left",
+          "min": -20,
+          "max": 100,
+          "step": 5,
+          "unit": "%",
+          "default": 30
+        },
+        {
+          "type": "range",
+          "id": "y",
+          "label": "From the top",
+          "info": "As a share of the screen height.",
+          "min": -20,
+          "max": 200,
+          "step": 5,
+          "unit": "%",
+          "default": 40
+        },
+        {
+          "type": "checkbox",
+          "id": "hide_on_desktop",
+          "label": "Hide on desktop",
+          "default": false
+        },
+        {
+          "type": "header",
+          "content": "Mobile"
+        },
+        {
+          "type": "range",
+          "id": "width_mobile",
+          "label": "Width",
+          "min": 5,
+          "max": 100,
+          "step": 5,
+          "unit": "%",
+          "default": 40
+        },
+        {
+          "type": "range",
+          "id": "x_mobile",
+          "label": "From the left",
+          "min": -20,
+          "max": 100,
+          "step": 5,
+          "unit": "%",
+          "default": 30
+        },
+        {
+          "type": "range",
+          "id": "y_mobile",
+          "label": "From the top",
+          "min": -20,
+          "max": 200,
+          "step": 5,
+          "unit": "%",
+          "default": 40
+        },
+        {
+          "type": "checkbox",
+          "id": "hide_on_mobile",
+          "label": "Hide on mobile",
+          "default": false
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Floating images",
+      "blocks": [
+        { "type": "image", "settings": { "width": 20, "x": 5, "y": 15, "width_mobile": 40, "x_mobile": 0, "y_mobile": 5, "speed": -3 } },
+        { "type": "image", "settings": { "width": 25, "x": 70, "y": 10, "width_mobile": 40, "x_mobile": 60, "y_mobile": 10, "speed": 2 } },
+        { "type": "image", "settings": { "width": 20, "x": 15, "y": 60, "width_mobile": 35, "x_mobile": 5, "y_mobile": 65, "speed": 3 } },
+        { "type": "image", "settings": { "width": 20, "x": 65, "y": 60, "width_mobile": 35, "x_mobile": 60, "y_mobile": 70, "speed": -5 } }
+      ]
+    }
+  ]
+}
+{% endschema %}

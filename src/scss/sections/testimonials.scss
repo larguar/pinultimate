@@ -1,0 +1,35 @@
+@import "section-base";
+@import "multicolumn-heading";
+@import "multicolumn-slider";
+
+.testimonial-card {
+  padding: 25px;
+
+  @include media-breakpoint-up(lg) {
+    padding: 35px;
+  }
+
+  @include media-breakpoint-up(xl) {
+    padding: 50px;
+  }
+
+  &--bordered {
+    border: 1px solid rgba($body-color, 0.1);
+  }
+
+  &__quote {
+    padding-top: 15px;
+
+    @include media-breakpoint-up(lg) {
+      padding-top: 20px;
+    }
+
+    @include media-breakpoint-up(xl) {
+      padding-top: 25px;
+    }
+
+    p {
+      margin-bottom: 1rem;
+    }
+  }
+}

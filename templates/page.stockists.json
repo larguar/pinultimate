@@ -1,1 +1,61 @@
-{"sections":{"main":{"type":"main-page","settings":{"center":false,"page_cover_metafield":"","color_background_main":"rgba(0,0,0,0)","color_text_main":"rgba(0,0,0,0)","height":"small"}},"custom_liquid_TwbEne":{"type":"custom-liquid","settings":{"custom_liquid":"{% paginate shop.metaobjects.retailer.values by 100 %}\n{% for retailer in shop.metaobjects.retailer.values %}\n{% assign index = forloop.index %}\n{% endfor %}\n{% endpaginate %}\n\n<p class=\"rich-text__caption caption-with-letter-spacing caption-with-letter-spacing--medium scroll-trigger animate--slide-in\" data-cascade=\"\" style=\"--animation-order: 1;\">{{ index }} Stores<\/p>","full_width":false,"remove_margin":false}},"media_with_text_overlay_Gg6inT":{"type":"media-with-text-overlay","blocks":{"image_ecN3AU":{"type":"image","settings":{"image":"shopify:\/\/shop_images\/wholesale-map.png","caption":"","title":"","subtitle":"","link":"","button_label":"","color_background_main":"rgba(0,0,0,0)","color_text_main":"rgba(0,0,0,0)","show_horizontal_line":false,"seo_h_tag":"h3"}}},"block_order":["image_ecN3AU"],"settings":{"heading":"","subheading":"","section_heading_size":"text-size--large","section_heading_layout":"section-heading--left section-heading--one-row","cta_label":"","cta_url":"","layout":"full","height":"regular","alignment":"horizontal-center align-content--vertical-middle","width":"90%","title_size":"heading-size--small","spacing":18,"button_style":"solid","border_radius":0,"gutter_decrease":false,"remove_top_margin":false,"seo_h_tag":"h2"}},"custom_liquid_rczDkE":{"type":"custom-liquid","settings":{"custom_liquid":"<div class=\"grid grid--layout grid-3 grid-lap-1 grid--align-items-stretch\" style=\"grid-row-gap: calc(var(--col-gap) * 2)\">\n\n<div id=\"element-text_tFnwqW\" class=\"card card--no-borders card--animation text-align--left\">\n\n{% paginate shop.metaobjects.retailer.values by 100 %}\n\n{% assign states = \"AL,AK,AZ,AR,CA,CO,CT,DE,DC,FL,GA,HI,ID,IL,IN\" | split: ',' %}\n\n{% assign fullstates = \"Alabama,Alaska,Arizona,Arkansas,California,Colorado,Connecticut,Delaware,District of Columbia,Florida,Georgia,Hawaii,Idaho,Illinois,Indiana\" | split: ',' %}\n\n{% for state in states %}\n{% assign visible = false %}\n{% assign stateindex = forloop.index0 %}\n\n{% for retailer in shop.metaobjects.retailer.values %}\n{% if retailer.location == state %}\n{% assign visible = true %}\n{% endif %}\n{% endfor %}\n\n{% if visible == true %}\n<div class=\"state\">\n<h3 class=\"inline-richtext\">{{ fullstates[stateindex] }}<\/h3>\n<\/div>\n{% for retailer in shop.metaobjects.retailer.values %}\n{% if retailer.location == state %}\n<div class=\"retailer\">\n<p>\n<a href=\"{{ retailer.website }}\" target=\"blank\">{{ retailer.store }}<\/a><br>\n{{ retailer.address1 }}<br>\n{{ retailer.address2 }}\n<\/p>\n<\/div>\n{% endif %}\n{% endfor %}\n{% endif %}\n\n{% endfor %}\n\n{% endpaginate %}\n\n<\/div>\n\n<div id=\"element-text_tFnwqW\" class=\"card card--no-borders card--animation text-align--left\">\n\n{% paginate shop.metaobjects.retailer.values by 100 %}\n\n{% assign states = \"IA,KS,KY,LA,ME,MD,MA,MI,MN,MS,MO,MT,NE,NV,NH,NJ,NM,NY,NC\" | split: ',' %}\n\n{% assign fullstates = \"Iowa,Kansas,Kentucky,Louisiana,Maine,Maryland,Massachusetts,Michigan,Minnesota,Mississippi,Missouri,Montana,Nebraska,Nevada,New Hampshire,New Jersey,New Mexico,New York,North Carolina\" | split: ',' %}\n\n{% for state in states %}\n{% assign visible = false %}\n{% assign stateindex = forloop.index0 %}\n\n{% for retailer in shop.metaobjects.retailer.values %}\n{% if retailer.location == state %}\n{% assign visible = true %}\n{% endif %}\n{% endfor %}\n\n{% if visible == true %}\n<div class=\"state\">\n<h3 class=\"inline-richtext\">{{ fullstates[stateindex] }}<\/h3>\n<\/div>\n{% for retailer in shop.metaobjects.retailer.values %}\n{% if retailer.location == state %}\n<div class=\"retailer\">\n<p>\n<a href=\"{{ retailer.website }}\" target=\"blank\">{{ retailer.store }}<\/a><br>\n{{ retailer.address1 }}<br>\n{{ retailer.address2 }}\n<\/p>\n<\/div>\n{% endif %}\n{% endfor %}\n{% endif %}\n\n{% endfor %}\n\n{% endpaginate %}\n\n<\/div>\n\n<div id=\"element-text_tFnwqW\" class=\"card card--no-borders card--animation text-align--left\">\n\n{% paginate shop.metaobjects.retailer.values by 100 %}\n\n{% assign states = \"ND,OH,OK,OR,PA,RI,SC,SD,TN,TX,UT,VT,VA,WA,WV,WI,WY,Canada\" | split: ',' %}\n\n{% assign fullstates = \"North Dakota,Ohio,Oklahoma,Oregon,Pennsylvania,Rhode Island,South Carolina,South Dakota,Tennessee,Texas,Utah,Vermont,Virginia,Washington,West Virginia,Wisconsin,Wyoming,Canada\" | split: ',' %}\n\n{% for state in states %}\n{% assign visible = false %}\n{% assign stateindex = forloop.index0 %}\n\n{% for retailer in shop.metaobjects.retailer.values %}\n{% if retailer.location == state %}\n{% assign visible = true %}\n{% endif %}\n{% endfor %}\n\n{% if visible == true %}\n<div class=\"state\">\n<h3 class=\"inline-richtext\">{{ fullstates[stateindex] }}<\/h3>\n<\/div>\n{% for retailer in shop.metaobjects.retailer.values %}\n{% if retailer.location == state %}\n<div class=\"retailer\">\n<p>\n<a href=\"{{ retailer.website }}\" target=\"blank\">{{ retailer.store }}<\/a><br>\n{{ retailer.address1 }}<br>\n{{ retailer.address2 }}\n{% if retailer.address3 != blank %}\n<br>{{ retailer.address3 }}\n{% endif %}\n<\/p>\n<\/div>\n{% endif %}\n{% endfor %}\n{% endif %}\n\n{% endfor %}\n\n{% endpaginate %}\n\n<\/div>\n\n<\/div>","full_width":false,"remove_margin":false}}},"order":["main","custom_liquid_TwbEne","media_with_text_overlay_Gg6inT","custom_liquid_rczDkE"]}
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "settings": {
+        "show_title": true,
+        "content_width": "full"
+      }
+    },
+    "custom_liquid_TwbEne": {
+      "type": "custom-liquid",
+      "settings": {
+        "custom_liquid": "{% paginate shop.metaobjects.retailer.values by 100 %}\n{% for retailer in shop.metaobjects.retailer.values %}\n{% assign index = forloop.index %}\n{% endfor %}\n{% endpaginate %}\n\n<p>{{ index }} Stores</p>",
+        "subheading": "",
+        "heading": "",
+        "heading_alignment": "left",
+        "heading_tag": "h2",
+        "button_label": "",
+        "full_width": false,
+        "background": "none",
+        "spacing": "default"
+      }
+    },
+    "media_with_text_overlay_Gg6inT": {
+      "type": "image-banner",
+      "blocks": {},
+      "block_order": [],
+      "settings": {
+        "image": "shopify://shop_images/wholesale-map.png",
+        "height": "medium",
+        "full_width": true,
+        "overlay_opacity": 0,
+        "content_position": "middle-center",
+        "content_width": 90,
+        "text_color": "light",
+        "content_box": false,
+        "spacing": "default"
+      }
+    },
+    "custom_liquid_rczDkE": {
+      "type": "custom-liquid",
+      "settings": {
+        "custom_liquid": "<div class=\"row row-cols-1 row-cols-md-3 gx-1 gy-2 gy-md-0\">\n\n<div class=\"col\">\n\n{% paginate shop.metaobjects.retailer.values by 100 %}\n\n{% assign states = \"AL,AK,AZ,AR,CA,CO,CT,DE,DC,FL,GA,HI,ID,IL,IN\" | split: ',' %}\n\n{% assign fullstates = \"Alabama,Alaska,Arizona,Arkansas,California,Colorado,Connecticut,Delaware,District of Columbia,Florida,Georgia,Hawaii,Idaho,Illinois,Indiana\" | split: ',' %}\n\n{% for state in states %}\n{% assign visible = false %}\n{% assign stateindex = forloop.index0 %}\n\n{% for retailer in shop.metaobjects.retailer.values %}\n{% if retailer.location == state %}\n{% assign visible = true %}\n{% endif %}\n{% endfor %}\n\n{% if visible == true %}\n<div class=\"state\">\n<h3>{{ fullstates[stateindex] }}</h3>\n</div>\n{% for retailer in shop.metaobjects.retailer.values %}\n{% if retailer.location == state %}\n<div class=\"retailer\">\n<p>\n<a href=\"{{ retailer.website }}\" target=\"blank\">{{ retailer.store }}</a><br>\n{{ retailer.address1 }}<br>\n{{ retailer.address2 }}\n</p>\n</div>\n{% endif %}\n{% endfor %}\n{% endif %}\n\n{% endfor %}\n\n{% endpaginate %}\n\n</div>\n\n<div class=\"col\">\n\n{% paginate shop.metaobjects.retailer.values by 100 %}\n\n{% assign states = \"IA,KS,KY,LA,ME,MD,MA,MI,MN,MS,MO,MT,NE,NV,NH,NJ,NM,NY,NC\" | split: ',' %}\n\n{% assign fullstates = \"Iowa,Kansas,Kentucky,Louisiana,Maine,Maryland,Massachusetts,Michigan,Minnesota,Mississippi,Missouri,Montana,Nebraska,Nevada,New Hampshire,New Jersey,New Mexico,New York,North Carolina\" | split: ',' %}\n\n{% for state in states %}\n{% assign visible = false %}\n{% assign stateindex = forloop.index0 %}\n\n{% for retailer in shop.metaobjects.retailer.values %}\n{% if retailer.location == state %}\n{% assign visible = true %}\n{% endif %}\n{% endfor %}\n\n{% if visible == true %}\n<div class=\"state\">\n<h3>{{ fullstates[stateindex] }}</h3>\n</div>\n{% for retailer in shop.metaobjects.retailer.values %}\n{% if retailer.location == state %}\n<div class=\"retailer\">\n<p>\n<a href=\"{{ retailer.website }}\" target=\"blank\">{{ retailer.store }}</a><br>\n{{ retailer.address1 }}<br>\n{{ retailer.address2 }}\n</p>\n</div>\n{% endif %}\n{% endfor %}\n{% endif %}\n\n{% endfor %}\n\n{% endpaginate %}\n\n</div>\n\n<div class=\"col\">\n\n{% paginate shop.metaobjects.retailer.values by 100 %}\n\n{% assign states = \"ND,OH,OK,OR,PA,RI,SC,SD,TN,TX,UT,VT,VA,WA,WV,WI,WY,Canada\" | split: ',' %}\n\n{% assign fullstates = \"North Dakota,Ohio,Oklahoma,Oregon,Pennsylvania,Rhode Island,South Carolina,South Dakota,Tennessee,Texas,Utah,Vermont,Virginia,Washington,West Virginia,Wisconsin,Wyoming,Canada\" | split: ',' %}\n\n{% for state in states %}\n{% assign visible = false %}\n{% assign stateindex = forloop.index0 %}\n\n{% for retailer in shop.metaobjects.retailer.values %}\n{% if retailer.location == state %}\n{% assign visible = true %}\n{% endif %}\n{% endfor %}\n\n{% if visible == true %}\n<div class=\"state\">\n<h3>{{ fullstates[stateindex] }}</h3>\n</div>\n{% for retailer in shop.metaobjects.retailer.values %}\n{% if retailer.location == state %}\n<div class=\"retailer\">\n<p>\n<a href=\"{{ retailer.website }}\" target=\"blank\">{{ retailer.store }}</a><br>\n{{ retailer.address1 }}<br>\n{{ retailer.address2 }}\n{% if retailer.address3 != blank %}\n<br>{{ retailer.address3 }}\n{% endif %}\n</p>\n</div>\n{% endif %}\n{% endfor %}\n{% endif %}\n\n{% endfor %}\n\n{% endpaginate %}\n\n</div>\n\n</div>",
+        "subheading": "",
+        "heading": "",
+        "heading_alignment": "left",
+        "heading_tag": "h2",
+        "button_label": "",
+        "full_width": false,
+        "background": "none",
+        "spacing": "default"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "custom_liquid_TwbEne",
+    "media_with_text_overlay_Gg6inT",
+    "custom_liquid_rczDkE"
+  ]
+}

@@ -1,0 +1,54 @@
+@import "section-base";
+
+// The section takes no space; the shape hangs off its top edge.
+.shape {
+  height: 0;
+}
+
+.shape__item {
+  position: absolute;
+  top: var(--shape-y-mobile);
+  display: block;
+  width: var(--shape-size);
+  height: var(--shape-size);
+  min-width: var(--shape-min-size);
+  min-height: var(--shape-min-size);
+  pointer-events: none;
+  will-change: transform;
+
+  @include media-breakpoint-up(md) {
+    top: var(--shape-y);
+  }
+
+  &--left {
+    left: var(--shape-x-mobile);
+
+    @include media-breakpoint-up(md) {
+      left: var(--shape-x);
+    }
+  }
+
+  &--right {
+    right: var(--shape-x-mobile);
+
+    @include media-breakpoint-up(md) {
+      right: var(--shape-x);
+    }
+  }
+
+  // Sizes scale with the viewport, with a floor on small screens.
+  &--small {
+    --shape-size: 14vw;
+    --shape-min-size: 190px;
+  }
+
+  &--medium {
+    --shape-size: 15vw;
+    --shape-min-size: 200px;
+  }
+
+  &--large {
+    --shape-size: 16vw;
+    --shape-min-size: 210px;
+  }
+}

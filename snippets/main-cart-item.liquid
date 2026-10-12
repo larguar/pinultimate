@@ -1,0 +1,145 @@
+{%- comment -%}
+  One line of the cart page (sections/main-cart.liquid).
+
+  Accepts:
+  - item {Object}: cart line item
+  - line {Number}: 1-based line index
+{%- endcomment -%}
+{%- liquid
+  assign line_price = item.final_line_price | money
+  assign line_compare = blank
+  if item.final_line_price < item.original_line_price
+    assign line_compare = item.original_line_price | money
+  elsif item.variant.compare_at_price > item.variant.price
+    assign line_compare = item.variant.compare_at_price | times: item.quantity | money
+  endif
+
+  assign unit_price = item.final_price | money
+  assign unit_compare = blank
+  if item.final_price < item.original_price
+    assign unit_compare = item.original_price | money
+  elsif item.variant.compare_at_price > item.variant.price
+    assign unit_compare = item.variant.compare_at_price | money
+  endif
+
+  if settings.currency_code_enabled
+    assign iso = cart.currency.iso_code | prepend: ' '
+    assign line_price = line_price | append: iso
+    assign unit_price = unit_price | append: iso
+    if line_compare != blank
+      assign line_compare = line_compare | append: iso
+    endif
+    if unit_compare != blank
+      assign unit_compare = unit_compare | append: iso
+    endif
+  endif
+
+  # updates[] lets the no-JS form update quantities.
+  assign stepper_input_id = 'main-cart-quantity-' | append: line
+  capture stepper
+    render 'quantity-stepper', item: item, line: line, name: 'updates[]', id: stepper_input_id
+  endcapture
+-%}
+<li class="main-cart__item" data-main-cart-line="{{ line }}" data-key="{{ item.key }}">
+  <a href="{{ item.url }}" class="main-cart__image ratio ratio-5x6 d-block border" tabindex="-1" aria-hidden="true">
+    {%- if item.image -%}
+      {{
+        item.image
+        | image_url: width: 300
+        | image_tag:
+          class: 'object-fit-cover',
+          alt: '',
+          loading: 'lazy',
+          widths: '120, 200, 300',
+          sizes: '100px'
+      }}
+    {%- endif -%}
+  </a>
+
+  <div class="main-cart__info">
+    <p class="main-cart__price mb-0 fw-semibold d-md-none">
+      {%- if line_compare != blank -%}
+        <span class="visually-hidden">{{ 'theme.utility.cart.sale_price' | t }}</span>
+        {{ line_price }}
+        <span class="visually-hidden">{{ 'theme.utility.cart.regular_price' | t }}</span>
+        <del class="opacity-75">{{ line_compare }}</del>
+      {%- else -%}
+        {{ line_price }}
+      {%- endif -%}
+    </p>
+    <p class="main-cart__price mb-0 d-none d-md-block">
+      {%- if unit_compare != blank -%}
+        <span class="visually-hidden">{{ 'theme.utility.cart.sale_price' | t }}</span>
+        {{ unit_price }}
+        <span class="visually-hidden">{{ 'theme.utility.cart.regular_price' | t }}</span>
+        <del class="opacity-75">{{ unit_compare }}</del>
+      {%- else -%}
+        {{ unit_price }}
+      {%- endif -%}
+    </p>
+
+    {%- if item.unit_price_measurement -%}
+      <p class="main-cart__meta mb-0">
+        {{ item.unit_price | money }}/
+        {%- if item.unit_price_measurement.reference_value != 1 -%}
+          {{- item.unit_price_measurement.reference_value -}}
+        {%- endif -%}
+        {{ item.unit_price_measurement.reference_unit }}
+      </p>
+    {%- endif -%}
+
+    <a href="{{ item.url }}" class="main-cart__name d-block">{{ item.product.title | escape }}</a>
+
+    {%- unless item.product.has_only_default_variant -%}
+      {%- for option in item.options_with_values -%}
+        <p class="main-cart__meta mb-0">{{ option.name | escape }}: {{ option.value | escape }}</p>
+      {%- endfor -%}
+    {%- endunless -%}
+
+    {%- if item.selling_plan_allocation -%}
+      <p class="main-cart__meta mb-0">{{ item.selling_plan_allocation.selling_plan.name | escape }}</p>
+    {%- endif -%}
+
+    {%- for property in item.properties -%}
+      {%- assign first_char = property.first | slice: 0 -%}
+      {%- if property.last != blank and first_char != '_' -%}
+        <p class="main-cart__meta mb-0">
+          <span class="fw-semibold">{{ property.first | escape }}:</span>
+          {%- if property.last contains '/uploads/' -%}
+            <a href="{{ property.last }}" class="text-decoration-underline">{{ property.last | split: '/' | last }}</a>
+          {%- else -%}
+            {{ property.last | escape }}
+          {%- endif -%}
+        </p>
+      {%- endif -%}
+    {%- endfor -%}
+
+    {%- for allocation in item.line_level_discount_allocations -%}
+      <p class="main-cart__meta mb-0">
+        <span class="badge text-bg-light">
+          <span class="visually-hidden">{{ 'theme.utility.cart.discount' | t }}</span>
+          {{ allocation.discount_application.title | escape }} (-{{ allocation.amount | money }})
+        </span>
+      </p>
+    {%- endfor -%}
+  </div>
+
+  <div class="main-cart__actions d-flex flex-wrap align-items-center">
+    {{ stepper }}
+    <a
+      href="{{ item.url_to_remove }}"
+      class="main-cart__remove"
+      data-main-cart-remove="{{ line }}"
+      aria-label="{{ 'theme.utility.cart.remove_label' | t: title: item.product.title | escape }}"
+    >
+      {{- 'theme.utility.cart.remove' | t -}}
+    </a>
+  </div>
+
+  <div class="main-cart__line-price d-none d-md-block text-end fw-semibold">
+    {{ line_price }}
+    {%- if line_compare != blank -%}
+      <del class="d-block fw-normal opacity-75">{{ line_compare }}</del>
+    {%- endif -%}
+  </div>
+</li>

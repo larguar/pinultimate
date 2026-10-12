@@ -1,1 +1,39 @@
-{"type":"footer","name":"t:sections.refactor_words.labels.footer_group","sections":{"klaviyo_flyout_mbtWRk":{"type":"klaviyo-flyout","settings":{"trigger":"RgG9mr","color":"#FEFF86","text-color":"#1E1E1E"}},"footer":{"type":"footer","blocks":{"text_XDzT3D":{"type":"text","settings":{"title":"★★★★★","image_heading_size":40,"content":"<div class=\"ssw-html-widget ssw-reviews-badge-widget\" data-module=\"recommendation\" data-name=\"ReviewsBadge\"><\/div>\n<div class=\"review-text\">\n<p>5.0 Star Rating based on <span id=\"review-count\">400+<\/span> Reviews<\/p>\n<p><a href=\"\/pages\/reviews\">All Reviews<\/a><\/p>\n<\/div>","show_social_icons":false}},"menu_Hhg3y7":{"type":"menu","settings":{"title":"About","menu":"about-footer","menu_target":false,"menu_style":false}},"menu_Rrh93Y":{"type":"menu","settings":{"title":"Shop","menu":"shop","menu_target":false,"menu_style":false}},"menu_7JKDAT":{"type":"menu","settings":{"title":"Account","menu":"account","menu_target":false,"menu_style":false}},"menu_nbzmNG":{"type":"menu","settings":{"title":"Resources","menu":"resources","menu_target":false,"menu_style":false}}},"block_order":["text_XDzT3D","menu_Hhg3y7","menu_Rrh93Y","menu_7JKDAT","menu_nbzmNG"],"settings":{"layout":"grid-4 grid-portable-2 grid-lap-1","show_locale_selector":true,"show_country_selector":true,"seo_h_tag":"h4"}}},"order":["klaviyo_flyout_mbtWRk","footer"]}
+{
+  "type": "footer",
+  "name": "Footer group",
+  "sections": {
+    "klaviyo_flyout": {
+      "type": "klaviyo-flyout",
+      "settings": { "trigger": "RgG9mr", "color": "#FEFF86", "text-color": "#1E1E1E" }
+    },
+    "footer": {
+      "type": "footer",
+      "blocks": {
+        "text-reviews": {
+          "type": "text",
+          "settings": {
+            "heading": "★★★★★",
+            "heading_accent": true,
+            "text": "<div class=\"ssw-html-widget ssw-reviews-badge-widget\" data-module=\"recommendation\" data-name=\"ReviewsBadge\"></div>\n<div class=\"review-text\">\n<p>5.0 Star Rating based on <span id=\"review-count\">400+</span> Reviews</p>\n<p><a href=\"/pages/reviews\">All Reviews</a></p>\n</div>"
+          }
+        },
+        "menu-about": { "type": "menu", "settings": { "heading": "About", "menu": "about-footer" } },
+        "menu-shop": { "type": "menu", "settings": { "heading": "Shop", "menu": "shop" } },
+        "menu-account": { "type": "menu", "settings": { "heading": "Account", "menu": "account" } },
+        "menu-resources": { "type": "menu", "settings": { "heading": "Resources", "menu": "resources" } }
+      },
+      "block_order": ["text-reviews", "menu-about", "menu-shop", "menu-account", "menu-resources"],
+      "settings": {
+        "show_paper_edge": true,
+        "signup_heading": "Get 10% Off Your First Order",
+        "signup_text": "<p>Let's be pin pals! Be the first to hear about new arrivals, exclusive sales, freebies, & other fun things.</p>",
+        "klaviyo_form_id": "RGmBAq",
+        "signup_legal": "<p>By signing up you agree with our <a href=\"/policies/privacy-policy\" title=\"Privacy Policy\">Privacy Policy</a> and <a href=\"/policies/terms-of-service\" title=\"Terms of Service\">Terms of Service</a>.</p>",
+        "show_localization": true,
+        "copyright_start_year": "2018",
+        "copyright_name": "Pinultimate, LLC"
+      }
+    }
+  },
+  "order": ["klaviyo_flyout", "footer"]
+}

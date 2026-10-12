@@ -1,0 +1,96 @@
+@import "section-base";
+
+// Heights follow the viewport, shorter on portrait screens (previous theme's sizes).
+$image-banner-heights: (
+  small: (40vh, 25vh),
+  medium: (60vh, 40vh),
+  large: (80vh, 55vh),
+);
+
+@each $name, $values in $image-banner-heights {
+  .image-banner--height-#{$name} {
+    min-height: nth($values, 1);
+
+    @media (orientation: portrait) {
+      min-height: nth($values, 2);
+    }
+  }
+}
+
+.image-banner--height-adapt::before {
+  content: "";
+  display: block;
+  padding-top: var(--image-banner-ratio, 56.25%);
+}
+
+.image-banner--height-adapt .image-banner__content {
+  position: absolute !important;
+}
+
+.image-banner__content {
+  max-width: var(--image-banner-content-width, 60%);
+
+  @include media-breakpoint-down(md) {
+    max-width: 100%;
+  }
+
+  > * + * {
+    margin-top: 18px;
+  }
+
+  > * + .image-banner__button {
+    margin-top: 27px;
+  }
+
+  > .image-banner__button + .image-banner__button {
+    margin-top: 10px;
+  }
+}
+
+.image-banner__heading {
+  font-weight: 600;
+  line-height: 1.05;
+
+  &--small {
+    font-size: 1.45rem;
+
+    @include media-breakpoint-up(lg) {
+      font-size: 2.175rem;
+    }
+  }
+
+  &--medium {
+    font-size: 2.0542rem;
+
+    @include media-breakpoint-up(sm) {
+      font-size: 2.7792rem;
+    }
+
+    @include media-breakpoint-up(lg) {
+      font-size: 3.625rem;
+    }
+  }
+
+  &--large {
+    font-size: 3.2021rem;
+    letter-spacing: -0.5px;
+
+    @include media-breakpoint-up(md) {
+      font-size: 4.35rem;
+    }
+
+    @include media-breakpoint-up(lg) {
+      font-size: 4.8333rem;
+    }
+  }
+}
+
+// Section call-to-action buttons were 45px / 51.25px tall in the previous theme, a little
+// shorter than the theme's default buttons.
+.image-banner .btn-cta {
+  --bs-btn-padding-y: 0.6875rem;
+
+  @include media-breakpoint-up(md) {
+    --bs-btn-padding-y: 0.875rem;
+  }
+}

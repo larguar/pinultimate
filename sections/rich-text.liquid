@@ -1,406 +1,338 @@
+{%- liquid
+  assign image = section.settings.image
+  assign position = section.settings.image_position
+  if image == blank or position == 'none'
+    assign position = 'none'
+  endif
+
+  case section.settings.text_alignment
+    when 'center'
+      assign text_class = 'text-center'
+      assign buttons_class = 'align-items-center justify-content-md-center'
+    when 'right'
+      assign text_class = 'text-end'
+      assign buttons_class = 'align-items-end justify-content-md-end'
+    else
+      assign text_class = 'text-start'
+      assign buttons_class = 'align-items-start'
+  endcase
+
+  assign background_class = ''
+  if section.settings.background != 'none'
+    assign background_class = 'text-bg-' | append: section.settings.background
+  endif
+
+  # Buttons that stay visible on dark backgrounds.
+  assign solid_button = 'btn-primary'
+  assign outline_button = 'btn-outline-dark'
+  case section.settings.background
+    when 'dark'
+      assign outline_button = 'btn-outline-light'
+    when 'primary'
+      assign solid_button = 'btn-light'
+      assign outline_button = 'btn-outline-light'
+  endcase
+
+  assign spacing = section.settings.spacing
+-%}
+{%- capture spacing_class -%}
+  {%- if spacing == 'compact' -%}
+    mt-4 mt-md-6
+  {%- else -%}
+    {%- render 'section-spacing', size: spacing -%}
+  {%- endif -%}
+  {%- if section.settings.bottom_spacing %} {% render 'section-spacing', side: 'b' %}{% endif -%}
+{%- endcapture -%}
+
 {{ 'section-rich-text.css' | asset_url | stylesheet_tag }}
-{%- if section.settings.is_fullwidth -%}
-  {% style %}
-    @media screen and (max-width: {{ settings.theme_max_width }}px) {
-      #shopify-section-{{ section.id }} .rich-text__container--image-right .rich-text__text {
-        padding-inline-start: var(--gutter-container) !important;
-      }
-    }
-    @media screen and (max-width: {{ settings.theme_max_width }}px) {
-      #shopify-section-{{ section.id }} .rich-text__container--image-left .rich-text__text {
-        padding-inline-end: var(--gutter-container) !important;
-      }
-    }
-  {% endstyle %}
-{%- endif -%}
 
-<div class="{% unless section.settings.is_fullwidth %} container--large {% else %} container--fullwidth {% endunless %} {% unless section.settings.remove_margin %} container--vertical-space{% if section.settings.gutter_decrease %}-small{% endif %} {% endunless %} {% if section.settings.remove_bottom_margin %} container--negative-margin {% endif %}">
-
-  <div id="element-{{ section.id }}" class="card 
-    {% if section.settings.is_fullwidth %} card--no-radius card--no-sideborders {% endif %} 
-    {% unless section.settings.image_position == "top" %} 
-      element--height-{{ section.settings.height }} 
-    {% else %}
-      rich-text--image-on-top 
-    {% endunless %} 
-  rich-text" 
-    {% if section.settings.image_position contains 'no-image' %} style="display:flex" {% endif %}
-  >
-
-    <div class="rich-text__container rich-text__container--image-{{ section.settings.image_position }} {% if section.settings.is_fullwidth %} rich-text__container--fullwidth {% endif %}">
-
-      {%- liquid
-        if section.index == 1 
-          assign preload = true
-        else
-          assign preload = false
-        endif
-      -%}
-
-      <div class="rich-text__image 
-        {% unless section.settings.image_crop %} rich-text__image--fit {% endunless %} 
-        {% if section.settings.image_position == "top" %} element--height-{{ section.settings.height }} {% endif %}" 
-      aria-hidden="true">
-
-        {%- unless section.settings.video != blank -%}
-
+<section class="rich-text rich-text--height-{{ section.settings.height }} container-fluid px-0 {{ spacing_class }}">
+  <div class="{% if section.settings.full_width %}container-fluid px-0{% else %}container{% endif %}">
+    <div class="row g-0 rich-text__row {{ background_class }}">
+      {%- if position != 'none' -%}
+        <div class="col-12{% unless position == 'top' %} col-md-6{% endunless %} rich-text__media rich-text__media--{{ position }}{% if position == 'right' %} order-md-last{% endif %}{% if section.settings.image_fit == 'contain' %} rich-text__media--contain{% endif %}">
           {%- liquid
-            unless section.settings.image == blank
-              render 'lazy-image', image: section.settings.image, type: '', alt: section.settings.title, image_alignment: true, id: section.id, class: 'lazy-image--to-reveal', preload: preload
+            if position == 'top'
+              assign sizes = '(min-width: 1400px) 1360px, 100vw'
             else
-              echo 'image' | placeholder_svg_tag
-            endunless
+              assign sizes = '(min-width: 1400px) 680px, (min-width: 768px) 50vw, 100vw'
+            endif
+            if section.index == 1
+              assign loading = 'eager'
+            else
+              assign loading = 'lazy'
+            endif
+            echo image | image_url: width: 2000 | image_tag: class: 'rich-text__image d-block w-100 h-auto', sizes: sizes, widths: '375, 550, 750, 1000, 1360, 1600, 2000', loading: loading, alt: image.alt
           -%}
+        </div>
+      {%- endif -%}
 
-        {%- else -%}
-
-          {{ 'component-video-background.css' | asset_url | stylesheet_tag }}
-
-          <style>
-            @media screen and (max-width: 767px) {
-              #element-{{ section.id }} .rich-text__image {
-                height: 0;
-                padding-top: {{ 100 | divided_by: section.settings.video.aspect_ratio }}%;
-              }
-            }
-          </style>
-
-          <div id="video-background-{{ section.id }}" class="video-background" style="display:block">
-
-            <video-background-element class="video-text__background" data-id="{{ section.id }}">
-              <video autoplay muted loop playsinline {% if section.settings.video_controls %} controls {% endif %} class="slider-item-media-element" style="border-radius:0">
-                {%- for source in section.settings.video.sources -%}
-                  <source data-src="{{ source.url }}" type="{{ source.mime_type }}">
-                {%- endfor -%}
-              </video>
-            </video-background-element>
-
-            {%- unless section.settings.image == blank -%}
-              <div data-video-background-fallback data-id="{{ section.id }}">
-                <template>
-                  <span class="video-text__image" aria-hidden="true">
-                    {%- render 'lazy-image', image: section.settings.image, type: 'background', sizes: 'sizes="(max-width: 1023px) calc(100vw - 60px), 84vw"', id: section.id, class: 'lazy-image--to-reveal' -%}
-                  </span>
-                </template>
-              </div>
-            {%- endunless -%}
-
-            <script src="{{ 'component-video-background.js' | asset_url }}" defer></script>
-
-          </div>
-
-        {%- endunless -%}
-
-      </div>
-
-      <div class="rich-text__text 
-        align-content align-content--{{ section.settings.text_alignment }} align-content--vertical-middle 
-        {% unless section.settings.is_fullwidth %} gutter--xlarge {% endunless %}
-        {% if section.settings.is_fullwidth %} container--large gutter-top--xlarge gutter-bottom--xlarge {% endif %}"
-      >
-        <div class="card__text 
-          spacing--custom remove-empty-space" 
-          style="--spacing:{{ section.settings.spacing }}px"
-          data-aos="fade-up"
+      <div class="col-12{% if position == 'left' or position == 'right' %} col-md-6{% endif %} rich-text__text d-flex align-items-center">
+        <div
+          class="rich-text__content w-100 {{ text_class }}"
+          data-reveal
+          style="--rich-text-spacing: {{ section.settings.content_spacing }}px; --rich-text-button-spacing: {{ section.settings.button_spacing }}px;"
         >
-
           {%- for block in section.blocks -%}
-            {%- case block.type %}
-              
-              {%- when 'custom_liquid' -%}
-                <div {{ block.shopify_attributes }}>
-                  {{ block.settings.custom_liquid }}
-                </div>
-
-              {%- when 'title' -%}
-                <div>
-                  <{{ block.settings.seo_h_tag }}
-                    style="margin-bottom: 0" 
-                    class="{{ block.settings.title_size }}"
+            {%- liquid
+              assign previous_type = ''
+              unless forloop.first
+                assign previous_index = forloop.index0 | minus: 1
+                assign previous_type = section.blocks[previous_index].type
+              endunless
+              assign next_type = section.blocks[forloop.index].type
+            -%}
+            {%- case block.type -%}
+              {%- when 'eyebrow' -%}
+                {%- if block.settings.text != blank -%}
+                  <p
+                    class="rich-text__eyebrow eyebrow mb-0{% if section.settings.text_alignment == 'center' %} mx-auto{% endif %}"
+                    {% if block.settings.max_width_mobile > 0 %}
+                      style="--rich-text-eyebrow-max-width: {{ block.settings.max_width_mobile }}px;"
+                    {% endif %}
                     {{ block.shopify_attributes }}
                   >
-                    {{ block.settings.title | escape }}
-                  </{{ block.settings.seo_h_tag }}>
-                </div>
+                    {{ block.settings.text }}
+                  </p>
+                {%- endif -%}
+
+              {%- when 'title' -%}
+                {%- if block.settings.title != blank -%}
+                  <{{ block.settings.heading_tag }}
+                    class="rich-text__title rich-text__title--{{ block.settings.size }} mb-0"
+                    {{ block.shopify_attributes }}
+                  >
+                    {{- block.settings.title | escape -}}
+                  </{{ block.settings.heading_tag }}>
+                {%- endif -%}
 
               {%- when 'text' -%}
-                <div 
-                  class="rte text-size--{{ block.settings.text_size }}"
-                  {{ block.shopify_attributes }}
-                >
-                  {{ block.settings.text }}
-                </div>
+                {%- if block.settings.text != blank -%}
+                  <div class="rich-text__body rte" {{ block.shopify_attributes }}>
+                    {{ block.settings.text }}
+                  </div>
+                {%- endif -%}
 
               {%- when 'button' -%}
-                <div 
-                  {{ block.shopify_attributes }}
-                >
-                  <a href="{{ block.settings.link }}" class="button button--{{ block.settings.button_style }} button--icon" {% unless block.settings.open_in_new_window == false %} target="_blank" {% endunless %}>
-                    <span aria-hidden="true" class="button__icon">{%- render 'theme-symbols', icon: 'arrow-right' -%}</span>
-                    <span>{{ block.settings.button_label | escape }}</span>
-                    
-                  </a>
-                </div>
-
-            {%- endcase %}
+                {%- comment -%} Consecutive buttons are collected and shown side by side. {%- endcomment -%}
+                {%- if previous_type != 'button' -%}
+                  {%- assign buttons_html = '' -%}
+                {%- endif -%}
+                {%- if block.settings.label != blank -%}
+                  {%- capture button_html -%}
+                    <a
+                      {% if block.settings.link != blank %}
+                        href="{{ block.settings.link }}"
+                      {% else %}
+                        role="link" aria-disabled="true"
+                      {% endif %}
+                      class="btn btn-cta {% if block.settings.style == 'outline' %}{{ outline_button }}{% else %}{{ solid_button }}{% endif %}"
+                      {% if block.settings.new_tab %}
+                        target="_blank" rel="noopener"
+                      {% endif %}
+                      {{ block.shopify_attributes }}
+                    >
+                      {{- block.settings.label | escape -}}
+                    </a>
+                  {%- endcapture -%}
+                  {%- assign buttons_html = buttons_html | append: button_html -%}
+                {%- endif -%}
+                {%- if next_type != 'button' and buttons_html != blank -%}
+                  <div class="rich-text__buttons d-flex flex-column flex-md-row flex-md-wrap {{ buttons_class }}">
+                    {{- buttons_html -}}
+                  </div>
+                {%- endif -%}
+            {%- endcase -%}
           {%- endfor -%}
-
-        </div>  
-
+        </div>
       </div>
-
-      {%- render 'custom-colors', id: section.id, text: section.settings.color_text_main, background: section.settings.color_background_main, borders: section.settings.color_borders_main, hide_borders: section.settings.color_hide_borders, border_radius: section.settings.border_radius -%}
-
     </div>
   </div>
-</div>
+</section>
 
 {% schema %}
 {
-  "name": "t:sections.rich-text.name",
-  "class": "can-be-fullwidth merged-section supports-absolute-header",
-  "max_blocks": 9,
+  "name": "Rich text",
+  "tag": "div",
+  "class": "section-rich-text",
+  "max_blocks": 12,
   "settings": [
     {
-      "id": "image",
       "type": "image_picker",
-      "label": "t:sections.gallery.blocks.image.settings.image.label"
-    },
-    {
-      "type": "video",
-      "id": "video",
-      "label": "t:sections.local-extra-words.sections.media-with-text-overlay.blocks.video.label",
-      "info": "t:sections.local-extra-words.sections.media-with-text-overlay.blocks.video.info"
-    },
-    {
-      "type": "checkbox",
-      "id": "video_controls",
-      "label": "t:video_controls",
-      "default": false
+      "id": "image",
+      "label": "Image"
     },
     {
       "type": "select",
       "id": "image_position",
-      "label": "t:sections.local-extra-words.sections.rich-text.settings.image_position.label",
+      "label": "Image position",
+      "info": "On phones the image always sits above the text.",
       "options": [
-        {
-          "value": "left",
-          "label": "t:sections.local-extra-words.sections.rich-text.settings.image_position.option__1"
-        },
-        {
-          "value": "top",
-          "label": "t:sections.local-extra-words.sections.rich-text.settings.image_position.option__2"
-        },
-        {
-          "value": "right",
-          "label": "t:sections.local-extra-words.sections.rich-text.settings.image_position.option__3"
-        },
-        {
-          "value": "top no-image",
-          "label": "t:late_edits.rich-text.image_position.no_image.label",
-          "group": "t:late_edits.rich-text.image_position.no_image.group"
-        }
+        { "value": "none", "label": "No image" },
+        { "value": "left", "label": "Left" },
+        { "value": "right", "label": "Right" },
+        { "value": "top", "label": "Above the text" }
       ],
       "default": "right"
     },
     {
       "type": "select",
-      "id": "height",
-      "label": "t:sections.local-extra-words.sections.rich-text.settings.height.label",
-      "info": "t:sections.local-extra-words.sections.rich-text.settings.height.info",
+      "id": "image_fit",
+      "label": "Image fit",
       "options": [
-        {
-          "value": "small",
-          "label": "t:sections.image-with-text.settings.image_height.options__1.label"
-        },
-        {
-          "value": "regular",
-          "label": "t:sections.image-with-text.settings.image_height.options__2.label"
-        },
-        {
-          "value": "large",
-          "label": "t:sections.image-with-text.settings.image_height.options__3.label"
-        }
+        { "value": "cover", "label": "Fill the space (crop)" },
+        { "value": "contain", "label": "Show the whole image" }
       ],
-      "default": "regular"
+      "default": "cover"
     },
     {
-      "type": "checkbox",
-      "id": "image_crop",
-      "label": "t:sections.local-extra-words.sections.rich-text.settings.crop.label",
-      "info": "t:sections.local-extra-words.sections.rich-text.settings.crop.info",
-      "default": true
+      "type": "select",
+      "id": "height",
+      "label": "Minimum height",
+      "options": [
+        { "value": "auto", "label": "Fit content" },
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
     },
     {
-      "type": "checkbox",
-      "id": "is_fullwidth",
-      "label": "t:sections.local-extra-words.sections.rich-text.settings.fullwidth.label",
-      "default": false,
-      "info": "t:sections.local-extra-words.sections.rich-text.settings.fullwidth.info"
+      "type": "header",
+      "content": "Text"
     },
     {
       "type": "select",
       "id": "text_alignment",
-      "label": "t:sections.image-with-text.settings.text_alignment.label",
+      "label": "Alignment",
       "options": [
-        {
-          "value": "horizontal-left",
-          "label": "t:sections.rich-text.settings.text_alignment.options__1.label"
-        },
-        {
-          "value": "horizontal-center",
-          "label": "t:sections.rich-text.settings.text_alignment.options__2.label"
-        },
-        {
-          "value": "horizontal-right",
-          "label": "t:sections.rich-text.settings.text_alignment.options__3.label"
-        }
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
       ],
-      "default": "horizontal-center"
+      "default": "left"
     },
     {
       "type": "range",
-      "id": "spacing",
-      "label": "t:sections.bundle-extra-words.settings_schema.labels.spacing",
-      "min": -12,
-      "max": 60,
-      "step": 1,
-      "default": 24,
-      "unit": "px"
-    },
-    {
-      "type": "header",
-      "content": "t:sections.bundle-extra-words.settings_schema.card.settings.design.header"
-    },
-    {
-      "type": "color",
-      "id": "color_background_main",
-      "label": "t:sections.split-extra-words.settings_schema.colors.settings.background",
-      "default": "rgba(0,0,0,0)"
-    },
-    {
-      "type": "color",
-      "id": "color_text_main",
-      "label": "t:sections.split-extra-words.settings_schema.colors.settings.text",
-      "default": "rgba(0,0,0,0)"
-    },
-    {
-      "type": "color",
-      "id": "color_borders_main",
-      "label": "t:sections.local-extra-words.settings_schema.colors.settings.borders",
-      "default": "rgba(0,0,0,0)"
-    },
-    {
-      "type": "range",
-      "id": "border_radius",
-      "label": "t:sections.bundle-extra-words.settings_schema.buttons.settings.border_radius",
+      "id": "content_spacing",
+      "label": "Space between blocks",
       "min": 0,
-      "max": 30,
-      "step": 1,
+      "max": 48,
+      "step": 2,
       "unit": "px",
-      "default": 0
+      "default": 24
     },
     {
-      "type": "checkbox",
-      "id": "color_hide_borders",
-      "label": "t:sections.local-extra-words.settings_schema.colors.settings.hide_border",
-      "default": false
+      "type": "range",
+      "id": "button_spacing",
+      "label": "Space above buttons",
+      "min": 0,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "default": 36
     },
     {
       "type": "header",
-      "content": "t:sections.bundle-extra-words.sections.headings.gutter.label"
+      "content": "Section"
+    },
+    {
+      "type": "select",
+      "id": "background",
+      "label": "Background",
+      "options": [
+        { "value": "none", "label": "None" },
+        { "value": "light", "label": "Light" },
+        { "value": "yellow", "label": "Yellow" },
+        { "value": "blue", "label": "Blue" },
+        { "value": "purple", "label": "Purple" },
+        { "value": "green", "label": "Green" },
+        { "value": "primary", "label": "Dark green" },
+        { "value": "dark", "label": "Dark" }
+      ],
+      "default": "none"
     },
     {
       "type": "checkbox",
-      "id": "gutter_decrease",
-      "label": "t:sections.bundle-extra-words.sections.headings.gutter.content",
+      "id": "full_width",
+      "label": "Full page width",
       "default": false
     },
     {
-      "type": "checkbox",
-      "id": "remove_margin",
-      "label": "t:sections.local-extra-words.sections.rich-text.settings.remove_margin.label",
-      "default": false
+      "type": "select",
+      "id": "spacing",
+      "label": "Space above",
+      "options": [
+        { "value": "default", "label": "Default" },
+        { "value": "small", "label": "Small" },
+        { "value": "compact", "label": "Extra small" },
+        { "value": "none", "label": "None" }
+      ],
+      "default": "default"
     },
     {
       "type": "checkbox",
-      "id": "remove_bottom_margin",
-      "label": "t:sections.local-extra-words.settings_schema.layout.sections.remove_bottom_margin",
+      "id": "bottom_spacing",
+      "label": "Add space below",
       "default": false
     }
   ],
   "blocks": [
     {
-      "type": "custom_liquid",
-      "name": "t:sections.refactor_words.custom_code.name",
+      "type": "eyebrow",
+      "name": "Small heading",
       "settings": [
         {
-          "type": "liquid",
-          "id": "custom_liquid",
-          "label": "t:sections.custom-liquid.settings.custom_liquid.label"
+          "type": "inline_richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "Small heading",
+          "info": "Shown in small uppercase letters."
+        },
+        {
+          "type": "range",
+          "id": "max_width_mobile",
+          "label": "Maximum width on phones",
+          "info": "Use to control where the text wraps on small screens. 0 means no limit.",
+          "min": 0,
+          "max": 400,
+          "step": 10,
+          "unit": "px",
+          "default": 0
         }
       ]
     },
     {
       "type": "title",
-      "name": "t:sections.rich-text.blocks.heading.name",
+      "name": "Heading",
       "settings": [
         {
           "type": "text",
           "id": "title",
-          "label": "t:sections.rich-text.blocks.heading.settings.heading.label",
+          "label": "Heading",
           "default": "Talk about your brand"
         },
         {
           "type": "select",
-          "id": "title_size",
-          "label": "t:sections.rich-text.blocks.heading.settings.heading_size.label",
+          "id": "size",
+          "label": "Size",
           "options": [
-            {
-              "value": "heading-size--small",
-              "label": "t:sections.rich-text.blocks.heading.settings.heading_size.options__1.label"
-            },
-            {
-              "value": "heading-size--regular",
-              "label": "t:sections.rich-text.blocks.heading.settings.heading_size.options__2.label"
-            },
-            {
-              "value": "heading-size--large",
-              "label": "t:sections.rich-text.blocks.heading.settings.heading_size.options__3.label"
-            }
+            { "value": "small", "label": "Small" },
+            { "value": "medium", "label": "Medium" },
+            { "value": "large", "label": "Large" }
           ],
-          "default": "heading-size--regular"
-        },
-        {
-          "type": "header",
-          "content": "t:sections.refactor_words.seo.name"
+          "default": "medium"
         },
         {
           "type": "select",
-          "id": "seo_h_tag",
-          "label": "t:sections.refactor_words.seo.label",
-          "info": "t:sections.refactor_words.seo.info",
+          "id": "heading_tag",
+          "label": "Heading level",
+          "info": "For search engines and screen readers; doesn't change the look.",
           "options": [
-            {
-              "value": "h1",
-              "label": "H1"
-            },
-            {
-              "value": "h2",
-              "label": "H2"
-            },
-            {
-              "value": "h3",
-              "label": "H3"
-            },
-            {
-              "value": "h4",
-              "label": "H4"
-            },
-            {
-              "value": "span",
-              "label": "span"
-            }
+            { "value": "h1", "label": "H1" },
+            { "value": "h2", "label": "H2" },
+            { "value": "h3", "label": "H3" },
+            { "value": "h4", "label": "H4" }
           ],
           "default": "h2"
         }
@@ -408,76 +340,68 @@
     },
     {
       "type": "text",
-      "name": "t:sections.rich-text.blocks.text.name",
+      "name": "Text",
       "settings": [
         {
           "type": "richtext",
           "id": "text",
-          "label": "t:sections.rich-text.blocks.text.settings.text.label",
-          "default": "<p>Use this text to share information about your brand with your customers. Describe a product, share announcements or welcome customers to your store.</p>"
-        },
-        {
-          "type": "select",
-          "id": "text_size",
-          "label": "t:sections.footer.blocks.text.settings.text_size.label",
-          "options": [
-            {
-              "value": "regular",
-              "label": "t:sections.rich-text.blocks.heading.settings.heading_size.options__1.label"
-            },
-            {
-              "value": "large",
-              "label": "t:sections.rich-text.blocks.heading.settings.heading_size.options__2.label"
-            }
-          ],
-          "default": "regular"
+          "label": "Text",
+          "default": "<p>Share information about your brand with your customers. Describe a product, make announcements or welcome customers to your store.</p>"
         }
       ]
     },
     {
       "type": "button",
-      "name": "t:sections.rich-text.blocks.button.name",
+      "name": "Button",
       "settings": [
         {
           "type": "text",
-          "id": "button_label",
-          "label": "t:sections.rich-text.blocks.button.settings.button_label.label",
-          "default": "Show more"
+          "id": "label",
+          "label": "Label",
+          "default": "Shop now"
         },
         {
           "type": "url",
           "id": "link",
-          "label": "t:sections.rich-text.blocks.button.settings.button_link.label"
+          "label": "Link"
+        },
+        {
+          "type": "select",
+          "id": "style",
+          "label": "Style",
+          "options": [
+            { "value": "solid", "label": "Solid" },
+            { "value": "outline", "label": "Outline" }
+          ],
+          "default": "solid"
         },
         {
           "type": "checkbox",
-          "id": "open_in_new_window",
-          "label": "t:sections.local-extra-words.sections.announcement-bar.blocks.content.settings.target",
+          "id": "new_tab",
+          "label": "Open link in a new tab",
           "default": false
-        },
-        {
-          "id": "button_style",
-          "label": "t:sections.local-extra-words.sections.buttons.style.label",
-          "type": "select",
-          "options": [
-            {
-              "value": "outline",
-              "label": "t:sections.local-extra-words.sections.buttons.style.option__1"
-            },
-            {
-              "value": "solid",
-              "label": "t:sections.local-extra-words.sections.buttons.style.option__2"
-            }
-          ],
-          "default": "outline"
         }
       ]
     }
   ],
   "presets": [
     {
-      "name": "t:sections.rich-text.name",
+      "name": "Rich text",
+      "settings": {
+        "image_position": "none",
+        "height": "auto"
+      },
       "blocks": [
+        { "type": "eyebrow" },
+        { "type": "title" },
+        { "type": "text" },
+        { "type": "button" }
+      ]
+    },
+    {
+      "name": "Image with text",
+      "blocks": [
+        { "type": "eyebrow" },
         { "type": "title" },
         { "type": "text" },
         { "type": "button" }

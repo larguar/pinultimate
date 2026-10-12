@@ -1,0 +1,51 @@
+{%- comment -%}
+  Font faces and the CSS custom properties that connect theme settings to Bootstrap.
+  Rendered after theme.css so these values override Bootstrap's compiled defaults.
+{%- endcomment -%}
+{%- liquid
+  assign body_font = settings.type_body_font
+  assign heading_font = settings.type_heading_font
+  assign body_font_italic = body_font | font_modify: 'style', 'italic'
+  assign body_font_medium = body_font | font_modify: 'weight', '500'
+  assign body_font_semibold = body_font | font_modify: 'weight', '600'
+  assign body_font_semibold_italic = body_font_semibold | font_modify: 'style', 'italic'
+  assign heading_font_italic = heading_font | font_modify: 'style', 'italic'
+
+  assign colors = 'primary,light,dark,green,red,yellow,blue,purple' | split: ','
+-%}
+{% style %}
+  {{ body_font | font_face: font_display: 'swap' }}
+  {{ body_font_italic | font_face: font_display: 'swap' }}
+  {{ body_font_medium | font_face: font_display: 'swap' }}
+  {{ body_font_semibold | font_face: font_display: 'swap' }}
+  {{ body_font_semibold_italic | font_face: font_display: 'swap' }}
+  {{ heading_font | font_face: font_display: 'swap' }}
+  {{ heading_font_italic | font_face: font_display: 'swap' }}
+
+  :root {
+    --font-body-family: {{ body_font.family }}, {{ body_font.fallback_families }};
+    --font-heading-family: {{ heading_font.family }}, {{ heading_font.fallback_families }};
+    --font-heading-weight: {{ heading_font.weight }};
+
+    --bs-body-color: {{ settings.color_body_text }};
+    --bs-body-color-rgb: {{ settings.color_body_text.red }}, {{ settings.color_body_text.green }}, {{ settings.color_body_text.blue }};
+    --bs-body-bg: {{ settings.color_body_bg }};
+    --bs-body-bg-rgb: {{ settings.color_body_bg.red }}, {{ settings.color_body_bg.green }}, {{ settings.color_body_bg.blue }};
+
+    {%- for name in colors %}
+      {%- assign setting = 'color_' | append: name %}
+      {%- assign color = settings[setting] %}
+      {%- assign bs_name = name %}
+      {%- if name == 'green' %}{% assign bs_name = 'secondary' %}{% endif %}
+      --bs-{{ bs_name }}: {{ color }};
+      --bs-{{ bs_name }}-rgb: {{ color.red }}, {{ color.green }}, {{ color.blue }};
+      {%- if name == 'green' %}
+        --bs-green: {{ color }};
+        --bs-green-rgb: {{ color.red }}, {{ color.green }}, {{ color.blue }};
+      {%- endif %}
+    {%- endfor %}
+
+    --logo-height: {{ settings.logo_height }}px;
+    --logo-height-mobile: {{ settings.logo_height_mobile }}px;
+  }
+{% endstyle %}

@@ -1,133 +1,134 @@
 {%- if blog.comments_enabled? -%}
-
+  {%- assign date_format = 'theme.pages.blog.date_format' | t -%}
   {{ 'section-main-article-comments.css' | asset_url | stylesheet_tag }}
-  {%- assign date_format = 'general.date_format.month_day_year' | t -%}
 
-  <div id="comments" class="article__comments">
+  <section id="comments" class="main-article-comments container-fluid px-0" aria-labelledby="CommentsHeading-{{ section.id }}">
+    <div class="container main-article-comments__container">
+      <h2 id="CommentsHeading-{{ section.id }}" class="main-article-comments__heading mb-3">
+        {{- 'theme.pages.article.comments_heading' | t }} ({{ article.comments_count -}})
+      </h2>
 
-    <h4 class="heading-size--xsmall text-weight--bold gutter-bottom--small">{{ 'blog.article.comments_list_title' | t }} ({{ article.comments_count }})</h4>
+      {%- paginate article.comments by 10 -%}
+        {%- if article.comments_count > 0 -%}
+          <ul class="list-unstyled d-grid gap-3 mb-0">
+            {%- for comment in article.comments -%}
+              <li id="{{ comment.id }}" class="main-article-comments__comment p-4 rounded{% if section.settings.style == 'filled' %} bg-light{% else %} border{% endif %}">
+                <div class="rte mb-3">{{ comment.content }}</div>
+                <p class="d-flex flex-wrap align-items-baseline gap-2 mb-0">
+                  <span class="fw-semibold">{{ comment.author | escape }}</span>
+                  <span class="article-card__meta">{{ comment.created_at | time_tag: date_format }}</span>
+                </p>
+              </li>
+            {%- endfor -%}
+          </ul>
+          {% render 'main-blog-pagination', paginate: paginate, anchor: '#comments' %}
+        {%- else -%}
+          <p class="mb-0">{{ 'theme.pages.article.no_comments' | t }}</p>
+        {%- endif -%}
+      {%- endpaginate -%}
 
-    {%- paginate article.comments by 10 -%}
-
-      {%- if article.comments_count > 0 -%}
-
-        <ul id="comments" class="comments">
-          {%- for comment in article.comments -%}
-            <li id="{{ comment.id }}" class="comment has-bg-style--{{ section.settings.style }}">
-
-              <div class="comment__content">{{ comment.content }}</div>
-              <div class="comment__info">
-                <span class="comment__author text-size--regular text-weight--bold">{{ comment.author | escape }}</span>
-                <span class="comment__date text-size--small">{{ comment.created_at | time_tag: date_format }}</span>
-              </div>
-            </li>
-          {%- endfor -%}
-        </ul>
-
+      {%- form 'new_comment', article, id: 'CommentForm', class: 'main-article-comments__form mt-5' -%}
         {%- liquid
-          if paginate.pages > 1
-            render 'pagination', paginate: paginate
+          assign post_message = 'theme.pages.article.success'
+          if blog.moderated?
+            assign post_message = 'theme.pages.article.success_moderated'
           endif
         -%}
+        <h2 class="main-article-comments__heading mb-3">{{ 'theme.pages.article.form_heading' | t }}</h2>
 
-      {%- else -%}
-
-        <p>{{ 'blog.article.no_comments_message' | t }}</p>
-
-      {%- endif -%}
-
-      <div id="comments-form" class="comments__form">
-
-        {%- form 'new_comment', article, class: 'simple-form' -%}
-
-          <h4 class="heading-size--xsmall text-weight--bold gutter-bottom--small" id="add-comment">{{ 'blog.article.comments_form_title' | t }}</h4>
-
-          {%- liquid 
-            if form.posted_successfully?
-              if blog.moderated?
-                assign message = 'blog.article.comment_under_moderation' | t 
-              else
-                assign message = 'blog.article.comment_posted' | t
-              endif
-              render 'form-success', message: message
-            elsif form.errors
-              render 'form-errors', form: form
-            endif
-          -%}
-
-          <div class="form-field">
-            <label for="comment-author" class="visually-hidden">{{ 'blog.article.comments_form_name_label' | t }}</label>
-            <input {% if form.errors contains "author" %} class="error"{% endif %} type="text" name="comment[author]" placeholder="{{ 'blog.article.comments_form_name_label' | t }}" id="comment-author" value="{{ form.author }}" autocapitalize="words" required>
+        {%- if form.posted_successfully? -%}
+          <div class="alert alert-success d-flex align-items-center gap-2" role="status" tabindex="-1" autofocus>
+            {% render 'icon', name: 'check-circle', class: 'flex-shrink-0' %}
+            <span>{{ post_message | t }}</span>
           </div>
-
-          <div class="form-field">
-            <label for="comment-email" class="visually-hidden">{{ 'blog.article.comments_form_email_label' | t }}</label>
-            <input {% if form.errors contains "email" %} class="error"{% endif %} type="email" name="comment[email]" placeholder="{{ 'blog.article.comments_form_email_label' | t }}" id="comment-email" value="{{ form.email }}" autocorrect="off" autocapitalize="off" required>
+        {%- elsif form.errors -%}
+          <div id="CommentForm-errors" class="alert alert-danger" role="alert" tabindex="-1" autofocus>
+            {{ form.errors | default_errors }}
           </div>
-          
-          <div class="form-field">
-            <label for="comment-body" class="visually-hidden">{{ 'blog.article.comments_form_message_label' | t }}</label>
-            <textarea {% if form.errors contains "body" %} class="error"{% endif %} name="comment[body]" id="comment-body" placeholder="{{ 'blog.article.comments_form_message_label' | t }}" required>{{ form.body }}</textarea>
-          </div>
+        {%- endif -%}
 
-          <div class="form-field">
-            {%- render 'button', label: 'blog.article.comments_form_submit_label', link: article.url, label_is_translation: true, is_submit: true, type: 'button', style: 'outline' -%}
-          </div>    
-        
+        <div class="row g-3">
+          <div class="col-12 col-md-6">
+            <label class="visually-hidden" for="CommentForm-author">{{ 'theme.pages.article.name' | t }}</label>
+            <input
+              type="text"
+              id="CommentForm-author"
+              class="form-control{% if form.errors contains 'author' %} is-invalid{% endif %}"
+              name="comment[author]"
+              autocomplete="name"
+              value="{{ form.author }}"
+              placeholder="{{ 'theme.pages.article.name' | t }}"
+              required
+              {% if form.errors contains 'author' %}
+                aria-invalid="true" aria-describedby="CommentForm-errors"
+              {% endif %}
+            >
+          </div>
+          <div class="col-12 col-md-6">
+            <label class="visually-hidden" for="CommentForm-email">{{ 'theme.pages.article.email' | t }}</label>
+            <input
+              type="email"
+              id="CommentForm-email"
+              class="form-control{% if form.errors contains 'email' %} is-invalid{% endif %}"
+              name="comment[email]"
+              autocomplete="email"
+              spellcheck="false"
+              autocapitalize="off"
+              value="{{ form.email }}"
+              placeholder="{{ 'theme.pages.article.email' | t }}"
+              required
+              {% if form.errors contains 'email' %}
+                aria-invalid="true" aria-describedby="CommentForm-errors"
+              {% endif %}
+            >
+          </div>
+          <div class="col-12">
+            <label class="visually-hidden" for="CommentForm-body">{{ 'theme.pages.article.message' | t }}</label>
+            <textarea
+              id="CommentForm-body"
+              class="form-control{% if form.errors contains 'body' %} is-invalid{% endif %}"
+              name="comment[body]"
+              rows="6"
+              placeholder="{{ 'theme.pages.article.message' | t }}"
+              required
+              {% if form.errors contains 'body' %}
+                aria-invalid="true" aria-describedby="CommentForm-errors"
+              {% endif %}
+            >{{- form.body -}}</textarea>
+          </div>
+          <div class="col-12">
+            <button type="submit" class="btn btn-outline-dark">{{ 'theme.pages.article.post' | t }}</button>
+          </div>
           {%- if blog.moderated? -%}
-            <small><em>{{ 'blog.article.comments_notice' | t }}</em></small>
+            <div class="col-12">
+              <p class="small fst-italic mb-0">{{ 'theme.pages.article.moderated' | t }}</p>
+            </div>
           {%- endif -%}
-
-          {%- if form.errors -%}
-            <script>
-              window.location.hash = '#add-comment';
-            </script>
-          {%- endif -%}
-
-          {%- if form.posted_successfully? -%}
-            <script>
-              window.location.hash = '#comments';
-            </script>
-          {%- endif -%}
-
-        {%- endform -%}
-
-      </div>
-
-    {%- endpaginate -%}
-
-  </div>
-  
+        </div>
+      {%- endform -%}
+    </div>
+  </section>
 {%- endif -%}
 
 {% schema %}
 {
-  "name": "t:sections.local-extra-words.sections.main-article-comments.name",
-  "class": "container--compact container--vertical-space-xsmall",
+  "name": "Blog post comments",
+  "tag": "div",
+  "class": "section-main-article-comments",
   "settings": [
     {
       "type": "paragraph",
-      "content": "t:sections.local-extra-words.sections.main-article-comments.info"
+      "content": "Shown only when comments are turned on for the blog (Online Store > Blog posts > Manage blogs)."
     },
     {
-      "type": "header",
-      "content": "t:sections.bundle-extra-words.settings_schema.labels.design"
-    },
-    { 
       "type": "select",
       "id": "style",
-      "label": "t:sections.bundle-extra-words.settings_schema.labels.container_design",
+      "label": "Comment style",
       "options": [
-        {
-          "value": "outline",
-          "label": "t:sections.bundle-extra-words.settings_schema.labels.options.option_3"
-        },
-        {
-          "value": "primary",
-          "label": "t:sections.bundle-extra-words.settings_schema.labels.options.option_4"
-        }
+        { "value": "filled", "label": "Filled" },
+        { "value": "outline", "label": "Outline" }
       ],
-      "default": "primary"
+      "default": "filled"
     }
   ]
 }

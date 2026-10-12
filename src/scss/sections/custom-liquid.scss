@@ -1,0 +1,25 @@
+@import "section-base";
+@import "main-page-content";
+
+// Free-form code gets the previous theme's heading scale and paragraph spacing, at the
+// lowest specificity (as plain element styles) so embedded apps' own styles still win.
+:where(.custom-liquid__content) {
+  @include legacy-headings;
+
+  p {
+    margin-bottom: 1rem;
+  }
+
+  iframe {
+    max-width: 100%;
+  }
+}
+
+// A full-width embed opening the page starts right under the header.
+main > .shopify-section:first-child > .custom-liquid--full-width {
+  margin-top: 0 !important;
+}
+
+.custom-liquid__content > :last-child {
+  margin-bottom: 0;
+}

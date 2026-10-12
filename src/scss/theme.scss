@@ -1,0 +1,53 @@
+// Theme stylesheet entry. Compiled to assets/theme.css by `npm run build:css`.
+
+// Bootstrap configuration
+@import "bootstrap/scss/functions";
+@import "config";
+@import "bootstrap/scss/variables";
+@import "bootstrap/scss/variables-dark";
+$theme-colors: map-merge($theme-colors, $custom-theme-colors);
+@import "bootstrap/scss/maps";
+@import "bootstrap/scss/mixins";
+@import "bootstrap/scss/utilities";
+
+// Bootstrap layout and components. Add a component here before using its classes.
+@import "bootstrap/scss/root";
+@import "bootstrap/scss/reboot";
+@import "bootstrap/scss/type";
+@import "bootstrap/scss/images";
+@import "bootstrap/scss/containers";
+@import "bootstrap/scss/grid";
+@import "bootstrap/scss/tables";
+@import "bootstrap/scss/forms";
+@import "bootstrap/scss/buttons";
+@import "bootstrap/scss/transitions";
+@import "bootstrap/scss/nav";
+@import "bootstrap/scss/accordion";
+@import "bootstrap/scss/breadcrumb";
+@import "bootstrap/scss/pagination";
+@import "bootstrap/scss/badge";
+@import "bootstrap/scss/progress";
+@import "bootstrap/scss/alert";
+@import "bootstrap/scss/close";
+@import "bootstrap/scss/modal";
+@import "bootstrap/scss/offcanvas";
+@import "bootstrap/scss/spinners";
+@import "bootstrap/scss/helpers";
+@import "bootstrap/scss/utilities/api";
+
+// Swiper
+@import "swiper/swiper";
+@import "swiper/modules/navigation";
+@import "swiper/modules/pagination";
+@import "swiper/modules/a11y";
+
+// Theme (global). Section styles live in src/scss/sections/ and compile to their own files.
+@import "base/layout";
+@import "base/typography";
+@import "base/buttons";
+@import "base/reveal";
+
+@import "components/header";
+@import "components/drawers";
+@import "components/footer";
+@import "components/product-card";

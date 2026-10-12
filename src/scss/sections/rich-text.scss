@@ -1,0 +1,172 @@
+@import "section-base";
+
+// Minimum heights follow the viewport, shorter on portrait screens (previous theme's sizes).
+$rich-text-heights: (
+  small: (40vh, 25vh),
+  medium: (60vh, 40vh),
+  large: (80vh, 55vh),
+);
+
+@each $name, $values in $rich-text-heights {
+  .rich-text--height-#{$name} .rich-text__row {
+    min-height: nth($values, 1);
+
+    @media (orientation: portrait) {
+      min-height: nth($values, 2);
+    }
+  }
+}
+
+// Side images fill their half of the row from md up; on phones they keep their own ratio.
+@include media-breakpoint-up(md) {
+  .rich-text__media--left,
+  .rich-text__media--right {
+    position: relative;
+    min-height: 100%;
+
+    .rich-text__image {
+      position: absolute;
+      inset: 0;
+      height: 100% !important;
+      object-fit: cover;
+    }
+  }
+
+  .rich-text__media--contain .rich-text__image {
+    object-fit: contain;
+  }
+
+  .rich-text__media--left.rich-text__media--contain .rich-text__image {
+    object-position: right center;
+  }
+
+  .rich-text__media--right.rich-text__media--contain .rich-text__image {
+    object-position: left center;
+  }
+}
+
+.rich-text__text {
+  padding: 30px;
+
+  @include media-breakpoint-up(md) {
+    padding: 40px;
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding: 60px;
+  }
+
+  @include media-breakpoint-up(xl) {
+    padding: 80px;
+  }
+}
+
+// Vertical rhythm between blocks. A medium heading sits a little closer to what follows.
+.rich-text__content {
+  > * + * {
+    margin-top: var(--rich-text-spacing);
+  }
+
+  > .rich-text__title--medium + * {
+    margin-top: calc(var(--rich-text-spacing) - 8px);
+  }
+
+  > * + .rich-text__buttons {
+    margin-top: var(--rich-text-button-spacing);
+  }
+}
+
+.rich-text__eyebrow {
+  @include media-breakpoint-down(sm) {
+    max-width: var(--rich-text-eyebrow-max-width, none);
+  }
+}
+
+.rich-text__title {
+  font-weight: 600;
+
+  &--small {
+    font-size: 1.45rem;
+    line-height: 1.1;
+
+    @include media-breakpoint-up(sm) {
+      font-size: 1.8125rem;
+    }
+
+    @include media-breakpoint-up(lg) {
+      font-size: 2.175rem;
+    }
+  }
+
+  &--medium {
+    font-size: 2.0542rem;
+    line-height: 1;
+
+    @include media-breakpoint-up(sm) {
+      font-size: 2.7792rem;
+    }
+
+    @include media-breakpoint-up(lg) {
+      font-size: 3.625rem;
+    }
+  }
+
+  &--large {
+    font-size: 3.2021rem;
+    letter-spacing: -0.5px;
+    line-height: 1;
+
+    @include media-breakpoint-up(sm) {
+      font-size: 3.5042rem;
+    }
+
+    @include media-breakpoint-up(md) {
+      font-size: 4.35rem;
+    }
+
+    @include media-breakpoint-up(lg) {
+      font-size: 4.8333rem;
+      line-height: 1.05;
+    }
+  }
+}
+
+.rich-text__body p {
+  margin-bottom: 1rem;
+}
+
+.rich-text__buttons {
+  gap: 10px;
+
+  @include media-breakpoint-up(md) {
+    column-gap: 14px;
+  }
+}
+
+// Stacked buttons on phones keep a little space under the last one, as before.
+@include media-breakpoint-down(md) {
+  .rich-text__buttons:has(> :nth-child(2)) {
+    margin-bottom: 10px;
+  }
+}
+
+// Section call-to-action buttons were 45px / 51.25px tall in the previous theme, a little
+// shorter than the theme's default buttons.
+.rich-text .btn-cta {
+  --bs-btn-padding-y: 0.6875rem;
+
+  @include media-breakpoint-up(md) {
+    --bs-btn-padding-y: 0.875rem;
+  }
+}
+
+// Headings inside the text.
+.rich-text__body {
+  :is(h2, h3, h4, h5) {
+    margin-bottom: 0.5rem;
+  }
+
+  * + :is(h2, h3, h4, h5) {
+    margin-top: 1.25rem;
+  }
+}

@@ -1,109 +1,47 @@
-{%- liquid 
+{{ 'section-main-page.css' | asset_url | stylesheet_tag }}
 
-  if section.settings.center 
-    assign containter_size = 'compact'
-  else
-    assign containter_size = 'large'
-  endif
+<section class="main-page container-fluid px-0">
+  <div class="container{% if section.settings.content_width == 'narrow' %} main-page__container--narrow{% endif %}">
+    <div class="row">
+      <div class="col-12">
+        {%- if section.settings.show_title -%}
+          <h1 class="main-page__title mb-3">{{ page.title | escape }}</h1>
+        {%- endif -%}
 
-  if section.settings.page_cover_metafield != blank
-    assign metafield_keys = section.settings.page_cover_metafield | split: '.'
-    assign metafield_value = page.metafields[metafield_keys[0]][metafield_keys[1]]
-    if metafield_value != blank
-      assign cover_image = metafield_value | image_url
-    endif              
-  endif
-
--%}
-
-{%- if cover_image -%}
-
-  <div class="container--fullwidth reduce-margin-if-first" id="element-{{ section.id }}">
-    <div class="card align-content align-content--horizontal-left align-content--vertical-bottom margin-bottom--large element--height-{{ section.settings.height }}">
-      <div class="container--large container--vertical-space-small" style="z-index:9">
-        <div class="card__text gutter-bottom--large spacing--small remove-empty-space" style="margin:0">
-          {%- render 'breadcrumb' container: '', vertical_space: '', style: 'breadcrumb-main--margin' -%}
-          <h1 class="title heading-size--page-title container--vertical-space-small">{{ page.title | escape }}</h1>
+        <div class="main-page__content rte">
+          {{ page.content }}
         </div>
       </div>
-      <div class="card__image card__image--background {% if section.settings.color_background_main != "rgba(0,0,0,0)" %} card__image--with-overlay {% endif %}" aria-hidden="true">
-        {%- render 'lazy-image', image: cover_image, type: 'background', alt: page.title, sizes: 'sizes="100vw"', class: 'lazy-image--to-reveal', id: section.id, overlay: true, preload: true -%} 
-      </div>
-      {%- render 'custom-colors', id: section.id, text: section.settings.color_text_main, background: section.settings.color_background_main, hide_borders: true -%}
     </div>
   </div>
-
-{%- else -%}
-
-  {%- render 'breadcrumb' container: containter_size, vertical_space: 'vertical-space-xsmall', style: 'breadcrumb-main--margin' -%}
-
-{%- endif -%}
-
-<div class="container container--{{ containter_size }} container--vertical-space{% unless cover_image %}-small{% endunless %} main-page gutter-bottom--page">
-
-  {%- unless cover_image -%}
-    <h1 class="title heading-size--page-title">{{ page.title | escape }}</h1>
-  {%- endunless -%}
-
-  <div class="rte {% unless cover_image %}gutter-top--small{% endunless %}">
-    {{ page.content }}
-  </div>
-
-</div>
+</section>
 
 {% schema %}
-  {
-    "name": "t:sections.main-page.name",
-    "class": "section--remove-bottom-margin-after",
-    "settings": [
-      {
-        "type": "checkbox",
-        "id": "center",
-        "label": "t:sections.local-extra-words.sections.main-page.settings.center.label",
-        "default": false
-      },
-      {
-        "type": "header",
-        "content": "t:sections.bundle-extra-words.sections.main-page.cover.header"
-      },
-      {
-        "type": "paragraph",
-        "content": "t:sections.bundle-extra-words.sections.main-page.cover.content"
-      },
-      {
-        "type": "text",
-        "id": "page_cover_metafield",
-        "label": "t:sections.bundle-extra-words.sections.main-page.cover.settings.cover_metafield",
-        "info": "custom.cover_image"
-      },
-      {
-        "type": "color",
-        "id": "color_background_main",
-        "label": "t:sections.local-extra-words.settings_schema.colors.settings.overlay",
-        "default": "rgba(0,0,0,0)"
-      },
-      {
-        "type": "color",
-        "id": "color_text_main",
-        "label": "t:sections.split-extra-words.settings_schema.colors.settings.text",
-        "default": "rgba(0,0,0,0)"
-      },
-      {
-        "type": "select",
-        "id": "height",
-        "label": "t:sections.bundle-extra-words.sections.main-collection.settings.image_banner.height",
-        "options": [
-          {
-            "value": "small",
-            "label": "t:sections.local-extra-words.sections.media-with-text-overlay.settings.option__1"
-          },
-          {
-            "value": "regular",
-            "label": "t:sections.local-extra-words.sections.media-with-text-overlay.settings.option__2"
-          }
-        ],
-        "default": "small"
-      }
-    ]
-  }
+{
+  "name": "Page content",
+  "tag": "div",
+  "class": "section-main-page",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Shows the page's title and the content written in Online Store > Pages. The section that follows sits closer to it, without its usual top spacing."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_title",
+      "label": "Show page title",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "content_width",
+      "label": "Content width",
+      "options": [
+        { "value": "full", "label": "Full" },
+        { "value": "narrow", "label": "Narrow (easier to read)" }
+      ],
+      "default": "full"
+    }
+  ]
+}
 {% endschema %}

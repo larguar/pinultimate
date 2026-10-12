@@ -1,0 +1,13 @@
+{
+  "title": "Shopping cart",
+  "empty": "Your cart is currently empty.",
+  "continue": "Continue browsing",
+  "total": "Total",
+  "taxes": "Taxes and shipping calculated at checkout",
+  "view_cart": "View Cart",
+  "checkout": "Checkout",
+  "remove": "Remove",
+  "note": "Gift Note",
+  "free_shipping_remaining_html": "You are {{ amount }} away from free shipping.",
+  "free_shipping_eligible": "You are eligible for free shipping!"
+}

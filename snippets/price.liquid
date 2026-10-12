@@ -1,0 +1,39 @@
+{%- comment -%}
+  Product or variant price with compare-at price.
+
+  Accepts:
+  - product {Object}
+  - variant {Object}: optional; defaults to the selected or first available variant
+  - class {String}: wrapper classes (optional)
+  - show_from {Boolean}: prefix "From" when variant prices differ, default true
+{%- endcomment -%}
+{%- liquid
+  assign target = variant | default: product.selected_or_first_available_variant
+  assign show_from = show_from | default: true, allow_false: true
+  assign price = target.price | money
+  if settings.currency_code_enabled
+    assign price = target.price | money_with_currency
+  endif
+  assign on_sale = false
+  if target.compare_at_price > target.price
+    assign on_sale = true
+  endif
+-%}
+<div class="price {{ class }}">
+  {%- if show_from and product.price_varies and variant == blank -%}
+    {%- liquid
+      assign from_price = product.price_min | money
+      if settings.currency_code_enabled
+        assign from_price = product.price_min | money_with_currency
+      endif
+    -%}
+    {{ 'theme.product.from_price_html' | t: price: from_price }}
+  {%- elsif on_sale -%}
+    <span class="visually-hidden">{{ 'theme.product.sale_price' | t }}</span>
+    <span class="price__current">{{ price }}</span>
+    <span class="visually-hidden">{{ 'theme.product.regular_price' | t }}</span>
+    <s class="price__compare">{{ target.compare_at_price | money }}</s>
+  {%- else -%}
+    <span class="price__current">{{ price }}</span>
+  {%- endif -%}
+</div>

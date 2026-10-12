@@ -1,0 +1,58 @@
+{%- comment -%}
+  Rendered through the Section Rendering API by the predictive-search component.
+{%- endcomment -%}
+{%- if predictive_search.performed -%}
+  {%- liquid
+    assign results = predictive_search.resources
+    assign has_results = false
+    if results.products.size > 0 or results.collections.size > 0 or results.pages.size > 0 or results.articles.size > 0
+      assign has_results = true
+    endif
+  -%}
+  <div id="predictive-search-results-content">
+    {%- if has_results -%}
+      {%- if results.products.size > 0 -%}
+        <h3 class="drawer__subtitle mb-3">{{ 'theme.search.products' | t }}</h3>
+        <ul class="list-unstyled mb-4" role="listbox">
+          {%- for product in results.products -%}
+            <li class="mb-3" role="option">
+              <a href="{{ product.url }}" class="d-flex align-items-center gap-3 text-decoration-none">
+                <div class="ratio ratio-1x1 flex-shrink-0 predictive-search__image">
+                  {%- if product.featured_media -%}
+                    {{ product.featured_media | image_url: width: 160 | image_tag: class: 'object-fit-contain', alt: product.title, loading: 'lazy' }}
+                  {%- endif -%}
+                </div>
+                <div>
+                  <p class="fw-semibold mb-1">{{ product.title | escape }}</p>
+                  {% render 'price', product: product %}
+                </div>
+              </a>
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+
+      {%- liquid
+        assign link_groups = 'collections,pages,articles' | split: ','
+      -%}
+      {%- for group in link_groups -%}
+        {%- assign items = results[group] -%}
+        {%- if items.size > 0 -%}
+          {%- assign heading_key = 'theme.search.' | append: group -%}
+          <h3 class="drawer__subtitle mb-2">{{ heading_key | t }}</h3>
+          <ul class="list-unstyled mb-4">
+            {%- for item in items -%}
+              <li><a href="{{ item.url }}" class="d-block py-1">{{ item.title | escape }}</a></li>
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+      {%- endfor -%}
+
+      <a href="{{ routes.search_url }}?q={{ predictive_search.terms | url_encode }}&options%5Bprefix%5D=last" class="btn btn-outline-dark w-100">
+        {{- 'theme.search.view_all' | t -}}
+      </a>
+    {%- else -%}
+      <p class="mb-0">{{ 'theme.search.no_results' | t: terms: predictive_search.terms }}</p>
+    {%- endif -%}
+  </div>
+{%- endif -%}

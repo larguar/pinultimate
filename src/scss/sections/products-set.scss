@@ -1,0 +1,172 @@
+@import "section-base";
+
+// "Buy a set" picker: product cards with option selects and one add-all button.
+
+.products-set {
+  &__grid {
+    row-gap: 0;
+
+    @include media-breakpoint-up(md) {
+      row-gap: 4px;
+    }
+  }
+
+  &__item {
+    @include media-breakpoint-down(md) {
+      padding: 19px;
+      border: 1px solid rgba($body-color, 0.08);
+    }
+  }
+
+  // Box with the card image's shape; the check mark hangs just below it.
+  &__anchor {
+    top: 0;
+    right: 0;
+    left: 0;
+
+    @include media-breakpoint-down(md) {
+      top: 19px;
+      right: 19px;
+      left: 19px;
+    }
+  }
+
+  &__check {
+    margin-top: 6px;
+    font-size: 24px;
+    line-height: 1;
+    opacity: 0.36;
+    transition: opacity 0.2s ease;
+  }
+
+  &__item.is-selected &__check {
+    opacity: 1;
+  }
+
+  // The previous theme revealed the options and check mark on hover (desktop) only.
+  @media (hover: hover) {
+    &__item:not(:hover, :focus-within, .is-selected) &__check {
+      opacity: 0;
+    }
+  }
+
+  // The price and options continue the card's text, so the card's bottom padding goes.
+  .product-card__info {
+    padding-bottom: 0;
+  }
+
+  &__price {
+    margin-bottom: 12px;
+  }
+
+  // Leave room for the check mark next to the title.
+  .product-card__title {
+    padding-right: 40px;
+  }
+
+  &__options {
+    display: grid;
+    gap: 14px;
+    margin-top: 6px;
+    padding-top: 14px;
+    padding-bottom: 5px;
+    border-top: 1px solid rgba($body-color, 0.1);
+
+    @media (hover: hover) {
+      opacity: 0;
+      transition: opacity 0.2s ease;
+
+      .products-set__item:hover &,
+      .products-set__item:focus-within &,
+      .products-set__item.is-selected & {
+        opacity: 1;
+      }
+    }
+  }
+
+  &__select {
+    height: 42px;
+    padding-left: 12px;
+    border-color: rgba($body-color, 0.3);
+    border-radius: 5px;
+    color: $body-color;
+    font-size: 13px;
+
+    @include media-breakpoint-up(md) {
+      height: 43px;
+      font-size: 14px;
+    }
+
+    @include media-breakpoint-up(lg) {
+      height: 44px;
+      font-size: 15px;
+    }
+  }
+
+  &__item--unavailable .product-card__media {
+    opacity: 0.5;
+  }
+
+  // Add-all button. Desktop: full width under the cards. Mobile: a panel stuck to the bottom.
+  &__action {
+    padding-top: 25px;
+
+    @include media-breakpoint-down(md) {
+      position: sticky;
+      z-index: 5;
+      bottom: 0;
+      padding-top: 20px;
+      padding-bottom: 16px;
+    }
+
+    @include media-breakpoint-down(lg) {
+      @include media-breakpoint-up(md) {
+        padding-top: 15px;
+      }
+    }
+  }
+
+  &__button {
+    --bs-btn-bg: #{$body-color};
+    --bs-btn-border-color: #{$body-color};
+    --bs-btn-hover-bg: #{$dark};
+    --bs-btn-hover-border-color: #{$dark};
+    --bs-btn-disabled-bg: #{$body-color};
+    --bs-btn-disabled-border-color: #{$body-color};
+    --bs-btn-disabled-opacity: 0.36;
+    --bs-btn-padding-y: 0.875rem;
+
+    &[aria-busy="true"] {
+      opacity: 0.7;
+    }
+  }
+
+  @include media-breakpoint-down(md) {
+    &__panel {
+      padding: 15px;
+      background: var(--set-panel-bg);
+      color: var(--set-panel-color);
+    }
+
+    &__panel-text {
+      margin-bottom: 20px;
+    }
+
+    &__panel-title {
+      font-size: 20px;
+      font-weight: 600;
+      line-height: 1.4;
+    }
+
+    &__button {
+      --bs-btn-bg: var(--set-panel-color);
+      --bs-btn-color: var(--set-panel-bg);
+      --bs-btn-border-color: var(--set-panel-color);
+      --bs-btn-hover-bg: var(--set-panel-color);
+      --bs-btn-hover-color: var(--set-panel-bg);
+      --bs-btn-disabled-bg: var(--set-panel-color);
+      --bs-btn-disabled-color: var(--set-panel-bg);
+      --bs-btn-disabled-border-color: var(--set-panel-color);
+    }
+  }
+}

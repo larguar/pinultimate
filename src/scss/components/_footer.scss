@@ -1,0 +1,286 @@
+// Footer. Measurements follow the previous theme's custom footer styles.
+.site-footer {
+  --bs-border-color: #{rgba(#fff, 0.1)};
+  margin-top: 122px;
+  overflow-x: clip;
+  letter-spacing: 0.3px;
+
+  // Torn paper edge: wider than the viewport and tucked under the body by a negative margin.
+  &__paper {
+    position: relative;
+    width: 160vw;
+    margin: -2px -30vw -20px;
+    background: var(--bs-body-bg);
+    line-height: 0;
+
+    svg {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    path {
+      fill: currentColor;
+    }
+
+    @include media-breakpoint-up(sm) {
+      margin-bottom: -30px;
+    }
+
+    @include media-breakpoint-up(md) {
+      width: 140vw;
+      margin: -2px -20vw -48px;
+    }
+
+    @include media-breakpoint-up(lg) {
+      margin-bottom: -70px;
+    }
+
+    @include media-breakpoint-up(xl) {
+      margin-bottom: -90px;
+    }
+  }
+
+  &__body {
+    z-index: 1;
+  }
+
+  // Email signup
+  &__signup {
+    max-width: 600px;
+    padding: 86px 15px 0;
+
+    @include media-breakpoint-up(sm) {
+      padding-top: 106px;
+    }
+  }
+
+  &__signup-heading {
+    max-width: 250px;
+    margin: 0 auto 12px;
+    padding-inline: 15px;
+    font-family: var(--font-body-family);
+    font-size: 2rem;
+    line-height: 1.1;
+
+    @include media-breakpoint-up(sm) {
+      max-width: none;
+      margin-bottom: 15px;
+      font-size: 1.875rem;
+    }
+  }
+
+  &__signup-text p {
+    max-width: 340px;
+    margin: 0 auto 24px;
+    padding-inline: 15px;
+    font-size: 1.125rem;
+    line-height: 1.3;
+    opacity: 0.9;
+
+    @include media-breakpoint-up(sm) {
+      max-width: none;
+      margin-bottom: 30px;
+      font-size: 1.1875rem;
+      line-height: 1.5;
+    }
+  }
+
+  &__signup-form {
+    position: relative;
+    z-index: 1;
+    max-width: 304px;
+    margin-inline: auto;
+
+    @include media-breakpoint-up(sm) {
+      max-width: none;
+    }
+  }
+
+  &__legal p {
+    max-width: 300px;
+    margin: 20px auto 0;
+    padding-inline: 15px;
+    font-size: 0.8125rem;
+    opacity: 0.9;
+
+    @include media-breakpoint-up(sm) {
+      max-width: none;
+      margin-top: 30px;
+    }
+
+    a {
+      color: #fff;
+    }
+  }
+
+  // Columns
+  &__top {
+    padding-block: 60px;
+
+    @include media-breakpoint-up(lg) {
+      padding-block: 61px 63px;
+
+      > .row {
+        --bs-gutter-x: 48px;
+      }
+    }
+
+    @include media-breakpoint-up(xl) {
+      padding-block: 79px 81px;
+
+      > .row {
+        --bs-gutter-x: 64px;
+      }
+    }
+
+    li + li {
+      margin-top: 6px;
+    }
+  }
+
+  &__block--text {
+    margin-bottom: 15px;
+
+    @include media-breakpoint-up(lg) {
+      margin-bottom: 0;
+    }
+  }
+
+  &__heading {
+    margin-bottom: 10px;
+    font-family: var(--font-body-family);
+    font-size: 1.125rem;
+    font-weight: 600;
+    line-height: 1.4;
+
+    @include media-breakpoint-up(sm) {
+      font-size: 1rem;
+    }
+
+    &--accent {
+      margin-top: -1px;
+      margin-bottom: 14px;
+      font-family: initial;
+      font-size: larger;
+      line-height: 1;
+      letter-spacing: 1px;
+    }
+  }
+
+  &__text {
+    font-size: 1.125rem;
+    letter-spacing: normal;
+
+    @include media-breakpoint-up(sm) {
+      font-size: 1.0625rem;
+    }
+
+    p {
+      font-size: inherit;
+      opacity: 0.9;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: underline;
+      text-underline-offset: 4px;
+    }
+  }
+
+  &__link {
+    font-size: 1.125rem;
+    line-height: 1.375;
+    color: #fff;
+    opacity: 0.7;
+
+    @include media-breakpoint-up(sm) {
+      font-size: 1rem;
+    }
+
+    &:hover {
+      color: #fff;
+      text-decoration: none;
+      opacity: 1;
+    }
+  }
+
+  .site-footer__block .site-footer__link:hover {
+    font-weight: 600;
+  }
+
+  // Bottom bar
+  &__bottom .container {
+    padding-block: 20px;
+  }
+
+  // 18px icons in 38px tap targets; enlarged on phones as before.
+  &__social {
+    margin-bottom: 40px;
+
+    ul {
+      margin-inline-start: 2px;
+      transform: scale(1.3);
+      transform-origin: left center;
+    }
+
+    a {
+      padding: 10px;
+    }
+
+    svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    @include media-breakpoint-up(md) {
+      margin-bottom: 0;
+
+      ul {
+        margin-inline: 0 -10px;
+        transform: none;
+      }
+    }
+
+    @include media-breakpoint-up(lg) {
+      flex: 0 0 35%;
+    }
+  }
+
+  &__legal-links {
+    min-height: 45px;
+
+    @include media-breakpoint-up(lg) {
+      flex: 0 0 35%;
+    }
+  }
+
+  &__policy {
+    margin-inline: 10px;
+    font-size: 0.875rem;
+    line-height: 1.4;
+
+    &:first-of-type {
+      width: 109px;
+    }
+
+    &:last-of-type {
+      width: 90px;
+    }
+  }
+
+  &__copyright {
+    margin-top: 15px;
+    font-size: 0.875rem;
+
+    @include media-breakpoint-up(lg) {
+      flex: 1 0 0;
+      margin-top: 6px;
+      text-align: center;
+    }
+  }
+
+  .localization-dropdown summary {
+    font-size: 0.875rem;
+  }
+}

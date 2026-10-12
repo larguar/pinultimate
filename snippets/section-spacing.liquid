@@ -1,0 +1,26 @@
+{%- comment -%}
+  Outputs the standard vertical spacing classes for a section, matching the previous
+  theme's rhythm: 48px (xs) / 72px (md) / 96px (lg) / 120px (xl).
+
+  Accepts:
+  - property {String}: 'm' (margin, default) or 'p' (padding)
+  - side {String}: 't' (default), 'b' or 'y'
+  - size {String}: 'default', 'small' (48px, 72px from xl) or 'none'
+
+  Usage:
+  <section class="container-fluid px-0 {% render 'section-spacing' %}">
+  <section class="container-fluid px-0 bg-light {% render 'section-spacing', property: 'p', side: 'y' %}">
+{%- endcomment -%}
+{%- liquid
+  assign property = property | default: 'm'
+  assign side = side | default: 't'
+  assign prefix = property | append: side
+  case size
+    when 'none'
+      echo ''
+    when 'small'
+      echo prefix | append: '-5 ' | append: prefix | append: '-xl-6'
+    else
+      echo prefix | append: '-5 ' | append: prefix | append: '-md-6 ' | append: prefix | append: '-lg-7 ' | append: prefix | append: '-xl-8'
+  endcase
+-%}

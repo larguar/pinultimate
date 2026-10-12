@@ -1,0 +1,47 @@
+{%- comment -%}
+  Page links for paginated lists (blog posts, article comments). Use inside {% paginate %}.
+
+  Accepts:
+  - paginate {Object}
+  - anchor {String}: appended to each link, e.g. '#comments' (optional)
+
+  Usage:
+  {% render 'main-blog-pagination', paginate: paginate %}
+{%- endcomment -%}
+{%- if paginate.pages > 1 -%}
+  <nav class="main-blog-pagination mt-5" aria-label="{{ 'theme.pages.pagination.label' | t }}">
+    <ul class="list-unstyled d-flex flex-wrap justify-content-center align-items-center gap-2 mb-0">
+      <li>
+        {%- if paginate.previous -%}
+          <a class="main-blog-pagination__item" href="{{ paginate.previous.url }}{{ anchor }}" aria-label="{{ 'theme.pages.pagination.previous' | t }}">
+            {% render 'icon', name: 'chevron-left' %}
+          </a>
+        {%- else -%}
+          <span class="main-blog-pagination__item opacity-25" aria-hidden="true">{% render 'icon', name: 'chevron-left' %}</span>
+        {%- endif -%}
+      </li>
+
+      {%- for part in paginate.parts -%}
+        <li>
+          {%- if part.is_link -%}
+            <a class="main-blog-pagination__item" href="{{ part.url }}{{ anchor }}" aria-label="{{ 'theme.pages.pagination.page' | t: number: part.title }}">{{ part.title }}</a>
+          {%- elsif part.title == paginate.current_page -%}
+            <span class="main-blog-pagination__item main-blog-pagination__item--current" aria-current="page" aria-label="{{ 'theme.pages.pagination.page' | t: number: part.title }}">{{ part.title }}</span>
+          {%- else -%}
+            <span class="main-blog-pagination__item">{{ part.title }}</span>
+          {%- endif -%}
+        </li>
+      {%- endfor -%}
+
+      <li>
+        {%- if paginate.next -%}
+          <a class="main-blog-pagination__item" href="{{ paginate.next.url }}{{ anchor }}" aria-label="{{ 'theme.pages.pagination.next' | t }}">
+            {% render 'icon', name: 'chevron-right' %}
+          </a>
+        {%- else -%}
+          <span class="main-blog-pagination__item opacity-25" aria-hidden="true">{% render 'icon', name: 'chevron-right' %}</span>
+        {%- endif -%}
+      </li>
+    </ul>
+  </nav>
+{%- endif -%}

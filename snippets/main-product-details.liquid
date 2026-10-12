@@ -1,0 +1,131 @@
+{%- comment -%}
+  [LG] Dynamic Product Details, carried over from the previous theme's collapsible tab.
+  Lists the maker and the variant metafields (custom.width/height/type/plating/colors/clutch/posts).
+  When a value differs between variants, each variant's value is listed with its title.
+
+  Accepts:
+  - product {Object}
+  - maker_collection {Object}: the vendor's collection (optional)
+{%- endcomment -%}
+{%- if maker_collection -%}
+  <p><strong>{{ 'theme.product_page.details.maker' | t }}</strong> {{ maker_collection.title | link_to: maker_collection.url }}</p>
+{%- endif -%}
+<p>
+  {%- liquid
+    assign same_dimensions = false
+    assign same_weight = false
+    assign same_type = false
+    assign same_plating = false
+    assign same_colors = false
+    assign same_clutch = false
+    assign same_posts = false
+    assign dimensions = ''
+    assign weight = ''
+    assign type = ''
+    assign plating = ''
+    assign colors = ''
+    assign clutch = ''
+    assign posts = ''
+  -%}
+  {%- for variant in product.variants -%}
+    {%- if forloop.first -%}
+      {%- liquid
+        assign first_weight = variant.weight
+        assign first_type = variant.metafields.custom.type
+        assign first_plating = variant.metafields.custom.plating
+        assign first_colors = variant.metafields.custom.colors
+        assign first_clutch = variant.metafields.custom.clutch
+        assign first_posts = variant.metafields.custom.posts
+      -%}
+      {%- capture first_dimensions -%}{{ variant.metafields.custom.width.value | join: ", " }} x {{ variant.metafields.custom.height.value | join: ", " }}{%- endcapture -%}
+    {%- endif -%}
+    {%- if forloop.last -%}
+      {%- capture last_dimensions -%}{{ variant.metafields.custom.width.value | join: ", " }} x {{ variant.metafields.custom.height.value | join: ", " }}{%- endcapture -%}
+      {%- liquid
+        if last_dimensions == first_dimensions
+          assign same_dimensions = true
+        endif
+        if variant.weight == first_weight
+          assign same_weight = true
+        endif
+        if variant.metafields.custom.type.value == first_type.value
+          assign same_type = true
+        endif
+        if variant.metafields.custom.plating.value == first_plating.value
+          assign same_plating = true
+        endif
+        if variant.metafields.custom.colors.value == first_colors.value
+          assign same_colors = true
+        endif
+        if variant.metafields.custom.clutch == first_clutch
+          assign same_clutch = true
+        endif
+        if variant.metafields.custom.posts == first_posts
+          assign same_posts = true
+        endif
+      -%}
+    {%- endif -%}
+  {%- endfor -%}
+
+  {%- for variant in product.variants -%}
+    {%- if same_dimensions -%}
+      {%- capture dimensions -%}{{ variant.metafields.custom.width.value }} x {{ variant.metafields.custom.height.value }}{%- endcapture -%}
+    {%- else -%}
+      {%- capture dimensions -%}{{ dimensions }} {{ variant.metafields.custom.width.value }} x {{ variant.metafields.custom.height.value }} <span class="variant-title">{{ variant.title }}</span>{%- unless forloop.last -%}*{%- endunless -%}{%- endcapture -%}
+    {%- endif -%}
+    {%- if same_weight -%}
+      {%- assign weight = variant.weight | weight_with_unit -%}
+    {%- else -%}
+      {%- capture weight -%}{{ weight }} {{ variant.weight | weight_with_unit }} <span class="variant-title">{{ variant.title }}</span>{%- unless forloop.last -%}*{%- endunless -%}{%- endcapture -%}
+    {%- endif -%}
+    {%- if same_type -%}
+      {%- capture type -%}{{ variant.metafields.custom.type.value | sort | join: ", " }}{%- endcapture -%}
+    {%- else -%}
+      {%- capture type -%}{{ type }} {{ variant.metafields.custom.type.value | sort | join: ", " }} <span class="variant-title">{{ variant.title }}</span>{%- unless forloop.last -%}*{%- endunless -%}{%- endcapture -%}
+    {%- endif -%}
+    {%- if same_plating -%}
+      {%- capture plating -%}{{ variant.metafields.custom.plating.value | sort | join: ", " }}{%- endcapture -%}
+    {%- else -%}
+      {%- capture plating -%}{{ plating }} {{ variant.metafields.custom.plating.value | sort | join: ", " }} <span class="variant-title">{{ variant.title }}</span>{%- unless forloop.last -%}*{%- endunless -%}{%- endcapture -%}
+    {%- endif -%}
+    {%- if same_colors -%}
+      {%- capture colors -%}{{ variant.metafields.custom.colors.value | sort | join: ", " }}{%- endcapture -%}
+    {%- else -%}
+      {%- capture colors -%}{{ colors }} {{ variant.metafields.custom.colors.value | sort | join: ", " }} <span class="variant-title">{{ variant.title }}</span>{%- unless forloop.last -%}*{%- endunless -%}{%- endcapture -%}
+    {%- endif -%}
+    {%- if same_clutch -%}
+      {%- assign clutch = variant.metafields.custom.clutch -%}
+    {%- else -%}
+      {%- capture clutch -%}{{ clutch }} {{ variant.metafields.custom.clutch }} <span class="variant-title">{{ variant.title }}</span>{%- unless forloop.last -%}*{%- endunless -%}{%- endcapture -%}
+    {%- endif -%}
+    {%- if same_posts -%}
+      {%- assign posts = variant.metafields.custom.posts -%}
+    {%- else -%}
+      {%- capture posts -%}{{ posts }} {{ variant.metafields.custom.posts }} <span class="variant-title">{{ variant.title }}</span>{%- unless forloop.last -%}*{%- endunless -%}{%- endcapture -%}
+    {%- endif -%}
+  {%- endfor -%}
+
+  {%- liquid
+    assign dimensions = dimensions | split: '*' | join: ''
+    assign weight = weight | split: '*' | join: ''
+    assign type = type | split: '*' | join: ''
+    assign plating = plating | split: '*' | join: ''
+    assign colors = colors | split: '*' | join: ''
+    assign clutch = clutch | split: '*' | join: ''
+    assign posts = posts | split: '*' | join: ''
+  -%}
+  {%- comment -%} An empty metafield leaves just " x " or blanks behind, which the previous theme also hid. {%- endcomment -%}
+  {% assign dimensions_check = dimensions | strip %}
+  {% unless dimensions_check == blank or dimensions_check == 'x' %}<strong>{{ 'theme.product_page.details.dimensions' | t }}</strong> {{ dimensions }}<br>{% endunless %}
+  {% unless weight == blank %}<strong>{{ 'theme.product_page.details.weight' | t }}</strong> {{ weight }}<br>{% endunless %}
+  {% assign type_check = type | strip %}
+  {% unless type_check == blank %}<strong>{{ 'theme.product_page.details.type' | t }}</strong> {{ type }}<br>{% endunless %}
+  {% assign plating_check = plating | strip %}
+  {% unless plating_check == blank %}<strong>{{ 'theme.product_page.details.plating' | t }}</strong> {{ plating }}<br>{% endunless %}
+  {% assign colors_check = colors | strip %}
+  {% unless colors_check == blank %}<strong>{{ 'theme.product_page.details.colors' | t }}</strong> {{ colors }}<br>{% endunless %}
+  {% assign clutch_check = clutch | strip %}
+  {% unless clutch_check == blank %}<strong>{{ 'theme.product_page.details.clutch' | t }}</strong> {{ clutch }}<br>{% endunless %}
+  {% assign posts_check = posts | strip %}
+  {% unless posts_check == blank %}<strong>{{ 'theme.product_page.details.posts' | t }}</strong> {{ posts }}<br>{% endunless %}
+</p>

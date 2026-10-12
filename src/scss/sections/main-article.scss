@@ -1,0 +1,131 @@
+@import "section-base";
+@import "main-page-content";
+
+@include article-card;
+
+.main-article {
+  // Narrow reading column: 25 / 35 / 48 / 60px below the header, blocks 24 / 36 / 48 / 60px apart.
+  margin-top: 25px;
+
+  @include media-breakpoint-up(md) {
+    margin-top: 35px;
+  }
+
+  @include media-breakpoint-up(lg) {
+    margin-top: 48px;
+  }
+
+  @include media-breakpoint-up(xl) {
+    margin-top: 60px;
+  }
+
+  &__block {
+    @include narrow-container;
+  }
+
+  &__block + &__block {
+    margin-top: 24px;
+
+    @include media-breakpoint-up(md) {
+      margin-top: 36px;
+    }
+
+    @include media-breakpoint-up(lg) {
+      margin-top: 48px;
+    }
+
+    @include media-breakpoint-up(xl) {
+      margin-top: 60px;
+    }
+  }
+
+  &__meta {
+    padding-top: 15px;
+
+    @include media-breakpoint-up(lg) {
+      padding-top: 20px;
+    }
+
+    @include media-breakpoint-up(xl) {
+      padding-top: 25px;
+    }
+  }
+
+  &__title {
+    @include page-title;
+  }
+
+  &__content {
+    @include rich-text;
+  }
+
+  &__separator {
+    @include separator;
+  }
+
+  // Space between the content, the lines and the back / share row.
+  &__separator--top {
+    margin-top: 31px;
+    margin-bottom: 6px;
+
+    @include media-breakpoint-up(lg) {
+      margin-top: 36px;
+    }
+
+    @include media-breakpoint-up(xl) {
+      margin-top: 41px;
+    }
+  }
+
+  &__separator--bottom {
+    margin-top: 15px;
+    margin-bottom: 7px;
+  }
+
+  &__actions {
+    padding: 15px 0 9px;
+
+    @include media-breakpoint-up(lg) {
+      padding: 20px 0 12px;
+    }
+
+    @include media-breakpoint-up(xl) {
+      padding: 25px 0 15px;
+    }
+  }
+
+  &__back {
+    padding-left: 0;
+    padding-right: 0;
+    font-size: 1.0625rem;
+
+    .bi {
+      font-size: 1.25rem;
+    }
+
+    &:hover span {
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+  }
+
+  &__share-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    font-size: 18px;
+    color: inherit;
+    transition: opacity 0.15s linear;
+
+    &:hover {
+      opacity: 0.6;
+    }
+  }
+
+  &__product-heading {
+    font-size: calc(18px * 58 / 60);
+    font-weight: 400;
+  }
+}

@@ -1,0 +1,63 @@
+@import "section-base";
+@import "multicolumn-heading";
+@import "multicolumn-slider";
+
+.multicolumn__item {
+  &--card,
+  &--bordered {
+    background-color: $white;
+    color: $body-color;
+  }
+
+  &--bordered {
+    border: 1px solid rgba($body-color, 0.1);
+  }
+}
+
+// Logos sit in a 128 × 64 box, scaled to fit and resting on its bottom edge.
+.multicolumn__logo {
+  height: 64px;
+}
+
+.multicolumn__logo-image {
+  width: 128px;
+  height: 64px;
+  object-position: center bottom;
+}
+
+.multicolumn__text {
+  padding-top: 1rem;
+
+  .multicolumn__item--card &,
+  .multicolumn__item--bordered & {
+    padding: 25px;
+
+    @include media-breakpoint-up(lg) {
+      padding: 35px;
+    }
+  }
+
+  .multicolumn__item > &:first-child {
+    padding-top: 0;
+  }
+
+  .multicolumn__item--card > &:first-child,
+  .multicolumn__item--bordered > &:first-child {
+    padding-top: 25px;
+
+    @include media-breakpoint-up(lg) {
+      padding-top: 35px;
+    }
+  }
+}
+
+.multicolumn__icon {
+  .multicolumn__item--card &,
+  .multicolumn__item--bordered & {
+    padding: 25px 25px 0;
+  }
+}
+
+.multicolumn__body p {
+  margin-bottom: 0.5rem;
+}

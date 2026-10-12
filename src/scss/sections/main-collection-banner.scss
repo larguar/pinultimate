@@ -1,0 +1,33 @@
+@import "section-base";
+@import "main-collection-product-grid-mixins";
+
+.collection-banner {
+  @include collection-page-header;
+
+  &__title {
+    @include collection-page-title;
+  }
+
+  &__description {
+    margin-top: 16px;
+  }
+
+  // Title over the collection image.
+  &--image {
+    margin-top: 0;
+    min-height: 320px;
+
+    @include media-breakpoint-up(lg) {
+      min-height: 420px;
+    }
+  }
+
+  &--regular {
+    min-height: 480px;
+
+    @include media-breakpoint-up(lg) {
+      min-height: 620px;
+    }
+  }
+}
+

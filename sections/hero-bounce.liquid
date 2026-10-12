@@ -1,333 +1,230 @@
-{% style %}
-.bounce-container .bounce-background {
-  height: {{ section.settings.desktop_height }};
-  width: 100%;
-  position: relative;
-  overflow: hidden;
-}
-.bounce-background .card__image {
-  display: flex;
-}
-.bounce-background .card__image .lazy-image.lazy-image--background {
-  position: relative;
-}
-.bounce {
-  font-size: {{ section.settings.font_size }}px;
-  line-height: 0.9;
-  letter-spacing: -0.5px;
-  font-style: italic;
-  font-weight: 600!important;
-  text-transform: {{ section.settings.text_transform }};
-  color: {{ section.settings.color_text_main }};
-  /* background: yellow; */
-  width: {{ section.settings.text_width }}px;
-  height: {{ section.settings.text_height }}px;
-  margin: 0px;
-  padding: 0px;
-  position: relative;
-  display: block;
-  position: absolute;
-  z-index: 1;
-  -webkit-animation: moveX {{ section.settings.bounce_interval }}.05s ease-in 0s infinite alternate, moveY {{ section.settings.bounce_interval }}.4s ease-in 0s infinite alternate;
-  -moz-animation: moveX {{ section.settings.bounce_interval }}.05s ease-in 0s infinite alternate, moveY {{ section.settings.bounce_interval }}.4s ease-in 0s infinite alternate;
-  -o-animation: moveX {{ section.settings.bounce_interval }}.05s ease-in 0s infinite alternate, moveY {{ section.settings.bounce_interval }}.4s ease-in 0s infinite alternate;
-  animation: moveX {{ section.settings.bounce_interval }}.05s ease-in 0s infinite alternate, moveY {{ section.settings.bounce_interval }}.4s ease-in 0s infinite alternate;
-}
-.bounce span {
-  position: relative;
-  left: {{ section.settings.span_left }}px;
-  top: {{ section.settings.span_top }}px;
-}
-.bounce-container .button-container {
-  position: absolute;
-  bottom: 0;
-  z-index: 2;
-  width: 100%;
-  text-align: center;
-  padding: 100px 0;
-}
-@-webkit-keyframes moveX {from { left: 0; } to { left: calc(100% - {{ section.settings.text_width }}px); }}
-@-moz-keyframes moveX {from { left: 0; } to { left: calc(100% - {{ section.settings.text_width }}px); }}
-@-o-keyframes moveX {from { left: 0; } to { left: calc(100% - {{ section.settings.text_width }}px); }}
-@keyframes moveX {from { left: 0; } to { left: calc(100% - {{ section.settings.text_width }}px); }}
-@-webkit-keyframes moveY {from { top: 0; } to { top: calc(100% - {{ section.settings.text_height }}px); }}
-@-moz-keyframes moveY {from { top: 0; } to { top: calc(100% - {{ section.settings.text_height }}px); }}
-@-o-keyframes moveY {from { top: 0; } to { top: calc(100% - {{ section.settings.text_height }}px); }}
-@keyframes moveY {from { top: 0; } to { top: calc(100% - {{ section.settings.text_height }}px); }}
+{%- comment -%}
+  Full-width images with a huge title that bounces around inside them (like an old screensaver)
+  and a button near the bottom. Only the first image shows on mobile.
+{%- endcomment -%}
+{%- liquid
+  assign images = ''
+  if section.settings.image != blank
+    assign images = images | append: 'image,'
+  endif
+  if section.settings.image_2 != blank
+    assign images = images | append: 'image_2,'
+  endif
+  if section.settings.image_3 != blank
+    assign images = images | append: 'image_3,'
+  endif
+  assign images = images | split: ','
+  assign image_count = images.size | at_least: 1
+  assign desktop_vw = 100 | divided_by: image_count
 
-@media screen and (max-width: 1023px) {
-  .bounce-container > .bounce-background {
-    height: {{ section.settings.mobile_height }};
-  }
-}
-@media screen and (max-width: 767px) {
-  .bounce-background .card__image figure.lazy-image:nth-of-type(2), .bounce-background .card__image figure.lazy-image:nth-of-type(3) {
-    display: none;
-  }
-  .bounce {
-    font-size: {{ section.settings.mobile_font_size }}px;
-    width: {{ section.settings.mobile_text_width }}px;
-    height: {{ section.settings.mobile_text_height }}px;
-  }
-  .bounce span {
-    left: {{ section.settings.mobile_span_left }}px;
-    top: {{ section.settings.mobile_span_top }}px;
-  }
-  .bounce-container .button-container {
-    padding: 80px 0;
-  }
-  @-webkit-keyframes moveX {from { left: 0; } to { left: calc(100% - {{ section.settings.mobile_text_width }}px); }}
-  @-moz-keyframes moveX {from { left: 0; } to { left: calc(100% - {{ section.settings.mobile_text_width }}px); }}
-  @-o-keyframes moveX {from { left: 0; } to { left: calc(100% - {{ section.settings.mobile_text_width }}px); }}
-  @keyframes moveX {from { left: 0; } to { left: calc(100% - {{ section.settings.mobile_text_width }}px); }}
-  @-webkit-keyframes moveY {from { top: 0; } to { top: calc(100% - {{ section.settings.mobile_text_height }}px); }}
-  @-moz-keyframes moveY {from { top: 0; } to { top: calc(100% - {{ section.settings.mobile_text_height }}px); }}
-  @-o-keyframes moveY {from { top: 0; } to { top: calc(100% - {{ section.settings.mobile_text_height }}px); }}
-  @keyframes moveY {from { top: 0; } to { top: calc(100% - {{ section.settings.mobile_text_height }}px); }}
-}
+  assign title_color = section.settings.title_color
+  assign x_duration = section.settings.speed | plus: 0.05
+  assign y_duration = section.settings.speed | plus: 0.4
 
+  if section.settings.full_width
+    assign container = 'container-fluid px-0'
+  else
+    assign container = 'container'
+  endif
+-%}
 
-{% endstyle %}
+{{ 'section-hero-bounce.css' | asset_url | stylesheet_tag }}
 
-
-
-  {% style %}
-    #bounce-{{ section.id }} .card {
-      height: {{ section.settings.desktop_height }};
-      min-height: 450px;
-    }
-    @media all and (max-width: 1023px) {
-      #bounce-{{ section.id }} .card {
-        height: {{ section.settings.mobile_height }};
-      }
-    }
-  {% endstyle %}
-
-  <div id="bounce-{{ section.id }}" class="bounce-container {% if section.settings.is_fullwidth %} container--fullwidth {% else %} container--large {% endif %} {% unless section.settings.remove_margin %} container--vertical-space {% endunless %} remove-empty-space">
-    <div class="grid {%- if section.settings.is_fullwidth %} grid--gap-none {% else %} grid--gap-small {% endif %}">
-      <div class="bounce-background card card--fullwidth {% if section.settings.is_fullwidth %} card--no-radius {% endif %} card--no-borders" {{ block.shopify_attributes }}>
-
-        <h1 class="bounce"><span>{{ section.settings.title }}</span></h1>
-
-        {%- if section.settings.button_label != blank -%}
-          <div class="button-container" data-aos="fade-up">
-            {%- render 'button', target_blank: section.settings.open_in_new_window, label: section.settings.button_label, link: section.settings.link, style: section.settings.button_style, fullwidth: false -%}
-          </div>
-        {%- endif -%}
-
-        {%- liquid
-          if section.index == 1 and forloop.first
-            assign preload = true
-          else
-            assign preload = false
-          endif
-        -%}
-        <div class="card__image card__image--background" aria-hidden="true">
-          
-          {%- unless section.settings.image == blank -%} 
-            {%- liquid
-              assign image_type = 'background'
-              assign image_alignment = true
-            -%}
-            {%- capture sizes -%}
-              sizes="(max-width: 1023px) calc({{ section.settings.mobile_height }} * {{ section.settings.image.aspect_ratio }}), calc({{ section.settings.desktop_height }} * {{ section.settings.image.aspect_ratio }})"
-            {%- endcapture -%}
-            {%- render 'lazy-image', image: section.settings.image, type: image_type, alt: section.settings.title, image_alignment: image_alignment, sizes: sizes, class: image_class, overlay: true, preload: preload -%}
-          {%- else -%}
-            {{ 'image' | placeholder_svg_tag }}
-          {%- endunless -%}
-
-          {%- unless section.settings.image2 == blank -%} 
-            {%- liquid
-              assign image_type = 'background'
-              assign image_alignment = true
-            -%}
-            {%- capture sizes -%}
-              sizes="(max-width: 1023px) calc({{ section.settings.mobile_height }} * {{ section.settings.image2.aspect_ratio }}), calc({{ section.settings.desktop_height }} * {{ section.settings.image2.aspect_ratio }})"
-            {%- endcapture -%}
-            {%- render 'lazy-image', image: section.settings.image2, type: image_type, alt: section.settings.title, image_alignment: image_alignment, sizes: sizes, class: image_class, overlay: true, preload: preload -%}
-          {%- endunless -%}
-
-          {%- unless section.settings.image3 == blank -%} 
-            {%- liquid
-              assign image_type = 'background'
-              assign image_alignment = true
-            -%}
-            {%- capture sizes -%}
-              sizes="(max-width: 1023px) calc({{ section.settings.mobile_height }} * {{ section.settings.image3.aspect_ratio }}), calc({{ section.settings.desktop_height }} * {{ section.settings.image3.aspect_ratio }})"
-            {%- endcapture -%}
-            {%- render 'lazy-image', image: section.settings.image3, type: image_type, alt: section.settings.title, image_alignment: image_alignment, sizes: sizes, class: image_class, overlay: true, preload: preload -%}
-          {%- endunless -%}
-          
+<section class="hero-bounce container-fluid px-0 {% render 'section-spacing', size: section.settings.spacing %}">
+  <div
+    class="hero-bounce__frame {{ container }} position-relative overflow-hidden hero-bounce__frame--{{ section.settings.height }} hero-bounce__frame--mobile-{{ section.settings.height_mobile }}"
+    style="--hb-font-size: {{ section.settings.font_size }}px; --hb-font-size-mobile: {{ section.settings.font_size_mobile }}px; --hb-text-width: {{ section.settings.text_width }}px; --hb-text-width-mobile: {{ section.settings.text_width_mobile }}px; --hb-color: {{ title_color }}; --hb-x-duration: {{ x_duration }}s; --hb-y-duration: {{ y_duration }}s;"
+  >
+    <div class="row g-0 h-100">
+      {%- if images.size == 0 -%}
+        <div class="col h-100 bg-light">
+          {{ 'hero-apparel-1' | placeholder_svg_tag: 'd-block w-100 h-100' }}
         </div>
-        
-      </div>
+      {%- endif -%}
+      {%- for setting_id in images -%}
+        {%- liquid
+          assign image = section.settings[setting_id]
+          assign loading = 'lazy'
+          assign fetchpriority = 'auto'
+          if section.index <= 3 and forloop.first
+            assign loading = 'eager'
+            assign fetchpriority = 'high'
+          endif
+          capture sizes
+            echo '(min-width: 768px) ' | append: desktop_vw | append: 'vw, 100vw'
+          endcapture
+        -%}
+        <div class="col h-100{% unless forloop.first %} d-none d-md-block{% endunless %}">
+          {{
+            image
+            | image_url: width: 2000
+            | image_tag:
+              widths: '375, 550, 750, 1000, 1250, 1500, 2000',
+              sizes: sizes,
+              loading: loading,
+              fetchpriority: fetchpriority,
+              alt: image.alt,
+              class: 'd-block w-100 h-100 object-fit-cover'
+          }}
+        </div>
+      {%- endfor -%}
     </div>
+
+    {%- if section.settings.title != blank -%}
+      <div class="hero-bounce__track hero-bounce__track--{{ section.settings.text_transform }}">
+        <h2 class="hero-bounce__title m-0">{{ section.settings.title | escape }}</h2>
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.button_label != blank -%}
+      <div class="hero-bounce__actions position-absolute bottom-0 start-0 end-0 text-center px-3" data-reveal>
+        <a
+          {% if section.settings.link != blank %}
+            href="{{ section.settings.link }}"
+          {% else %}
+            role="link" aria-disabled="true"
+          {% endif %}
+          {% if section.settings.open_in_new_window %}
+            target="_blank" rel="noopener"
+          {% endif %}
+          class="btn btn-{{ section.settings.button_style }} btn-cta"
+        >
+          {{- section.settings.button_label | escape -}}
+        </a>
+      </div>
+    {%- endif -%}
   </div>
+</section>
 
 {% schema %}
 {
-  "name": "Hero (Bounce Text)",
-  "class": "supports-absolute-header",
+  "name": "Hero with bouncing title",
+  "tag": "div",
+  "class": "section-hero-bounce",
   "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "First image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_2",
+      "label": "Second image",
+      "info": "Shown beside the first image on tablets and desktops."
+    },
+    {
+      "type": "image_picker",
+      "id": "image_3",
+      "label": "Third image",
+      "info": "Shown beside the first image on tablets and desktops."
+    },
+    {
+      "type": "header",
+      "content": "Title"
+    },
     {
       "type": "text",
       "id": "title",
-      "label": "t:sections.local-extra-words.sections.headings.title",
+      "label": "Title",
       "default": "Your best promotion yet"
     },
     {
-      "type": "number",
-      "id": "font_size",
-      "label": "Font Size",
-      "default": 160
+      "type": "color",
+      "id": "title_color",
+      "label": "Title color",
+      "default": "#FEFF86"
     },
     {
       "type": "select",
       "id": "text_transform",
-      "label": "Text Transform",
+      "label": "Letters",
       "options": [
-        {
-          "value": "uppercase",
-          "label": "Uppercase"
-        },
-        {
-          "value": "lowercase",
-          "label": "Lowercase"
-        },
-        {
-          "value": "none",
-          "label": "None"
-        }
+        { "value": "uppercase", "label": "UPPERCASE" },
+        { "value": "lowercase", "label": "lowercase" },
+        { "value": "none", "label": "As typed" }
       ],
-      "default": "lowercase"
-    },
-    {
-      "type": "color",
-      "id": "color_text_main",
-      "label": "Text Color",
-      "default": "#FFFFFF"
-    },
-    {
-      "id": "image",
-      "type": "image_picker",
-      "label": "Image"
-    },
-    {
-      "id": "image2",
-      "type": "image_picker",
-      "label": "Image"
-    },
-    {
-      "id": "image3",
-      "type": "image_picker",
-      "label": "Image"
-    },
-    {
-      "type": "text",
-      "id": "button_label",
-      "label": "t:sections.image-with-text.blocks.image.settings.button_label.label",
-      "default": "Show more"
-    },
-    {
-      "type": "url",
-      "id": "link",
-      "label": "t:sections.image-with-text.blocks.image.settings.url.label",
-      "info": "t:sections.bundle-extra-words.sections.slider.settings.link.info"
-    },
-    {
-      "type": "checkbox",
-      "id": "open_in_new_window",
-      "label": "t:sections.local-extra-words.sections.announcement-bar.blocks.content.settings.target",
-      "default": false
-    },
-    {
-      "id": "button_style",
-      "label": "t:sections.local-extra-words.sections.buttons.style.label",
-      "type": "select",
-      "options": [
-        {
-          "value": "outline",
-          "label": "t:sections.local-extra-words.sections.buttons.style.option__1"
-        },
-        {
-          "value": "solid",
-          "label": "t:sections.local-extra-words.sections.buttons.style.option__2"
-        }
-      ],
-      "default": "solid"
-    },
-    {
-      "type": "header",
-      "content": "Animation"
+      "default": "uppercase"
     },
     {
       "type": "range",
-      "id": "bounce_interval",
-      "label": "Speed",
-      "step": 1,
-      "min": 1,
-      "max": 20,
-      "default": 5,
-      "unit": "s"
+      "id": "font_size",
+      "label": "Text size",
+      "min": 40,
+      "max": 240,
+      "step": 4,
+      "unit": "px",
+      "default": 160
     },
     {
       "type": "number",
       "id": "text_width",
-      "label": "Text Width",
+      "label": "Title width (px)",
+      "info": "The title wraps onto more lines when it's wider than this.",
       "default": 1000
     },
     {
-      "type": "number",
-      "id": "text_height",
-      "label": "Text Height",
-      "default": 100
+      "type": "range",
+      "id": "speed",
+      "label": "Bounce duration",
+      "info": "Seconds the title takes to cross the image. Visitors who prefer reduced motion see it still.",
+      "min": 2,
+      "max": 30,
+      "step": 1,
+      "unit": "s",
+      "default": 10
     },
     {
-      "type": "number",
-      "id": "span_left",
-      "label": "Left Margin",
-      "default": -5
+      "type": "header",
+      "content": "Button"
     },
     {
-      "type": "number",
-      "id": "span_top",
-      "label": "Top Margin",
-      "default": -50
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Shop now"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "Button link"
+    },
+    {
+      "type": "checkbox",
+      "id": "open_in_new_window",
+      "label": "Open link in a new tab",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "button_style",
+      "label": "Button style",
+      "options": [
+        { "value": "primary", "label": "Dark green" },
+        { "value": "light", "label": "White" },
+        { "value": "outline-light", "label": "White outline" }
+      ],
+      "default": "primary"
     },
     {
       "type": "header",
       "content": "Mobile"
     },
     {
-      "type": "number",
-      "id": "mobile_font_size",
-      "label": "Font Size",
+      "type": "range",
+      "id": "font_size_mobile",
+      "label": "Text size",
+      "min": 24,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
       "default": 120
     },
     {
       "type": "number",
-      "id": "mobile_text_width",
-      "label": "Text Width",
-      "default": 1000
-    },
-    {
-      "type": "number",
-      "id": "mobile_text_height",
-      "label": "Text Height",
-      "default": 100
-    },
-    {
-      "type": "number",
-      "id": "mobile_span_left",
-      "label": "Left Margin",
-      "default": -5
-    },
-    {
-      "type": "number",
-      "id": "mobile_span_top",
-      "label": "Top Margin",
-      "default": -50
+      "id": "text_width_mobile",
+      "label": "Title width (px)",
+      "default": 460
     },
     {
       "type": "header",
@@ -335,90 +232,54 @@
     },
     {
       "type": "checkbox",
-      "id": "is_fullwidth",
-      "label": "t:sections.local-extra-words.sections.rich-text.settings.fullwidth.label",
-      "default": true,
-      "info": "t:sections.local-extra-words.sections.rich-text.settings.fullwidth.info"
+      "id": "full_width",
+      "label": "Full width",
+      "default": true
     },
     {
       "type": "select",
-      "id": "desktop_height",
-      "label": "Desktop height",
+      "id": "height",
+      "label": "Height on desktop",
       "options": [
-        {
-          "value": "40vh",
-          "label": "t:sections.image-with-text.settings.image_height.options__1.label",
-          "group": "t:sections.gallery.settings.aspect_ratio.options__1.group"
-        },
-        {
-          "value": "50vh",
-          "label": "t:sections.rich-text.settings.image_height.options__1.label",
-          "group": "t:sections.gallery.settings.aspect_ratio.options__1.group"
-        },
-        {
-          "value": "60vh",
-          "label": "t:sections.image-with-text.settings.image_height.options__2.label",
-          "group": "t:sections.gallery.settings.aspect_ratio.options__1.group"
-        },
-        {
-          "value": "80vh",
-          "label": "t:sections.image-with-text.settings.image_height.options__3.label",
-          "group": "t:sections.gallery.settings.aspect_ratio.options__1.group"
-        },
-        {
-          "value": "100vh",
-          "label": "t:sections.bundle-extra-words.settings_schema.labels.options.option_10"
-        }
+        { "value": "40", "label": "40% of the screen" },
+        { "value": "50", "label": "50% of the screen" },
+        { "value": "60", "label": "60% of the screen" },
+        { "value": "80", "label": "80% of the screen" },
+        { "value": "100", "label": "Full screen" },
+        { "value": "fit", "label": "Fit below the header, next section peeking" }
       ],
-      "default": "80vh"
+      "default": "fit"
     },
     {
       "type": "select",
-      "id": "mobile_height",
-      "label": "Mobile height",
+      "id": "height_mobile",
+      "label": "Height on mobile and tablet",
       "options": [
-        {
-          "value": "40vh",
-          "label": "t:sections.image-with-text.settings.image_height.options__1.label",
-          "group": "t:sections.gallery.settings.aspect_ratio.options__1.group"
-        },
-        {
-          "value": "50vh",
-          "label": "t:sections.rich-text.settings.image_height.options__1.label",
-          "group": "t:sections.gallery.settings.aspect_ratio.options__1.group"
-        },
-        {
-          "value": "60vh",
-          "label": "t:sections.image-with-text.settings.image_height.options__2.label",
-          "group": "t:sections.gallery.settings.aspect_ratio.options__1.group"
-        },
-        {
-          "value": "80vh",
-          "label": "t:sections.image-with-text.settings.image_height.options__3.label",
-          "group": "t:sections.gallery.settings.aspect_ratio.options__1.group"
-        },
-        {
-          "value": "100vh",
-          "label": "t:sections.bundle-extra-words.settings_schema.labels.options.option_10"
-        }
+        { "value": "40", "label": "40% of the screen" },
+        { "value": "50", "label": "50% of the screen" },
+        { "value": "60", "label": "60% of the screen" },
+        { "value": "80", "label": "80% of the screen" },
+        { "value": "100", "label": "Full screen" },
+        { "value": "fit", "label": "Fit below the header, next section peeking" }
       ],
-      "default": "60vh"
+      "default": "fit"
     },
     {
-      "type": "checkbox",
-      "id": "remove_margin",
-      "label": "t:sections.local-extra-words.sections.rich-text.settings.remove_margin.label",
-      "default": false
+      "type": "select",
+      "id": "spacing",
+      "label": "Space above",
+      "options": [
+        { "value": "default", "label": "Default" },
+        { "value": "small", "label": "Small" },
+        { "value": "none", "label": "None" }
+      ],
+      "default": "none"
     }
   ],
-  "blocks": [],
   "presets": [
     {
-      "name": "Hero (Bounce Text)"
+      "name": "Hero with bouncing title"
     }
-  ],
-  "disabled_on": {
-    "groups": ["header"]
-  }
+  ]
 }
 {% endschema %}

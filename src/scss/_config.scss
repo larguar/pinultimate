@@ -1,0 +1,94 @@
+// Bootstrap variable overrides. Loaded before Bootstrap's own variables.
+// Values were measured from the previous theme so the rebuild matches it.
+
+// Brand palette
+// Brand palette. Prefixed so Bootstrap's own $red, $green etc. (used for
+// danger, success and so on) keep their defaults. Theme settings override
+// these at runtime through CSS custom properties (snippets/theme-styles.liquid).
+$brand-red: #f6786c;
+$brand-yellow: #feff86;
+$brand-blue: #8ed6cf;
+$brand-purple: #ddc7e8;
+$brand-green: #c6cc3d;
+$brand-dark-green: #14452f;
+$brand-black: #1e1e1e;
+$brand-light: #f4f3f2;
+
+$primary: $brand-dark-green;
+$secondary: $brand-green;
+$light: $brand-light;
+$dark: $brand-black;
+
+$custom-theme-colors: (
+  "red": $brand-red,
+  "yellow": $brand-yellow,
+  "blue": $brand-blue,
+  "purple": $brand-purple,
+  "green": $brand-green,
+  "white": #fff,
+);
+
+$body-color: #333;
+$body-bg: #fff;
+$link-color: $body-color;
+$link-decoration: none;
+$link-hover-decoration: none;
+
+// Typography. Font families come from theme settings via CSS custom properties.
+$font-family-sans-serif: var(--font-body-family);
+$headings-font-family: var(--font-heading-family);
+$font-size-base: 1rem;
+$line-height-base: 1.4;
+$headings-font-weight: 600;
+$headings-line-height: 1.05;
+$headings-color: inherit;
+$headings-margin-bottom: 0;
+$paragraph-margin-bottom: 0.75rem;
+
+// Spacing: 6–8 extend Bootstrap's scale to cover the section rhythm (48 / 72 / 96 / 120px).
+$spacer: 1rem;
+$spacers: (
+  0: 0,
+  1: $spacer * 0.25,
+  2: $spacer * 0.5,
+  3: $spacer,
+  4: $spacer * 1.5,
+  5: $spacer * 3,
+  6: $spacer * 4.5,
+  7: $spacer * 6,
+  8: $spacer * 7.5,
+);
+$enable-negative-margins: true;
+
+// Layout: one fluid container capped at the theme's max width.
+// A single min-width entry caps .container at every size above sm.
+$container-max-widths: (
+  sm: 1360px,
+);
+$grid-gutter-width: 20px;
+
+// Buttons: pill shaped, semibold.
+$btn-font-weight: 600;
+$btn-font-size: 1.0625rem;
+$btn-line-height: 1.25;
+$btn-padding-y: 0.9375rem;
+$btn-padding-x: 2.5rem;
+$btn-border-radius: 30px;
+$btn-border-radius-sm: 30px;
+$btn-border-radius-lg: 30px;
+
+// Forms
+$input-border-radius: 5px;
+$input-border-color: rgba($brand-black, 0.2);
+
+// Image ratios: Bootstrap's defaults plus portrait ratios used by product cards.
+$aspect-ratios: (
+  "1x1": 100%,
+  "4x3": calc(3 / 4 * 100%),
+  "16x9": calc(9 / 16 * 100%),
+  "21x9": calc(9 / 21 * 100%),
+  "5x6": calc(6 / 5 * 100%),
+  "4x5": calc(5 / 4 * 100%),
+  "3x4": calc(4 / 3 * 100%),
+  "2x3": calc(3 / 2 * 100%),
+);

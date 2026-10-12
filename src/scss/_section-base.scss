@@ -1,0 +1,10 @@
+// Import at the top of every src/scss/sections/*.scss file. Gives access to
+// Bootstrap's variables, maps and mixins (media-breakpoint-up etc.) without
+// emitting any CSS, so each section stylesheet contains only its own rules.
+@import "bootstrap/scss/functions";
+@import "config";
+@import "bootstrap/scss/variables";
+@import "bootstrap/scss/variables-dark";
+$theme-colors: map-merge($theme-colors, $custom-theme-colors);
+@import "bootstrap/scss/maps";
+@import "bootstrap/scss/mixins";

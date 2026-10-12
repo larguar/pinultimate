@@ -1,0 +1,14 @@
+{%- comment -%}
+  Carousel controls used inside <swiper-slider> by the content sections: previous button,
+  page indicator (one segment per page) and next button. Styles live in
+  src/scss/sections/_multicolumn-slider.scss.
+{%- endcomment -%}
+<div class="content-slider__nav d-flex align-items-center justify-content-center">
+  <button type="button" class="swiper-button-prev content-slider__button" aria-label="{{ 'theme.content.slider.previous' | t }}">
+    {%- render 'icon', name: 'chevron-left' -%}
+  </button>
+  <div class="swiper-pagination content-slider__pagination"></div>
+  <button type="button" class="swiper-button-next content-slider__button" aria-label="{{ 'theme.content.slider.next' | t }}">
+    {%- render 'icon', name: 'chevron-right' -%}
+  </button>
+</div>

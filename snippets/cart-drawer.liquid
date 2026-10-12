@@ -1,0 +1,8 @@
+{%- comment -%}
+  Cart drawer shell. The contents are re-rendered from sections/cart-drawer.liquid after every cart change.
+{%- endcomment -%}
+<div class="offcanvas offcanvas-end drawer cart-drawer" tabindex="-1" id="cart-drawer" aria-labelledby="cart-drawer-title">
+  <div class="h-100 d-flex flex-column" data-cart-drawer-content>
+    {% render 'cart-drawer-content' %}
+  </div>
+</div>

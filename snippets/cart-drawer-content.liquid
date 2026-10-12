@@ -1,0 +1,75 @@
+{%- comment -%}
+  Contents of the cart drawer. Read by src/js/components/cart.js, which relies on the
+  data-cart-* attributes rather than classes.
+{%- endcomment -%}
+<div class="offcanvas-header drawer__header border-bottom" data-cart-count-source="{{ cart.item_count }}">
+  <h2 class="offcanvas-title drawer__title" id="cart-drawer-title">
+    {{- 'theme.cart.title' | t }} ({{ cart.item_count -}})
+  </h2>
+  {% render 'drawer-close' %}
+</div>
+
+{%- if cart.item_count == 0 -%}
+  <div class="offcanvas-body drawer__body">
+    <p>{{ 'theme.cart.empty' | t }}</p>
+    <a href="{{ routes.all_products_collection_url }}" class="btn btn-dark w-100">{{ 'theme.cart.continue' | t }}</a>
+  </div>
+{%- else -%}
+  {% render 'free-shipping-progress', class: 'drawer__section border-bottom' %}
+
+  <div class="offcanvas-body drawer__body flex-grow-1">
+    <ul class="list-unstyled mb-5" data-cart-items>
+      {%- for item in cart.items -%}
+        <li class="cart-drawer__item row g-0 align-items-center mb-4" data-cart-line="{{ forloop.index }}">
+          <div class="col-auto">
+            <a href="{{ item.url }}" class="d-block ratio ratio-1x1 cart-drawer__image" tabindex="-1">
+              {%- if item.image -%}
+                {{ item.image | image_url: width: 240 | image_tag: class: 'object-fit-contain', alt: item.title, loading: 'lazy' }}
+              {%- endif -%}
+            </a>
+          </div>
+          <div class="col">
+            <p class="fw-semibold mb-0">{{ item.final_line_price | money }}</p>
+            <a href="{{ item.url }}" class="d-block fw-semibold lh-sm mb-2">{{ item.product.title | escape }}</a>
+            {%- unless item.product.has_only_default_variant -%}
+              <p class="small text-body-secondary mb-2">{{ item.variant.title | escape }}</p>
+            {%- endunless -%}
+            {%- for property in item.properties -%}
+              {%- unless property.first contains '_' or property.last == blank -%}
+                <p class="small text-body-secondary mb-1">{{ property.first }}: {{ property.last }}</p>
+              {%- endunless -%}
+            {%- endfor -%}
+            <div class="d-flex align-items-center gap-3">
+              {% render 'quantity-stepper', item: item, line: forloop.index %}
+              <button type="button" class="cart-drawer__remove border-0 bg-transparent p-0 text-reset text-decoration-underline" data-cart-remove="{{ forloop.index }}">
+                {{- 'theme.cart.remove' | t -}}
+                <span class="visually-hidden">{{ item.product.title | escape }}</span>
+              </button>
+            </div>
+          </div>
+        </li>
+      {%- endfor -%}
+    </ul>
+
+    <label for="cart-drawer-note" class="form-label">{{ 'theme.cart.note' | t }}</label>
+    <textarea id="cart-drawer-note" class="form-control" name="note" rows="5" data-cart-note>{{ cart.note }}</textarea>
+  </div>
+
+  <div class="drawer__footer bg-light">
+    <div class="cart-drawer__total-row d-flex justify-content-between align-items-center border-bottom pb-2 mb-3">
+      <span>{{ 'theme.cart.total' | t }}</span>
+      <span class="cart-drawer__total fw-semibold">{{ cart.total_price | money }}</span>
+    </div>
+    <p class="small text-body-secondary mb-3">{{ 'theme.cart.taxes' | t }}</p>
+    <div class="row g-2">
+      <div class="col">
+        <a href="{{ routes.cart_url }}" class="btn btn-outline-dark w-100">{{ 'theme.cart.view_cart' | t }}</a>
+      </div>
+      <div class="col">
+        <form action="{{ routes.cart_url }}" method="post">
+          <button type="submit" name="checkout" class="btn btn-dark w-100">{{ 'theme.cart.checkout' | t }}</button>
+        </form>
+      </div>
+    </div>
+  </div>
+{%- endif -%}

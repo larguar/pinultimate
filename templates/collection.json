@@ -1,1 +1,30 @@
-{"sections":{"banner":{"type":"main-collection-banner","settings":{"show_collection_description":true,"show_collection_image":false,"color_background_main":"rgba(0,0,0,0)","color_text_main":"rgba(0,0,0,0)","height":"small"}},"product-grid":{"type":"main-collection-product-grid","blocks":{"quick_buy":{"type":"quick_buy","settings":{"type":"modal","show_only_available":true,"show_price":false,"variant_default":true,"unavailable_variants":"hide"}},"title":{"type":"title","settings":{}},"vendor_bJdhap":{"type":"vendor","settings":{}},"price":{"type":"price","settings":{}}},"block_order":["quick_buy","title","vendor_bJdhap","price"],"settings":{"products_number":48,"enable_filtering":true,"enable_sorting":true,"image_filter_layout":"onecolumn","filters_position":"sidebar","layout_desktop":"four-columns","layout_mobile":"grid-palm-2"}}},"order":["banner","product-grid"]}
+{
+  "sections": {
+    "banner": {
+      "type": "main-collection-banner",
+      "settings": {
+        "show_collection_description": true,
+        "show_collection_image": false,
+        "image_height": "small"
+      }
+    },
+    "product-grid": {
+      "type": "main-collection-product-grid",
+      "settings": {
+        "products_per_page": 48,
+        "enable_filtering": true,
+        "enable_sorting": true,
+        "filters_layout": "sidebar",
+        "columns_desktop": "4",
+        "columns_mobile": "2",
+        "show_vendor": true,
+        "show_price": true,
+        "show_quick_add": true
+      }
+    }
+  },
+  "order": [
+    "banner",
+    "product-grid"
+  ]
+}

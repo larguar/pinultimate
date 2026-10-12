@@ -1,0 +1,51 @@
+{%- comment -%}
+  Minus / input / plus control.
+
+  Accepts:
+  - item {Object}: cart line item (cart usage), or
+  - product {Object}: product (product form usage)
+  - line {Number}: cart line index (cart usage)
+  - name {String}: input name (default 'quantity'; none in cart mode unless given, e.g. 'updates[]')
+  - id {String}: input id (optional)
+{%- endcomment -%}
+{%- liquid
+  if item
+    assign title = item.product.title
+    assign value = item.quantity
+    assign rules = item.variant.quantity_rule
+  else
+    assign title = product.title
+    assign value = 1
+    assign rules = product.selected_or_first_available_variant.quantity_rule
+  endif
+-%}
+<quantity-stepper class="quantity-stepper input-group input-group-sm flex-nowrap w-auto">
+  <button type="button" class="btn quantity-stepper__button" name="minus" aria-label="{{ 'products.product.quantity.decrease' | t: product: title | escape }}">
+    {%- render 'icon', name: 'dash-lg' -%}
+  </button>
+  <input
+    type="number"
+    class="form-control text-center quantity-stepper__input"
+    value="{{ value }}"
+    min="{% if item %}0{% else %}{{ rules.min }}{% endif %}"
+    {% if rules.max != null %}
+      max="{{ rules.max }}"
+    {% endif %}
+    step="{{ rules.increment }}"
+    aria-label="{{ 'products.product.quantity.input_label' | t: product: title | escape }}"
+    {% if id %}
+      id="{{ id }}"
+    {% endif %}
+    {% if item %}
+      data-cart-quantity="{{ line }}"
+      {% if name %}
+        name="{{ name }}"
+      {% endif %}
+    {% else %}
+      name="{{ name | default: 'quantity' }}"
+    {% endif %}
+  >
+  <button type="button" class="btn quantity-stepper__button" name="plus" aria-label="{{ 'products.product.quantity.increase' | t: product: title | escape }}">
+    {%- render 'icon', name: 'plus-lg' -%}
+  </button>
+</quantity-stepper>

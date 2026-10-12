@@ -1,0 +1,37 @@
+{%- comment -%}
+  Store logo from theme settings (desktop logo from md, mobile logo below), or the store name.
+  Used by the header and the password page header.
+{%- endcomment -%}
+{%- if settings.logo != blank -%}
+  {%- liquid
+    assign logo_mobile = settings.logo_mobile | default: settings.logo
+    assign logo_width = settings.logo.aspect_ratio | times: settings.logo_height | ceil
+    assign logo_width_2x = logo_width | times: 2
+    capture logo_srcset
+      echo settings.logo | image_url: width: logo_width | append: ' 1x, '
+      echo settings.logo | image_url: width: logo_width_2x | append: ' 2x'
+    endcapture
+  -%}
+  {%- comment -%}
+    Both logos are in the page and switched with Bootstrap display classes at md, so
+    nothing has to load while the window is resized (a <picture> swap flickered).
+  {%- endcomment -%}
+  {{
+    settings.logo
+    | image_url: width: logo_width_2x
+    | image_tag:
+      class: 'site-header__logo-image d-none d-md-block',
+      alt: shop.name,
+      loading: 'eager',
+      width: logo_width,
+      height: settings.logo_height,
+      srcset: logo_srcset
+  }}
+  {{
+    logo_mobile
+    | image_url: width: 500
+    | image_tag: class: 'site-header__logo-image site-header__logo-image--mobile d-block d-md-none', alt: shop.name, loading: 'eager', widths: '200, 300, 500', sizes: '200px'
+  }}
+{%- else -%}
+  <span class="h3">{{ shop.name }}</span>
+{%- endif -%}

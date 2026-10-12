@@ -1,0 +1,28 @@
+// Container side padding matches the previous theme: 15px / 30px / 40px.
+.container,
+.container-fluid {
+  --bs-gutter-x: 30px;
+
+  @include media-breakpoint-up(md) {
+    --bs-gutter-x: 60px;
+  }
+
+  @include media-breakpoint-up(lg) {
+    --bs-gutter-x: 80px;
+  }
+}
+
+// Decorative shapes overlap the page edges; clip sideways overflow on both elements
+// (mobile browsers use <html> for page scrolling).
+html {
+  overflow-x: clip;
+}
+
+body {
+  --bs-body-font-size: 15px;
+  overflow-x: clip;
+
+  @include media-breakpoint-up(sm) {
+    --bs-body-font-size: 16px;
+  }
+}

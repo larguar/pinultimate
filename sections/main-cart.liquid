@@ -1,109 +1,161 @@
-{{ 'component-cart.css' | asset_url | stylesheet_tag }}
+{%- comment -%}
+  Cart page. Works without JavaScript (a regular cart form with updates[] and a
+  noscript "Update cart" button); with JavaScript, src/js/sections/main-cart.js updates
+  quantities and removals in place through /cart/change.js and the Section Rendering API.
+{%- endcomment -%}
 {{ 'section-main-cart.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'section-main-cart.js' | asset_url }}" defer="defer"></script>
 
-{%- render 'breadcrumb' container: 'large', vertical_space: 'vertical-space-xsmall', style: 'breadcrumb-main--margin' -%}
+<main-cart class="main-cart d-block container-fluid px-0" data-section-id="{{ section.id }}" data-updated-text="{{ 'theme.utility.cart.updated' | t | escape }}">
+  <div class="container main-cart__container">
+    <h1 class="main-cart__title mb-0">{{ 'theme.utility.cart.title' | t }}</h1>
+    <div class="alert alert-danger main-cart__error mb-0" role="alert" data-main-cart-error hidden></div>
 
-<div class="container container--large container--vertical-space-small">
-
-  <h1 class="title heading-size--page-title">{{ 'cart.title' | t }}</h1>
-
-  <div class="cart-section {% if cart.items.size == 0 %} cart-section--empty {% endif %}">
-    <div>
-
-      {%- for block in section.blocks -%}
-
-        {%- case block.type -%}
-
-          {%- when '@app' -%}
-            <div class="margin-bottom--regular" {{ block.shopify_attributes }}>
-              {%- render block -%}
-            </div>
-
-          {%- when 'cart-items' -%}
-            <div {{ block.shopify_attributes }}>
-              {%- render 'cart-form-page' -%}
-            </div>
-          
-          {%- when 'shipping-calculator' -%}
-
-            <script src="{{ 'shopify_common.js' | shopify_asset_url }}" defer></script>
-            <script src="{{ 'component-shipping-calculator.js' | asset_url }}" defer></script>
-            {{ 'component-shipping-calculator.css' | asset_url | stylesheet_tag }}
-            
-            <shipping-calculator {{ block.shopify_attributes }}>
-
-              <div class="shipping-calculator cart-block element--has-border--body margin-bottom--regular margin-top--regular">
-                <div class="cart-block__head">
-                  <span>{{ 'cart.shipping_calculator.title' | t }}</span>
+    <div class="main-cart__content" data-main-cart-content data-cart-count-source="{{ cart.item_count }}">
+      {%- if cart.item_count == 0 -%}
+        <div class="main-cart__empty">
+          <p class="main-cart__empty-text mb-0">{{ 'theme.utility.cart.empty' | t }}</p>
+          <div class="main-cart__empty-actions">
+            <a href="{{ routes.all_products_collection_url }}" class="btn btn-dark btn-cta">
+              {{- 'theme.utility.cart.continue' | t -}}
+            </a>
+          </div>
+        </div>
+      {%- else -%}
+        <form action="{{ routes.cart_url }}" method="post" id="main-cart-form" class="main-cart__form" novalidate>
+          <div class="row main-cart__layout">
+            <div class="col-12 col-lg-7 col-xl-8">
+              <div class="main-cart__items">
+                <div class="main-cart__head d-none d-md-grid" aria-hidden="true">
+                  <span class="main-cart__head-product">{{ 'theme.utility.cart.product' | t }}</span>
+                  <span>{{ 'theme.utility.cart.quantity' | t }}</span>
+                  <span class="text-end">{{ 'theme.utility.cart.total' | t }}</span>
                 </div>
 
-                <div class="shipping-calculator__content cart-block__content">
-
-                  <div class="shipping-calculator__cell">
-                    <label for="country">{{ 'customers.addresses_page.form.country_label' | t }}</label>
-                    <select name="country" id="shipping-estimator-country" data-default="{{ customer.default_address.country | default: section.settings.shipping_estimator_default_country }}" required>
-                      {{- country_option_tags -}}
-                    </select>
-                  </div>
-
-                  <div class="shipping-calculator__cell" id="address_province_container" style="display: none">
-                    <label for="province">{{ 'customers.addresses_page.form.province_label' | t }}</label>
-                    <select name="province" id="shipping-estimator-province" data-default="{{ customer.default_address.province }}"></select>
-                  </div>
-
-                  <div class="shipping-calculator__cell">
-                    <label for="zip">{{ 'customers.addresses_page.form.zip_label' | t }}</label>
-                    <input type="text" name="zip" id="shipping-estimator-zip" class="form__field form__field--text" value="{{ customer.default.address.zip }}" required>
-                  </div>
-
-                  <div class="shipping-calculator__cell">
-                    {%- render 'button', style: 'outline js-estimate-shipping', label: 'cart.shipping_calculator.form_button_label', label_is_translation: true, is_submit: true, type: 'button', attribute: 'data-action="estimate-shipping"' -%}
-                  </div>
-
-                </div>
-
-                <div class="gutter--regular shipping-estimator__results" style="display: none;">
-                  <div class="alert alert--error"></div>
-
-                  <div class="shipping-estimator__results-content" style="display: none;">
-                    <span class="shipping-estimator__results-content-heading text-size--regular"></span>
-                    <ul class="shipping-estimator__results-content-list"></ul>
-                  </div>
-                </div>
-                
+                <ul class="list-unstyled mb-0" role="list">
+                  {%- for item in cart.items -%}
+                    {% render 'main-cart-item', item: item, line: forloop.index %}
+                  {%- endfor -%}
+                </ul>
               </div>
 
-            </shipping-calculator>
+              <noscript>
+                <button type="submit" name="update" class="btn btn-outline-dark mt-3">
+                  {{- 'theme.utility.cart.update' | t -}}
+                </button>
+              </noscript>
+            </div>
 
-          {%- endcase -%}
+            <div class="col-12 col-lg-5 col-xl-4">
+              <div class="main-cart__summary">
+                {%- capture free_shipping -%}
+                  {%- render 'free-shipping-progress' -%}
+                {%- endcapture -%}
+                {%- if free_shipping != blank -%}
+                  <div class="main-cart__box main-cart__shipping border">
+                    {{ free_shipping }}
+                  </div>
+                {%- endif -%}
 
-      {%- endfor -%}
-      
+                <div class="main-cart__box border">
+                  {%- if cart.cart_level_discount_applications != blank -%}
+                    <div class="d-flex justify-content-between align-items-center gap-3 pb-2">
+                      <span>{{ 'theme.utility.cart.subtotal' | t }}</span>
+                      <span class="fw-semibold">{{ cart.items_subtotal_price | money }}</span>
+                    </div>
+                    <div class="d-flex justify-content-between gap-3 pb-2">
+                      <span>{{ 'theme.utility.cart.discounts' | t }}</span>
+                      <ul class="list-unstyled mb-0 text-end fw-semibold">
+                        {%- for discount_application in cart.cart_level_discount_applications -%}
+                          <li>
+                            {{ discount_application.title | escape }}
+                            (-{{ discount_application.total_allocated_amount | money }})
+                          </li>
+                        {%- endfor -%}
+                      </ul>
+                    </div>
+                  {%- endif -%}
+
+                  <div class="main-cart__total d-flex justify-content-between align-items-center gap-3">
+                    <span>{{ 'theme.utility.cart.total' | t }}</span>
+                    <span class="main-cart__total-price fw-semibold">
+                      {%- if settings.currency_code_enabled -%}
+                        {{ cart.total_price | money_with_currency }}
+                      {%- else -%}
+                        {{ cart.total_price | money }}
+                      {%- endif -%}
+                    </span>
+                  </div>
+
+                  {%- if section.settings.show_note -%}
+                    <div class="main-cart__note">
+                      <label for="main-cart-note" class="form-label">{{ 'theme.utility.cart.note' | t }}</label>
+                      <textarea
+                        id="main-cart-note"
+                        class="form-control"
+                        name="note"
+                        rows="5"
+                        data-cart-note
+                      >{{ cart.note }}</textarea>
+                    </div>
+                  {%- endif -%}
+
+                  <p class="main-cart__taxes mb-0">
+                    {%- liquid
+                      if cart.taxes_included and shop.shipping_policy.body != blank
+                        echo 'theme.utility.cart.taxes_included_shipping_policy_html' | t: link: shop.shipping_policy.url
+                      elsif cart.taxes_included
+                        echo 'theme.utility.cart.taxes_included' | t
+                      elsif shop.shipping_policy.body != blank
+                        echo 'theme.utility.cart.taxes_and_shipping_policy_html' | t: link: shop.shipping_policy.url
+                      else
+                        echo 'theme.utility.cart.taxes_and_shipping' | t
+                      endif
+                    -%}
+                  </p>
+
+                  <button type="submit" name="checkout" class="btn btn-dark w-100 main-cart__checkout">
+                    {{- 'theme.utility.cart.checkout' | t -}}
+                  </button>
+
+                  {%- if section.settings.show_additional_checkout_buttons and additional_checkout_buttons -%}
+                    <div class="main-cart__wallets mt-3">{{ content_for_additional_checkout_buttons }}</div>
+                  {%- endif -%}
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      {%- endif -%}
     </div>
 
-    <div>
-      {%- render 'cart-subtotal', type: 'page' -%}
-    </div>
-
-  </div>  
-</div>
+    <p class="visually-hidden" role="status" aria-live="polite" data-main-cart-status></p>
+  </div>
+</main-cart>
 
 {% schema %}
 {
-  "name": "t:settings_schema.cart-page.name",
-  "blocks": [
+  "name": "Cart",
+  "tag": "section",
+  "class": "section-main-cart",
+  "settings": [
     {
-      "type": "cart-items",
-      "limit": 1,
-      "name": "t:sections.main-cart-items.name"
+      "type": "paragraph",
+      "content": "The free shipping bar is set up in Theme settings > Cart."
     },
     {
-      "type": "shipping-calculator",
-      "limit": 1,
-      "name": "t:sections.local-extra-words.sections.main-cart.blocks.shipping-calculator.name"
+      "type": "checkbox",
+      "id": "show_note",
+      "label": "Show gift note",
+      "info": "Lets customers add a note to their order.",
+      "default": true
     },
     {
-      "type": "@app"
+      "type": "checkbox",
+      "id": "show_additional_checkout_buttons",
+      "label": "Show express checkout buttons",
+      "info": "Shop Pay, PayPal and other wallets set up in your payment settings.",
+      "default": false
     }
   ]
 }

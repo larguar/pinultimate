@@ -1,0 +1,360 @@
+{%- liquid
+  assign accordion_id = 'Accordion-' | append: section.id
+  assign form_id = 'ContactForm-' | append: section.id
+  assign show_form = section.settings.show_form
+
+  assign heading_class = 'mb-4'
+  if section.settings.heading_alignment == 'center'
+    assign heading_class = 'text-center mb-4'
+  endif
+
+  assign background_class = ''
+  if section.settings.background != 'none'
+    assign background_class = 'bg-' | append: section.settings.background
+  endif
+-%}
+
+{{ 'section-collapsible-content.css' | asset_url | stylesheet_tag }}
+
+<section class="collapsible-content container-fluid px-0 {{ background_class }} {% if section.settings.background != 'none' %}{% render 'section-spacing', property: 'p', side: 'y', size: section.settings.spacing %}{% else %}{% render 'section-spacing', size: section.settings.spacing %}{% endif %}">
+  <div class="container">
+    {% render 'section-heading',
+      heading: section.settings.heading,
+      subheading: section.settings.subheading,
+      heading_tag: section.settings.heading_tag,
+      class: heading_class
+    %}
+
+    <div class="row gx-5 row-gap-5 align-items-start">
+      <div class="col-12{% if show_form %} col-lg-7 col-xl-8{% endif %}">
+        <div class="collapsible-content__accordion accordion accordion-flush" id="{{ accordion_id }}">
+          {%- assign shown = 0 -%}
+          {%- for block in section.blocks -%}
+            {%- if block.settings.hide_if_empty and block.settings.body == blank and block.settings.image == blank -%}
+              {%- continue -%}
+            {%- endif -%}
+            {%- liquid
+              assign shown = shown | plus: 1
+              assign open = false
+              if shown == 1 and section.settings.open_first
+                assign open = true
+              endif
+              assign heading_id = 'CollapsibleHeading-' | append: block.id
+              assign panel_id = 'CollapsiblePanel-' | append: block.id
+            -%}
+            <div class="accordion-item" {{ block.shopify_attributes }}>
+              <h3 class="accordion-header" id="{{ heading_id }}">
+                <button
+                  class="accordion-button{% unless open %} collapsed{% endunless %} gap-3"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#{{ panel_id }}"
+                  aria-expanded="{{ open }}"
+                  aria-controls="{{ panel_id }}"
+                >
+                  {%- if block.settings.icon != 'none' -%}
+                    {% render 'icon', name: block.settings.icon, class: 'collapsible-content__icon flex-shrink-0' %}
+                  {%- endif -%}
+                  <span class="d-flex flex-column flex-sm-row flex-wrap align-items-sm-baseline column-gap-3 row-gap-1">
+                    <span class="collapsible-content__title">{{ block.settings.title | escape }}</span>
+                    {%- if block.settings.subtitle != blank -%}
+                      <span class="collapsible-content__subtitle">{{ block.settings.subtitle | escape }}</span>
+                    {%- endif -%}
+                  </span>
+                </button>
+              </h3>
+              <div
+                id="{{ panel_id }}"
+                class="accordion-collapse collapse{% if open %} show{% endif %}"
+                aria-labelledby="{{ heading_id }}"
+                {% if section.settings.one_at_a_time %}
+                  data-bs-parent="#{{ accordion_id }}"
+                {% endif %}
+              >
+                <div class="accordion-body">
+                  {%- if block.settings.body != blank -%}
+                    <div class="collapsible-content__body rte">{{ block.settings.body }}</div>
+                  {%- endif -%}
+                  {%- if block.settings.image != blank -%}
+                    {%- liquid
+                      if show_form
+                        assign sizes = '(min-width: 1200px) 840px, (min-width: 992px) 55vw, calc(100vw - 30px)'
+                      else
+                        assign sizes = '(min-width: 1400px) 1280px, calc(100vw - 60px)'
+                      endif
+                    -%}
+                    {{
+                      block.settings.image
+                      | image_url: width: 1600
+                      | image_tag:
+                        loading: 'lazy',
+                        sizes: sizes,
+                        widths: '400, 600, 800, 1200, 1600',
+                        class: 'collapsible-content__image d-block mw-100 h-auto mt-3 rounded'
+                    }}
+                  {%- endif -%}
+                  {%- if block.settings.button_label != blank -%}
+                    <a
+                      {% if block.settings.button_link != blank %}
+                        href="{{ block.settings.button_link }}"
+                      {% else %}
+                        role="link" aria-disabled="true"
+                      {% endif %}
+                      class="btn btn-sm btn-outline-dark rounded-pill mt-3"
+                    >
+                      {{- block.settings.button_label | escape -}}
+                    </a>
+                  {%- endif -%}
+                </div>
+              </div>
+            </div>
+          {%- endfor -%}
+        </div>
+      </div>
+
+      {%- if show_form -%}
+        <div class="col-12 col-lg-5 col-xl-4 collapsible-content__aside">
+          <div class="collapsible-content__form p-4{% if section.settings.form_style == 'filled' %} bg-light{% else %} border{% endif %}">
+            {%- if section.settings.form_title != blank -%}
+              <h3 class="collapsible-content__form-title mb-3">{{ section.settings.form_title | escape }}</h3>
+            {%- endif -%}
+            {%- form 'contact', id: form_id -%}
+              {% render 'contact-form-fields', form: form, form_id: form_id, rows: 6 %}
+            {%- endform -%}
+          </div>
+        </div>
+      {%- endif -%}
+    </div>
+
+    {%- if section.settings.button_label != blank -%}
+      <div class="{% if section.settings.heading_alignment == 'center' %}text-center {% endif %}mt-5">
+        <a
+          {% if section.settings.button_link != blank %}
+            href="{{ section.settings.button_link }}"
+          {% else %}
+            role="link" aria-disabled="true"
+          {% endif %}
+          class="btn btn-outline-dark btn-cta"
+        >
+          {{- section.settings.button_label | escape -}}
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Collapsible content",
+  "tag": "div",
+  "class": "section-collapsible-content",
+  "settings": [
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "info": "Shown in the script font above the heading."
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "FAQ"
+    },
+    {
+      "type": "select",
+      "id": "heading_alignment",
+      "label": "Heading alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "select",
+      "id": "heading_tag",
+      "label": "Heading level (for search engines)",
+      "options": [
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "p", "label": "Paragraph" }
+      ],
+      "default": "h2"
+    },
+    {
+      "type": "checkbox",
+      "id": "open_first",
+      "label": "Open the first item",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "one_at_a_time",
+      "label": "Close other items when one opens",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "info": "Optional button under the list."
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "header",
+      "content": "Contact form"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_form",
+      "label": "Show contact form beside the list",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "form_title",
+      "label": "Form heading",
+      "default": "Contact form"
+    },
+    {
+      "type": "select",
+      "id": "form_style",
+      "label": "Form box style",
+      "options": [
+        { "value": "outline", "label": "Outline" },
+        { "value": "filled", "label": "Filled" }
+      ],
+      "default": "outline"
+    },
+    {
+      "type": "header",
+      "content": "Section"
+    },
+    {
+      "type": "select",
+      "id": "background",
+      "label": "Background",
+      "options": [
+        { "value": "none", "label": "None" },
+        { "value": "light", "label": "Light" },
+        { "value": "yellow", "label": "Yellow" },
+        { "value": "blue", "label": "Blue" },
+        { "value": "purple", "label": "Purple" }
+      ],
+      "default": "none"
+    },
+    {
+      "type": "select",
+      "id": "spacing",
+      "label": "Vertical spacing",
+      "options": [
+        { "value": "default", "label": "Default" },
+        { "value": "small", "label": "Small" },
+        { "value": "none", "label": "None" }
+      ],
+      "default": "default"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "name": "Question",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Question",
+          "default": "Question"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Note beside the question",
+          "info": "Optional, shown in smaller text."
+        },
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "none", "label": "None" },
+            { "value": "truck", "label": "Delivery truck" },
+            { "value": "box-seam", "label": "Box" },
+            { "value": "geo-alt", "label": "Map pin" },
+            { "value": "envelope", "label": "Envelope" },
+            { "value": "telephone", "label": "Phone" },
+            { "value": "heart", "label": "Heart" },
+            { "value": "star", "label": "Star" },
+            { "value": "check-circle", "label": "Check mark" },
+            { "value": "info-circle", "label": "Info" },
+            { "value": "question-circle", "label": "Question mark" }
+          ],
+          "default": "none"
+        },
+        {
+          "type": "richtext",
+          "id": "body",
+          "label": "Answer",
+          "default": "<p>Answer common questions about shipping, returns, sizing or anything else customers ask about.</p>"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button link"
+        },
+        {
+          "type": "checkbox",
+          "id": "hide_if_empty",
+          "label": "Hide when the answer and image are empty",
+          "info": "Useful when the answer comes from a dynamic source.",
+          "default": false
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collapsible content",
+      "blocks": [
+        {
+          "type": "text",
+          "settings": {
+            "title": "How long does shipping take?",
+            "icon": "truck"
+          }
+        },
+        {
+          "type": "text",
+          "settings": {
+            "title": "Can I return my order?",
+            "icon": "box-seam"
+          }
+        },
+        {
+          "type": "text",
+          "settings": {
+            "title": "How do I contact you?",
+            "icon": "envelope"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
