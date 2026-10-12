@@ -1,0 +1,65 @@
+{%- comment -%}
+  Product badges driven by tags, variant metafields and inventory.
+  Rules carried over from the previous theme's custom badges.
+
+  Accepts:
+  - product {Object}
+  - class {String}: wrapper classes (optional)
+  - direction {String}: 'column' (default, stacked) or 'row'
+{%- endcomment -%}
+{%- liquid
+  assign qty = product.selected_or_first_available_variant.inventory_quantity
+  assign direction = direction | default: 'column'
+  assign on_home = false
+  if request.page_type == 'index'
+    assign on_home = true
+  endif
+
+  # Feature badges from the variants' custom.type metafield, without duplicates.
+  assign feature_badges = ''
+  for variant in product.variants
+    for type in variant.metafields.custom.type.value
+      if type == 'Glow in the Dark' or type == 'Lenticular'
+        unless feature_badges contains type
+          assign feature_badges = feature_badges | append: type | append: '|'
+        endunless
+      endif
+    endfor
+  endfor
+  assign feature_badges = feature_badges | split: '|'
+-%}
+<div class="product-badges d-flex flex-{{ direction }} align-items-end gap-1 {{ class }}">
+  {%- if product.tags contains 'clearance' -%}
+    {%- unless on_home or collection.handle == 'last-chance' -%}
+      <span class="badge rounded-pill text-bg-secondary">{{ 'theme.product.badges.last_chance' | t }}</span>
+    {%- endunless -%}
+  {%- endif -%}
+
+  {%- for type in feature_badges -%}
+    <span class="badge rounded-pill text-bg-blue">{{ type }}</span>
+  {%- endfor -%}
+
+  {%- if product.has_only_default_variant == false and product.type != 'Custom' -%}
+    <span class="badge rounded-pill text-bg-blue">{{ 'theme.product.badges.more_options' | t }}</span>
+  {%- endif -%}
+
+  {%- if product.tags contains 'new' -%}
+    {%- unless on_home or collection.handle == 'new' or qty <= 5 -%}
+      <span class="badge rounded-pill text-bg-purple">{{ 'theme.product.badges.new' | t }}</span>
+    {%- endunless -%}
+  {%- endif -%}
+
+  {%- if product.available == false -%}
+    <span class="badge rounded-pill text-bg-white">
+      {%- if product.tags contains 'clearance' -%}
+        {{ 'theme.product.badges.gone_for_good' | t }}
+      {%- elsif product.selected_or_first_available_variant.incoming -%}
+        {{ 'theme.product.badges.more_on_the_way' | t }}
+      {%- else -%}
+        {{ 'theme.product.badges.temporarily_out' | t }}
+      {%- endif -%}
+    </span>
+  {%- elsif qty > 0 and qty <= 5 -%}
+    <span class="badge rounded-pill text-bg-yellow">{{ 'theme.product.badges.only_left' | t: count: qty }}</span>
+  {%- endif -%}
+</div>

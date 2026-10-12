@@ -80,3 +80,15 @@ $btn-border-radius-lg: 30px;
 // Forms
 $input-border-radius: 5px;
 $input-border-color: rgba($brand-black, 0.2);
+
+// Image ratios: Bootstrap's defaults plus portrait ratios used by product cards.
+$aspect-ratios: (
+  "1x1": 100%,
+  "4x3": calc(3 / 4 * 100%),
+  "16x9": calc(9 / 16 * 100%),
+  "21x9": calc(9 / 21 * 100%),
+  "5x6": calc(6 / 5 * 100%),
+  "4x5": calc(5 / 4 * 100%),
+  "3x4": calc(4 / 3 * 100%),
+  "2x3": calc(3 / 2 * 100%),
+);

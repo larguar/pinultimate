@@ -41,10 +41,12 @@ $theme-colors: map-merge($theme-colors, $custom-theme-colors);
 @import "swiper/modules/pagination";
 @import "swiper/modules/a11y";
 
-// Theme
+// Theme (global). Section styles live in src/scss/sections/ and compile to their own files.
 @import "base/layout";
+@import "base/typography";
 @import "base/buttons";
 
 @import "components/header";
 @import "components/drawers";
 @import "components/footer";
+@import "components/product-card";

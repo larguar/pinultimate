@@ -18,7 +18,7 @@
     "type_body_font": "poppins_n4",
     "type_heading_font": "poppins_n6",
     "card_image_ratio": "5x6",
-    "card_image_contain": true,
+    "card_image_contain": false,
     "card_show_secondary_image": true,
     "card_show_vendor": true,
     "cart_type": "drawer",

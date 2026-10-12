@@ -24,3 +24,11 @@
     }
   }
 }
+
+// Outline buttons use the body text color rather than the darker $dark.
+.btn-outline-dark {
+  --bs-btn-color: var(--bs-body-color);
+  --bs-btn-border-color: var(--bs-body-color);
+  --bs-btn-hover-bg: var(--bs-body-color);
+  --bs-btn-hover-border-color: var(--bs-body-color);
+}

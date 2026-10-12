@@ -1,0 +1,9 @@
+{
+  "search": "Search",
+  "menu": "Menu",
+  "account": "My Account",
+  "open_menu": "Open menu",
+  "open_cart": "Open cart",
+  "open_search": "Open search",
+  "cart_count": "{{ count }} items in cart"
+}

@@ -3,14 +3,10 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "npm run build:icons && npm run build:css && npm run build:js",
-    "build:icons": "node tools/build/icons.mjs",
-    "build:css": "sass src/scss/theme.scss assets/theme.css --load-path=node_modules --no-source-map --style=compressed --quiet-deps --silence-deprecation=import,global-builtin,color-functions,if-function",
-    "build:js": "esbuild src/js/theme.js --bundle --minify --format=iife --target=es2020 --outfile=assets/theme.js",
-    "watch": "npm run build:css -- --watch & npm run build:js -- --watch",
+    "build": "node tools/build/build.mjs",
+    "push:dev": "tools/push-dev.sh",
     "visual:capture": "node tools/visual/capture.mjs",
-    "visual:compare": "node tools/visual/compare.mjs",
-    "push:dev": "npm run build && shopify theme push --store pinultimate.myshopify.com --theme 166898532422"
+    "visual:compare": "node tools/visual/compare.mjs"
   },
   "devDependencies": {
     "bootstrap": "^5.3.8",

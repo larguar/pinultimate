@@ -1,0 +1,10 @@
+{
+  "title": "Search",
+  "placeholder": "Type a keyword...",
+  "products": "Products",
+  "collections": "Collections",
+  "pages": "Pages",
+  "articles": "Articles",
+  "view_all": "View all results",
+  "no_results": "No results found for “{{ terms }}”."
+}

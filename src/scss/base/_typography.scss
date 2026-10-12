@@ -1,0 +1,64 @@
+// Script font used for section subheadings ("new", "bestsellers").
+// Hosted in the store's Files, carried over from the previous theme.
+@font-face {
+  font-family: Luminaire;
+  src:
+    url("https://cdn.shopify.com/s/files/1/0106/9426/2842/files/LuminaireScript-Regular.woff2?v=1638380387") format("woff2"),
+    url("https://cdn.shopify.com/s/files/1/0106/9426/2842/files/LuminaireScript-Regular.woff?v=1638379200") format("woff");
+  font-display: swap;
+  font-style: normal;
+  font-weight: 400;
+}
+
+.font-script {
+  font-family: Luminaire, cursive;
+  letter-spacing: 0;
+}
+
+p {
+  font-size: 1.0625rem;
+  line-height: 1.5;
+}
+
+// Light tile behind product images.
+.bg-tile {
+  background-color: #fafafa;
+}
+
+// Uppercase eyebrow text above headings ("Woman owned & operated since 2018").
+.eyebrow {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+// Rich text from the editor.
+.rte {
+  > :last-child {
+    margin-bottom: 0;
+  }
+
+  a {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+.section-heading {
+  &__subheading {
+    font-size: 2rem;
+    line-height: 1;
+  }
+
+  &__title {
+    font-size: 2.25rem;
+    line-height: 1.05;
+  }
+}

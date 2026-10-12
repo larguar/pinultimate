@@ -1,0 +1,88 @@
+.product-card {
+  &__media img {
+    transition: opacity 0.3s ease;
+  }
+
+  &__secondary-image {
+    opacity: 0;
+  }
+
+  @media (hover: hover) {
+    &__media:hover &__secondary-image {
+      opacity: 1;
+    }
+  }
+
+  &--sold-out &__media {
+    opacity: 0.5;
+  }
+
+  &__badges {
+    z-index: 1;
+    padding: 9px;
+
+    @include media-breakpoint-up(lg) {
+      padding: 15px;
+    }
+  }
+
+  &__info {
+    padding-top: 15px;
+
+    @include media-breakpoint-up(lg) {
+      padding-top: 25px;
+    }
+  }
+
+  &__title {
+    font-family: var(--font-body-family);
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.1;
+
+    @include media-breakpoint-up(lg) {
+      font-size: 1.125rem;
+    }
+  }
+
+  &__vendor {
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    opacity: 0.62;
+  }
+
+  &__price {
+    font-size: 0.8125rem;
+
+    @include media-breakpoint-up(lg) {
+      font-size: 0.9375rem;
+    }
+  }
+
+  &__swatch {
+    width: 20px;
+    height: 20px;
+  }
+
+  &__options {
+    font-size: 0.75rem;
+    opacity: 0.62;
+  }
+}
+
+.product-badges .badge {
+  --bs-badge-font-size: 0.75rem;
+  --bs-badge-font-weight: 600;
+  --bs-badge-padding-x: 0.625rem;
+  --bs-badge-padding-y: 0;
+  --bs-badge-color: var(--bs-dark);
+  color: var(--bs-dark) !important;
+  line-height: 24px;
+}
+
+.price {
+  &__compare {
+    margin-left: 0.25rem;
+    opacity: 0.62;
+  }
+}

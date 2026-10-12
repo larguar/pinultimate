@@ -161,7 +161,7 @@
         "id": "card_image_contain",
         "label": "Show the whole image",
         "info": "Fits the image inside the frame instead of cropping it.",
-        "default": true
+        "default": false
       },
       {
         "type": "checkbox",

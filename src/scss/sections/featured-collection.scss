@@ -1,0 +1,24 @@
+@import "section-base";
+
+// Compact style: images only, slightly enlarged inside their frame (previous theme's look).
+.featured-collection--compact {
+  .product-card__media {
+    overflow: visible;
+
+    img {
+      transform: scale(1.3);
+
+      @include media-breakpoint-up(sm) {
+        transform: scale(1.2);
+      }
+
+      @include media-breakpoint-up(md) {
+        transform: scale(1.1);
+      }
+    }
+  }
+
+  .product-card__info {
+    display: none;
+  }
+}

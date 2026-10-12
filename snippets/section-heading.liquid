@@ -1,0 +1,21 @@
+{%- comment -%}
+  Section heading with an optional script-font subheading above it
+  (e.g. "new" over "Gotta Keep Up").
+
+  Accepts:
+  - heading {String}
+  - subheading {String}: optional, shown in the script font
+  - heading_tag {String}: default 'h2'
+  - class {String}: wrapper classes, e.g. 'text-center mb-4' (optional)
+{%- endcomment -%}
+{%- if heading != blank or subheading != blank -%}
+  {%- assign heading_tag = heading_tag | default: 'h2' -%}
+  <div class="section-heading {{ class }}">
+    {%- if subheading != blank -%}
+      <p class="section-heading__subheading font-script text-lowercase mb-2">{{ subheading | escape }}</p>
+    {%- endif -%}
+    {%- if heading != blank -%}
+      <{{ heading_tag }} class="section-heading__title mb-0">{{ heading | escape }}</{{ heading_tag }}>
+    {%- endif -%}
+  </div>
+{%- endif -%}
