@@ -26,6 +26,7 @@ $theme-colors: map-merge($theme-colors, $custom-theme-colors);
 @import "bootstrap/scss/breadcrumb";
 @import "bootstrap/scss/pagination";
 @import "bootstrap/scss/badge";
+@import "bootstrap/scss/progress";
 @import "bootstrap/scss/alert";
 @import "bootstrap/scss/close";
 @import "bootstrap/scss/modal";
@@ -43,3 +44,7 @@ $theme-colors: map-merge($theme-colors, $custom-theme-colors);
 // Theme
 @import "base/layout";
 @import "base/buttons";
+
+@import "components/header";
+@import "components/drawers";
+@import "components/footer";

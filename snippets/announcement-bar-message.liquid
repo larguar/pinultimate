@@ -1,0 +1,11 @@
+{%- comment -%}
+  Accepts:
+  - block {Object}: announcement block
+{%- endcomment -%}
+<p class="announcement-bar__message mb-0">
+  {%- if block.settings.link != blank -%}
+    <a href="{{ block.settings.link }}" class="text-reset">{{ block.settings.text | escape }}</a>
+  {%- else -%}
+    {{ block.settings.text | escape }}
+  {%- endif -%}
+</p>

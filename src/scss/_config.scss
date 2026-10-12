@@ -2,37 +2,41 @@
 // Values were measured from the previous theme so the rebuild matches it.
 
 // Brand palette
-$red: #f6786c;
-$yellow: #feff86;
-$blue: #8ed6cf;
-$purple: #ddc7e8;
-$green: #c6cc3d;
-$dark-green: #14452f;
-$black: #1e1e1e;
-$light: #f4f3f2;
-$white: #fff;
+// Brand palette. Prefixed so Bootstrap's own $red, $green etc. (used for
+// danger, success and so on) keep their defaults. Theme settings override
+// these at runtime through CSS custom properties (snippets/theme-styles.liquid).
+$brand-red: #f6786c;
+$brand-yellow: #feff86;
+$brand-blue: #8ed6cf;
+$brand-purple: #ddc7e8;
+$brand-green: #c6cc3d;
+$brand-dark-green: #14452f;
+$brand-black: #1e1e1e;
+$brand-light: #f4f3f2;
 
-$primary: $dark-green;
-$secondary: $green;
-$dark: $black;
+$primary: $brand-dark-green;
+$secondary: $brand-green;
+$light: $brand-light;
+$dark: $brand-black;
 
 $custom-theme-colors: (
-  "red": $red,
-  "yellow": $yellow,
-  "blue": $blue,
-  "purple": $purple,
-  "white": $white,
+  "red": $brand-red,
+  "yellow": $brand-yellow,
+  "blue": $brand-blue,
+  "purple": $brand-purple,
+  "green": $brand-green,
+  "white": #fff,
 );
 
 $body-color: #333;
-$body-bg: $white;
+$body-bg: #fff;
 $link-color: $body-color;
 $link-decoration: none;
 $link-hover-decoration: underline;
 
 // Typography. Font families come from theme settings via CSS custom properties.
-$font-family-sans-serif: var(--font-body-family), sans-serif;
-$headings-font-family: var(--font-heading-family), sans-serif;
+$font-family-sans-serif: var(--font-body-family);
+$headings-font-family: var(--font-heading-family);
 $font-size-base: 1rem;
 $line-height-base: 1.4;
 $headings-font-weight: 600;
@@ -57,12 +61,9 @@ $spacers: (
 $enable-negative-margins: true;
 
 // Layout: one fluid container capped at the theme's max width.
+// A single min-width entry caps .container at every size above sm.
 $container-max-widths: (
   sm: 1360px,
-  md: 1360px,
-  lg: 1360px,
-  xl: 1360px,
-  xxl: 1360px,
 );
 $grid-gutter-width: 20px;
 
@@ -78,4 +79,4 @@ $btn-border-radius-lg: 30px;
 
 // Forms
 $input-border-radius: 5px;
-$input-border-color: rgba($black, 0.2);
+$input-border-color: rgba($brand-black, 0.2);

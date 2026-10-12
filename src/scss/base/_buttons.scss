@@ -1,10 +1,18 @@
 .btn {
   --bs-btn-padding-y: 0.6875rem;
-  min-width: 220px;
   letter-spacing: 0.3px;
 
   @include media-breakpoint-up(md) {
     --bs-btn-padding-y: #{$btn-padding-y};
+  }
+}
+
+// Section call-to-action buttons: a minimum width and a slight grow on hover.
+// Usage: <a class="btn btn-primary btn-cta">
+.btn-cta {
+  min-width: 220px;
+
+  @include media-breakpoint-up(md) {
     min-width: 200px;
   }
 

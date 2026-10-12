@@ -1,0 +1,31 @@
+{%- comment -%}
+  Search drawer opened from the header. Results come from sections/predictive-search.liquid.
+{%- endcomment -%}
+<div class="offcanvas offcanvas-start drawer" tabindex="-1" id="search-drawer" aria-labelledby="search-drawer-title">
+  <div class="offcanvas-header drawer__header border-bottom">
+    <h2 class="offcanvas-title drawer__title" id="search-drawer-title">{{ 'theme.search.title' | t }}</h2>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="{{ 'accessibility.close' | t }}"></button>
+  </div>
+
+  <div class="offcanvas-body drawer__body">
+    <predictive-search {% unless settings.predictive_search_enabled %}data-disabled{% endunless %}>
+      <form action="{{ routes.search_url }}" method="get" role="search">
+        <label class="visually-hidden" for="search-drawer-input">{{ 'theme.search.title' | t }}</label>
+        <input
+          type="search"
+          id="search-drawer-input"
+          class="form-control form-control-lg"
+          name="q"
+          placeholder="{{ 'theme.search.placeholder' | t }}"
+          autocomplete="off"
+          role="combobox"
+          aria-expanded="false"
+          aria-controls="predictive-search-results"
+          aria-autocomplete="list"
+        >
+        <input type="hidden" name="options[prefix]" value="last">
+      </form>
+      <div id="predictive-search-results" class="mt-4" aria-live="polite"></div>
+    </predictive-search>
+  </div>
+</div>

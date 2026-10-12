@@ -1,1 +1,5 @@
-{%- render 'cart-drawer' -%}
+{%- comment -%}
+  Not added to templates: requested through the Section Rendering API (?sections=cart-drawer)
+  so the drawer can be refreshed after the cart changes.
+{%- endcomment -%}
+{% render 'cart-drawer-content' %}

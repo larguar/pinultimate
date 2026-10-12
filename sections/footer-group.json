@@ -1,28 +1,39 @@
 {
-  "name": "t:sections.footer.name",
   "type": "footer",
+  "name": "Footer group",
   "sections": {
+    "klaviyo_flyout": {
+      "type": "klaviyo-flyout",
+      "settings": { "trigger": "RgG9mr", "color": "#FEFF86", "text-color": "#1E1E1E" }
+    },
     "footer": {
       "type": "footer",
-      "blocks": {},
-      "block_order": [],
+      "blocks": {
+        "text-reviews": {
+          "type": "text",
+          "settings": {
+            "heading": "★★★★★",
+            "heading_accent": true,
+            "text": "<div class=\"ssw-html-widget ssw-reviews-badge-widget\" data-module=\"recommendation\" data-name=\"ReviewsBadge\"></div>\n<div class=\"review-text\">\n<p>5.0 Star Rating based on <span id=\"review-count\">400+</span> Reviews</p>\n<p><a href=\"/pages/reviews\">All Reviews</a></p>\n</div>"
+          }
+        },
+        "menu-about": { "type": "menu", "settings": { "heading": "About", "menu": "about-footer" } },
+        "menu-shop": { "type": "menu", "settings": { "heading": "Shop", "menu": "shop" } },
+        "menu-account": { "type": "menu", "settings": { "heading": "Account", "menu": "account" } },
+        "menu-resources": { "type": "menu", "settings": { "heading": "Resources", "menu": "resources" } }
+      },
+      "block_order": ["text-reviews", "menu-about", "menu-shop", "menu-account", "menu-resources"],
       "settings": {
-        "color_scheme": "scheme-1",
-        "newsletter_enable": true,
-        "newsletter_heading": "Subscribe to our emails",
-        "enable_follow_on_shop": true,
-        "show_social": true,
-        "enable_country_selector": true,
-        "enable_language_selector": true,
-        "payment_enable": true,
-        "show_policy": true,
-        "margin_top": 0,
-        "padding_top": 36,
-        "padding_bottom": 36
+        "show_paper_edge": true,
+        "signup_heading": "Get 10% Off Your First Order",
+        "signup_text": "<p>Let's be pin pals! Be the first to hear about new arrivals, exclusive sales, freebies, & other fun things.</p>",
+        "klaviyo_form_id": "RGmBAq",
+        "signup_legal": "<p>By signing up you agree with our <a href=\"/policies/privacy-policy\" title=\"Privacy Policy\">Privacy Policy</a> and <a href=\"/policies/terms-of-service\" title=\"Terms of Service\">Terms of Service</a>.</p>",
+        "show_localization": true,
+        "copyright_start_year": "2018",
+        "copyright_name": "Pinultimate, LLC"
       }
     }
   },
-  "order": [
-    "footer"
-  ]
+  "order": ["klaviyo_flyout", "footer"]
 }

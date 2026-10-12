@@ -1,0 +1,56 @@
+{%- comment -%}
+  Mobile menu, opened from the header below the lg breakpoint.
+
+  Accepts:
+  - menu {Object}: link list
+  - show_account {Boolean}
+{%- endcomment -%}
+<div class="offcanvas offcanvas-end drawer" tabindex="-1" id="menu-drawer" aria-labelledby="menu-drawer-title">
+  <div class="offcanvas-header drawer__header border-bottom">
+    <h2 class="offcanvas-title drawer__title" id="menu-drawer-title">{{ 'theme.header.menu' | t }}</h2>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="{{ 'accessibility.close' | t }}"></button>
+  </div>
+
+  <div class="offcanvas-body drawer__body">
+    <nav aria-label="{{ 'sections.header.menu' | t }}">
+      <ul class="list-unstyled mb-0">
+        {%- for link in menu.links -%}
+          <li class="border-bottom">
+            {%- if link.links.size > 0 -%}
+              <a
+                href="#menu-drawer-{{ forloop.index }}"
+                class="menu-drawer__link d-flex justify-content-between align-items-center fw-semibold collapsed"
+                data-bs-toggle="collapse"
+                role="button"
+                aria-expanded="false"
+                aria-controls="menu-drawer-{{ forloop.index }}"
+              >
+                {{- link.title | escape -}}
+                {%- render 'icon', name: 'chevron-down' -%}
+              </a>
+              <ul class="collapse list-unstyled ps-3 pb-2" id="menu-drawer-{{ forloop.index }}">
+                <li><a href="{{ link.url }}" class="d-block py-1">{{ link.title | escape }}</a></li>
+                {%- for child in link.links -%}
+                  <li><a href="{{ child.url }}" class="d-block py-1">{{ child.title | escape }}</a></li>
+                {%- endfor -%}
+              </ul>
+            {%- else -%}
+              <a href="{{ link.url }}" class="menu-drawer__link d-block fw-semibold">{{ link.title | escape }}</a>
+            {%- endif -%}
+          </li>
+        {%- endfor -%}
+
+        {%- if show_account and shop.customer_accounts_enabled -%}
+          <li class="border-bottom">
+            <a href="{{ routes.account_url }}" class="menu-drawer__link d-block">{{ 'theme.header.account' | t }}</a>
+          </li>
+        {%- endif -%}
+      </ul>
+    </nav>
+  </div>
+
+  <div class="drawer__footer border-top d-flex justify-content-between align-items-center">
+    {% render 'social-icons', class: 'menu-drawer__social gap-3' %}
+    {% render 'localization-dropdown', id: 'MenuDrawerLocalization', direction: 'up' %}
+  </div>
+</div>

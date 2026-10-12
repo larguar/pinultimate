@@ -1,0 +1,76 @@
+.site-footer {
+  --bs-border-color: #{rgba(#fff, 0.1)};
+  margin-top: 6rem;
+
+  .footer-paper {
+    position: absolute;
+    bottom: calc(100% - 1px);
+    left: 0;
+    width: 100%;
+    height: auto;
+    color: var(--bs-primary);
+
+    path {
+      fill: currentColor;
+    }
+  }
+
+  &__signup-heading {
+    font-family: var(--font-body-family);
+    font-size: 1.875rem;
+    line-height: 1.2;
+  }
+
+  &__signup-text {
+    font-size: 1.125rem;
+    line-height: 1.5;
+
+    p:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &__legal {
+    font-size: 0.8125rem;
+
+    a {
+      color: inherit;
+    }
+
+    p:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &__heading {
+    font-family: var(--font-body-family);
+    font-size: 1rem;
+    font-weight: 600;
+  }
+
+  &__text {
+    font-size: 1.0625rem;
+
+    a {
+      color: inherit;
+      text-decoration: underline;
+      text-underline-offset: 4px;
+    }
+  }
+
+  &__link {
+    color: rgba(#fff, 0.7);
+    line-height: 1.7;
+
+    &:hover {
+      color: #fff;
+      text-decoration: none;
+    }
+  }
+
+  .site-footer__text .text-yellow,
+  .site-footer__heading.text-yellow {
+    font-size: 1.25rem;
+    letter-spacing: 2px;
+  }
+}

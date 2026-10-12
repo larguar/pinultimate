@@ -274,7 +274,6 @@
       "announcement": "Announcement",
       "announcement_bar": "Announcement bar"
     },
-
     "header": {
       "announcement": "Announcement",
       "menu": "Menu",
@@ -527,6 +526,48 @@
       "max_characters": "{{ max_chars }} characters max",
       "send_on": "YYYY-MM-DD",
       "send_on_label": "Send on (optional)"
+    }
+  },
+  "theme": {
+    "header": {
+      "search": "Search",
+      "menu": "Menu",
+      "account": "My Account",
+      "open_menu": "Open menu",
+      "open_cart": "Open cart",
+      "open_search": "Open search",
+      "cart_count": "{{ count }} items in cart"
+    },
+    "search": {
+      "title": "Search",
+      "placeholder": "Type a keyword...",
+      "products": "Products",
+      "collections": "Collections",
+      "pages": "Pages",
+      "articles": "Articles",
+      "view_all": "View all results",
+      "no_results": "No results found for “{{ terms }}”."
+    },
+    "cart": {
+      "title": "Shopping cart",
+      "empty": "Your cart is currently empty.",
+      "continue": "Continue browsing",
+      "total": "Total",
+      "taxes": "Taxes and shipping calculated at checkout",
+      "view_cart": "View Cart",
+      "checkout": "Checkout",
+      "remove": "Remove",
+      "note": "Gift Note",
+      "free_shipping_remaining_html": "You are {{ amount }} away from free shipping.",
+      "free_shipping_eligible": "Your order qualifies for free shipping!"
+    },
+    "newsletter": {
+      "email": "Email",
+      "submit": "Subscribe"
+    },
+    "slider": {
+      "previous": "Previous slide",
+      "next": "Next slide"
     }
   }
 }

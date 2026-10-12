@@ -1,0 +1,40 @@
+{%- comment -%}
+  Country / currency picker. Renders nothing when the store sells to one country.
+
+  Accepts:
+  - id {String}: unique id for this instance
+  - class {String}: classes for the wrapper (optional)
+  - direction {String}: 'down' (default) or 'up'
+{%- endcomment -%}
+{%- if localization.available_countries.size > 1 -%}
+  {%- form 'localization', id: id, class: class -%}
+    <details class="localization-dropdown position-relative">
+      <summary class="d-inline-flex align-items-center gap-2 small">
+        ({{ localization.country.currency.iso_code }} {{ localization.country.currency.symbol }})
+        {%- render 'icon', name: 'chevron-down', class: 'localization-dropdown__caret' -%}
+        <span class="visually-hidden">{{ 'localization.country_label' | t }}</span>
+      </summary>
+      <ul
+        class="localization-dropdown__list list-unstyled position-absolute end-0 bg-white text-dark shadow-sm rounded py-2 mb-0 overflow-auto{% if direction == 'up' %} bottom-100 mb-2{% else %} top-100 mt-2{% endif %}"
+        role="list"
+      >
+        {%- for country in localization.available_countries -%}
+          <li>
+            <button
+              type="submit"
+              name="country_code"
+              value="{{ country.iso_code }}"
+              class="btn btn-link text-reset text-decoration-none text-start w-100 px-3 py-1 small{% if country.iso_code == localization.country.iso_code %} fw-semibold{% endif %}"
+              {% if country.iso_code == localization.country.iso_code %}
+                aria-current="true"
+              {% endif %}
+            >
+              {{ country.name }} ({{ country.currency.iso_code }} {{ country.currency.symbol }})
+            </button>
+          </li>
+        {%- endfor -%}
+      </ul>
+    </details>
+    <input type="hidden" name="return_to" value="{{ request.path }}">
+  {%- endform -%}
+{%- endif -%}
