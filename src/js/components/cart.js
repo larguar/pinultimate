@@ -69,14 +69,25 @@ export async function addItems(items) {
   return added;
 }
 
+/** Shows a message (e.g. "Only 1 item was added…") at the top of the drawer's item list. */
+function showDrawerError(message) {
+  const body = document.querySelector('[data-cart-drawer-content] .offcanvas-body');
+  if (!body) return;
+  const alert = document.createElement('div');
+  alert.className = 'alert alert-warning small py-2 mb-3';
+  alert.setAttribute('role', 'alert');
+  alert.textContent = message;
+  body.prepend(alert);
+}
+
 async function changeLine(line, quantity) {
   const drawer = drawerElement();
   drawer?.classList.add('is-loading');
   try {
     await refresh(await request(window.theme.routes.cartChange + '.js', { line, quantity }));
   } catch (error) {
-    alert(error.message);
     await refresh();
+    showDrawerError(error.message);
   } finally {
     drawer?.classList.remove('is-loading');
   }

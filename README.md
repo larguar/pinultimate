@@ -116,3 +116,10 @@ node tools/visual/capture.mjs --out current --theme 166898532422
 node tools/visual/compare.mjs                                  # whole pages vs the baseline
 node tools/visual/states.mjs --out current --theme 166898532422 # drawers, sticky header
 ```
+
+## QA before publishing
+
+```sh
+node tools/qa/flows.mjs   # cart, drawer, variants, filters, search, forms… on the dev theme
+node tools/qa/crawl.mjs   # every sitemap page: errors and content compared with live
+```
