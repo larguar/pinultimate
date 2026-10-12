@@ -1,9 +1,11 @@
 @import "section-base";
 
 // Compact style: images only, slightly enlarged inside their frame (previous theme's look).
+// The frame clips the enlarged image so photo-style images can't spill over the heading
+// or the button (transparent pin images have enough margin that nothing visible is cut).
 .featured-collection--compact {
   .product-card__media {
-    overflow: visible;
+    overflow: hidden;
 
     img {
       transform: scale(1.3);

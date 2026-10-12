@@ -99,6 +99,8 @@ Brand colors: `primary` (dark green), `secondary`/`green`, `red`, `yellow`, `blu
   opens and refreshes itself (`src/js/components/cart.js`).
 - Section scripts are custom elements, so they re-initialise when the theme editor re-renders a
   section.
+- Fade-up on scroll: add `data-reveal` to an element (`src/js/components/reveal.js`); it respects
+  reduced motion and shows everything immediately in the theme editor.
 
 ## Migrating content from the previous theme
 

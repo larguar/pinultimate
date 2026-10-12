@@ -1,85 +1,13 @@
-{% style %}
-button.klaviyo_form_trigger {
-  border-radius: 50%;
-  width: 150px;
-  height: 150px;
-  position: fixed;
-  top: 50%;
-  -webkit-transform: translateY(-50%);
-  transform: translateY(-50%);
-  z-index: 10;
-  right: -160px;
-  border: none;
-  box-shadow: -5px 0 5px -2.5px rgb(0 0 0 / 10%);
-  transition: 0.4s ease;
-}
-button.klaviyo_form_trigger:hover {
-  -webkit-transform: translate(-50px, -50%);
-          transform: translate(-50px, -50%);
-}
-@-webkit-keyframes bounce {
-  0%,
-  20%,
-  50%,
-  80%,
-  100% {
-    -webkit-transform: translate(0, -50%);
-            transform: translate(0, -50%);
-  }
-  40% {
-    -webkit-transform: translate(-50px, -50%);
-            transform: translate(-50px, -50%);
-  }
-  60% {
-    -webkit-transform: translate(-25px, -50%);
-            transform: translate(-25px, -50%);
-  }
-}
-@keyframes bounce {
-  0%,
-  20%,
-  50%,
-  80%,
-  100% {
-    -webkit-transform: translate(0, -50%);
-            transform: translate(0, -50%);
-  }
-  40% {
-    -webkit-transform: translate(-50px, -50%);
-            transform: translate(-50px, -50%);
-  }
-  60% {
-    -webkit-transform: translate(-25px, -50%);
-            transform: translate(-25px, -50%);
-  }
-}
-@media screen and (max-width: 474px) {
-  button.klaviyo_form_trigger, button.klaviyo_form_trigger:hover {
-    -webkit-transform: translate(0, -50%) scale(0.9);
-    transform: translate(0, -50%) scale(0.9);
-  }
-  @keyframes bounce {
-    0%,
-    20%,
-    50%,
-    80%,
-    100% {
-      -webkit-transform: translate(0, -50%) scale(0.9);
-              transform: translate(0, -50%) scale(0.9);
-    }
-    40% {
-      -webkit-transform: translate(-50px, -50%) scale(0.9);
-              transform: translate(-50px, -50%) scale(0.9);
-    }
-    60% {
-      -webkit-transform: translate(-25px, -50%) scale(0.9);
-              transform: translate(-25px, -50%) scale(0.9);
-    }
-  }
-}
-{% endstyle %}
+{%- comment -%}
+  Agency-authored flyout: a sticker that slides in from the right edge and opens a Klaviyo form.
+  Styles: src/scss/sections/klaviyo-flyout.scss. Behaviour: src/js/sections/klaviyo-flyout.js.
+{%- endcomment -%}
+{{ 'section-klaviyo-flyout.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'section-klaviyo-flyout.js' | asset_url }}" defer></script>
 
-<button id="klaviyo-{{ section.settings.trigger }}" class="klaviyo_form_trigger" style="background: {{ section.settings.color }}">
+<klaviyo-flyout>
+
+<button type="button" id="klaviyo-{{ section.settings.trigger }}" class="klaviyo_form_trigger" style="background: {{ section.settings.color }}" aria-label="{{ 'theme.flyout.open' | t }}">
   <svg viewBox="0 0 200 200" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
       <path fill="{{ section.settings.text-color }}" d="M118.49375,114.815909 C119.389205,112.780682 119.283523,110.654545 118.894886,108.552273 C118.350568,105.610227 118.183523,102.640909 118.002841,99.6670455 C117.765341,95.7613636 117.453977,91.8715909 116.763068,88.0056818 C116.272159,85.2522727 115.889205,82.4465909 115.81875,79.6556818 C115.74375,76.6704545 115.602841,73.6886364 115.197159,70.7488636 C114.723295,67.3193182 114.980114,63.7284091 113.290341,60.7659091 C112.44375,57.1704545 108.259659,51.0284091 106.044886,48.6147727 C104.389205,46.8090909 102.64375,45.0545455 100.60625,43.6625 C98.9994318,42.5647727 98.2153409,42.7352273 96.7846591,44.0261364 C93.5960227,46.9022727 93.1926136,50.4545455 94.4096591,54.275 C95.5732955,57.925 97.2221591,61.3875 98.9528409,64.8136364 C100.094886,67.0715909 101.499432,69.2897727 101.980114,71.7806818 C103.366477,78.9590909 104.414205,86.1920455 105.149432,93.4761364 C105.549432,97.4375 105.46875,101.501136 106.963068,105.311364 C107.303977,106.176136 107.566477,107.084091 107.75625,107.995455 C108.461932,111.382955 110.411932,114.019318 112.923295,116.219318 C114.996023,118.034091 117.382386,117.344318 118.49375,114.815909"></path>
@@ -115,6 +43,7 @@ button.klaviyo_form_trigger:hover {
     </g>
   </svg>
 </button>
+</klaviyo-flyout>
 
 {% schema %}
 {

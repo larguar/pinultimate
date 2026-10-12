@@ -24,7 +24,7 @@
     {% render 'section-heading',
       heading: heading,
       subheading: subheading,
-      class: 'text-center mb-1'
+      class: 'text-center mb-3 mb-md-1'
     %}
 
     {%- if compact -%}
@@ -56,7 +56,7 @@
     {%- endif -%}
 
     {%- if section.settings.show_button and button_label != blank -%}
-      <div class="text-center mt-2">
+      <div class="text-center mt-3 mt-md-2">
         <a href="{{ collection.url }}" class="btn btn-outline-dark btn-cta">{{ button_label | escape }}</a>
       </div>
     {%- endif -%}

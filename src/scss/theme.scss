@@ -45,6 +45,7 @@ $theme-colors: map-merge($theme-colors, $custom-theme-colors);
 @import "base/layout";
 @import "base/typography";
 @import "base/buttons";
+@import "base/reveal";
 
 @import "components/header";
 @import "components/drawers";

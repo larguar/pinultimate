@@ -77,7 +77,7 @@
     {%- endif -%}
 
     {%- if section.settings.button_label != blank -%}
-      <div class="hero-bounce__actions position-absolute bottom-0 start-0 end-0 text-center px-3">
+      <div class="hero-bounce__actions position-absolute bottom-0 start-0 end-0 text-center px-3" data-reveal>
         <a
           {% if section.settings.link != blank %}
             href="{{ section.settings.link }}"

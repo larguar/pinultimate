@@ -5,6 +5,7 @@ import Offcanvas from 'bootstrap/js/dist/offcanvas';
 import { addItems, openDrawer } from './components/cart';
 import './components/predictive-search';
 import './components/quantity-stepper';
+import './components/reveal';
 import './components/sticky-header';
 import './components/swiper-slider';
 

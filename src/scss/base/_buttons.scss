@@ -41,3 +41,11 @@
   --bs-btn-hover-bg: var(--bs-dark);
   --bs-btn-hover-border-color: var(--bs-dark);
 }
+
+// Klaviyo's back-in-stock button (snippets/klaviyo-back-in-stock.liquid) uses btn-yellow.
+.klaviyo-back-in-stock {
+  --bs-btn-color: var(--bs-dark);
+  --bs-btn-hover-color: var(--bs-dark);
+  --bs-btn-padding-y: 10px;
+  line-height: 28px;
+}

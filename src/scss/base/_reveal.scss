@@ -1,0 +1,12 @@
+// Fade-up on scroll for elements with [data-reveal] (replaces the previous theme's AOS
+// "fade-up"). Only applies when JS runs and motion is allowed; see src/js/components/reveal.js.
+@media (prefers-reduced-motion: no-preference) {
+  .js [data-reveal]:not(.is-revealed) {
+    opacity: 0;
+    transform: translate3d(0, 100px, 0);
+  }
+
+  .js [data-reveal] {
+    transition: opacity 0.4s ease, transform 0.4s ease;
+  }
+}

@@ -600,6 +600,9 @@
         "rating": "{{ rating }} out of 5 stars"
       }
     },
+    "flyout": {
+      "open": "Get 10% off your first order"
+    },
     "footer": {
       "terms": "Terms of Service",
       "privacy": "Privacy Policy"
