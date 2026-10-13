@@ -1,0 +1,154 @@
+@import "section-base";
+
+// Sizes, label and handle styling of the previous theme's before/after section.
+.before-after__frame {
+  --before-after-line: var(--bs-white);
+  --before-after-contrast: var(--bs-dark);
+  height: var(--before-after-height-mobile);
+  border-radius: var(--before-after-radius);
+  user-select: none;
+
+  @include media-breakpoint-up(md) {
+    height: var(--before-after-height);
+  }
+
+  &--dark {
+    --before-after-line: var(--bs-dark);
+    --before-after-contrast: var(--bs-white);
+  }
+}
+
+.before-after__placeholder {
+  background-color: var(--bs-light);
+}
+
+// The "after" image sits on top and is clipped to the part past the handle.
+.before-after__side--after {
+  clip-path: inset(0 0 0 var(--before-after-position));
+
+  .before-after__frame--vertical & {
+    clip-path: inset(calc(100% - var(--before-after-position)) 0 0 0);
+  }
+}
+
+.before-after__label {
+  z-index: 1;
+  bottom: 15px;
+  left: 15px;
+  padding: 10px 20px;
+  background-color: var(--before-after-line);
+  color: var(--before-after-contrast);
+
+  @include media-breakpoint-up(md) {
+    bottom: 30px;
+    left: 30px;
+  }
+
+  .before-after__side--after & {
+    left: auto;
+    right: 15px;
+
+    @include media-breakpoint-up(md) {
+      right: 30px;
+    }
+  }
+
+  // Top and bottom: "before" label at the top centre, "after" at the bottom centre.
+  .before-after__frame--vertical & {
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+  }
+
+  .before-after__frame--vertical .before-after__side--before & {
+    top: 15px;
+    bottom: auto;
+
+    @include media-breakpoint-up(md) {
+      top: 30px;
+    }
+  }
+}
+
+.before-after__handle {
+  z-index: 2;
+  top: 0;
+  left: var(--before-after-position);
+  width: 3px;
+  height: 100%;
+  background-color: var(--before-after-line);
+  transform: translateX(-50%);
+  pointer-events: none;
+
+  .before-after__frame--vertical & {
+    top: auto;
+    left: 0;
+    bottom: var(--before-after-position);
+    width: 100%;
+    height: 3px;
+    transform: translateY(50%);
+  }
+}
+
+.before-after__knob {
+  width: 1.875rem;
+  height: 1.875rem;
+  gap: 2px;
+  font-size: 10px;
+  background-color: var(--before-after-line);
+  color: var(--before-after-contrast);
+
+  @include media-breakpoint-up(md) {
+    width: 2.75rem;
+    height: 2.75rem;
+    gap: 4px;
+    font-size: 14px;
+  }
+
+  .before-after__frame--vertical & {
+    transform: translate(-50%, -50%) rotate(90deg) !important;
+  }
+}
+
+// The range input is invisible and covers the whole frame, so a click or drag anywhere moves the handle.
+.before-after__range {
+  z-index: 3;
+  appearance: none;
+  background: transparent;
+  opacity: 0;
+  cursor: col-resize;
+
+  &::-webkit-slider-thumb {
+    appearance: none;
+    width: 2.75rem;
+    height: 100vh;
+  }
+
+  &::-moz-range-thumb {
+    width: 2.75rem;
+    height: 100vh;
+    border: 0;
+  }
+
+  .before-after__frame--vertical & {
+    writing-mode: vertical-lr;
+    direction: rtl;
+    cursor: row-resize;
+
+    &::-webkit-slider-thumb {
+      width: 100vw;
+      height: 2.75rem;
+    }
+
+    &::-moz-range-thumb {
+      width: 100vw;
+      height: 2.75rem;
+    }
+  }
+
+  &:focus-visible ~ .before-after__handle .before-after__knob {
+    outline: 2px solid var(--before-after-contrast);
+    outline-offset: 2px;
+    box-shadow: 0 0 0 5px var(--before-after-line);
+  }
+}
