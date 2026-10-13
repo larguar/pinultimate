@@ -1,0 +1,121 @@
+{%- comment -%}
+  Project questions for custom pin orders, rendered inside the product form. Answers are saved
+  on the order as line item properties, under the same names the Easify app used (Design,
+  Details, Pin Text, Backing Card Text, About, Backstamp, Clutch), plus "Needed By".
+
+  Accepts:
+  - mode {String}: 'full' (every question) or 'reorder' (only an optional project description)
+  - form_id {String}: prefix for field ids
+
+  Usage:
+  {% render 'custom-pins-fields', mode: 'full', form_id: 'MainProduct-123' %}
+{%- endcomment -%}
+{%- liquid
+  assign prefix = 'theme.product_page.custom_pins.'
+  assign design_choices = 'design_pins,design_cards,design_no_vector,design_vector' | split: ','
+  assign detail_choices = 'details_guidelines,details_logo,details_pin_text,details_card_text' | split: ','
+  assign today = 'now' | date: '%Y-%m-%d'
+  # The t filter already escapes these strings for HTML, so they're output without | escape.
+-%}
+<custom-pins-fields class="custom-pins d-grid">
+  {%- if mode == 'full' -%}
+    <fieldset class="custom-pins__field" data-checkbox-group="Design" data-required>
+      <legend class="form-label fw-semibold">
+        {{- prefix | append: 'design_label' | t }} <span class="text-danger" aria-hidden="true">*</span>
+      </legend>
+      {%- for key in design_choices -%}
+        {%- assign value = prefix | append: key | t -%}
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="{{ form_id }}-design-{{ forloop.index }}" value="{{ value }}">
+          <label class="form-check-label" for="{{ form_id }}-design-{{ forloop.index }}">{{ value }}</label>
+        </div>
+      {%- endfor -%}
+      <input type="hidden" name="properties[Design]" data-group-value>
+      <div class="invalid-feedback">{{ prefix | append: 'error_group' | t }}</div>
+    </fieldset>
+
+    {%- liquid
+      assign show_details = ''
+      for key in design_choices limit: 3
+        assign value = prefix | append: key | t
+        assign show_details = show_details | append: value | append: '|'
+      endfor
+    -%}
+    <fieldset class="custom-pins__field" data-checkbox-group="Details" data-show-when="Design" data-show-values="{{ show_details }}" hidden>
+      <legend class="form-label fw-semibold">{{ prefix | append: 'details_label' | t }}</legend>
+      {%- for key in detail_choices -%}
+        {%- assign value = prefix | append: key | t -%}
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="{{ form_id }}-details-{{ forloop.index }}" value="{{ value }}" disabled>
+          <label class="form-check-label" for="{{ form_id }}-details-{{ forloop.index }}">{{ value }}</label>
+        </div>
+      {%- endfor -%}
+      <input type="hidden" name="properties[Details]" data-group-value disabled>
+    </fieldset>
+
+    <div class="custom-pins__field" data-show-when="Details" data-show-values="{{ prefix | append: 'details_pin_text' | t }}" hidden>
+      <label class="form-label fw-semibold" for="{{ form_id }}-pin-text">{{ prefix | append: 'pin_text_label' | t }}</label>
+      <textarea class="form-control" id="{{ form_id }}-pin-text" name="properties[Pin Text]" rows="3" maxlength="300" disabled></textarea>
+    </div>
+
+    <div class="custom-pins__field" data-show-when="Details" data-show-values="{{ prefix | append: 'details_card_text' | t }}" hidden>
+      <label class="form-label fw-semibold" for="{{ form_id }}-card-text">{{ prefix | append: 'card_text_label' | t }}</label>
+      <textarea class="form-control" id="{{ form_id }}-card-text" name="properties[Backing Card Text]" rows="3" maxlength="300" disabled></textarea>
+    </div>
+  {%- endif -%}
+
+  <div class="custom-pins__field">
+    <label class="form-label fw-semibold" for="{{ form_id }}-about">
+      {{- prefix | append: 'about_label' | t -}}
+      {%- if mode == 'full' %} <span class="text-danger" aria-hidden="true">*</span>{% endif -%}
+    </label>
+    <textarea
+      class="form-control"
+      id="{{ form_id }}-about"
+      name="properties[About]"
+      rows="4"
+      minlength="30"
+      maxlength="3000"
+      placeholder="{{ prefix | append: 'about_placeholder' | t }}"
+      {% if mode == 'full' %}
+        required
+      {% endif %}
+    ></textarea>
+    <div class="invalid-feedback">{{ prefix | append: 'error_length' | t: count: 30 }}</div>
+  </div>
+
+  {%- if mode == 'full' -%}
+    <div class="row g-3">
+      {%- liquid
+        assign radio_groups = 'Backstamp:backstamp_label:backstamp_ours,backstamp_yours|Clutch:clutch_label:clutch_rubber,clutch_locking' | split: '|'
+      -%}
+      {%- for group in radio_groups -%}
+        {%- liquid
+          assign parts = group | split: ':'
+          assign property = parts[0]
+          assign choices = parts[2] | split: ','
+          assign group_id = form_id | append: '-' | append: property
+        -%}
+        <fieldset class="custom-pins__field col-12 col-sm-6" data-radio-group>
+          <legend class="form-label fw-semibold">
+            {{- prefix | append: parts[1] | t }} <span class="text-danger" aria-hidden="true">*</span>
+          </legend>
+          {%- for key in choices -%}
+            {%- assign value = prefix | append: key | t -%}
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="properties[{{ property }}]" id="{{ group_id }}-{{ forloop.index }}" value="{{ value }}" required>
+              <label class="form-check-label" for="{{ group_id }}-{{ forloop.index }}">{{ value }}</label>
+            </div>
+          {%- endfor -%}
+          <div class="invalid-feedback">{{ prefix | append: 'error_choice' | t }}</div>
+        </fieldset>
+      {%- endfor -%}
+    </div>
+
+    <div class="custom-pins__field">
+      <label class="form-label fw-semibold" for="{{ form_id }}-needed-by">{{ prefix | append: 'needed_by_label' | t }}</label>
+      <input class="form-control w-auto" type="date" id="{{ form_id }}-needed-by" name="properties[Needed By]" min="{{ today }}">
+      <div class="form-text">{{ prefix | append: 'needed_by_help' | t }}</div>
+    </div>
+  {%- endif -%}
+</custom-pins-fields>

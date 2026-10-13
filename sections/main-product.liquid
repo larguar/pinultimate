@@ -304,6 +304,16 @@
                     endif
                   endif
                 -%}
+                {%- liquid
+                  assign custom_pins_mode = ''
+                  assign full_handles = block.settings.custom_pins_form_handles | remove: ' ' | split: ','
+                  assign reorder_handles = block.settings.custom_pins_reorder_handles | remove: ' ' | split: ','
+                  if full_handles contains product.handle
+                    assign custom_pins_mode = 'full'
+                  elsif reorder_handles contains product.handle
+                    assign custom_pins_mode = 'reorder'
+                  endif
+                -%}
                 <div class="main-product__block main-product__buy" {{ block.shopify_attributes }}>
                   <form
                     action="{{ routes.cart_add_url }}"
@@ -311,8 +321,55 @@
                     class="main-product__form"
                     data-add-to-cart
                     data-main-product-form
+                    {% if custom_pins_mode != blank %}
+                      novalidate
+                    {% endif %}
                   >
                     <input type="hidden" name="id" value="{{ current_variant.id }}">
+                    {%- if custom_pins_mode != blank -%}
+                      {% render 'custom-pins-fields', mode: custom_pins_mode, form_id: section.id %}
+                    {%- endif -%}
+                    {%- comment -%}
+                      Custom pins estimate: on products with the quantity and timeline options named
+                      in the block settings, shows the price per pin, the delivery date and a warning
+                      when the "needed by" date is too soon.
+                    {%- endcomment -%}
+                    {%- liquid
+                      assign estimate_qty_index = -1
+                      assign estimate_timeline_index = -1
+                      if block.settings.show_custom_pins_estimate
+                        for option in product.options_with_values
+                          if option.name == block.settings.custom_pins_quantity_option
+                            assign estimate_qty_index = forloop.index0
+                          elsif option.name == block.settings.custom_pins_timeline_option
+                            assign estimate_timeline_index = forloop.index0
+                            assign estimate_standard_timeline = option.values.first
+                          endif
+                        endfor
+                      endif
+                    -%}
+                    {%- if estimate_qty_index >= 0 and estimate_timeline_index >= 0 -%}
+                      <custom-pins-estimate
+                        class="main-product__estimate d-block"
+                        data-quantity-index="{{ estimate_qty_index }}"
+                        data-timeline-index="{{ estimate_timeline_index }}"
+                        data-standard-timeline="{{ estimate_standard_timeline | escape }}"
+                        data-per-pin="{{ 'theme.product_page.custom_pins.per_pin' | t: price: '[price]' | escape }}"
+                        data-from-per-pin="{{ 'theme.product_page.custom_pins.from_per_pin' | t: price: '[price]' | escape }}"
+                        data-delivery-by="{{ 'theme.product_page.custom_pins.delivery_by' | t: date: '[date]' | escape }}"
+                        data-delivery-between="{{ 'theme.product_page.custom_pins.delivery_between' | t: start: '[start]', end: '[end]' | escape }}"
+                        data-deadline-past="{{ 'theme.product_page.custom_pins.deadline_past_html' | t | escape }}"
+                        data-deadline-same-day="{{ 'theme.product_page.custom_pins.deadline_same_day_html' | t | escape }}"
+                        data-deadline-too-soon="{{ 'theme.product_page.custom_pins.deadline_too_soon_html' | t: weeks: '[weeks]' | escape }}"
+                      >
+                        <p class="main-product__estimate-total mb-1">
+                          <span class="fw-semibold" data-estimate-total></span>
+                          <span data-estimate-per-pin></span>
+                        </p>
+                        <p class="mb-0" data-estimate-delivery></p>
+                        <div class="alert alert-warning small mt-2 mb-0 py-2" role="status" data-estimate-warning hidden></div>
+                      </custom-pins-estimate>
+                    {%- endif -%}
                     <div class="d-flex">
                       {%- if block.settings.show_quantity -%}
                         {% render 'quantity-stepper', product: product %}
@@ -580,6 +637,45 @@
           "id": "show_payment_terms",
           "label": "Show Shop Pay installments",
           "default": true
+        },
+        {
+          "type": "header",
+          "content": "Custom pins"
+        },
+        {
+          "type": "text",
+          "id": "custom_pins_form_handles",
+          "label": "Products with the custom pins questions",
+          "info": "Product handles, separated by commas. Asks about the design, backstamp, clutch and needed-by date; answers are saved on the order.",
+          "default": "custom"
+        },
+        {
+          "type": "text",
+          "id": "custom_pins_reorder_handles",
+          "label": "Products with only the project description",
+          "info": "Product handles, separated by commas. The description is optional.",
+          "default": "custom-reorder"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_custom_pins_estimate",
+          "label": "Show price per pin and delivery date",
+          "info": "Only on products with the quantity and timeline options below.",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "custom_pins_quantity_option",
+          "label": "Quantity option name",
+          "info": "Its values start with the number of pins, like \"300 pins\".",
+          "default": "Qty"
+        },
+        {
+          "type": "text",
+          "id": "custom_pins_timeline_option",
+          "label": "Timeline option name",
+          "info": "Its values give the weeks, like \"6-8 Weeks\". The first value is the standard timeline.",
+          "default": "Timeline"
         }
       ]
     },

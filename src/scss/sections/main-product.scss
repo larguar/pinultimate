@@ -504,3 +504,35 @@ $text-muted-border: rgba($body-color, 0.3);
     vertical-align: middle;
   }
 }
+
+// Custom pins questions and estimate (snippets/custom-pins-fields.liquid), above the quantity
+// and add to cart button.
+.custom-pins {
+  gap: 20px;
+  margin-bottom: 24px;
+
+  fieldset {
+    margin: 0;
+  }
+
+  legend {
+    font-size: inherit;
+  }
+
+  .form-check-input.is-invalid ~ .form-check-label {
+    color: inherit;
+  }
+
+  // Messages show for the whole question, not per checkbox.
+  .is-invalid > .invalid-feedback {
+    display: block;
+  }
+}
+
+.main-product__estimate {
+  margin-bottom: 20px;
+}
+
+.main-product__estimate-total {
+  font-size: 1.125rem;
+}
