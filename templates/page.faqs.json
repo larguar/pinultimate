@@ -1,0 +1,520 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "settings": {
+        "show_title": true,
+        "content_width": "full"
+      }
+    },
+    "inventory": {
+      "type": "collapsible-content",
+      "settings": {
+        "subheading": "",
+        "heading": "Inventory",
+        "heading_alignment": "left",
+        "heading_tag": "h2",
+        "open_first": false,
+        "one_at_a_time": true,
+        "button_label": "",
+        "button_link": "",
+        "show_form": false,
+        "form_title": "",
+        "form_style": "outline",
+        "background": "none",
+        "spacing": "default"
+      },
+      "blocks": {
+        "inventory_1": {
+          "type": "text",
+          "settings": {
+            "title": "I have a request for a pin!",
+            "subtitle": "",
+            "icon": "none",
+            "body": "<p>We love to hear it! You can fill out our <a href=\"https://forms.gle/a5pdxp4LKMguazQ88\" target=\"_blank\" title=\"https://forms.gle/a5pdxp4LKMguazQ88\">Pin Request</a> form and we'll make sure to keep an eye out whenever we're browsing for new inventory.</p>",
+            "button_label": "",
+            "button_link": "",
+            "hide_if_empty": false
+          }
+        },
+        "inventory_2": {
+          "type": "text",
+          "settings": {
+            "title": "Can you make [pin] in a different color?",
+            "subtitle": "",
+            "icon": "none",
+            "body": "<p>Our manufacturer has a 100 MOQ, but we'd be open to making a custom version of a pin if you're interested in ordering in bulk. <a href=\"mailto:help@pinultimate.co\" title=\"mailto:help@pinultimate.co\">Email us</a> for more details!</p>",
+            "button_label": "",
+            "button_link": "",
+            "hide_if_empty": false
+          }
+        }
+      },
+      "block_order": [
+        "inventory_1",
+        "inventory_2"
+      ]
+    },
+    "orders": {
+      "type": "collapsible-content",
+      "settings": {
+        "subheading": "",
+        "heading": "Orders",
+        "heading_alignment": "left",
+        "heading_tag": "h2",
+        "open_first": false,
+        "one_at_a_time": true,
+        "button_label": "",
+        "button_link": "",
+        "show_form": false,
+        "form_title": "",
+        "form_style": "outline",
+        "background": "none",
+        "spacing": "small"
+      },
+      "blocks": {
+        "orders_1": {
+          "type": "text",
+          "settings": {
+            "title": "Can I add more items to an existing order?",
+            "subtitle": "",
+            "icon": "none",
+            "body": "<p>We’d love to bundle your items together! As long as you haven't yet received your shipping confirmation email, you can <a href=\"mailto:help@pinultimate.co\" title=\"mailto:help@pinultimate.co\">email us</a> with links and quantities for the additional items you’d like to purchase. We'll add them directly to your initial order and send you over an invoice.</p>",
+            "button_label": "",
+            "button_link": "",
+            "hide_if_empty": false
+          }
+        },
+        "orders_2": {
+          "type": "text",
+          "settings": {
+            "title": "Can I send my order as a gift without a receipt?",
+            "subtitle": "",
+            "icon": "none",
+            "body": "<p>We never include pricing on our order invoices, so you're good to go! Just set the shipping address to the person you'd like to send your order to and we'll take care of the rest. Bonus: Make it more personal by adding a (free and completely optional) gift note to your order during the checkout process.</p>",
+            "button_label": "",
+            "button_link": "",
+            "hide_if_empty": false
+          }
+        },
+        "orders_3": {
+          "type": "text",
+          "settings": {
+            "title": "Can I update my shipping address after my order has been placed?",
+            "subtitle": "",
+            "icon": "none",
+            "body": "<p>Absolutely! Just make sure to <a href=\"mailto:help@pinultimate.co\" title=\"mailto:help@pinultimate.co\">email us</a> before you receive your shipping confirmation email and we'd be happy to update the shipping address for you.</p>",
+            "button_label": "",
+            "button_link": "",
+            "hide_if_empty": false
+          }
+        },
+        "orders_4": {
+          "type": "text",
+          "settings": {
+            "title": "Can I update my billing address after my order has been placed?",
+            "subtitle": "",
+            "icon": "none",
+            "body": "<p>We’re unable to update your billing address on our end, but if your order went through successfully, your payment went through as well!</p>",
+            "button_label": "",
+            "button_link": "",
+            "hide_if_empty": false
+          }
+        }
+      },
+      "block_order": [
+        "orders_1",
+        "orders_2",
+        "orders_3",
+        "orders_4"
+      ]
+    },
+    "shipping": {
+      "type": "collapsible-content",
+      "settings": {
+        "subheading": "",
+        "heading": "Shipping",
+        "heading_alignment": "left",
+        "heading_tag": "h2",
+        "open_first": false,
+        "one_at_a_time": true,
+        "button_label": "",
+        "button_link": "",
+        "show_form": false,
+        "form_title": "",
+        "form_style": "outline",
+        "background": "none",
+        "spacing": "small"
+      },
+      "blocks": {
+        "shipping_1": {
+          "type": "text",
+          "settings": {
+            "title": "How much does shipping cost?",
+            "subtitle": "",
+            "icon": "none",
+            "body": "<p>For shipping, we charge what USPS charges us. USPS shipping rates are based on your address, the weight and dimensions of your order, and time of year. Generally, you can expect the following:</p><p>First Class: $5-8</p><p>Priority: $9-11</p><p>Canada: $16-19</p><p>Mexico: $16-19</p><p>International: $17-20</p><p>Shipping is free for all domestic orders over $50.</p><p>We are unable to ship to the United Kingdom at this time.</p>",
+            "button_label": "",
+            "button_link": "",
+            "hide_if_empty": false
+          }
+        },
+        "shipping_2": {
+          "type": "text",
+          "settings": {
+            "title": "How do I track my order?",
+            "subtitle": "",
+            "icon": "none",
+            "body": "<p>When you place your order, you should receive an email confirmation that your order went through. Once a shipping label has been purchased for your order, you’ll receive a separate shipping confirmation email with a tracking number. Please allow a day or two for your tracking to begin updating.</p><p>If you didn’t receive your initial confirmation email, double check your spam folder. Otherwise, <a href=\"mailto:help@pinultimate.co\" title=\"mailto:help@pinultimate.co\">email us</a> so we can make sure your order went through.</p>",
+            "button_label": "",
+            "button_link": "",
+            "hide_if_empty": false
+          }
+        },
+        "shipping_3": {
+          "type": "text",
+          "settings": {
+            "title": "How long does it take for my order to ship?",
+            "subtitle": "",
+            "icon": "none",
+            "body": "<p>Your package should be in USPS’s hands within 2-3 business days, but may take longer if our order volume is unusually high. </p><p>That being said, we have no control over how quickly USPS can deliver your package and we greatly appreciate your patience with any delays or scanning issues.</p>",
+            "button_label": "",
+            "button_link": "",
+            "hide_if_empty": false
+          }
+        },
+        "shipping_4": {
+          "type": "text",
+          "settings": {
+            "title": "Do you ship worldwide?",
+            "subtitle": "",
+            "icon": "none",
+            "body": "<p>Yes, we do! Unfortunately for now, there’s no way of calculating the cost of international shipping until you’ve reached checkout. Shipping outside of the U.S. typically costs anywhere from $14-20.</p><p>We are unable to ship to the United Kingdom at this time.</p>",
+            "button_label": "",
+            "button_link": "",
+            "hide_if_empty": false
+          }
+        },
+        "shipping_5": {
+          "type": "text",
+          "settings": {
+            "title": "Where is my order shipping from?",
+            "subtitle": "",
+            "icon": "none",
+            "body": "<p>All orders are shipped with love from our studio in Baltimore, MD.</p>",
+            "button_label": "",
+            "button_link": "",
+            "hide_if_empty": false
+          }
+        },
+        "shipping_6": {
+          "type": "text",
+          "settings": {
+            "title": "There’s an issue with the tracking for my order.",
+            "subtitle": "",
+            "icon": "none",
+            "body": "<p>Please refer to our <a href=\"/pages/usps\" title=\"USPS\">USPS</a> page for more details about tracking issues.</p>",
+            "button_label": "",
+            "button_link": "",
+            "hide_if_empty": false
+          }
+        }
+      },
+      "block_order": [
+        "shipping_1",
+        "shipping_2",
+        "shipping_3",
+        "shipping_4",
+        "shipping_5",
+        "shipping_6"
+      ]
+    },
+    "shipping_protection": {
+      "type": "collapsible-content",
+      "settings": {
+        "subheading": "",
+        "heading": "Shipping Protection",
+        "heading_alignment": "left",
+        "heading_tag": "h2",
+        "open_first": false,
+        "one_at_a_time": true,
+        "button_label": "",
+        "button_link": "",
+        "show_form": false,
+        "form_title": "",
+        "form_style": "outline",
+        "background": "none",
+        "spacing": "small"
+      },
+      "blocks": {
+        "shipping_protection_1": {
+          "type": "text",
+          "settings": {
+            "title": "What does Shipping Protection cover?",
+            "subtitle": "",
+            "icon": "none",
+            "body": "<p>Package being stolen from porch or misdelivered</p><p>Package getting lost in transit or never scanning in the first place</p><p>Item(s) damaged during transit</p>",
+            "button_label": "",
+            "button_link": "",
+            "hide_if_empty": false
+          }
+        },
+        "shipping_protection_2": {
+          "type": "text",
+          "settings": {
+            "title": "How much does shipping insurance cost?",
+            "subtitle": "",
+            "icon": "none",
+            "body": "<p>$1 for orders under $100, $2 for orders under $200, $3 for orders under $300, etc. Since shipping is free for orders over $60, all you have to pay for is Shipping Protection.</p>",
+            "button_label": "",
+            "button_link": "",
+            "hide_if_empty": false
+          }
+        },
+        "shipping_protection_3": {
+          "type": "text",
+          "settings": {
+            "title": "How do I add insurance to my order?",
+            "subtitle": "",
+            "icon": "none",
+            "body": "<p>During the checkout process, when you select your shipping method, simply select a method with '(+ Shipping Protection)' in the name. Then you're all set!</p>",
+            "button_label": "",
+            "button_link": "",
+            "hide_if_empty": false
+          }
+        },
+        "shipping_protection_4": {
+          "type": "text",
+          "settings": {
+            "title": "I forgot to add Shipping Protection. Can I add it to my order after it's been placed?",
+            "subtitle": "",
+            "icon": "none",
+            "body": "<p>Unfortunately, once you've placed your order, it's too late to add Shipping Protection. You'll need to <a href=\"mailto:help@pinultimate.co\" title=\"mailto:help@pinultimate.co\">cancel your order</a> and reorder if you'd like your package to be protected.</p>",
+            "button_label": "",
+            "button_link": "",
+            "hide_if_empty": false
+          }
+        }
+      },
+      "block_order": [
+        "shipping_protection_1",
+        "shipping_protection_2",
+        "shipping_protection_3",
+        "shipping_protection_4"
+      ]
+    },
+    "delivery": {
+      "type": "collapsible-content",
+      "settings": {
+        "subheading": "",
+        "heading": "Delivery",
+        "heading_alignment": "left",
+        "heading_tag": "h2",
+        "open_first": false,
+        "one_at_a_time": true,
+        "button_label": "",
+        "button_link": "",
+        "show_form": false,
+        "form_title": "",
+        "form_style": "outline",
+        "background": "none",
+        "spacing": "small"
+      },
+      "blocks": {
+        "delivery_1": {
+          "type": "text",
+          "settings": {
+            "title": "I received the wrong item in my order.",
+            "subtitle": "",
+            "icon": "none",
+            "body": "<p>Ugh! We’re only human and sometimes we make mistakes. <a href=\"mailto:help@pinultimate.co\" title=\"mailto:help@pinultimate.co\">Email us</a> with your order number and more details regarding the mixup and we'll figure out how to make it right.</p>",
+            "button_label": "",
+            "button_link": "",
+            "hide_if_empty": false
+          }
+        },
+        "delivery_2": {
+          "type": "text",
+          "settings": {
+            "title": "I only received part of my order.",
+            "subtitle": "",
+            "icon": "none",
+            "body": "<p>Oh no, we're so sorry for the hiccup! <a href=\"mailto:help@pinultimate.co\" title=\"mailto:help@pinultimate.co\">Email us</a> your order number and let us know which items are missing, and we’ll get that fixed for you.</p>",
+            "button_label": "",
+            "button_link": "",
+            "hide_if_empty": false
+          }
+        },
+        "delivery_3": {
+          "type": "text",
+          "settings": {
+            "title": "An item in my order was damaged.",
+            "subtitle": "",
+            "icon": "none",
+            "body": "<p>Occasionally packages are handled a little too rough during transit and your items suffer for it. Please refer to our <a href=\"/pages/usps\" title=\"USPS\">USPS</a> page for more details on how to handle damaged packages.</p>",
+            "button_label": "",
+            "button_link": "",
+            "hide_if_empty": false
+          }
+        },
+        "delivery_4": {
+          "type": "text",
+          "settings": {
+            "title": "My order was marked as delivered but I haven’t received it.",
+            "subtitle": "",
+            "icon": "none",
+            "body": "<p>Please refer to our <a href=\"/pages/usps\" title=\"USPS\">USPS</a> page for more details about prematurely scanned packages.</p>",
+            "button_label": "",
+            "button_link": "",
+            "hide_if_empty": false
+          }
+        }
+      },
+      "block_order": [
+        "delivery_1",
+        "delivery_2",
+        "delivery_3",
+        "delivery_4"
+      ]
+    },
+    "returns": {
+      "type": "collapsible-content",
+      "settings": {
+        "subheading": "",
+        "heading": "Returns",
+        "heading_alignment": "left",
+        "heading_tag": "h2",
+        "open_first": false,
+        "one_at_a_time": true,
+        "button_label": "",
+        "button_link": "",
+        "show_form": false,
+        "form_title": "",
+        "form_style": "outline",
+        "background": "none",
+        "spacing": "small"
+      },
+      "blocks": {
+        "returns_1": {
+          "type": "text",
+          "settings": {
+            "title": "Do you accept returns?",
+            "subtitle": "",
+            "icon": "none",
+            "body": "<p>Please read our <a href=\"/pages/returns\" title=\"Return Policy\">Return Policy</a> for details about returns and refunds.</p>",
+            "button_label": "",
+            "button_link": "",
+            "hide_if_empty": false
+          }
+        }
+      },
+      "block_order": [
+        "returns_1"
+      ]
+    },
+    "feedback": {
+      "type": "collapsible-content",
+      "settings": {
+        "subheading": "",
+        "heading": "Feedback",
+        "heading_alignment": "left",
+        "heading_tag": "h2",
+        "open_first": false,
+        "one_at_a_time": true,
+        "button_label": "",
+        "button_link": "",
+        "show_form": false,
+        "form_title": "",
+        "form_style": "outline",
+        "background": "none",
+        "spacing": "small"
+      },
+      "blocks": {
+        "feedback_1": {
+          "type": "text",
+          "settings": {
+            "title": "How do I leave a review for my order?",
+            "subtitle": "",
+            "icon": "none",
+            "body": "<p>You can leave product reviews via the Reviews section on any product page. Once you've submitted your review, if your email and item match a previous order in our system, you'll receive an email asking you to verify your review.</p>",
+            "button_label": "",
+            "button_link": "",
+            "hide_if_empty": false
+          }
+        },
+        "feedback_2": {
+          "type": "text",
+          "settings": {
+            "title": "Can I leave a review for your business as a whole?",
+            "subtitle": "",
+            "icon": "none",
+            "body": "<p>Heck yes! If you'd like to post your feedback publicly, you can recommend us on our <a href=\"https://www.facebook.com/pinultimate/reviews\" target=\"_blank\" title=\"https://www.facebook.com/pinultimate/reviews\">Facebook</a> page. If you don't have Facebook or you'd prefer to share your thoughts directly with us, you can fill out our <a href=\"https://forms.gle/PjydjsUH2JeVdkxAA\" target=\"_blank\" title=\"https://forms.gle/PjydjsUH2JeVdkxAA\">Testimonials</a> form or <a href=\"mailto:help@pinultimate.co\" title=\"mailto:help@pinultimate.co\">email us</a>.</p>",
+            "button_label": "",
+            "button_link": "",
+            "hide_if_empty": false
+          }
+        }
+      },
+      "block_order": [
+        "feedback_1",
+        "feedback_2"
+      ]
+    },
+    "still_need_help": {
+      "type": "rich-text",
+      "settings": {
+        "image_position": "none",
+        "image_fit": "cover",
+        "height": "auto",
+        "text_alignment": "center",
+        "content_spacing": 24,
+        "button_spacing": 36,
+        "background": "light",
+        "full_width": false,
+        "spacing": "default",
+        "bottom_spacing": false
+      },
+      "blocks": {
+        "still_need_help_1": {
+          "type": "title",
+          "settings": {
+            "title": "Still need help?",
+            "size": "medium",
+            "heading_tag": "h2"
+          }
+        },
+        "still_need_help_2": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Have no fear! We're here and happy to answer any of your questions. Please be sure to read through our FAQs and double check that your question hasn't already been answered before emailing us. </p>"
+          }
+        },
+        "still_need_help_3": {
+          "type": "button",
+          "settings": {
+            "label": "Contact Us",
+            "link": "mailto:help@pinultimate.co",
+            "style": "solid",
+            "new_tab": false
+          }
+        }
+      },
+      "block_order": [
+        "still_need_help_1",
+        "still_need_help_2",
+        "still_need_help_3"
+      ]
+    }
+  },
+  "order": [
+    "main",
+    "inventory",
+    "orders",
+    "shipping",
+    "shipping_protection",
+    "delivery",
+    "returns",
+    "feedback",
+    "still_need_help"
+  ]
+}

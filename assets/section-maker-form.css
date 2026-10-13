@@ -1,0 +1,1 @@
+@media(min-width: 768px){.maker-form__fields{grid-template-columns:repeat(2, minmax(0, 1fr))}}.maker-form__full{grid-column:1/-1}

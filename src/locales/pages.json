@@ -9,6 +9,19 @@
     "success": "Thanks for contacting us! We'll get back to you as soon as possible.",
     "error_heading": "Please check the following:"
   },
+  "maker_form": {
+    "name": "Your Name",
+    "business": "Business Name",
+    "website": "Shop Website",
+    "email": "Email",
+    "location": "Where are you located?",
+    "referral": "How did you hear about Pinultimate?!",
+    "story": "What’s your story?",
+    "submit": "Let’s Do This",
+    "success": "Thank you for applying to join our maker community! We'll be in touch.",
+    "error": "Your application couldn't be sent. Please check your connection and try again.",
+    "setup": "Add the Google Form's response URL in this section's settings to show the form."
+  },
   "blog": {
     "date_format": "%b %d, %Y",
     "all_tags": "All",
