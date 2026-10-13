@@ -7,7 +7,7 @@
 # Several people (or agents) can share the development theme: pass explicit files so you
 # only push your own work. Remote files that don't exist locally are never deleted.
 set -euo pipefail
-THEME_ID=166898532422
+THEME_ID=${THEME_ID:-166898532422}  # override: THEME_ID=<id> tools/push-dev.sh
 STORE=pinultimate.myshopify.com
 cd "$(dirname "$0")/.."
 
