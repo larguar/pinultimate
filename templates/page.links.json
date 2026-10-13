@@ -1,0 +1,145 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "settings": {
+        "show_title": false,
+        "content_width": "full"
+      }
+    },
+    "profile": {
+      "type": "custom-liquid",
+      "settings": {
+        "custom_liquid": "<div class=\"text-center\"><a href=\"{{ routes.root_url }}\" class=\"d-inline-block\">{%- if shop.brand.square_logo != blank -%}{{ shop.brand.square_logo | image_url: width: 320 | image_tag: width: 160, height: 160, class: 'rounded-circle object-fit-cover', alt: shop.name }}{%- else -%}{% render 'site-logo' %}{%- endif -%}</a></div>",
+        "subheading": "",
+        "heading": "",
+        "heading_alignment": "center",
+        "heading_tag": "h2",
+        "button_label": "",
+        "button_link": "",
+        "full_width": false,
+        "background": "none",
+        "spacing": "default"
+      }
+    },
+    "links": {
+      "type": "rich-text",
+      "settings": {
+        "image_position": "none",
+        "image_fit": "cover",
+        "height": "auto",
+        "text_alignment": "center",
+        "content_spacing": 24,
+        "button_spacing": 24,
+        "background": "none",
+        "full_width": false,
+        "spacing": "small",
+        "bottom_spacing": false
+      },
+      "blocks": {
+        "links_1": {
+          "type": "title",
+          "settings": {
+            "title": "Quick Links",
+            "size": "medium",
+            "heading_tag": "h1"
+          }
+        },
+        "links_2": {
+          "type": "button",
+          "settings": {
+            "label": "Shop Pins",
+            "link": "shopify://collections/pins",
+            "style": "solid",
+            "new_tab": false
+          }
+        },
+        "links_3": {
+          "type": "button",
+          "settings": {
+            "label": "Shop Extras",
+            "link": "shopify://collections/extras",
+            "style": "solid",
+            "new_tab": false
+          }
+        },
+        "links_4": {
+          "type": "button",
+          "settings": {
+            "label": "The Under $10 Shop",
+            "link": "shopify://collections/sale",
+            "style": "solid",
+            "new_tab": false
+          }
+        },
+        "links_5": {
+          "type": "button",
+          "settings": {
+            "label": "Shop By Maker",
+            "link": "shopify://collections/makers",
+            "style": "solid",
+            "new_tab": false
+          }
+        },
+        "links_6": {
+          "type": "button",
+          "settings": {
+            "label": "Custom Pins",
+            "link": "shopify://collections/custom",
+            "style": "solid",
+            "new_tab": false
+          }
+        },
+        "links_7": {
+          "type": "button",
+          "settings": {
+            "label": "Customer Reviews",
+            "link": "shopify://pages/reviews",
+            "style": "solid",
+            "new_tab": false
+          }
+        },
+        "links_8": {
+          "type": "button",
+          "settings": {
+            "label": "Business Expenses Spreadsheet",
+            "link": "https://docs.google.com/spreadsheets/d/1143E9WrYo7DbQ3QGcq7mpiQh3flqAom5GHtFyyk6u6Q/edit?usp=sharing",
+            "style": "solid",
+            "new_tab": true
+          }
+        }
+      },
+      "block_order": [
+        "links_1",
+        "links_2",
+        "links_3",
+        "links_4",
+        "links_5",
+        "links_6",
+        "links_7",
+        "links_8"
+      ]
+    },
+    "social": {
+      "type": "custom-liquid",
+      "settings": {
+        "custom_liquid": "{% render 'social-icons', class: 'justify-content-center gap-4 fs-4' %}",
+        "subheading": "",
+        "heading": "",
+        "heading_alignment": "center",
+        "heading_tag": "h2",
+        "button_label": "",
+        "button_link": "",
+        "full_width": false,
+        "background": "none",
+        "spacing": "small"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "profile",
+    "links",
+    "social"
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "settings": {
+        "show_title": true,
+        "content_width": "full"
+      }
+    },
+    "maker_form": {
+      "type": "maker-form",
+      "settings": {
+        "heading": "",
+        "heading_style": "italic",
+        "heading_tag": "h2",
+        "form_url": "https://docs.google.com/forms/d/e/1FAIpQLSfu4RAdsAdIXk5547Xv-VE7b0eGCZPA9lyYkYHqOYvtAl6TTg/formResponse",
+        "spacing": "default"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "maker_form"
+  ]
+}

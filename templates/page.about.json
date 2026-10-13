@@ -1,0 +1,315 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "settings": {
+        "show_title": true,
+        "content_width": "full"
+      }
+    },
+    "collage": {
+      "type": "multicolumn",
+      "settings": {
+        "heading": "",
+        "subheading": "",
+        "heading_size": "medium",
+        "heading_layout": "stacked",
+        "heading_alignment": "center",
+        "heading_italic": false,
+        "heading_tag": "h2",
+        "layout": "grid",
+        "columns_desktop": 3,
+        "columns_tablet": 3,
+        "columns_mobile": "1",
+        "media_style": "image",
+        "image_ratio": "square",
+        "card_style": "plain",
+        "text_alignment": "left",
+        "background": "none",
+        "spacing": "small"
+      },
+      "blocks": {
+        "collage_1": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/IMG_87052.jpg",
+            "icon": "none",
+            "title": "",
+            "text": "",
+            "link": "",
+            "link_label": ""
+          }
+        },
+        "collage_2": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/Pride-02.jpg",
+            "icon": "none",
+            "title": "",
+            "text": "",
+            "link": "",
+            "link_label": ""
+          }
+        },
+        "collage_3": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/Untitled-2_70f287eb-5aad-45c2-9927-391d221e6b60.gif",
+            "icon": "none",
+            "title": "",
+            "text": "",
+            "link": "",
+            "link_label": ""
+          }
+        }
+      },
+      "block_order": [
+        "collage_1",
+        "collage_2",
+        "collage_3"
+      ]
+    },
+    "intro": {
+      "type": "rich-text",
+      "settings": {
+        "image_position": "none",
+        "image_fit": "cover",
+        "height": "auto",
+        "text_alignment": "center",
+        "content_spacing": 24,
+        "button_spacing": 36,
+        "background": "none",
+        "full_width": false,
+        "spacing": "default",
+        "bottom_spacing": false
+      },
+      "blocks": {
+        "intro_1": {
+          "type": "eyebrow",
+          "settings": {
+            "text": "Say it fun sized",
+            "max_width_mobile": 0
+          }
+        },
+        "intro_2": {
+          "type": "title",
+          "settings": {
+            "title": "A variety of perceptive, quality, artisan-made enamel pins for you to wear your personal badge of self with pride.",
+            "size": "medium",
+            "heading_tag": "h2"
+          }
+        }
+      },
+      "block_order": [
+        "intro_1",
+        "intro_2"
+      ]
+    },
+    "who_we_are": {
+      "type": "rich-text",
+      "settings": {
+        "image_position": "right",
+        "image_fit": "cover",
+        "height": "medium",
+        "text_alignment": "left",
+        "content_spacing": 24,
+        "button_spacing": 36,
+        "background": "none",
+        "full_width": false,
+        "spacing": "default",
+        "bottom_spacing": false,
+        "image": "shopify://shop_images/Pride-01.jpg"
+      },
+      "blocks": {
+        "who_we_are_1": {
+          "type": "eyebrow",
+          "settings": {
+            "text": "Who we are",
+            "max_width_mobile": 0
+          }
+        },
+        "who_we_are_2": {
+          "type": "text",
+          "settings": {
+            "text": "<p>We’re a small, women-owned business, empowering you to shop more of what you love, all in one place. This is one of the key ingredients in our effort to remain eco-conscious and less harmful towards our planet. With our one-stop shop, we hope to provide what you’re looking for so you can avoid multiple shipping costs and the waste that piles up when you buy from multiple places.</p><p>At Pinultimate, we want you to explore, share, and get lost in our selection. We’re the conduit between artist and collector, and we hope to provide you a deeper connection with keepsakes that complement who you are as an individual.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "who_we_are_1",
+        "who_we_are_2"
+      ]
+    },
+    "our_mission": {
+      "type": "rich-text",
+      "settings": {
+        "image_position": "left",
+        "image_fit": "cover",
+        "height": "medium",
+        "text_alignment": "left",
+        "content_spacing": 24,
+        "button_spacing": 36,
+        "background": "none",
+        "full_width": false,
+        "spacing": "default",
+        "bottom_spacing": false,
+        "image": "shopify://shop_images/IG2.png"
+      },
+      "blocks": {
+        "our_mission_1": {
+          "type": "eyebrow",
+          "settings": {
+            "text": "our mission",
+            "max_width_mobile": 0
+          }
+        },
+        "our_mission_2": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Our mission is to support amazing people while offering our customers a rotating selection of quirky goods that'll make them feel things.</p><p>It all started with a love for enamel pins and a curiosity to better understand the demand fueling counterfeit markets. Pin counterfeits specifically are a huge problem. Pinultimate was formed with a makers-first mindset: to directly support these artists that are dealing with their original designs being stolen and reproduced every single day; to lift artists up and sell their authentic products, giving credit where credit is due.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "our_mission_1",
+        "our_mission_2"
+      ]
+    },
+    "our_makers": {
+      "type": "rich-text",
+      "settings": {
+        "image_position": "right",
+        "image_fit": "cover",
+        "height": "medium",
+        "text_alignment": "left",
+        "content_spacing": 24,
+        "button_spacing": 36,
+        "background": "none",
+        "full_width": false,
+        "spacing": "default",
+        "bottom_spacing": false,
+        "image": "shopify://shop_images/Lauren-177.jpg"
+      },
+      "blocks": {
+        "our_makers_1": {
+          "type": "text",
+          "settings": {
+            "text": "<p>We know our makers by name and appreciate them for everything that makes them unique. Each pin in our shop shows their personality and perspective, and we’re continuously grateful for their support and the community we’re building with them.</p><p>Above all, we’re a small business and know just how much work it takes to convince the world that your passion is something worth investing in. So let’s shop small, support each other, and make the world a better place, one pin haul at a time.</p>"
+          }
+        },
+        "our_makers_2": {
+          "type": "eyebrow",
+          "settings": {
+            "text": "xo, lauren",
+            "max_width_mobile": 0
+          }
+        }
+      },
+      "block_order": [
+        "our_makers_1",
+        "our_makers_2"
+      ]
+    },
+    "values": {
+      "type": "multicolumn",
+      "settings": {
+        "heading": "What we’re all about",
+        "subheading": "Our Values",
+        "heading_size": "large",
+        "heading_layout": "stacked",
+        "heading_alignment": "center",
+        "heading_italic": false,
+        "heading_tag": "h2",
+        "layout": "grid",
+        "columns_desktop": 3,
+        "columns_tablet": 2,
+        "columns_mobile": "1",
+        "media_style": "image",
+        "image_ratio": "adapt",
+        "card_style": "plain",
+        "text_alignment": "left",
+        "background": "none",
+        "spacing": "default"
+      },
+      "blocks": {
+        "values_1": {
+          "type": "column",
+          "settings": {
+            "icon": "none",
+            "title": "Supporting Artists",
+            "text": "We started Pinultimate with a makers-first mindset. We celebrate our artists for everything that makes them unique and we’re here to share who they are and what they make with the world.",
+            "link": "",
+            "link_label": ""
+          }
+        },
+        "values_2": {
+          "type": "column",
+          "settings": {
+            "icon": "none",
+            "title": "Authentic, Original Pieces",
+            "text": "We’re on a mission to #cancelcounterfeits by curating a collection of goods  that are authentic and original.",
+            "link": "",
+            "link_label": ""
+          }
+        },
+        "values_3": {
+          "type": "column",
+          "settings": {
+            "icon": "none",
+            "title": "High Quality Goods",
+            "text": "We keep it casual in most aspects of our life, but not when it comes to product quality. Our products allow you to express yourself and that should last for as long as you want it to.",
+            "link": "",
+            "link_label": ""
+          }
+        },
+        "values_4": {
+          "type": "column",
+          "settings": {
+            "icon": "none",
+            "title": "A Minimal Carbon Footprint",
+            "text": "Caring for this planet matters to us. We’ve worked HARD to reduce our waste behind the scenes, use packaging that can be reused, recycled and/or composted, and offset our energy use.",
+            "link": "",
+            "link_label": ""
+          }
+        },
+        "values_5": {
+          "type": "column",
+          "settings": {
+            "icon": "none",
+            "title": "An Intuitive, Relatable Selection",
+            "text": "We want it to be easy for you to find the things that make you feel seen. We’re always looking to expand our maker community to bring you more designs that represent what you’re all about.",
+            "link": "",
+            "link_label": ""
+          }
+        },
+        "values_6": {
+          "type": "column",
+          "settings": {
+            "icon": "none",
+            "title": "Versatility & Flexibility",
+            "text": "Whether you wear your pins or put them on display, we’ll be here with designs and creative ideas that allow you to express yourself exactly how YOU want to.",
+            "link": "",
+            "link_label": ""
+          }
+        }
+      },
+      "block_order": [
+        "values_1",
+        "values_2",
+        "values_3",
+        "values_4",
+        "values_5",
+        "values_6"
+      ]
+    }
+  },
+  "order": [
+    "main",
+    "collage",
+    "intro",
+    "who_we_are",
+    "our_mission",
+    "our_makers",
+    "values"
+  ]
+}

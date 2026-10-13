@@ -1,0 +1,276 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "settings": {
+        "show_title": true,
+        "content_width": "full"
+      }
+    },
+    "tracking_issues": {
+      "type": "collapsible-content",
+      "settings": {
+        "subheading": "",
+        "heading": "Tracking issues",
+        "heading_alignment": "left",
+        "heading_tag": "h2",
+        "open_first": true,
+        "one_at_a_time": true,
+        "button_label": "",
+        "button_link": "",
+        "show_form": false,
+        "form_title": "",
+        "form_style": "outline",
+        "background": "none",
+        "spacing": "default"
+      },
+      "blocks": {
+        "tracking_issues_1": {
+          "type": "text",
+          "settings": {
+            "title": "Tracking still says “Pre-Shipment Info Sent to USPS, USPS Awaiting Item” after several days",
+            "subtitle": "",
+            "icon": "none",
+            "body": "<p>This has occurred on multiple occasions after a USPS holiday when our local Baltimore post office and distribution center were backed up. Rest assured, all of the packages were eventually scanned and were delivered very quickly after.</p><p>If <strong>10+ business days</strong> have passed since you received your shipping confirmation email and your tracking status still has not updated, please follow the steps below.</p>",
+            "image": "shopify://shop_images/pre-shipment.png",
+            "button_label": "",
+            "button_link": "",
+            "hide_if_empty": false
+          }
+        },
+        "tracking_issues_2": {
+          "type": "text",
+          "settings": {
+            "title": "Tracking gave an estimated delivery date, but is now stuck on the “In Transit, Arriving Late” status",
+            "subtitle": "",
+            "icon": "none",
+            "body": "<p>Estimated delivery is automatically calculated after the initial scan, but if a post office or distribution center along the way is backed up, your package may sit there for a few days. It’s likely still at the location of the last tracking update and as soon as your package starts moving again, the tracking will update.</p><p>If <strong>10+ business days</strong> have gone by without any update, we suggest you follow the steps below.</p>",
+            "image": "shopify://shop_images/in-transit.png",
+            "button_label": "",
+            "button_link": "",
+            "hide_if_empty": false
+          }
+        },
+        "tracking_issues_3": {
+          "type": "text",
+          "settings": {
+            "title": "Tracking claims your package was delivered, but it's nowhere to be found",
+            "subtitle": "",
+            "icon": "none",
+            "body": "<p>On several occasions, USPS has scanned packages prematurely the day before they’re actually delivered. This one remains a mystery, but if this happens to you, please double check your mailbox, check with your neighbors, and/or give it an extra day before you consider it missing.</p><p>If your package isn't delivered the next day and you're still unable to find it after <strong>48 hours</strong>, follow the steps below.</p>",
+            "image": "shopify://shop_images/delivered.png",
+            "button_label": "",
+            "button_link": "",
+            "hide_if_empty": false
+          }
+        }
+      },
+      "block_order": [
+        "tracking_issues_1",
+        "tracking_issues_2",
+        "tracking_issues_3"
+      ]
+    },
+    "patience": {
+      "type": "rich-text",
+      "settings": {
+        "image_position": "none",
+        "image_fit": "cover",
+        "height": "auto",
+        "text_alignment": "center",
+        "content_spacing": 24,
+        "button_spacing": 36,
+        "background": "none",
+        "full_width": false,
+        "spacing": "small",
+        "bottom_spacing": false
+      },
+      "blocks": {
+        "patience_1": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Please be patient with USPS if any of these happen. They’re working their absolute hardest, all things considered.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "patience_1"
+      ]
+    },
+    "shipping_protection": {
+      "type": "rich-text",
+      "settings": {
+        "image_position": "right",
+        "image_fit": "contain",
+        "height": "small",
+        "text_alignment": "left",
+        "content_spacing": 24,
+        "button_spacing": 36,
+        "background": "light",
+        "full_width": false,
+        "spacing": "default",
+        "bottom_spacing": false,
+        "image": "shopify://shop_images/ship-protection_81f58ca1-4296-4711-8619-7e9725f7b513.png"
+      },
+      "blocks": {
+        "shipping_protection_1": {
+          "type": "title",
+          "settings": {
+            "title": "If your order is covered by Shipping Protection:",
+            "size": "small",
+            "heading_tag": "h2"
+          }
+        },
+        "shipping_protection_2": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Luckily, if your package goes missing* during transit, is misdelivered, or is damaged, we can help! Email us with your order number and we should be able to either provide you with a refund or get you set up for a replacement order.</p><p>*A package is only considered missing if the tracking has not updated for over 10 business days.</p>"
+          }
+        },
+        "shipping_protection_3": {
+          "type": "button",
+          "settings": {
+            "label": "Contact Us",
+            "link": "mailto:help@pinultimate.co",
+            "style": "solid",
+            "new_tab": false
+          }
+        }
+      },
+      "block_order": [
+        "shipping_protection_1",
+        "shipping_protection_2",
+        "shipping_protection_3"
+      ]
+    },
+    "no_protection": {
+      "type": "rich-text",
+      "settings": {
+        "image_position": "none",
+        "image_fit": "cover",
+        "height": "auto",
+        "text_alignment": "left",
+        "content_spacing": 24,
+        "button_spacing": 36,
+        "background": "none",
+        "full_width": false,
+        "spacing": "default",
+        "bottom_spacing": false
+      },
+      "blocks": {
+        "no_protection_1": {
+          "type": "title",
+          "settings": {
+            "title": "If you opted out of Shipping Protection:",
+            "size": "small",
+            "heading_tag": "h2"
+          }
+        },
+        "no_protection_2": {
+          "type": "text",
+          "settings": {
+            "text": "<p>To make this process more seamless going forward, we encourage you to add Shipping Protection to your order at checkout. Without insurance, there's slightly more work to resolve your issue:</p>"
+          }
+        }
+      },
+      "block_order": [
+        "no_protection_1",
+        "no_protection_2"
+      ]
+    },
+    "next_steps": {
+      "type": "multicolumn",
+      "settings": {
+        "heading": "",
+        "subheading": "",
+        "heading_size": "medium",
+        "heading_layout": "stacked",
+        "heading_alignment": "center",
+        "heading_italic": false,
+        "heading_tag": "h2",
+        "layout": "grid",
+        "columns_desktop": 3,
+        "columns_tablet": 3,
+        "columns_mobile": "1",
+        "media_style": "image",
+        "image_ratio": "adapt",
+        "card_style": "card",
+        "text_alignment": "left",
+        "background": "none",
+        "spacing": "small"
+      },
+      "blocks": {
+        "next_steps_1": {
+          "type": "column",
+          "settings": {
+            "icon": "none",
+            "title": "Lost In Transit",
+            "text": "After 10 business days, you can follow the <a href=\"https://www.usps.com/help/missing-mail.htm\" target=\"_blank\">Find Missing Mail</a> instructions on the official USPS website to search for your package. For the return address on your claim, you can enter the following: Pinultimate, 305 West 27th Street, Baltimore, MD 21211, United States.",
+            "link": "",
+            "link_label": ""
+          }
+        },
+        "next_steps_2": {
+          "type": "column",
+          "settings": {
+            "icon": "none",
+            "title": "Misdelivered Packages",
+            "text": "If your package was marked as delivered but you believe it’s missing, there's a good chance the post office still has it. You’ll need to call your local post office to help you track it down. Feel free to <a href=\"mailto:help@pinultimate.co\" title=\"mailto:help@pinultimate.co\">email us</a> if you need a detailed description of what the package looked like.",
+            "link": "",
+            "link_label": ""
+          }
+        },
+        "next_steps_3": {
+          "type": "column",
+          "settings": {
+            "icon": "none",
+            "title": "Damaged Orders",
+            "text": "If any items in your order are damaged and you upgraded to Priority Mail at checkout, you can <a href=\"https://www.usps.com/help/claims.htm\" target=\"_blank\">file a claim</a> for the damaged items directly through USPS. If your package shipped First Class, you’ll need to call your local post office for assistance.",
+            "link": "",
+            "link_label": ""
+          }
+        }
+      },
+      "block_order": [
+        "next_steps_1",
+        "next_steps_2",
+        "next_steps_3"
+      ]
+    },
+    "more_help": {
+      "type": "rich-text",
+      "settings": {
+        "image_position": "none",
+        "image_fit": "cover",
+        "height": "auto",
+        "text_alignment": "center",
+        "content_spacing": 24,
+        "button_spacing": 36,
+        "background": "none",
+        "full_width": false,
+        "spacing": "small",
+        "bottom_spacing": true
+      },
+      "blocks": {
+        "more_help_1": {
+          "type": "text",
+          "settings": {
+            "text": "<p>For additional help with any USPS-related issues: <a href=\"https://faq.usps.com/\" target=\"_blank\" title=\"https://faq.usps.com/\">https://faq.usps.com </a></p>"
+          }
+        }
+      },
+      "block_order": [
+        "more_help_1"
+      ]
+    }
+  },
+  "order": [
+    "main",
+    "tracking_issues",
+    "patience",
+    "shipping_protection",
+    "no_protection",
+    "next_steps",
+    "more_help"
+  ]
+}

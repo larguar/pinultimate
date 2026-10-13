@@ -6,5 +6,8 @@
   },
   "testimonials": {
     "rating": "{{ rating }} out of 5 stars"
+  },
+  "before_after": {
+    "label": "Drag to compare the before and after images"
   }
 }

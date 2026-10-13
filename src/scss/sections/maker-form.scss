@@ -1,0 +1,12 @@
+@import "section-base";
+
+// Fields and button come from section-contact-form.css; this lays the short fields out in pairs.
+.maker-form__fields {
+  @include media-breakpoint-up(md) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.maker-form__full {
+  grid-column: 1 / -1;
+}

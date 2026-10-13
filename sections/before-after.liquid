@@ -1,0 +1,314 @@
+{%- comment -%}
+  Before/after comparison: two images stacked on top of each other, with a handle the
+  shopper drags to reveal more of one or the other. The handle is a range input laid
+  over the images, so it also works with the keyboard and screen readers.
+{%- endcomment -%}
+{%- liquid
+  assign layout = section.settings.layout
+  assign spacing = section.settings.spacing
+  assign range_id = 'BeforeAfter-' | append: section.id
+
+  case section.settings.desktop_height
+    when 'small'
+      assign desktop_height = 50
+    when 'large'
+      assign desktop_height = 80
+    else
+      assign desktop_height = 65
+  endcase
+  case section.settings.mobile_height
+    when 'small'
+      assign mobile_height = 50
+    when 'large'
+      assign mobile_height = 80
+    else
+      assign mobile_height = 65
+  endcase
+
+  if section.index == 1
+    assign loading = 'eager'
+  else
+    assign loading = 'lazy'
+  endif
+  assign widths = '375, 550, 750, 1100, 1500, 2000, 2720'
+-%}
+{%- capture spacing_class -%}
+  {%- if spacing == 'compact' -%}
+    mt-4 mt-md-6
+  {%- else -%}
+    {%- render 'section-spacing', size: spacing -%}
+  {%- endif -%}
+{%- endcapture -%}
+
+{{ 'section-before-after.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'section-before-after.js' | asset_url }}" defer="defer"></script>
+
+<section class="before-after container-fluid px-0 {{ spacing_class }}">
+  <div class="container">
+    {% render 'multicolumn-heading',
+      heading: section.settings.heading,
+      subheading: section.settings.subheading,
+      size: section.settings.heading_size,
+      italic: section.settings.heading_italic,
+      layout: 'stacked',
+      alignment: section.settings.heading_alignment,
+      heading_tag: section.settings.heading_tag
+    %}
+
+    <before-after-slider
+      class="before-after__frame before-after__frame--{{ layout }} before-after__frame--{{ section.settings.color_style }} d-block position-relative overflow-hidden"
+      style="--before-after-position: {{ section.settings.start_position }}%; --before-after-height: {{ desktop_height }}vh; --before-after-height-mobile: {{ mobile_height }}vh; --before-after-radius: {{ section.settings.border_radius }}px;"
+    >
+      {%- for side in (1..2) -%}
+        {%- liquid
+          if side == 1
+            assign image = section.settings.before_image
+            assign image_mobile = section.settings.before_image_mobile
+            assign label = section.settings.before_label
+            assign side_name = 'before'
+          else
+            assign image = section.settings.after_image
+            assign image_mobile = section.settings.after_image_mobile
+            assign label = section.settings.after_label
+            assign side_name = 'after'
+          endif
+          assign focal_style = image.presentation.focal_point | prepend: 'object-position: '
+          assign focal_style_mobile = image_mobile.presentation.focal_point | prepend: 'object-position: '
+          # The images cover a tall frame on phones, so they render wider than the screen.
+          assign ratio = image.aspect_ratio | default: 1
+          assign phone_width = mobile_height | times: ratio | round
+          assign desktop_sizes = '(min-width: 1400px) 1360px, (min-width: 768px) 100vw, max(100vw, ' | append: phone_width | append: 'vh)'
+          assign ratio_mobile = image_mobile.aspect_ratio | default: 1
+          assign phone_width_mobile = mobile_height | times: ratio_mobile | round
+          assign mobile_sizes = 'max(100vw, ' | append: phone_width_mobile | append: 'vh)'
+          assign desktop_class = 'before-after__image position-absolute top-0 start-0 w-100 h-100 object-fit-cover'
+          if image_mobile != blank
+            assign desktop_class = desktop_class | append: ' d-none d-md-block'
+          endif
+        -%}
+        <div class="before-after__side before-after__side--{{ side_name }} position-absolute top-0 start-0 w-100 h-100">
+          {%- if image != blank -%}
+            {{ image | image_url: width: 2720 | image_tag: class: desktop_class, widths: widths, sizes: desktop_sizes, loading: loading, alt: image.alt, style: focal_style }}
+          {%- else -%}
+            {{ 'product-1' | placeholder_svg_tag: 'before-after__image before-after__placeholder position-absolute top-0 start-0 w-100 h-100' }}
+          {%- endif -%}
+          {%- if image_mobile != blank -%}
+            {{ image_mobile | image_url: width: 2000 | image_tag: class: 'before-after__image position-absolute top-0 start-0 w-100 h-100 object-fit-cover d-md-none', widths: '550, 750, 1100, 1500, 2000', sizes: mobile_sizes, loading: loading, alt: image_mobile.alt, style: focal_style_mobile }}
+          {%- endif -%}
+          {%- if label != blank -%}
+            <span class="before-after__label position-absolute rounded-pill fw-semibold">{{ label | escape }}</span>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+
+      <label class="visually-hidden" for="{{ range_id }}">{{ 'theme.content.before_after.label' | t }}</label>
+      <input
+        type="range"
+        id="{{ range_id }}"
+        class="before-after__range position-absolute top-0 start-0 w-100 h-100 m-0"
+        min="0"
+        max="100"
+        step="1"
+        value="{{ section.settings.start_position }}"
+        {% if layout == 'vertical' %}
+          aria-orientation="vertical"
+        {% endif %}
+      >
+      <span class="before-after__handle position-absolute" aria-hidden="true">
+        <span class="before-after__knob position-absolute top-50 start-50 translate-middle rounded-circle d-flex align-items-center justify-content-center">
+          {%- render 'icon', name: 'chevron-left' -%}
+          {%- render 'icon', name: 'chevron-right' -%}
+        </span>
+      </span>
+    </before-after-slider>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Before & after",
+  "tag": "div",
+  "class": "section-before-after",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Before & after"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "subheading",
+      "label": "Subheading"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading size",
+      "options": [
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "large"
+    },
+    {
+      "type": "checkbox",
+      "id": "heading_italic",
+      "label": "Italic heading",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "heading_alignment",
+      "label": "Heading alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "heading_tag",
+      "label": "Heading level",
+      "info": "For search engines and screen readers; doesn't change the look.",
+      "options": [
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h4", "label": "H4" }
+      ],
+      "default": "h2"
+    },
+    {
+      "type": "header",
+      "content": "Before"
+    },
+    {
+      "type": "image_picker",
+      "id": "before_image",
+      "label": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "before_image_mobile",
+      "label": "Phone image",
+      "info": "Optional. Shown instead of the image on phones."
+    },
+    {
+      "type": "text",
+      "id": "before_label",
+      "label": "Label",
+      "default": "Before"
+    },
+    {
+      "type": "header",
+      "content": "After"
+    },
+    {
+      "type": "image_picker",
+      "id": "after_image",
+      "label": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "after_image_mobile",
+      "label": "Phone image",
+      "info": "Optional. Shown instead of the image on phones."
+    },
+    {
+      "type": "text",
+      "id": "after_label",
+      "label": "Label",
+      "default": "After"
+    },
+    {
+      "type": "header",
+      "content": "Slider"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Direction",
+      "options": [
+        { "value": "horizontal", "label": "Side by side (drag left and right)" },
+        { "value": "vertical", "label": "Top and bottom (drag up and down)" }
+      ],
+      "default": "horizontal"
+    },
+    {
+      "type": "range",
+      "id": "start_position",
+      "label": "Starting position",
+      "min": 10,
+      "max": 90,
+      "step": 5,
+      "unit": "%",
+      "default": 50
+    },
+    {
+      "type": "select",
+      "id": "desktop_height",
+      "label": "Height on desktop",
+      "options": [
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "mobile_height",
+      "label": "Height on phones",
+      "options": [
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "color_style",
+      "label": "Handle and labels",
+      "options": [
+        { "value": "light", "label": "Light" },
+        { "value": "dark", "label": "Dark" }
+      ],
+      "default": "dark"
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "label": "Corner radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Section"
+    },
+    {
+      "type": "select",
+      "id": "spacing",
+      "label": "Space above",
+      "options": [
+        { "value": "default", "label": "Default" },
+        { "value": "small", "label": "Small" },
+        { "value": "compact", "label": "Extra small" },
+        { "value": "none", "label": "None" }
+      ],
+      "default": "default"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Before & after"
+    }
+  ]
+}
+{% endschema %}
